@@ -1,0 +1,31 @@
+{
+  "name": "now.js",
+  "version": "0.1.0",
+  "description": "now is a time toolkit for javascript",
+  "main": "now.js",
+  "scripts": {
+    "test": "jest",
+    "lint": "./node_modules/.bin/eslint --fix ./src"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/makelifemorefun/now.git"
+  },
+  "keywords": [
+    "now"
+  ],
+  "author": "xiaomao Feng",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/makelifemorefun/now/issues"
+  },
+  "homepage": "https://github.com/makelifemorefun/now#readme",
+  "devDependencies": {
+    "babel-jest": "^21.2.0",
+    "babel-preset-env": "^1.6.1",
+    "eslint": "^4.9.0",
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-plugin-import": "^2.8.0",
+    "jest": "^21.2.1"
+  }
+}
