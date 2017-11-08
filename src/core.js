@@ -5,6 +5,7 @@ import {
   slice,
   isDate,
   isUndefined,
+  toInt,
   minus,
   getSetGlobalLocale as locale,
   getLocale as localeData,
@@ -42,7 +43,22 @@ class Now {
   }
 
   initLocale() {
-    locale("zh-cn");
+    // locale("zh-cn");
+    locale('en', {
+      dayOfMonthOrdinalParse: /\d{1,2}(th|st|nd|rd)/,
+      ordinal: function(number) {
+        const b = number % 10;
+        const output = (toInt(number % 100 / 10) === 1) ? 'th' :
+          (b === 1) ? 'st' :
+          (b === 2) ? 'nd' :
+          (b === 3) ? 'rd' : 'th';
+        return number + output;
+      }
+    });
+  }
+
+  locale(obj) {
+    return locale(obj);
   }
 
   initDate() {
@@ -103,6 +119,11 @@ class Now {
 
   year() {
     return this.date.getFullYear();
+  }
+
+  quarter() {
+    const month = this.month() + 1;
+    return (month % 3 === 0) ? month / 3 : Math.floor(month / 3) + 1;
   }
 
   month() {
@@ -461,3 +482,4 @@ class Now {
 }
 
 export default Now;
+
