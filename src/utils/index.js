@@ -6,7 +6,7 @@ import {
   regexEscape,
 } from '../lib/parse/regex';
 
-import Locale from '../locale';
+import Locale from '../Locale';
 
 import {
   baseConfig,
@@ -23,6 +23,10 @@ export const invalidDateError = 'Invalid Date';
 export const invalidDateRegExp = /Invalid Date/;
 export const defaultMonthsShortRegex = matchWord;
 export const defaultMonthsRegex = matchWord;
+export const defaultWeekdaysRegex = matchWord;
+export const defaultWeekdaysShortRegex = matchWord;
+export const defaultWeekdaysMinRegex = matchWord;
+
 
 export function isDate(value) {
   return value instanceof Date || toString.call(value) === '[object Date]';
@@ -53,7 +57,8 @@ export function isArray(value) {
 }
 
 export function isObject(value) {
-  return value === Object(value);
+  // return value === Object(value);
+  return value != null && Object.prototype.toString.call(value) === '[object Object]'
 }
 
 export function has(obj, key) {
@@ -221,7 +226,7 @@ export function minus(date1, date2) {
   return date1 - date2;
 }
 
-export function handleStrictParse(monthName, format, strict) {
+export function handleMonthStrictParse(monthName, format, strict) {
   var i, ii, mom, llc = monthName.toLocaleLowerCase();
   if (!this._monthsParse) {
     // this is not used
@@ -257,6 +262,69 @@ export function handleStrictParse(monthName, format, strict) {
         return ii;
       }
       ii = indexOf.call(this._shortMonthsParse, llc);
+      return ii !== -1 ? ii : null;
+    }
+  }
+}
+export function handleWeekStrictParse(weekdayName, format, strict) {
+  var i, ii, mom, llc = weekdayName.toLocaleLowerCase();
+  if (!this._weekdaysParse) {
+    this._weekdaysParse = [];
+    this._shortWeekdaysParse = [];
+    this._minWeekdaysParse = [];
+
+    for (i = 0; i < 7; ++i) {
+      mom = createUTC([2000, 1]).day(i);
+      this._minWeekdaysParse[i] = this.weekdaysMin(mom, '').toLocaleLowerCase();
+      this._shortWeekdaysParse[i] = this.weekdaysShort(mom, '').toLocaleLowerCase();
+      this._weekdaysParse[i] = this.weekdays(mom, '').toLocaleLowerCase();
+    }
+  }
+
+  if (strict) {
+    if (format === 'dddd') {
+      ii = indexOf.call(this._weekdaysParse, llc);
+      return ii !== -1 ? ii : null;
+    } else if (format === 'ddd') {
+      ii = indexOf.call(this._shortWeekdaysParse, llc);
+      return ii !== -1 ? ii : null;
+    } else {
+      ii = indexOf.call(this._minWeekdaysParse, llc);
+      return ii !== -1 ? ii : null;
+    }
+  } else {
+    if (format === 'dddd') {
+      ii = indexOf.call(this._weekdaysParse, llc);
+      if (ii !== -1) {
+        return ii;
+      }
+      ii = indexOf.call(this._shortWeekdaysParse, llc);
+      if (ii !== -1) {
+        return ii;
+      }
+      ii = indexOf.call(this._minWeekdaysParse, llc);
+      return ii !== -1 ? ii : null;
+    } else if (format === 'ddd') {
+      ii = indexOf.call(this._shortWeekdaysParse, llc);
+      if (ii !== -1) {
+        return ii;
+      }
+      ii = indexOf.call(this._weekdaysParse, llc);
+      if (ii !== -1) {
+        return ii;
+      }
+      ii = indexOf.call(this._minWeekdaysParse, llc);
+      return ii !== -1 ? ii : null;
+    } else {
+      ii = indexOf.call(this._minWeekdaysParse, llc);
+      if (ii !== -1) {
+        return ii;
+      }
+      ii = indexOf.call(this._weekdaysParse, llc);
+      if (ii !== -1) {
+        return ii;
+      }
+      ii = indexOf.call(this._shortWeekdaysParse, llc);
       return ii !== -1 ? ii : null;
     }
   }
@@ -298,6 +366,47 @@ export function computeMonthsParse() {
   this._monthsShortStrictRegex = new RegExp('^(' + shortPieces.join('|') + ')', 'i');
 }
 
+export function computeWeekdaysParse() {
+    function cmpLenRev(a, b) {
+        return b.length - a.length;
+    }
+
+    var minPieces = [], shortPieces = [], longPieces = [], mixedPieces = [],
+        i, mom, minp, shortp, longp;
+    for (i = 0; i < 7; i++) {
+        // make the regex if we don't have it already
+        mom = createUTC([2000, 1]).day(i);
+        minp = this.weekdaysMin(mom, '');
+        shortp = this.weekdaysShort(mom, '');
+        longp = this.weekdays(mom, '');
+        minPieces.push(minp);
+        shortPieces.push(shortp);
+        longPieces.push(longp);
+        mixedPieces.push(minp);
+        mixedPieces.push(shortp);
+        mixedPieces.push(longp);
+    }
+    // Sorting makes sure if one weekday (or abbr) is a prefix of another it
+    // will match the longer piece.
+    minPieces.sort(cmpLenRev);
+    shortPieces.sort(cmpLenRev);
+    longPieces.sort(cmpLenRev);
+    mixedPieces.sort(cmpLenRev);
+    for (i = 0; i < 7; i++) {
+        shortPieces[i] = regexEscape(shortPieces[i]);
+        longPieces[i] = regexEscape(longPieces[i]);
+        mixedPieces[i] = regexEscape(mixedPieces[i]);
+    }
+
+    this._weekdaysRegex = new RegExp('^(' + mixedPieces.join('|') + ')', 'i');
+    this._weekdaysShortRegex = this._weekdaysRegex;
+    this._weekdaysMinRegex = this._weekdaysRegex;
+
+    this._weekdaysStrictRegex = new RegExp('^(' + longPieces.join('|') + ')', 'i');
+    this._weekdaysShortStrictRegex = new RegExp('^(' + shortPieces.join('|') + ')', 'i');
+    this._weekdaysMinStrictRegex = new RegExp('^(' + minPieces.join('|') + ')', 'i');
+}
+
 function mergeConfigs(parentConfig, childConfig) {
   var res = extend({}, parentConfig),
     prop;
@@ -322,6 +431,7 @@ function mergeConfigs(parentConfig, childConfig) {
       res[prop] = extend({}, res[prop]);
     }
   }
+  // console.log('res: ', res);
   return res;
 }
 
@@ -433,6 +543,8 @@ export function defineLocale(name, config) {
         return null;
       }
     }
+    // console.log("parentConfig: ", parentConfig);
+    // console.log("config: ", config);
     locales[name] = new Locale(mergeConfigs(parentConfig, config));
 
     // console.log('locales after: ', locales[name]);
@@ -513,4 +625,3 @@ export function getLocale(key) {
 export function listLocales() {
   return keys(locales);
 }
-

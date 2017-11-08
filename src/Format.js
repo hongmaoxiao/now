@@ -14,11 +14,11 @@ const removeFormattingTokens = (input) => {
 }
 
 function hFormat() {
-  return this.hours() % 12 || 12;
+  return this.hour() % 12 || 12;
 }
 
 function kFormat() {
-  return this.hours() % 12 || 24;
+  return this.hour() % 12 || 24;
 }
 
 class Format {
@@ -54,6 +54,7 @@ class Format {
       return this.localeData().monthsShort(this, format);
     });
     this.addFormatToken('MMMM', 0, 0, function(format) {
+      console.log("ssssss: ", this.localeData().months);
       return this.localeData().months(this, format);
     });
 
@@ -80,7 +81,7 @@ class Format {
     this.addFormatToken('D', ['DD', 2], 'Do', 'day');
 
     // dayOfWeek
-    this.addFormatToken('d', 0, 'do', 'day');
+    this.addFormatToken('d', 0, 'do', 'weekDay');
     this.addFormatToken('dd', 0, 0, function(format) {
       return this.localeData().weekdaysMin(this, format);
     });
@@ -114,7 +115,7 @@ class Format {
     this.meridiem('A', false);
 
     // minute
-    this.addFormatToken('M', ['MM', 2], 0, 'minute');
+    this.addFormatToken('m', ['mm', 2], 0, 'minute');
 
     // second
     this.addFormatToken('s', ['ss', 2], 0, 'second');
@@ -178,7 +179,7 @@ class Format {
 
   meridiem(token, lowercase) {
     this.addFormatToken(token, 0, 0, function() {
-      return this.localeData().meridiem(this.hours(), this.minutes(), lowercase);
+      return this.localeData().meridiem(this.hour(), this.minute(), lowercase);
     });
   }
 
@@ -190,20 +191,18 @@ class Format {
     for (i = 0, length = array.length; i < length; i++) {
       if (this.formatTokenFunctions[array[i]]) {
         array[i] = this.formatTokenFunctions[array[i]];
+    console.log("formmmmm array: ", i, array[i]);
       } else {
         array[i] = removeFormattingTokens(array[i]);
+    console.log("formmmmm array: ", i, array[i]);
       }
     }
 
-    console.log("formmmmm array: ", array)
+    console.log("format all: ", array);
     return function(context) {
       let output = '';
       let i;
-    console.log("len: ", length);
       for (i = 0; i < length; i++) {
-        console.log('oooooo: ', output);
-        console.log('array[i]: ', array[i]);
-        // console.log('array[i]: ', context);
         output += isFunction(array[i]) ? array[i].call(context, format) : array[i];
       }
       return output;
@@ -229,7 +228,8 @@ class Format {
     let i = 5;
 
     function replaceLongDateFormatTokens(input) {
-      return locale.longDateFormat(input) || inpiut;
+      console.log('iiiii: ', input);
+      return locale.longDateFormat(input) || input;
     }
 
     this.localFormattingTokens.lastIndex = 0;

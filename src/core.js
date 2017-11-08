@@ -11,9 +11,7 @@ import {
   defineLocale,
 } from './utils';
 
-import {
-  formatMoment,
-} from './lib/format';
+import format from './Format';
 
 const metaSecond = 1000;
 const metaMinute = 60 * metaSecond;
@@ -28,7 +26,7 @@ class Now {
     if (invalidDateRegExp.test(this.now)) {
       throw new TypeError(invalidDateError);
     }
-    // this.defineLocale = defineLocale;
+    this._format = format;
     this.now.parse = this.parse;
     this.initLocale();
     this.initDate();
@@ -103,35 +101,35 @@ class Now {
     return this.now;
   }
 
-  get year() {
+  year() {
     return this.date.getFullYear();
   }
 
-  get month() {
-    return this.date.getMonth() + 1;
+  month() {
+    return this.date.getMonth();
   }
 
-  get day() {
+  day() {
     return this.date.getDate();
   }
 
-  get weekDay() {
+  weekDay() {
     return this.date.getDay();
   }
 
-  get hour() {
+  hour() {
     return this.date.getHours();
   }
 
-  get minute() {
+  minute() {
     return this.date.getMinutes();
   }
 
-  get second() {
+  second() {
     return this.date.getSeconds();
   }
 
-  get milliSecond() {
+  milliSecond() {
     return this.date.getMilliseconds();
   }
 
@@ -251,7 +249,7 @@ class Now {
   }
 
   format(obj) {
-    const ouput = formatMoment(this, obj);
+    const output = this._format.formatMoment(this, obj);
     return output;
   }
 
@@ -364,6 +362,14 @@ class Now {
     return clone.computeBeginningOfYear().addYears(1).addMilliSeconds(-1).date;
   }
 
+  dayOfYear() {
+    return Math.round((this.beginningOfDay() - this.beginningOfYear()) / metaDay) + 1;
+  }
+
+  week() {
+    return Math.round(this.dayOfYear() / 7);
+  }
+
   before(obj) {
     return compare(this.date, obj) === -1;
   }
@@ -455,4 +461,3 @@ class Now {
 }
 
 export default Now;
-

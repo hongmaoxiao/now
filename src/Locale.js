@@ -32,7 +32,7 @@ class Locale {
     return isFunction(output) ? output.call(mom, now) : output;
   }
 
-  longDateFormat() {
+  longDateFormat(key) {
     const format = this._longDateFormat[key],
       formatUpper = this._longDateFormat[key.toUpperCase()];
 
@@ -101,11 +101,11 @@ class Locale {
       return isArray(this._months) ? this._months :
         this._months['standalone'];
     }
-    console.log('context.month: ', context.month);
-    console.log('this._months: ', this._months['standalone']);
-    console.log('this.isArray: ', (this._months.isFormat || MONTHS_IN_FORMAT).test(format));
-    return isArray(this._months) ? this._months[context.month] :
-      this._months[(this._months.isFormat || MONTHS_IN_FORMAT).test(format) ? 'format' : 'standalone'][context.month];
+    console.log('isaaaaa: ', isArray(this._months));
+    console.log('months: ', this._months);
+    console.log('context: ', context.month());
+    return isArray(this._months) ? this._months[context.month()] :
+      this._months[(this._months.isFormat || MONTHS_IN_FORMAT).test(format) ? 'format' : 'standalone'][context.month()];
   }
 
   monthsShort(m, format) {
@@ -113,8 +113,8 @@ class Locale {
       return isArray(this._monthsShort) ? this._monthsShort :
         this._monthsShort['standalone'];
     }
-    return isArray(this._monthsShort) ? this._monthsShort[m.month] :
-      this._monthsShort[MONTHS_IN_FORMAT.test(format) ? 'format' : 'standalone'][m.month];
+    return isArray(this._monthsShort) ? this._monthsShort[m.month()] :
+      this._monthsShort[MONTHS_IN_FORMAT.test(format) ? 'format' : 'standalone'][m.month()];
   }
 
   monthsParse(monthName, format, strict) {
@@ -212,17 +212,17 @@ class Locale {
       return isArray(this._weekdays) ? this._weekdays :
         this._weekdays['standalone'];
     }
-    console.log('hhhhhh', this);
-    return isArray(this._weekdays) ? this._weekdays[m.weekDay] :
-      this._weekdays[this._weekdays.isFormat.test(format) ? 'format' : 'standalone'][m.weekDay];
+    return isArray(this._weekdays) ? this._weekdays[m.weekDay()] :
+      this._weekdays[this._weekdays.isFormat.test(format) ? 'format' : 'standalone'][m.weekDay()];
   }
 
   weekdaysShort(m) {
-    return (m) ? this._weekdaysShort[m.day()] : this._weekdaysShort;
+    console.log('mmmmmm: ', m);
+    return (m) ? this._weekdaysShort[m.weekDay()] : this._weekdaysShort;
   }
 
   weekdaysMin(m) {
-    return (m) ? this._weekdaysMin[m.day()] : this._weekdaysMin;
+    return (m) ? this._weekdaysMin[m.weekDay()] : this._weekdaysMin;
   }
 
   weekdaysParse(weekdayName, format, strict) {
