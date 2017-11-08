@@ -100,16 +100,16 @@ class Format {
     this.addFormatToken('h', ['hh', 2], 0, hFormat);
     this.addFormatToken('k', ['kk', 2], 0, kFormat);
     this.addFormatToken('hmm', 0, 0, function() {
-      return '' + hFormat.apply(this) + zeroFill(this.minutes(), 2);
+      return '' + hFormat.apply(this) + zeroFill(this.minute(), 2);
     });
     this.addFormatToken('hmmss', 0, 0, function() {
-      return '' + hFormat.apply(this) + zeroFill(this.minutes(), 2) + zeroFill(this.seconds(), 2);
+      return '' + hFormat.apply(this) + zeroFill(this.minute(), 2) + zeroFill(this.second(), 2);
     });
     this.addFormatToken('Hmm', 0, 0, function() {
-      return '' + this.hours() + zeroFill(this.minutes(), 2);
+      return '' + this.hour() + zeroFill(this.minute(), 2);
     });
     this.addFormatToken('Hmmss', 0, 0, function() {
-      return '' + this.hours() + zeroFill(this.minutes(), 2) + zeroFill(this.seconds(), 2);
+      return '' + this.hour() + zeroFill(this.minute(), 2) + zeroFill(this.second(), 2);
     });
     this.meridiem('a', true);
     this.meridiem('A', false);
