@@ -18,7 +18,7 @@ function hFormat() {
 }
 
 function kFormat() {
-  return this.hour() % 12 || 24;
+  return this.hour() || 24;
 }
 
 class Format {
