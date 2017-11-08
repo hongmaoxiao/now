@@ -124,29 +124,29 @@ class Format {
     this.addFormatToken('h', ['hh', 2], 0, hFormat);
     this.addFormatToken('k', ['kk', 2], 0, kFormat);
     this.addFormatToken('S', 0, 0, function() {
-      return ~~(this.millisecond() / 100);
+      return ~~(this.milliSecond() / 100);
     });
     this.addFormatToken(0, ['SS', 2], 0, function() {
-      return ~~(this.millisecond() / 10);
+      return ~~(this.milliSecond() / 10);
     });
-    this.addFormatToken(0, ['SSS', 3], 0, 'millisecond');
+    this.addFormatToken(0, ['SSS', 3], 0, 'milliSecond');
     this.addFormatToken(0, ['SSSS', 4], 0, function() {
-      return this.millisecond() * 10;
+      return this.milliSecond() * 10;
     });
     this.addFormatToken(0, ['SSSSS', 5], 0, function() {
-      return this.millisecond() * 100;
+      return this.milliSecond() * 100;
     });
     this.addFormatToken(0, ['SSSSSS', 6], 0, function() {
-      return this.millisecond() * 1000;
+      return this.milliSecond() * 1000;
     });
     this.addFormatToken(0, ['SSSSSSS', 7], 0, function() {
-      return this.millisecond() * 10000;
+      return this.milliSecond() * 10000;
     });
     this.addFormatToken(0, ['SSSSSSSS', 8], 0, function() {
-      return this.millisecond() * 100000;
+      return this.milliSecond() * 100000;
     });
     this.addFormatToken(0, ['SSSSSSSSS', 9], 0, function() {
-      return this.millisecond() * 1000000;
+      return this.milliSecond() * 1000000;
     });
   }
 
