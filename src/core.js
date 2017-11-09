@@ -60,7 +60,8 @@ class Now {
   }
 
   locale(obj) {
-    return locale(obj);
+    locale(obj);
+    return this;
   }
 
   initDate() {
@@ -124,8 +125,7 @@ class Now {
   }
 
   quarter() {
-    const month = this.month() + 1;
-    return (month % 3 === 0) ? month / 3 : Math.floor(month / 3) + 1;
+    return Math.ceil((this.month() + 1) / 3);
   }
 
   month() {
@@ -138,6 +138,10 @@ class Now {
 
   weekDay() {
     return this.date.getDay();
+  }
+
+  localeWeekDay() {
+    return (this.weekDay() + 7 - this.localeData()._week.dow) % 7;
   }
 
   hour() {
@@ -397,6 +401,10 @@ class Now {
     return this.toISOString();
   }
 
+  toString() {
+    return this.clone().locale('en').format('ddd MMM DD YYYY HH:mm:ss [GMT]ZZ');
+  }
+
   toISOString() {
     const year = this.year();
     if (year < 0 || year > 9999) {
@@ -405,7 +413,7 @@ class Now {
     if (nativeDatetoISOString && isFunction(nativeDatetoISOString)) {
       return this.date.toISOString();
     }
-    return this.format('YYYYYY-MM-DD[T]HH:mm:ss.SSS[Z]');
+    return this.format('YYYY-MM-DD[T]HH:mm:ss.SSS[Z]');
   }
 
   before(obj) {

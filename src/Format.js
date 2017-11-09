@@ -54,7 +54,6 @@ class Format {
       return this.localeData().monthsShort(this, format);
     });
     this.addFormatToken('MMMM', 0, 0, function(format) {
-      console.log("ssssss: ", this.localeData().months);
       return this.localeData().months(this, format);
     });
 
@@ -92,7 +91,7 @@ class Format {
       // console.log('localedata: ', this.localeData());
       return this.localeData().weekdays(this, format);
     });
-    this.addFormatToken('e', 0, 0, 'weekday');
+    this.addFormatToken('e', 0, 0, 'localeWeekDay');
     this.addFormatToken('E', 0, 0, 'isoWeekday');
 
     // hour

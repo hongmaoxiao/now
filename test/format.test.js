@@ -181,15 +181,66 @@ import Now from '../src/index';
 // expect(output).toBe('Q1-2000');
 // });
 
-test('toJSON skips postformat', () => {
-  Now.defineLocale('postformat', {
-    postformat: function(s) {
-      s.replace(/./g, 'X');
+// test('toJSON skips postformat', () => {
+// Now.defineLocale('postformat', {
+// postformat: function(s) {
+// s.replace(/./g, 'X');
+// }
+// });
+// const now = new Now(2000, 0, 1);
+// const output = now.toJSON();
+// expect(output).toBe('2000-01-01T00:00:00.000Z');
+// Now.defineLocale('postformat', null);
+// });
+
+// test('toString is just human readable format', () => {
+// const now = new Now(2017, 9, 29, 17, 35, 20, 100);
+// console.log('nowString: ', now.toString());
+// console.log('foffff: ', now.format('ddd MMM DD YYYY HH:mm:ss [GMT]ZZ'));
+// expect(now.toString()).toEqual(now.format('ddd MMM DD YYYY HH:mm:ss [GMT]ZZ'));
+// });
+
+test('quarter formats', () => {
+  const fn = () => Now.defineLocale('dow: 3,doy: 5', {
+    week: {
+      dow: 3,
+      doy: 5
     }
   });
-  const now = new Now(2000, 0, 1);
-  const output = now.toJSON();
-  expect(output).toBe('2000-01-01T00:00:00.000Z');
-  Now.defineLocale('postformat', null);
+  fn();
+  let now = new Now(1985, 1, 6);
+  fn();
+  let output = now.format('e');
+  expect(output).toBe('0');
+
+  now = new Now(2029, 8, 20);
+  fn();
+  output = now.format('e');
+  expect(output).toBe('1');
+
+  now = new Now(2013, 3, 26);
+  fn();
+  output = now.format('e');
+  expect(output).toBe('2');
+
+  now = new Now(2015, 2, 7);
+  fn();
+  output = now.format('e');
+  expect(output).toBe('3');
+
+  now = new Now(1970, 0, 4);
+  fn();
+  output = now.format('e');
+  expect(output).toBe('4');
+
+  now = new Now(2001, 4, 14);
+  fn();
+  output = now.format('e');
+  expect(output).toBe('5');
+
+  now = new Now(2000, 0, 4);
+  fn();
+  output = now.format('e');
+  expect(output).toBe('6');
 });
 

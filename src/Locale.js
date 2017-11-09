@@ -196,6 +196,7 @@ class Locale {
   }
 
   week(mom) {
+    console.log('weekOfYear');
     return weekOfYear(mom, this._week.dow, this._week.doy).week;
   }
 
@@ -217,7 +218,6 @@ class Locale {
   }
 
   weekdaysShort(m) {
-    console.log('mmmmmm: ', m);
     return (m) ? this._weekdaysShort[m.weekDay()] : this._weekdaysShort;
   }
 

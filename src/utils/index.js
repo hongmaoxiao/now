@@ -523,7 +523,7 @@ export function defineLocale(name, config) {
     let parentConfig = baseConfig;
     config.abbr = name;
     if (locales[name] != null) {
-    console.log('locales name not null: ', locales[name]);
+    // console.log('locales name not null: ', locales[name]);
       deprecateSimple('defineLocaleOverride',
         'use moment.updateLocale(localeName, config) to change ' +
         'an existing locale. moment.defineLocale(localeName, ' +
