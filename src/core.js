@@ -5,8 +5,10 @@ import {
   slice,
   isDate,
   isUndefined,
+  isFunction,
   toInt,
   minus,
+  nativeDatetoISOString,
   getSetGlobalLocale as locale,
   getLocale as localeData,
   defineLocale,
@@ -389,6 +391,21 @@ class Now {
 
   week() {
     return Math.round(this.dayOfYear() / 7);
+  }
+
+  toJSON() {
+    return this.toISOString();
+  }
+
+  toISOString() {
+    const year = this.year();
+    if (year < 0 || year > 9999) {
+      return this.format('YYYYYY-MM-DD[T]HH:mm:ss.SSS[Z]');
+    }
+    if (nativeDatetoISOString && isFunction(nativeDatetoISOString)) {
+      return this.date.toISOString();
+    }
+    return this.format('YYYYYY-MM-DD[T]HH:mm:ss.SSS[Z]');
   }
 
   before(obj) {

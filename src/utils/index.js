@@ -13,9 +13,11 @@ import {
 } from '../lib/locale/config';
 
 const ArrayProto = Array.prototype;
+const DateProto = Date.prototype;
 const toString = Object.prototype.toString;
 const nativeIsArray = Array.isArray;
 const nativeIndexOf = ArrayProto.indexOf;
+const nativeDatetoISOString = Date.prototype.toISOString;
 const hasOwnProperty = Object.prototype.hasOwnProperty;
 
 export const slice = ArrayProto.slice;

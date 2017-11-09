@@ -122,62 +122,74 @@ import Now from '../src/index';
 // });
 
 // test('quarter ordinal formats', () => {
-  // let now = new Now(1985, 1, 4);
-  // let output = now.format('Qo');
-  // expect(output).toBe('1st');
+// let now = new Now(1985, 1, 4);
+// let output = now.format('Qo');
+// expect(output).toBe('1st');
 
-  // now = new Now(2029, 8, 18);
-  // output = now.format('Qo');
-  // expect(output).toBe('3rd');
+// now = new Now(2029, 8, 18);
+// output = now.format('Qo');
+// expect(output).toBe('3rd');
 
-  // now = new Now(2013, 3, 24);
-  // output = now.format('Qo');
-  // expect(output).toBe('2nd');
+// now = new Now(2013, 3, 24);
+// output = now.format('Qo');
+// expect(output).toBe('2nd');
 
-  // now = new Now(2015, 2, 5);
-  // output = now.format('Qo');
-  // expect(output).toBe('1st');
+// now = new Now(2015, 2, 5);
+// output = now.format('Qo');
+// expect(output).toBe('1st');
 
-  // now = new Now(1970, 0, 2);
-  // output = now.format('Qo');
-  // expect(output).toBe('1st');
+// now = new Now(1970, 0, 2);
+// output = now.format('Qo');
+// expect(output).toBe('1st');
 
-  // now = new Now(2001, 11, 12);
-  // output = now.format('Qo');
-  // expect(output).toBe('4th');
+// now = new Now(2001, 11, 12);
+// output = now.format('Qo');
+// expect(output).toBe('4th');
 
-  // now = new Now(2000, 0, 2);
-  // output = now.format('Qo [quarter] YYYY');
-  // expect(output).toBe('1st quarter 2000');
+// now = new Now(2000, 0, 2);
+// output = now.format('Qo [quarter] YYYY');
+// expect(output).toBe('1st quarter 2000');
 // });
 
-test('quarter formats', () => {
-  let now = new Now(1985, 1, 4);
-  let output = now.format('Q');
-  expect(output).toBe('1');
+// test('quarter formats', () => {
+// let now = new Now(1985, 1, 4);
+// let output = now.format('Q');
+// expect(output).toBe('1');
 
-  now = new Now(2029, 8, 18);
-  output = now.format('Q');
-  expect(output).toBe('3');
+// now = new Now(2029, 8, 18);
+// output = now.format('Q');
+// expect(output).toBe('3');
 
-  now = new Now(2013, 3, 24);
-  output = now.format('Q');
-  expect(output).toBe('2');
+// now = new Now(2013, 3, 24);
+// output = now.format('Q');
+// expect(output).toBe('2');
 
-  now = new Now(2015, 2, 5);
-  output = now.format('Q');
-  expect(output).toBe('1');
+// now = new Now(2015, 2, 5);
+// output = now.format('Q');
+// expect(output).toBe('1');
 
-  now = new Now(1970, 0, 2);
-  output = now.format('Q');
-  expect(output).toBe('1');
+// now = new Now(1970, 0, 2);
+// output = now.format('Q');
+// expect(output).toBe('1');
 
-  now = new Now(2001, 11, 12);
-  output = now.format('Q');
-  expect(output).toBe('4');
+// now = new Now(2001, 11, 12);
+// output = now.format('Q');
+// expect(output).toBe('4');
 
-  now = new Now(2000, 0, 2);
-  output = now.format('[Q]Q-YYYY');
-  expect(output).toBe('Q1-2000');
+// now = new Now(2000, 0, 2);
+// output = now.format('[Q]Q-YYYY');
+// expect(output).toBe('Q1-2000');
+// });
+
+test('toJSON skips postformat', () => {
+  Now.defineLocale('postformat', {
+    postformat: function(s) {
+      s.replace(/./g, 'X');
+    }
+  });
+  const now = new Now(2000, 0, 1);
+  const output = now.toJSON();
+  expect(output).toBe('2000-01-01T00:00:00.000Z');
+  Now.defineLocale('postformat', null);
 });
 
