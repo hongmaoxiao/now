@@ -281,3 +281,23 @@ import Now from '../src/index';
 //   console.log("when", now.toISOString());
 //   expect(now.toISOString()).toBe('1900-10-09T20:30:40.678Z');
 // });
+
+test('long years', () => {
+  let now = new Now(2, 1);
+  expect(now.format('YYYYYY')).toBe('+001902');
+
+  now = new Now(2012, 1);
+  expect(now.format('YYYYYY')).toBe('+002012');
+
+  now = new Now(20123, 1);
+  expect(now.format('YYYYYY')).toBe('+020123');
+
+  now = new Now(-1, 1);
+  expect(now.format('YYYYYY')).toBe('-000001');
+
+  now = new Now(-2012, 1);
+  expect(now.format('YYYYYY')).toBe('-002012');
+
+  now = new Now(-20123, 1);
+  expect(now.format('YYYYYY')).toBe('-020123');
+});
