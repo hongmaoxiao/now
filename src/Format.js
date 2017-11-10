@@ -245,4 +245,3 @@ class Format {
 }
 
 export default new Format;
-

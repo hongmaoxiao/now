@@ -282,22 +282,54 @@ import Now from '../src/index';
 //   expect(now.toISOString()).toBe('1900-10-09T20:30:40.678Z');
 // });
 
-test('long years', () => {
-  let now = new Now(2, 1);
-  expect(now.format('YYYYYY')).toBe('+001902');
+// test('long years', () => {
+//   let now = new Now(2, 1);
+//   expect(now.format('YYYYYY')).toBe('+001902');
 
-  now = new Now(2012, 1);
-  expect(now.format('YYYYYY')).toBe('+002012');
+//   now = new Now(2012, 1);
+//   expect(now.format('YYYYYY')).toBe('+002012');
 
-  now = new Now(20123, 1);
-  expect(now.format('YYYYYY')).toBe('+020123');
+//   now = new Now(20123, 1);
+//   expect(now.format('YYYYYY')).toBe('+020123');
+
+//   now = new Now(-1, 1);
+//   expect(now.format('YYYYYY')).toBe('-000001');
+
+//   now = new Now(-2012, 1);
+//   expect(now.format('YYYYYY')).toBe('-002012');
+
+//   now = new Now(-20123, 1);
+//   expect(now.format('YYYYYY')).toBe('-020123');
+// });
+
+test('handle negative years', () => {
+  let now = new Now(-1, 1);
+  expect(now.format('YY')).toBe('-01');
 
   now = new Now(-1, 1);
-  expect(now.format('YYYYYY')).toBe('-000001');
+  expect(now.format('YY')).toBe('-01');
 
-  now = new Now(-2012, 1);
-  expect(now.format('YYYYYY')).toBe('-002012');
+  now = new Now(-12, 1);
+  expect(now.format('YY')).toBe('-12');
 
-  now = new Now(-20123, 1);
-  expect(now.format('YYYYYY')).toBe('-020123');
+  now = new Now(-12, 1);
+  expect(now.format('YYYY')).toBe('-0012');
+
+  now = new Now(-123, 1);
+  expect(now.format('YY')).toBe('-23');
+
+  now = new Now(-123, 1);
+  expect(now.format('YYYY')).toBe('-0123');
+
+  now = new Now(-1234, 1);
+  expect(now.format('YY')).toBe('-34');
+
+  now = new Now(-1234, 1);
+  expect(now.format('YYYY')).toBe('-1234');
+
+  now = new Now(-12345, 1);
+  expect(now.format('YY')).toBe('-45');
+
+  now = new Now(-12345, 1);
+  expect(now.format('YYYY')).toBe('-12345');
 });
