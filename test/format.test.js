@@ -361,8 +361,17 @@ import Now from '../src/index';
 //   expect(isoRegex.test(now.format())).toBeTruthy();
 // });
 
-test('utcOffset sanity checks', () => {
+// test('utcOffset sanity checks', () => {
+// const now = new Now(2017, 10, 7, 1, 23, 45, 100);
+// expect(now.utcOffset() % 15).toBe(0);
+// expect(now.utcOffset()).toEqual(-(new Date(2017, 10, 7, 1, 23, 45, 100)).getTimezoneOffset());
+// });
+
+test('format timezone', () => {
   const now = new Now(2017, 10, 7, 1, 23, 45, 100);
-  expect(now.utcOffset() % 15).toBe(0);
-  expect(now.utcOffset()).toEqual(-(new Date(2017, 10, 7, 1, 23, 45, 100)).getTimezoneOffset());
+  const matchZ = !!now.format('Z').match(/^[\+\-]\d\d:\d\d$/);
+  const matchZZ = !!now.format('ZZ').match(/^[\+\-]\d{4}$/);
+  expect(matchZ).toBeTruthy();
+  expect(matchZZ).toBeTruthy();
 });
+
