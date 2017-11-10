@@ -12,6 +12,7 @@ import {
   getSetGlobalLocale as locale,
   getLocale as localeData,
   defineLocale,
+  defaultFormat,
 } from './utils';
 
 import format from './Format';
@@ -276,6 +277,7 @@ class Now {
   }
 
   format(obj) {
+    obj || (obj = defaultFormat);
     const output = this._format.formatMoment(this, obj);
     return output;
   }
@@ -414,6 +416,10 @@ class Now {
       return this.date.toISOString();
     }
     return this.format('YYYY-MM-DD[T]HH:mm:ss.SSS[Z]');
+  }
+
+  utcOffset() {
+    return -Math.round(this.date.getTimezoneOffset() / 15) * 15
   }
 
   before(obj) {

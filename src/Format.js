@@ -21,6 +21,28 @@ function kFormat() {
   return this.hour() || 24;
 }
 
+function addWeekYearFormatToken(token, getter) {
+  this.addFormatToken(0, [token, token.length], 0, getter);
+}
+
+function meridiem(token, lowercase) {
+  this.addFormatToken(token, 0, 0, function() {
+    return this.localeData().meridiem(this.hour(), this.minute(), lowercase);
+  });
+}
+
+function offset(token, separator) {
+  this.addFormatToken(token, 0, 0, function() {
+    let offset = this.utcOffset();
+    let sign = '+';
+    if (offset < 0) {
+      offset = -offset;
+      sign = '-';
+    }
+    return sign + zeroFill(~~(offset / 60), 2) + separator + zeroFill(~~(offset) % 60, 2);
+  });
+}
+
 class Format {
   constructor(config) {
     this.formattingTokens = formattingTokens;
@@ -62,10 +84,14 @@ class Format {
       return this.weekYear() % 100;
     });
     // this.addFormatToken(0, ['GG', 2], 0, function() {
-      // return this.isoWeekYear() % 100;
+    // return this.isoWeekYear() % 100;
     // });
-    this.addWeekYearFormatToken('gggg', 'weekYear');
-    this.addWeekYearFormatToken('ggggg', 'weekYear');
+    addWeekYearFormatToken.call(this, 'gggg', 'weekYear');
+    addWeekYearFormatToken.call(this, 'ggggg', 'weekYear');
+    addWeekYearFormatToken.call(this, 'GGGG', 'isoWeekYear');
+    addWeekYearFormatToken.call(this, 'GGGGG', 'isoWeekYear');
+    // this.addWeekYearFormatToken('gggg', 'weekYear');
+    // this.addWeekYearFormatToken('ggggg', 'weekYear');
     // this.addWeekYearFormatToken('GGGG', 'isoWeekYear');
     // this.addWeekYearFormatToken('GGGGG', 'isoWeekYear');
 
@@ -109,8 +135,9 @@ class Format {
     this.addFormatToken('Hmmss', 0, 0, function() {
       return '' + this.hour() + zeroFill(this.minute(), 2) + zeroFill(this.second(), 2);
     });
-    this.meridiem('a', true);
-    this.meridiem('A', false);
+
+    meridiem.call(this, 'a', true);
+    meridiem.call(this, 'A', false);
 
     // minute
     this.addFormatToken('m', ['mm', 2], 0, 'minute');
@@ -146,6 +173,9 @@ class Format {
     this.addFormatToken(0, ['SSSSSSSSS', 9], 0, function() {
       return this.milliSecond() * 1000000;
     });
+
+    offset.call(this, 'Z', ':');
+    offset.call(this, 'ZZ', '');
   }
 
   addFormatToken(token, padded, ordinal, callback) {
@@ -171,17 +201,8 @@ class Format {
     }
   }
 
-  addWeekYearFormatToken(token, getter) {
-    this.addFormatToken(0, [token, token.length], 0, getter);
-  }
-
-  meridiem(token, lowercase) {
-    this.addFormatToken(token, 0, 0, function() {
-      return this.localeData().meridiem(this.hour(), this.minute(), lowercase);
-    });
-  }
-
   makeFormatFunction(format) {
+    console.log('format: ', format);
     let array = format.match(this.formattingTokens);
     let i;
     let length;
@@ -189,10 +210,10 @@ class Format {
     for (i = 0, length = array.length; i < length; i++) {
       if (this.formatTokenFunctions[array[i]]) {
         array[i] = this.formatTokenFunctions[array[i]];
-    console.log("formmmmm array: ", i, array[i]);
+        console.log("formmmmm array: ", i, array[i]);
       } else {
         array[i] = removeFormattingTokens(array[i]);
-    console.log("formmmmm array: ", i, array[i]);
+        console.log("formmmmm array: ", i, array[i]);
       }
     }
 

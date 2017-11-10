@@ -339,18 +339,25 @@ import Now from '../src/index';
 //   expect(now.format('YY')).toBe('17');
 // });
 
-test('format escape brackets', () => {
-  const now = new Now(2017, 10, 7, 1, 23, 45, 100);
+// test('format escape brackets', () => {
+//   const now = new Now(2017, 10, 7, 1, 23, 45, 100);
 
-  expect(now.format('[day]')).toBe('day');
-  expect(now.format('[day]')).toBe('day');
-  expect(now.format('[day] YY [YY]')).toBe('day 17 YY');
-  expect(now.format('[YY')).toBe('[17');
-  expect(now.format('[[YY]]')).toBe('[YY]');
-  expect(now.format('[[]')).toBe('[');
-  expect(now.format('[Last]')).toBe('Last');
-  expect(now.format('[L] L')).toBe('L 11/07/2017');
-  expect(now.format('[L LL LLL LLLL aLa]')).toBe('L LL LLL LLLL aLa');
-  expect(now.format('[LLL] LLL')).toBe('LLL November 7, 2017 1:23 AM');
-  expect(now.format('YYYY[\n]DD[\n]')).toBe('2017\n07\n');
+//   expect(now.format('[day]')).toBe('day');
+//   expect(now.format('[day]')).toBe('day');
+//   expect(now.format('[day] YY [YY]')).toBe('day 17 YY');
+//   expect(now.format('[YY')).toBe('[17');
+//   expect(now.format('[[YY]]')).toBe('[YY]');
+//   expect(now.format('[[]')).toBe('[');
+//   expect(now.format('[Last]')).toBe('Last');
+//   expect(now.format('[L] L')).toBe('L 11/07/2017');
+//   expect(now.format('[L LL LLL LLLL aLa]')).toBe('L LL LLL LLLL aLa');
+//   expect(now.format('[LLL] LLL')).toBe('LLL November 7, 2017 1:23 AM');
+//   expect(now.format('YYYY[\n]DD[\n]')).toBe('2017\n07\n');
+// });
+
+test('default format', () => {
+  const now = new Now();
+  const isoRegex = /\d{4}.\d\d.\d\dT\d\d.\d\d.\d\d[\+\-]\d\d:\d\d/;
+  console.log("default: ", now.format());
+  expect(isoRegex.test(now.format())).toBeTruthy();
 });
