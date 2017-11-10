@@ -355,9 +355,14 @@ import Now from '../src/index';
 //   expect(now.format('YYYY[\n]DD[\n]')).toBe('2017\n07\n');
 // });
 
-test('default format', () => {
-  const now = new Now();
-  const isoRegex = /\d{4}.\d\d.\d\dT\d\d.\d\d.\d\d[\+\-]\d\d:\d\d/;
-  console.log("default: ", now.format());
-  expect(isoRegex.test(now.format())).toBeTruthy();
+// test('default format', () => {
+//   const now = new Now();
+//   const isoRegex = /\d{4}.\d\d.\d\dT\d\d.\d\d.\d\d[\+\-]\d\d:\d\d/;
+//   expect(isoRegex.test(now.format())).toBeTruthy();
+// });
+
+test('utcOffset sanity checks', () => {
+  const now = new Now(2017, 10, 7, 1, 23, 45, 100);
+  expect(now.utcOffset() % 15).toBe(0);
+  expect(now.utcOffset()).toEqual(-(new Date(2017, 10, 7, 1, 23, 45, 100)).getTimezoneOffset());
 });
