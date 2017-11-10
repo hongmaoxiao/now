@@ -61,17 +61,17 @@ class Format {
     this.addFormatToken(0, ['gg', 2], 0, function() {
       return this.weekYear() % 100;
     });
-    this.addFormatToken(0, ['GG', 2], 0, function() {
-      return this.isoWeekYear() % 100;
-    });
+    // this.addFormatToken(0, ['GG', 2], 0, function() {
+      // return this.isoWeekYear() % 100;
+    // });
     this.addWeekYearFormatToken('gggg', 'weekYear');
     this.addWeekYearFormatToken('ggggg', 'weekYear');
-    this.addWeekYearFormatToken('GGGG', 'isoWeekYear');
-    this.addWeekYearFormatToken('GGGGG', 'isoWeekYear');
+    // this.addWeekYearFormatToken('GGGG', 'isoWeekYear');
+    // this.addWeekYearFormatToken('GGGGG', 'isoWeekYear');
 
     // week
     this.addFormatToken('w', ['ww', 2], 'wo', 'week');
-    this.addFormatToken('W', ['WW', 2], 'Wo', 'isoWeek');
+    // this.addFormatToken('W', ['WW', 2], 'Wo', 'isoWeek');
 
     // dayOfYear
     this.addFormatToken('DDD', ['DDDD', 3], 'DDDo', 'dayOfYear');
@@ -88,11 +88,10 @@ class Format {
       return this.localeData().weekdaysShort(this, format);
     });
     this.addFormatToken('dddd', 0, 0, function(format) {
-      // console.log('localedata: ', this.localeData());
       return this.localeData().weekdays(this, format);
     });
     this.addFormatToken('e', 0, 0, 'localeWeekDay');
-    this.addFormatToken('E', 0, 0, 'isoWeekday');
+    // this.addFormatToken('E', 0, 0, 'isoWeekday');
 
     // hour
     this.addFormatToken('H', ['HH', 2], 0, 'hour');
