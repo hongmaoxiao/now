@@ -244,23 +244,40 @@ import Now from '../src/index';
 // expect(output).toBe('6');
 // });
 
-test('toISOString', () => {
-  let now = new Now(2012, 9, 9, 20, 30, 40, 678);
-  expect(now.toISOString()).toBe('2012-10-09T20:30:40.678Z');
+// test('toJSON', () => {
+//   const supportsJson = typeof JSON !== 'undefined' && JSON.stringify && JSON.stringify.call;
+//   const now = new Now(2012, 9, 9, 20, 30, 40, 678);
+//   expect(now.toJSON()).toBe('2012-10-09T20:30:40.678Z');
 
-  // big years
-  now = new Now(20123, 9, 9, 20, 30, 40, 678);
-  expect(now.toISOString()).toBe('+020123-10-09T20:30:40.678Z');
+//   if (supportsJson) {
+//     expect(JSON.stringify({
+//       now,
+//     })).toBe('{"now":"2012-10-09T20:30:40.678Z"}');
+//   }
+// });
 
-  // negative years
-  now = new Now(-1, 9, 9, 20, 30, 40, 678);
-  expect(now.toISOString()).toBe('-000001-10-09T20:30:40.678Z');
+// test('toISOString', () => {
+//   let now = new Now(2012, 9, 9, 20, 30, 40, 678);
+//   expect(now.toISOString()).toBe('2012-10-09T20:30:40.678Z');
 
-  // big negative years
-  now = new Now(-20123, 9, 9, 20, 30, 40, 678);
-  expect(now.toISOString()).toBe('-020123-10-09T20:30:40.678Z');
+//   // big years
+//   now = new Now(20123, 9, 9, 20, 30, 40, 678);
+//   expect(now.toISOString()).toBe('+020123-10-09T20:30:40.678Z');
 
-  now = new Now(2017, 11, 32);
-  expect(now.toISOString()).toBe('2018-01-01T00:00:00.000Z');
-});
+//   // negative years
+//   now = new Now(-1, 9, 9, 20, 30, 40, 678);
+//   expect(now.toISOString()).toBe('-000001-10-09T20:30:40.678Z');
 
+//   // big negative years
+//   now = new Now(-20123, 9, 9, 20, 30, 40, 678);
+//   expect(now.toISOString()).toBe('-020123-10-09T20:30:40.678Z');
+
+//   now = new Now(2017, 11, 32);
+//   expect(now.toISOString()).toBe('2018-01-01T00:00:00.000Z');
+// });
+
+// test('toISOString() when 0 year', () => {
+//   let now = new Now(0, 9, 9, 20, 30, 40, 678);
+//   console.log("when", now.toISOString());
+//   expect(now.toISOString()).toBe('1900-10-09T20:30:40.678Z');
+// });
