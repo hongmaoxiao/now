@@ -6,6 +6,7 @@ import {
   isDate,
   isUndefined,
   isFunction,
+  isNumber,
   toInt,
   minus,
   nativeDatetoISOString,
@@ -22,6 +23,20 @@ const metaMinute = 60 * metaSecond;
 const metaHour = 60 * metaMinute;
 const metaDay = 24 * metaHour;
 const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
+const nativeGet = function(unit) {
+  return this.date[`get${unit}`]();
+};
+
+const nativeSet = function(unit, val) {
+  console.log('val: ', val);
+  val = parseInt(val);
+  if (isNumber(val)) {
+    this.date[`set${unit}`](val);
+  }
+  console.log('this', this);
+  return this;
+};
 
 class Now {
   constructor(...args) {
@@ -46,7 +61,6 @@ class Now {
   }
 
   initLocale() {
-    // locale("zh-cn");
     locale('en', {
       dayOfMonthOrdinalParse: /\d{1,2}(th|st|nd|rd)/,
       ordinal: function(number) {
@@ -121,44 +135,48 @@ class Now {
     return this.now;
   }
 
-  year() {
-    return this.date.getFullYear();
+  valueOf() {
+    return this.value;
+  }
+
+  year(val) {
+    return val ? nativeSet.call(this, 'FullYear', val) : nativeGet.call(this, 'FullYear');
   }
 
   quarter() {
     return Math.ceil((this.month() + 1) / 3);
   }
 
-  month() {
-    return this.date.getMonth();
+  month(val) {
+    return val ? nativeSet.call(this, 'Month', val) : nativeGet.call(this, 'Month');
   }
 
-  day() {
-    return this.date.getDate();
+  day(val) {
+    return val ? nativeSet.call(this, 'Date', val) : nativeGet.call(this, 'Date');
   }
 
-  weekDay() {
-    return this.date.getDay();
+  weekDay(val) {
+    return val ? nativeSet.call(this, 'Day', val) : nativeGet.call(this, 'Day');
   }
 
   localeWeekDay() {
     return (this.weekDay() + 7 - this.localeData()._week.dow) % 7;
   }
 
-  hour() {
-    return this.date.getHours();
+  hour(val) {
+    return val ? nativeSet.call(this, 'Hours', val) : nativeGet.call(this, 'Hours');
   }
 
-  minute() {
-    return this.date.getMinutes();
+  minute(val) {
+    return val ? nativeSet.call(this, 'Minutes', val) : nativeGet.call(this, 'Minutes');
   }
 
-  second() {
-    return this.date.getSeconds();
+  second(val) {
+    return val ? nativeSet.call(this, 'Seconds', val) : nativeGet.call(this, 'Seconds');
   }
 
-  milliSecond() {
-    return this.date.getMilliseconds();
+  milliSecond(val) {
+    return val ? nativeSet.call(this, 'Milliseconds', val) : nativeGet.call(this, 'Milliseconds');
   }
 
   get firstDayMonday() {
@@ -513,4 +531,3 @@ class Now {
 }
 
 export default Now;
-
