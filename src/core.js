@@ -31,14 +31,12 @@ const chunkOffset = /([\+\-]|\d\d)/gi;
 
 const nativeGet = function(unit) {
   const getName = this._isUTC ? `getUTC${unit}` : `get${unit}`;
-  console.log('ssssaadad: ', getName);
   return this.date[getName]();
 };
 
 const nativeSet = function(unit, val) {
   val = parseInt(val);
   const setName = this._isUTC ? `setUTC${unit}` : `set${unit}`;
-  console.log('ssssaadad: ', setName);
   if (isNumber(val)) {
     this.date[setName](val);
   }
@@ -99,6 +97,7 @@ class Now {
   }
 
   locale(obj) {
+    console.log('ooooo: ', obj);
     locale(obj);
     return this;
   }
@@ -578,28 +577,23 @@ class Now {
           return this;
         }
       } else if (isNumber(minutes) && (Math.abs(minutes) < 16 && !keepMinutes)) {
-        console.log('uuuuuu: ', minutes);
         minutes = minutes * 60;
       }
       if (!this._isUTC && keepLocalTime) {
         localAdjust = this.getDateOffset();
       }
-      console.log('mmmmmm: ', minutes);
       this._offset = minutes;
       this._isUTC = true;
       if (localAdjust != null) {
-        console.log('adjust: ', localAdjust);
         this.addMinutes(localAdjust);
       }
       if (offset !== minutes) {
         if (!keepLocalTime) {
-          console.log('sub: ', minutes - offset);
           this.addMinutes(minutes - offset);
         }
       }
       return this;
     } else {
-      console.log('iiiiii: ', this._isUTC);
       return this._isUTC ? offset : this.getDateOffset();
     }
   }
@@ -658,4 +652,3 @@ class Now {
 }
 
 export default Now;
-
