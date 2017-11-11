@@ -183,8 +183,9 @@ class Now {
     return (+val === 0 || val) ? nativeSet.call(this, 'Day', val) : nativeGet.call(this, 'Day');
   }
 
-  localeWeekDay() {
-    return (this.weekDay() + 7 - this.localeData()._week.dow) % 7;
+  localeWeekDay(val) {
+    const localeWeekDay = (this.weekDay() + 7 - this.localeData()._week.dow) % 7;
+    return (+val === 0 || val) ? this.addDays(val - localeWeekDay) : localeWeekDay;
   }
 
   hour(val) {
