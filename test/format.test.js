@@ -375,14 +375,38 @@ import Now from '../src/index';
 //   expect(matchZZ).toBeTruthy();
 // });
 
-test('format milliseconds', () => {
-  const now = new Now(2017, 10, 7, 1, 23, 45, 123);
-  expect(now.format('S')).toBe('1');
-  expect(now.format('SS')).toBe('12');
-  expect(now.format('SSS')).toBe('123');
+// test('format milliseconds', () => {
+//   const now = new Now(2017, 10, 7, 1, 23, 45, 123);
+//   expect(now.format('S')).toBe('1');
+//   expect(now.format('SS')).toBe('12');
+//   expect(now.format('SSS')).toBe('123');
 
-  now.milliSecond(789);
-  expect(now.format('S')).toBe('7');
-  expect(now.format('SS')).toBe('78');
-  expect(now.format('SSS')).toBe('789');
+//   now.milliSecond(789);
+//   expect(now.format('S')).toBe('7');
+//   expect(now.format('SS')).toBe('78');
+//   expect(now.format('SSS')).toBe('789');
+// });
+
+test('isDST', () => {
+  const janOffset = new Date(2017, 0, 1).getTimezoneOffset();
+  const julOffset = new Date(2017, 6, 1).getTimezoneOffset();
+  const janIsDst = janOffset < julOffset;
+  const julIsDst = julOffset < janOffset;
+  const jan1 = new Now(2017);
+  const jul1 = new Now(2017, 6);
+
+  if (janIsDst && julIsDst) {
+    // January and July cannot both be in DST
+    const both = jan1.isDST() && jul1.isDST();
+    expect(!both).toBeTruthy();
+  } else if (janIsDst) {
+    expect(jan1.isDST()).toBeTruthy();
+    expect(!jul1.isDST()).toBeTruthy();
+  } else if (julIsDst) {
+    expect(!jan1.isDST()).toBeTruthy();
+    expect(jul1.isDST()).toBeTruthy();
+  } else {
+    expect(!jan1.isDST()).toBeTruthy();
+    expect(!jul1.isDST()).toBeTruthy();
+  }
 });

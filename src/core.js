@@ -140,7 +140,7 @@ class Now {
   }
 
   year(val) {
-    return val ? nativeSet.call(this, 'FullYear', val) : nativeGet.call(this, 'FullYear');
+    return (+val === 0 || val) ? nativeSet.call(this, 'FullYear', val) : nativeGet.call(this, 'FullYear');
   }
 
   quarter() {
@@ -148,15 +148,15 @@ class Now {
   }
 
   month(val) {
-    return val ? nativeSet.call(this, 'Month', val) : nativeGet.call(this, 'Month');
+    return (+val === 0 || val) ? nativeSet.call(this, 'Month', val) : nativeGet.call(this, 'Month');
   }
 
   day(val) {
-    return val ? nativeSet.call(this, 'Date', val) : nativeGet.call(this, 'Date');
+    return (+val === 0 || val) ? nativeSet.call(this, 'Date', val) : nativeGet.call(this, 'Date');
   }
 
   weekDay(val) {
-    return val ? nativeSet.call(this, 'Day', val) : nativeGet.call(this, 'Day');
+    return (+val === 0 || val) ? nativeSet.call(this, 'Day', val) : nativeGet.call(this, 'Day');
   }
 
   localeWeekDay() {
@@ -164,19 +164,19 @@ class Now {
   }
 
   hour(val) {
-    return val ? nativeSet.call(this, 'Hours', val) : nativeGet.call(this, 'Hours');
+    return (+val === 0 || val) ? nativeSet.call(this, 'Hours', val) : nativeGet.call(this, 'Hours');
   }
 
   minute(val) {
-    return val ? nativeSet.call(this, 'Minutes', val) : nativeGet.call(this, 'Minutes');
+    return (+val === 0 || val) ? nativeSet.call(this, 'Minutes', val) : nativeGet.call(this, 'Minutes');
   }
 
   second(val) {
-    return val ? nativeSet.call(this, 'Seconds', val) : nativeGet.call(this, 'Seconds');
+    return (+val === 0 || val) ? nativeSet.call(this, 'Seconds', val) : nativeGet.call(this, 'Seconds');
   }
 
   milliSecond(val) {
-    return val ? nativeSet.call(this, 'Milliseconds', val) : nativeGet.call(this, 'Milliseconds');
+    return (+val === 0 || val) ? nativeSet.call(this, 'Milliseconds', val) : nativeGet.call(this, 'Milliseconds');
   }
 
   get firstDayMonday() {
@@ -227,8 +227,7 @@ class Now {
   }
 
   clone() {
-    const clone = new Now(this.date);
-    return clone;
+    return new Now(this.date);
   }
 
   truncate(name) {
@@ -301,18 +300,15 @@ class Now {
   }
 
   computeBeginningOfMinute() {
-    const clone = this.clone();
-    return clone.truncate('minute');
+    return this.clone().truncate('minute');
   }
 
   computeBeginningOfHour() {
-    const clone = this.clone();
-    return clone.truncate('hour');
+    return this.clone().truncate('hour');
   }
 
   computeBeginningOfDay() {
-    const clone = this.clone();
-    return clone.truncate('day');
+    return this.clone().truncate('day');
   }
 
   computeBeginningOfWeek() {
@@ -330,8 +326,7 @@ class Now {
   }
 
   computeBeginningOfMonth() {
-    const clone = this.clone();
-    return clone.truncate('month');
+    return this.clone().truncate('month');
   }
 
   computeBeginningOfQuarter() {
@@ -341,8 +336,7 @@ class Now {
   }
 
   computeBeginningOfYear() {
-    const clone = this.clone();
-    return clone.truncate('year');
+    return this.clone().truncate('year');
   }
 
   beginningOfMinute() {
@@ -374,18 +368,15 @@ class Now {
   }
 
   endOfMinute() {
-    const clone = this.clone();
-    return clone.computeBeginningOfMinute().addMilliSeconds(metaMinute - 1).date;
+    return this.clone().computeBeginningOfMinute().addMilliSeconds(metaMinute - 1).date;
   }
 
   endOfHour() {
-    const clone = this.clone();
-    return clone.computeBeginningOfHour().addMilliSeconds(metaHour - 1).date;
+    return this.clone().computeBeginningOfHour().addMilliSeconds(metaHour - 1).date;
   }
 
   endOfDay() {
-    const clone = this.clone();
-    return clone.computeBeginningOfDay().addMilliSeconds(metaDay - 1).date;
+    return this.clone().computeBeginningOfDay().addMilliSeconds(metaDay - 1).date;
   }
 
   endOfWeek() {
@@ -395,18 +386,15 @@ class Now {
   }
 
   endOfMonth() {
-    const clone = this.clone();
-    return clone.computeBeginningOfMonth().addMonths(1).addMilliSeconds(-1).date;
+    return this.clone().computeBeginningOfMonth().addMonths(1).addMilliSeconds(-1).date;
   }
 
   endOfQuarter() {
-    const clone = this.clone();
-    return clone.computeBeginningOfQuarter().addMonths(3).addMilliSeconds(-1).date;
+    return this.clone().computeBeginningOfQuarter().addMonths(3).addMilliSeconds(-1).date;
   }
 
   endOfYear() {
-    const clone = this.clone();
-    return clone.computeBeginningOfYear().addYears(1).addMilliSeconds(-1).date;
+    return this.clone().computeBeginningOfYear().addYears(1).addMilliSeconds(-1).date;
   }
 
   dayOfYear() {
@@ -438,6 +426,11 @@ class Now {
 
   utcOffset() {
     return -Math.round(this.date.getTimezoneOffset() / 15) * 15
+  }
+
+  isDST() {
+    return this.utcOffset() > this.clone().month(0).utcOffset() ||
+      this.utcOffset() > this.clone().month(5).utcOffset();
   }
 
   isBefore(obj) {
