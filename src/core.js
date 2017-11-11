@@ -453,6 +453,22 @@ class Now {
     return compare(this.date, obj) === 0;
   }
 
+  toArray() {
+    return [this.year(), this.month(), this.day(), this.hour(), this.minute(), this.second(), this.milliSecond()];
+  }
+
+  toObject() {
+    return {
+      year: this.year(),
+      month: this.month(),
+      day: this.day(),
+      hour: this.hour(),
+      minute: this.minute(),
+      second: this.second(),
+      milliSecond: this.milliSecond()
+    };
+  }
+
   min(...args) {
     let result = Infinity;
     let compares = slice.call(args);
