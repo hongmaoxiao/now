@@ -179,6 +179,10 @@ class Now {
     return (+val === 0 || val) ? nativeSet.call(this, 'Milliseconds', val) : nativeGet.call(this, 'Milliseconds');
   }
 
+  unix() {
+    return Math.floor(this.valueOf() / 1000);
+  }
+
   get firstDayMonday() {
     return this.mondayFirst;
   }

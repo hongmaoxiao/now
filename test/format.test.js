@@ -387,26 +387,32 @@ import Now from '../src/index';
 //   expect(now.format('SSS')).toBe('789');
 // });
 
-test('isDST', () => {
-  const janOffset = new Date(2017, 0, 1).getTimezoneOffset();
-  const julOffset = new Date(2017, 6, 1).getTimezoneOffset();
-  const janIsDst = janOffset < julOffset;
-  const julIsDst = julOffset < janOffset;
-  const jan1 = new Now(2017);
-  const jul1 = new Now(2017, 6);
+// test('isDST', () => {
+//   const janOffset = new Date(2017, 0, 1).getTimezoneOffset();
+//   const julOffset = new Date(2017, 6, 1).getTimezoneOffset();
+//   const janIsDst = janOffset < julOffset;
+//   const julIsDst = julOffset < janOffset;
+//   const jan1 = new Now(2017);
+//   const jul1 = new Now(2017, 6);
 
-  if (janIsDst && julIsDst) {
-    // January and July cannot both be in DST
-    const both = jan1.isDST() && jul1.isDST();
-    expect(!both).toBeTruthy();
-  } else if (janIsDst) {
-    expect(jan1.isDST()).toBeTruthy();
-    expect(!jul1.isDST()).toBeTruthy();
-  } else if (julIsDst) {
-    expect(!jan1.isDST()).toBeTruthy();
-    expect(jul1.isDST()).toBeTruthy();
-  } else {
-    expect(!jan1.isDST()).toBeTruthy();
-    expect(!jul1.isDST()).toBeTruthy();
-  }
+//   if (janIsDst && julIsDst) {
+//     // January and July cannot both be in DST
+//     const both = jan1.isDST() && jul1.isDST();
+//     expect(!both).toBeTruthy();
+//   } else if (janIsDst) {
+//     expect(jan1.isDST()).toBeTruthy();
+//     expect(!jul1.isDST()).toBeTruthy();
+//   } else if (julIsDst) {
+//     expect(!jan1.isDST()).toBeTruthy();
+//     expect(jul1.isDST()).toBeTruthy();
+//   } else {
+//     expect(!jan1.isDST()).toBeTruthy();
+//     expect(!jul1.isDST()).toBeTruthy();
+//   }
+// });
+
+test('unix timestamp', () => {
+  const now = new Now(1234567890);
+  expect(now.format('x')).toBe('1234567890');
+  expect(now.format('X')).toBe('1234567');
 });

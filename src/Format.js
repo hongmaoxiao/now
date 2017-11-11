@@ -174,8 +174,13 @@ class Format {
       return this.milliSecond() * 1000000;
     });
 
+    // offset
     offset.call(this, 'Z', ':');
     offset.call(this, 'ZZ', '');
+
+    // timestamp
+    this.addFormatToken('X', 0, 0, 'unix');
+    this.addFormatToken('x', 0, 0, 'valueOf');
   }
 
   addFormatToken(token, padded, ordinal, callback) {
