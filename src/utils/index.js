@@ -29,6 +29,8 @@ export const defaultMonthsRegex = matchWord;
 export const defaultWeekdaysRegex = matchWord;
 export const defaultWeekdaysShortRegex = matchWord;
 export const defaultWeekdaysMinRegex = matchWord;
+export const matchOffset    = /Z|[+-]\d\d:?\d\d/gi; // +00:00 -00:00 +0000 -0000 or Z
+export const matchShortOffset = /Z|[+-]\d\d(?::?\d\d)?/gi; // +00 -00 +00:00 -00:00 +0000 -0000 or Z
 
 
 export function isDate(value) {
@@ -36,7 +38,7 @@ export function isDate(value) {
 }
 
 export function isString(value) {
-  return toString.call(value) === '[object String]';
+  return typeof value === 'string' || toString.call(value) === '[object String]';
 }
 
 export function isNumber(value) {

@@ -6,6 +6,7 @@ import {
   isDate,
   isUndefined,
   isFunction,
+  isString,
   isNumber,
   toInt,
   minus,
@@ -14,6 +15,8 @@ import {
   getLocale as localeData,
   defineLocale,
   defaultFormat,
+  matchOffset,
+  matchShortOffset,
 } from './utils';
 
 import format from './Format';
@@ -23,6 +26,7 @@ const metaMinute = 60 * metaSecond;
 const metaHour = 60 * metaMinute;
 const metaDay = 24 * metaHour;
 const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+const chunkOffset = /([\+\-]|\d\d)/gi;
 
 const nativeGet = function(unit) {
   return this.date[`get${unit}`]();
@@ -37,6 +41,22 @@ const nativeSet = function(unit, val) {
   console.log('this', this);
   return this;
 };
+
+function offsetFromString(matcher, string) {
+  const matches = (string || '').match(matcher);
+
+  if (matches === null) {
+    return null;
+  }
+
+  const chunk = matches[matches.length - 1] || [];
+  const parts = (chunk + '').match(chunkOffset) || ['-', 0, 0];
+  const minutes = +(parts[1] * 60) + toInt(parts[2]);
+
+  return minutes === 0 ?
+    0 :
+    parts[0] === '+' ? minutes : -minutes;
+}
 
 class Now {
   constructor(...args) {
@@ -428,17 +448,8 @@ class Now {
     return this.format('YYYY-MM-DD[T]HH:mm:ss.SSS[Z]');
   }
 
-  utcOffset() {
-    return -Math.round(this.date.getTimezoneOffset() / 15) * 15
-  }
-
   isLeapYear() {
     return (this.year() % 100 === 0) ? (this.year() % 400 === 0) : (this.year() % 4 === 0);
-  }
-
-  isDST() {
-    return this.utcOffset() > this.clone().month(0).utcOffset() ||
-      this.utcOffset() > this.clone().month(5).utcOffset();
   }
 
   isBefore(obj) {
@@ -544,6 +555,103 @@ class Now {
     }
     const now = new Date();
     return this.sub(now, date);
+  }
+
+  getDateOffset() {
+    return -Math.round(this.date.getTimezoneOffset() / 15) * 15;
+  }
+
+  utcOffset(input, keepLocalTime, keepMinutes) {
+    const this._offset || 0;
+    let localAdjust;
+    let minutes = input;
+    if (!isUndefined(minutes)) {
+      if (isString(minutes)) {
+        minutes = offsetFromString(matchShortOffset, minutes);
+        if (minutes === null) {
+          return this;
+        }
+      }
+      if (isNumber(minutes) && (Math.abs(minutes) < 16 && !keepMinutes)) {
+        minutes = minutes * 60;
+      }
+      if (!this._isUTC && keepLocalTime) {
+        localAdjust = this.getDateOffset();
+      }
+      this._offset = minutes;
+      this._isUTC = true;
+      if (localAdjust != null) {
+        this.addMinutes(localAdjust);
+      }
+      if (offset !== minutes) {
+        if (!keepLocalTime) {
+          this.addMinutes(minutes - offset);
+        }
+      }
+      return this;
+    } else {
+      return this._isUTC ? offset : this.getDateOffset();
+    }
+  }
+
+  utc(keepLocalTime) {
+    return this.utcOffset(0, keepLocalTime);
+  }
+
+  local(keepLocalTime) {
+    if (this._isUTC) {
+      this.utcOffset(0, keepLocalTime);
+      this._isUTC = false;
+    }
+    return this;
+  }
+
+  // export function setOffsetToLocal(keepLocalTime) {
+  //   if (this._isUTC) {
+  //     this.utcOffset(0, keepLocalTime);
+  //     this._isUTC = false;
+
+  //     if (keepLocalTime) {
+  //       this.subtract(getDateOffset(this), 'm');
+  //     }
+  //   }
+  //   return this;
+  // }
+
+  // parseZone() {
+  //   if (this._tzm != null) {
+  //     this.utcOffset(this._tzm, false, true);
+  //   }
+  //   if (isString(this._i)) {
+  //     const tZone = offsetFromString(matchOffset, this._i);
+  //     if (tZone != null) {
+  //       this.utcOffset(tZone);
+  //     } else {
+  //       this.utcOffset(0, true);
+  //     }
+  //   }
+  //   return this;
+  // }
+
+  isDST() {
+    return this.utcOffset() > this.clone().month(0).utcOffset() ||
+      this.utcOffset() > this.clone().month(5).utcOffset();
+  }
+
+  isLocal() {
+    return !this._isUTC;
+  }
+
+  isUtcOffset() {
+    return this._isUTC;
+  }
+
+  isUtc() {
+    return this._isUTC && this._offset === 0;
+  }
+
+  isUTC() {
+    this.isUtc();
   }
 }
 
