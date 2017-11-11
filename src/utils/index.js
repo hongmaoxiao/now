@@ -24,6 +24,7 @@ export const slice = ArrayProto.slice;
 export const invalidDateError = 'Invalid Date';
 export const invalidDateRegExp = /Invalid Date/;
 export const defaultFormat = 'YYYY-MM-DDTHH:mm:ssZ';
+export const defaultFormatUtc = 'YYYY-MM-DDTHH:mm:ss[Z]';
 export const defaultMonthsShortRegex = matchWord;
 export const defaultMonthsRegex = matchWord;
 export const defaultWeekdaysRegex = matchWord;

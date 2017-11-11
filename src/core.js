@@ -15,6 +15,7 @@ import {
   getLocale as localeData,
   defineLocale,
   defaultFormat,
+  defaultFormatUtc,
   matchOffset,
   matchShortOffset,
 } from './utils';
@@ -29,16 +30,18 @@ const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 
 const chunkOffset = /([\+\-]|\d\d)/gi;
 
 const nativeGet = function(unit) {
-  return this.date[`get${unit}`]();
+  const getName = this._isUTC ? `getUTC${unit}` : `get${unit}`;
+  console.log('ssssaadad: ', getName);
+  return this.date[getName]();
 };
 
 const nativeSet = function(unit, val) {
-  console.log('val: ', val);
   val = parseInt(val);
+  const setName = this._isUTC ? `setUTC${unit}` : `set${unit}`;
+  console.log('ssssaadad: ', setName);
   if (isNumber(val)) {
-    this.date[`set${unit}`](val);
+    this.date[setName](val);
   }
-  console.log('this', this);
   return this;
 };
 
@@ -66,6 +69,7 @@ class Now {
       throw new TypeError(invalidDateError);
     }
     this._format = format;
+    this._isUTC = false;
     this.now.parse = this.parse;
     this.initLocale();
     this.initDate();
@@ -318,7 +322,7 @@ class Now {
   }
 
   format(obj) {
-    obj || (obj = defaultFormat);
+    obj || (obj = this.isUtc() ? defaultFormatUtc : defaultFormat);
     const output = this._format.formatMoment(this, obj);
     return output;
   }
@@ -562,34 +566,39 @@ class Now {
   }
 
   utcOffset(input, keepLocalTime, keepMinutes) {
-    const this._offset || 0;
+    const offset = this._offset || 0;
     let localAdjust;
     let minutes = input;
+
     if (!isUndefined(minutes)) {
       if (isString(minutes)) {
         minutes = offsetFromString(matchShortOffset, minutes);
         if (minutes === null) {
           return this;
         }
-      }
-      if (isNumber(minutes) && (Math.abs(minutes) < 16 && !keepMinutes)) {
+      } else if (isNumber(minutes) && (Math.abs(minutes) < 16 && !keepMinutes)) {
+        console.log('uuuuuu: ', minutes);
         minutes = minutes * 60;
       }
       if (!this._isUTC && keepLocalTime) {
         localAdjust = this.getDateOffset();
       }
+      console.log('mmmmmm: ', minutes);
       this._offset = minutes;
       this._isUTC = true;
       if (localAdjust != null) {
+        console.log('adjust: ', localAdjust);
         this.addMinutes(localAdjust);
       }
       if (offset !== minutes) {
         if (!keepLocalTime) {
+          console.log('sub: ', minutes - offset);
           this.addMinutes(minutes - offset);
         }
       }
       return this;
     } else {
+      console.log('iiiiii: ', this._isUTC);
       return this._isUTC ? offset : this.getDateOffset();
     }
   }
@@ -602,21 +611,13 @@ class Now {
     if (this._isUTC) {
       this.utcOffset(0, keepLocalTime);
       this._isUTC = false;
+
+      if (keepLocalTime) {
+        this.addMinutes(-this.getDateOffset());
+      }
     }
     return this;
   }
-
-  // export function setOffsetToLocal(keepLocalTime) {
-  //   if (this._isUTC) {
-  //     this.utcOffset(0, keepLocalTime);
-  //     this._isUTC = false;
-
-  //     if (keepLocalTime) {
-  //       this.subtract(getDateOffset(this), 'm');
-  //     }
-  //   }
-  //   return this;
-  // }
 
   // parseZone() {
   //   if (this._tzm != null) {
@@ -651,8 +652,9 @@ class Now {
   }
 
   isUTC() {
-    this.isUtc();
+    return this.isUtc();
   }
 }
 
 export default Now;
+
