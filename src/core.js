@@ -432,6 +432,10 @@ class Now {
     return -Math.round(this.date.getTimezoneOffset() / 15) * 15
   }
 
+  isLeapYear() {
+    return (this.year() % 100 === 0) ? (this.year() % 400 === 0) : (this.year() % 4 === 0);
+  }
+
   isDST() {
     return this.utcOffset() > this.clone().month(0).utcOffset() ||
       this.utcOffset() > this.clone().month(5).utcOffset();

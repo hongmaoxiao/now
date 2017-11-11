@@ -21,3 +21,18 @@ test('setDate', () => {
 
   expect(+now).toBe(+compared);
 });
+
+test('expect to leap year', () => {
+  let now = new Now(2010, 0, 1);
+  console.log('llll: ', now.isLeapYear())
+  expect(!now.isLeapYear()).toBeTruthy();
+
+  now = new Now(2100, 0, 1);
+  expect(!now.isLeapYear()).toBeTruthy();
+
+  now = new Now(2008, 0, 1);
+  expect(now.isLeapYear()).toBeTruthy();
+
+  now = new Now(2000, 0, 1);
+  expect(now.isLeapYear()).toBeTruthy();
+});
