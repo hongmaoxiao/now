@@ -440,15 +440,15 @@ class Now {
     return -Math.round(this.date.getTimezoneOffset() / 15) * 15
   }
 
-  before(obj) {
+  isBefore(obj) {
     return compare(this.date, obj) === -1;
   }
 
-  after(obj) {
+  isAfter(obj) {
     return compare(this.date, obj) === 1;
   }
 
-  equal(obj) {
+  isEqual(obj) {
     return compare(this.date, obj) === 0;
   }
 
