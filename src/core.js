@@ -18,6 +18,10 @@ import {
   defaultFormatUtc,
   matchOffset,
   matchShortOffset,
+  isLeapYear,
+  getSetWeekYearHelper,
+  weekOfYear,
+  weeksInYear,
 } from './utils';
 
 import format from './Format';
@@ -174,6 +178,16 @@ class Now {
     return (+val === 0 || val) ? nativeSet.call(this, 'Month', val) : nativeGet.call(this, 'Month');
   }
 
+  week(val) {
+    const week = this.localeData().week(this);
+    return (+val === 0 || val) ? week : this.addDays((input - week) * 7);
+  }
+
+  isoWeek(val) {
+    const week = weekOfYear(this, 1, 4).week;
+    return (+val === 0 || val) ? week : this.addDays((input - week) * 7);
+  }
+
   day(val) {
     return (+val === 0 || val) ? nativeSet.call(this, 'Date', val) : nativeGet.call(this, 'Date');
   }
@@ -203,7 +217,36 @@ class Now {
     return (+val === 0 || val) ? nativeSet.call(this, 'Milliseconds', val) : nativeGet.call(this, 'Milliseconds');
   }
 
-  unix() {
+  weeksInYear() {
+    const weekInfo = this.localeData()._week;
+    return weeksInYear(this.year(), weekInfo.dow, weekInfo.doy);
+  }
+
+  isoWeeksInYear() {
+    return weeksInYear(this.year(), 1, 4);
+  }
+
+  weekYear(val) {
+    return getSetWeekYearHelper.call(this,
+      val,
+      this.week(),
+      this.localeWeekDay(),
+      this.localeData()._week.dow,
+      this.localeData()._week.doy
+    )
+  }
+
+  isoWeekYear() {
+    return getSetWeekYearHelper.call(this,
+      val,
+      this.isoWeek(),
+      this.isoWeekDay(),
+      1,
+      4
+    )
+  }
+
+  unixr() {
     return Math.floor(this.valueOf() / 1000);
   }
 
@@ -429,10 +472,6 @@ class Now {
     return Math.round((this.beginningOfDay() - this.beginningOfYear()) / metaDay) + 1;
   }
 
-  week() {
-    return Math.round(this.dayOfYear() / 7);
-  }
-
   toJSON() {
     return this.toISOString();
   }
@@ -453,7 +492,7 @@ class Now {
   }
 
   isLeapYear() {
-    return (this.year() % 100 === 0) ? (this.year() % 400 === 0) : (this.year() % 4 === 0);
+    return isLeapYear();
   }
 
   isBefore(obj) {
@@ -614,6 +653,7 @@ class Now {
     return this;
   }
 
+
   // parseZone() {
   //   if (this._tzm != null) {
   //     this.utcOffset(this._tzm, false, true);
@@ -651,4 +691,5 @@ class Now {
   }
 }
 
-export default Now;
+default Now;
+

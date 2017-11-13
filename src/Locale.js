@@ -16,6 +16,7 @@ import {
   defaultWeekdaysShortRegex,
   defaultWeekdaysMinRegex,
   computeWeekdaysParse,
+  weekOfYear,
 } from './utils';
 
 const MONTHS_IN_FORMAT = /D[oD]?(\[[^\[\]]*\]|\s)+MMMM?/;
@@ -196,7 +197,6 @@ class Locale {
   }
 
   week(mom) {
-    console.log('weekOfYear');
     return weekOfYear(mom, this._week.dow, this._week.doy).week;
   }
 

@@ -30,7 +30,7 @@ export const defaultMonthsRegex = matchWord;
 export const defaultWeekdaysRegex = matchWord;
 export const defaultWeekdaysShortRegex = matchWord;
 export const defaultWeekdaysMinRegex = matchWord;
-export const matchOffset    = /Z|[+-]\d\d:?\d\d/gi; // +00:00 -00:00 +0000 -0000 or Z
+export const matchOffset = /Z|[+-]\d\d:?\d\d/gi; // +00:00 -00:00 +0000 -0000 or Z
 export const matchShortOffset = /Z|[+-]\d\d(?::?\d\d)?/gi; // +00 -00 +00:00 -00:00 +0000 -0000 or Z
 
 
@@ -96,6 +96,11 @@ export function absRound(number) {
 
 export function toInt(number) {
   return (+number !== 0 && isFinite(+number)) ? absFloor(+number) : 0;
+}
+
+
+export const isLeapYear = (year) => {
+  return (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0;
 }
 
 export function compareArrays(array1, array2, dontConvert) {
@@ -373,44 +378,47 @@ export function computeMonthsParse() {
 }
 
 export function computeWeekdaysParse() {
-    function cmpLenRev(a, b) {
-        return b.length - a.length;
-    }
+  function cmpLenRev(a, b) {
+    return b.length - a.length;
+  }
 
-    var minPieces = [], shortPieces = [], longPieces = [], mixedPieces = [],
-        i, mom, minp, shortp, longp;
-    for (i = 0; i < 7; i++) {
-        // make the regex if we don't have it already
-        mom = createUTC([2000, 1]).day(i);
-        minp = this.weekdaysMin(mom, '');
-        shortp = this.weekdaysShort(mom, '');
-        longp = this.weekdays(mom, '');
-        minPieces.push(minp);
-        shortPieces.push(shortp);
-        longPieces.push(longp);
-        mixedPieces.push(minp);
-        mixedPieces.push(shortp);
-        mixedPieces.push(longp);
-    }
-    // Sorting makes sure if one weekday (or abbr) is a prefix of another it
-    // will match the longer piece.
-    minPieces.sort(cmpLenRev);
-    shortPieces.sort(cmpLenRev);
-    longPieces.sort(cmpLenRev);
-    mixedPieces.sort(cmpLenRev);
-    for (i = 0; i < 7; i++) {
-        shortPieces[i] = regexEscape(shortPieces[i]);
-        longPieces[i] = regexEscape(longPieces[i]);
-        mixedPieces[i] = regexEscape(mixedPieces[i]);
-    }
+  var minPieces = [],
+    shortPieces = [],
+    longPieces = [],
+    mixedPieces = [],
+    i, mom, minp, shortp, longp;
+  for (i = 0; i < 7; i++) {
+    // make the regex if we don't have it already
+    mom = createUTC([2000, 1]).day(i);
+    minp = this.weekdaysMin(mom, '');
+    shortp = this.weekdaysShort(mom, '');
+    longp = this.weekdays(mom, '');
+    minPieces.push(minp);
+    shortPieces.push(shortp);
+    longPieces.push(longp);
+    mixedPieces.push(minp);
+    mixedPieces.push(shortp);
+    mixedPieces.push(longp);
+  }
+  // Sorting makes sure if one weekday (or abbr) is a prefix of another it
+  // will match the longer piece.
+  minPieces.sort(cmpLenRev);
+  shortPieces.sort(cmpLenRev);
+  longPieces.sort(cmpLenRev);
+  mixedPieces.sort(cmpLenRev);
+  for (i = 0; i < 7; i++) {
+    shortPieces[i] = regexEscape(shortPieces[i]);
+    longPieces[i] = regexEscape(longPieces[i]);
+    mixedPieces[i] = regexEscape(mixedPieces[i]);
+  }
 
-    this._weekdaysRegex = new RegExp('^(' + mixedPieces.join('|') + ')', 'i');
-    this._weekdaysShortRegex = this._weekdaysRegex;
-    this._weekdaysMinRegex = this._weekdaysRegex;
+  this._weekdaysRegex = new RegExp('^(' + mixedPieces.join('|') + ')', 'i');
+  this._weekdaysShortRegex = this._weekdaysRegex;
+  this._weekdaysMinRegex = this._weekdaysRegex;
 
-    this._weekdaysStrictRegex = new RegExp('^(' + longPieces.join('|') + ')', 'i');
-    this._weekdaysShortStrictRegex = new RegExp('^(' + shortPieces.join('|') + ')', 'i');
-    this._weekdaysMinStrictRegex = new RegExp('^(' + minPieces.join('|') + ')', 'i');
+  this._weekdaysStrictRegex = new RegExp('^(' + longPieces.join('|') + ')', 'i');
+  this._weekdaysShortStrictRegex = new RegExp('^(' + shortPieces.join('|') + ')', 'i');
+  this._weekdaysMinStrictRegex = new RegExp('^(' + minPieces.join('|') + ')', 'i');
 }
 
 function mergeConfigs(parentConfig, childConfig) {
@@ -527,7 +535,7 @@ export function defineLocale(name, config) {
     let parentConfig = baseConfig;
     config.abbr = name;
     if (locales[name] != null) {
-    // console.log('locales name not null: ', locales[name]);
+      // console.log('locales name not null: ', locales[name]);
       deprecateSimple('defineLocaleOverride',
         'use moment.updateLocale(localeName, config) to change ' +
         'an existing locale. moment.defineLocale(localeName, ' +
@@ -535,7 +543,7 @@ export function defineLocale(name, config) {
         'See http://momentjs.com/guides/#/warnings/define-locale/ for more info.');
       parentConfig = locales[name]._config;
     } else if (config.parentLocale != null) {
-    console.log('locales name is null: ', config);
+      console.log('locales name is null: ', config);
       if (locales[config.parentLocale] != null) {
         parentConfig = locales[config.parentLocale]._config;
       } else {
@@ -631,3 +639,102 @@ export function getLocale(key) {
 export function listLocales() {
   return keys(locales);
 }
+
+const daysInYear = (year) => {
+  return isLeapYear(year) ? 366 : 365;
+}
+
+const createUTCDate = () => {
+  return new Date(Date.UTC.apply(null, arguments));
+}
+
+const firstWeekOffset = (year, dow, doy) => {
+  // first-week day -- which january is always in the first week (4 for iso, 1 for other)
+  const fwd = 7 + dow - doy;
+  // first-week day local weekday -- which local weekday is fwd
+  const fwdlw = (7 + createUTCDate(year, 0, fwd).getUTCDay() - dow) % 7;
+
+  return -fwdlw + fwd - 1;
+}
+
+// https://en.wikipedia.org/wiki/ISO_week_date#Calculating_a_date_given_the_year.2C_week_number_and_weekday
+const dayOfYearFromWeeks = (year, week, weekday, dow, doy) => {
+  const localWeekday = (7 + weekday - dow) % 7;
+  const weekOffset = firstWeekOffset(year, dow, doy);
+  const dayOfYear = 1 + 7 * (week - 1) + localWeekday + weekOffset;
+  let resYear;
+  let resDayOfYear;
+
+  if (dayOfYear <= 0) {
+    resYear = year - 1;
+    resDayOfYear = daysInYear(resYear) + dayOfYear;
+  } else if (dayOfYear > daysInYear(year)) {
+    resYear = year + 1;
+    resDayOfYear = dayOfYear - daysInYear(year);
+  } else {
+    resYear = year;
+    resDayOfYear = dayOfYear;
+  }
+
+  return {
+    year: resYear,
+    dayOfYear: resDayOfYear
+  };
+}
+
+export const weekOfYear = (mom, dow, doy) => {
+  const weekOffset = firstWeekOffset(mom.year(), dow, doy);
+  const week = Math.floor((mom.dayOfYear() - weekOffset - 1) / 7) + 1;
+  let resWeek;
+  let resYear;
+
+  if (week < 1) {
+    resYear = mom.year() - 1;
+    resWeek = week + weeksInYear(resYear, dow, doy);
+  } else if (week > weeksInYear(mom.year(), dow, doy)) {
+    resWeek = week - weeksInYear(mom.year(), dow, doy);
+    resYear = mom.year() + 1;
+  } else {
+    resYear = mom.year();
+    resWeek = week;
+  }
+
+  return {
+    week: resWeek,
+    year: resYear
+  };
+}
+
+export const weeksInYear = (year, dow, doy) => {
+  const weekOffset = firstWeekOffset(year, dow, doy);
+  const weekOffsetNext = firstWeekOffset(year + 1, dow, doy);
+  return (daysInYear(year) - weekOffset + weekOffsetNext) / 7;
+}
+
+function getISOWeeksInYear() {
+  return weeksInYear(this.year(), 1, 4);
+}
+
+export function getSetWeekYearHelper(input, week, weekday, dow, doy) {
+  let weeksTarget;
+  if (input == null) {
+    return weekOfYear(this, dow, doy).year;
+  } else {
+    weeksTarget = weeksInYear(input, dow, doy);
+    if (week > weeksTarget) {
+      week = weeksTarget;
+    }
+    return setWeekAll.call(this, input, week, weekday, dow, doy);
+  }
+}
+
+function setWeekAll(weekYear, week, weekday, dow, doy) {
+  const dayOfYearData = dayOfYearFromWeeks(weekYear, week, weekday, dow, doy);
+  const date = createUTCDate(dayOfYearData.year, 0, dayOfYearData.dayOfYear);
+
+  this.year(date.getUTCFullYear());
+  this.month(date.getUTCMonth());
+  this.day(date.getUTCDate());
+  return this;
+}
+
