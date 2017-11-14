@@ -11,8 +11,8 @@ import Now from '../src/index';
 
 // now = new Now(12345, 1, 1);
 // output = now.format('Y');
-// expect(output).toBe('+12345');
 
+// expect(output).toBe('+12345');
 // now = new Now(0, 1, 1);
 // output = now.format('Y');
 // expect(output).toBe('1900');
@@ -462,47 +462,127 @@ import Now from '../src/index';
 // }
 // });
 
-test('iso week year formats', () => {
-  // https://en.wikipedia.org/wiki/ISO_week_date
-  const cases = {
-    '2005-01-02': '2004-53',
-    '2005-12-31': '2005-52',
-    '2007-01-01': '2007-01',
-    '2007-12-30': '2007-52',
-    '2007-12-31': '2008-01',
-    '2008-01-01': '2008-01',
-    '2008-12-28': '2008-52',
-    '2008-12-29': '2009-01',
-    '2008-12-30': '2009-01',
-    '2008-12-31': '2009-01',
-    '2009-01-01': '2009-01',
-    '2009-12-31': '2009-53',
-    '2010-01-01': '2009-53',
-    '2010-01-02': '2009-53',
-    '2010-01-03': '2009-53',
-    '404-12-31': '0404-53',
-    '405-12-31': '0405-52'
-  };
-  let i;
-  let isoWeekYear;
-  let formatted5;
-  let formatted4;
-  let formatted2;
-  let args;
+// test('iso week year formats', () => {
+//   // https://en.wikipedia.org/wiki/ISO_week_date
+//   const cases = {
+//     '2005-01-02': '2004-53',
+//     '2005-12-31': '2005-52',
+//     '2007-01-01': '2007-01',
+//     '2007-12-30': '2007-52',
+//     '2007-12-31': '2008-01',
+//     '2008-01-01': '2008-01',
+//     '2008-12-28': '2008-52',
+//     '2008-12-29': '2009-01',
+//     '2008-12-30': '2009-01',
+//     '2008-12-31': '2009-01',
+//     '2009-01-01': '2009-01',
+//     '2009-12-31': '2009-53',
+//     '2010-01-01': '2009-53',
+//     '2010-01-02': '2009-53',
+//     '2010-01-03': '2009-53',
+//     '404-12-31': '0404-53',
+//     '405-12-31': '0405-52'
+//   };
+//   let i;
+//   let isoWeekYear;
+//   let formatted5;
+//   let formatted4;
+//   let formatted2;
+//   let args;
+//
+//   for (i in cases) {
+//     isoWeekYear = cases[i].split('-')[0];
+//     args = i.split('-').join(',');
+//
+//     formatted5 = new Now(args).format('GGGGG');
+//     expect(`0${isoWeekYear}`).toBe(formatted5);
+//
+//     formatted4 = new Now(args).format('GGGG');
+//     expect(isoWeekYear).toBe(formatted4);
+//
+//     formatted2 = new Now(args).format('GG');
+//     expect(isoWeekYear.slice(2, 4)).toBe(formatted2);
+//   }
+// });
 
-  for (i in cases) {
-    isoWeekYear = cases[i].split('-')[0];
-    console.log('isoWeekYear: ', isoWeekYear);
-    args = i.split('-').join(',');
+// test('week year formats', () => {
+//   // https://en.wikipedia.org/wiki/ISO_week_date
+//   const cases = {
+//     '2005-01-02': '2004-53',
+//     '2005-12-31': '2005-52',
+//     '2007-01-01': '2007-01',
+//     '2007-12-30': '2007-52',
+//     '2007-12-31': '2008-01',
+//     '2008-01-01': '2008-01',
+//     '2008-12-28': '2008-52',
+//     '2008-12-29': '2009-01',
+//     '2008-12-30': '2009-01',
+//     '2008-12-31': '2009-01',
+//     '2009-01-01': '2009-01',
+//     '2009-12-31': '2009-53',
+//     '2010-01-01': '2009-53',
+//     '2010-01-02': '2009-53',
+//     '2010-01-03': '2009-53',
+//     '404-12-31': '0404-53',
+//     '405-12-31': '0405-52'
+//   };
+//   let i;
+//   let isoWeekYear;
+//   let formatted5;
+//   let formatted4;
+//   let formatted2;
+//   let args;
+//
+//   Now.defineLocale('dow:1,doy:4', {
+//     week: {
+//       dow: 1,
+//       doy: 4
+//     }
+//   });
+//
+//   for (i in cases) {
+//     isoWeekYear = cases[i].split('-')[0];
+//     args = i.split('-').join(',');
+//
+//     formatted5 = new Now(args).format('ggggg');
+//     expect(`0${isoWeekYear}`).toBe(formatted5);
+//
+//     formatted4 = new Now(args).format('gggg');
+//     expect(isoWeekYear).toBe(formatted4);
+//
+//     formatted2 = new Now(args).format('gg');
+//     expect(isoWeekYear.slice(2, 4)).toBe(formatted2);
+//   }
+//   Now.defineLocale('dow:1,doy:4', null);
+// });
 
-    formatted5 = new Now(args).format('GGGGG');
-    expect(`0${isoWeekYear}`).toBe(formatted5);
+test('iso weekday formats', () => {
+  let now = new Now(1985, 1, 4);
+  expect(now.format('E')).toBe('1');
 
-    formatted4 = new Now(args).format('GGGG');
-    expect(isoWeekYear).toBe(formatted4);
+  now = new Now(2029, 8, 18);
+  expect(now.format('E')).toBe('2');
 
-    formatted2 = new Now(args).format('GG');
-    expect(isoWeekYear.slice(2, 4)).toBe(formatted2);
-  }
+  now = new Now(2013, 3, 24);
+  expect(now.format('E')).toBe('3');
+
+  now = new Now(2015, 2, 5);
+  expect(now.format('E')).toBe('4');
+
+  now = new Now(1970, 0, 2);
+  expect(now.format('E')).toBe('5');
+
+  now = new Now(2001, 4, 12);
+  expect(now.format('E')).toBe('6');
+
+  now = new Now(2000, 0, 2);
+  expect(now.format('E')).toBe('7');
+
+  // assert.equal(moment([1985, 1,  4]).format('E'), '1', 'Feb  4 1985 is Monday    -- 1st day');
+  // assert.equal(moment([2029, 8, 18]).format('E'), '2', 'Sep 18 2029 is Tuesday   -- 2nd day');
+  // assert.equal(moment([2013, 3, 24]).format('E'), '3', 'Apr 24 2013 is Wednesday -- 3rd day');
+  // assert.equal(moment([2015, 2,  5]).format('E'), '4', 'Mar  5 2015 is Thursday  -- 4th day');
+  // assert.equal(moment([1970, 0,  2]).format('E'), '5', 'Jan  2 1970 is Friday    -- 5th day');
+  // assert.equal(moment([2001, 4, 12]).format('E'), '6', 'May 12 2001 is Saturday  -- 6th day');
+  // assert.equal(moment([2000, 0,  2]).format('E'), '7', 'Jan  2 2000 is Sunday    -- 7th day');
 });
-

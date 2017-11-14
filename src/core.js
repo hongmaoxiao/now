@@ -24,6 +24,7 @@ import {
   getSetWeekYearHelper,
   weekOfYear,
   weeksInYear,
+  parseWeekday,
   parseIsoWeekday,
 } from './utils';
 
@@ -100,15 +101,15 @@ class Now {
   initLocale() {
     locale('en');
     // locale('en', {
-      // dayOfMonthOrdinalParse: /\d{1,2}(th|st|nd|rd)/,
-      // ordinal: function(number) {
-        // const b = number % 10;
-        // const output = (toInt(number % 100 / 10) === 1) ? 'th' :
-          // (b === 1) ? 'st' :
-          // (b === 2) ? 'nd' :
-          // (b === 3) ? 'rd' : 'th';
-        // return number + output;
-      // }
+    // dayOfMonthOrdinalParse: /\d{1,2}(th|st|nd|rd)/,
+    // ordinal: function(number) {
+    // const b = number % 10;
+    // const output = (toInt(number % 100 / 10) === 1) ? 'th' :
+    // (b === 1) ? 'st' :
+    // (b === 2) ? 'nd' :
+    // (b === 3) ? 'rd' : 'th';
+    // return number + output;
+    // }
     // });
   }
 
@@ -208,7 +209,13 @@ class Now {
   }
 
   weekDay(val) {
-    return (+val === 0 || val) ? nativeSet.call(this, 'Day', val) : nativeGet.call(this, 'Day');
+    const weekDay = this._isUTC ? this.date.getUTCDay() : this.date.getDay();
+    if (+val === 0 || val) {
+      val = parseWeekday(val, this.localeData());
+      return this.addDays(val - weekDay);
+    } else {
+      return weekDay;
+    }
   }
 
   localeWeekDay(val) {
@@ -221,10 +228,12 @@ class Now {
     // as a getter, returns 7 instead of 0 (1-7 range instead of 0-6)
     // as a setter, sunday should belong to the previous week.
     if (+val === 0 || val) {
+      console.log('set week: ', val);
       const isoWeekDay = parseIsoWeekday(val, this.localeData());
       return this.day(this.day() === 0 ? isoWeekDay - 7 : isoWeekDay);
     } else {
-      this.day() || 7;
+      console.log('in week: ', this.weekDay());
+      return this.weekDay() || 7;
     }
   }
 
@@ -719,4 +728,3 @@ class Now {
 }
 
 export default Now;
-

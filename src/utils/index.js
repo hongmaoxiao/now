@@ -751,3 +751,19 @@ export const parseIsoWeekday = (input, locale) => {
   return isNaN(input) ? null : input;
 }
 
+export const parseWeekday = (input, locale) => {
+    if (isString(input)) {
+        return input;
+    }
+
+    if (!isNaN(input)) {
+        return parseInt(input, 10);
+    }
+
+    input = locale.weekdaysParse(input);
+    if (isNumber(input)) {
+        return input;
+    }
+
+    return null;
+}
