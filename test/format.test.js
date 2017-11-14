@@ -423,7 +423,46 @@ import Now from '../src/index';
 // expect(isoRegex.test(utcFormat)).toBeTruthy();
 // });
 
-test('iso week formats', () => {
+// test('iso week formats', () => {
+// // https://en.wikipedia.org/wiki/ISO_week_date
+// const cases = {
+// '2005-01-02': '2004-53',
+// '2005-12-31': '2005-52',
+// '2007-01-01': '2007-01',
+// '2007-12-30': '2007-52',
+// '2007-12-31': '2008-01',
+// '2008-01-01': '2008-01',
+// '2008-12-28': '2008-52',
+// '2008-12-29': '2009-01',
+// '2008-12-30': '2009-01',
+// '2008-12-31': '2009-01',
+// '2009-01-01': '2009-01',
+// '2009-12-31': '2009-53',
+// '2010-01-01': '2009-53',
+// '2010-01-02': '2009-53',
+// '2010-01-03': '2009-53',
+// '404-12-31': '0404-53',
+// '405-12-31': '0405-52'
+// };
+// let i;
+// let isoWeek;
+// let formatted2;
+// let formatted1;
+// let args;
+
+// for (i in cases) {
+// isoWeek = cases[i].split('-').pop();
+// args = i.split('-').join(',');
+// formatted2 = new Now(args).format('WW');
+// expect(isoWeek).toBe(formatted2);
+
+// isoWeek = isoWeek.replace(/^0+/, '');
+// formatted1 = new Now(args).format('W');
+// expect(isoWeek).toBe(formatted1);
+// }
+// });
+
+test('iso week year formats', () => {
   // https://en.wikipedia.org/wiki/ISO_week_date
   const cases = {
     '2005-01-02': '2004-53',
@@ -445,20 +484,25 @@ test('iso week formats', () => {
     '405-12-31': '0405-52'
   };
   let i;
-  let isoWeek;
+  let isoWeekYear;
+  let formatted5;
+  let formatted4;
   let formatted2;
-  let formatted1;
   let args;
 
   for (i in cases) {
-    isoWeek = cases[i].split('-').pop();
+    isoWeekYear = cases[i].split('-')[0];
+    console.log('isoWeekYear: ', isoWeekYear);
     args = i.split('-').join(',');
-    formatted2 = new Now(args).format('WW');
-    expect(isoWeek).toBe(formatted2);
 
-    isoWeek = isoWeek.replace(/^0+/, '');
-    formatted1 = new Now(args).format('W');
-    expect(isoWeek).toBe(formatted1);
+    formatted5 = new Now(args).format('GGGGG');
+    expect(`0${isoWeekYear}`).toBe(formatted5);
+
+    formatted4 = new Now(args).format('GGGG');
+    expect(isoWeekYear).toBe(formatted4);
+
+    formatted2 = new Now(args).format('GG');
+    expect(isoWeekYear.slice(2, 4)).toBe(formatted2);
   }
 });
 
