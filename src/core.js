@@ -13,7 +13,9 @@ import {
   nativeDatetoISOString,
   getSetGlobalLocale as locale,
   getLocale as localeData,
+  listLocales as locales,
   defineLocale,
+  updateLocale,
   defaultFormat,
   defaultFormatUtc,
   matchOffset,
@@ -81,6 +83,18 @@ class Now {
 
   static defineLocale(name, config) {
     return defineLocale(name, config);
+  }
+
+  static updateLocale(name, config) {
+    return updateLocale(name, config);
+  }
+
+  static locales() {
+    return locales();
+  }
+
+  UTC(...args) {
+    return this.clone(Date.UTC(args));
   }
 
   localeData(key) {
@@ -310,8 +324,8 @@ class Now {
     return this;
   }
 
-  clone() {
-    return new Now(this.date);
+  clone(val) {
+    return val ? new Now(val) : new Now(this.date);
   }
 
   truncate(name) {

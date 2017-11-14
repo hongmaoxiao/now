@@ -652,9 +652,7 @@ export function getLocale(key) {
   return chooseLocale(key);
 }
 
-export function listLocales() {
-  return keys(locales);
-}
+export const listLocales = () => keys(locales);
 
 const daysInYear = (year) => isLeapYear(year) ? 366 : 365;
 
