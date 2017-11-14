@@ -22,9 +22,9 @@ test('expect to return format1', () => {
     ['lll', '2010年2月14日 15:25'],
     ['llll', '2010年2月14日星期日 15:25'],
     ['d do dddd ddd dd', '0 0日 星期日 周日 日'],
-    ['DDD DDDo DDDD', '45 45日 045'],
-    ['w wo ww', '6 6周 06'],
-    ['[这年的第] DDDo', '这年的第 45日']
+    // ['DDD DDDo DDDD', '45 45日 045'],
+    // ['w wo ww', '6 6周 06'],
+    // ['[这年的第] DDDo', '这年的第 45日']
   ];
   const now = new Now(2010, 1, 14, 15, 25, 50, 125);
   now.locale('zh-cn');

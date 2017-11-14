@@ -181,6 +181,7 @@ class Format {
   }
 
   addFormatToken(token, padded, ordinal, callback) {
+    // console.log('sasadad: ', token, padded, ordinal, callback);
     let func = callback;
     if (typeof callback === 'string') {
       func = function() {
@@ -196,6 +197,7 @@ class Format {
     if (padded) {
       // console.log('padded: ', padded);
       this.formatTokenFunctions[padded[0]] = function() {
+        console.log('padded: ', padded[1], padded[2], func);
         return zeroFill(func.apply(this, arguments), padded[1], padded[2]);
       };
     }
@@ -232,6 +234,7 @@ class Format {
       let output = '';
       let i;
       for (i = 0; i < length; i++) {
+        console.log('array[i]: ', i, array[i], format);
         output += isFunction(array[i]) ? array[i].call(context, format) : array[i];
       }
       return output;
@@ -276,4 +279,3 @@ class Format {
 }
 
 export default new Format;
-

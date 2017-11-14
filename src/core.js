@@ -99,18 +99,18 @@ class Now {
   }
 
   initLocale() {
-    locale('en');
-    // locale('en', {
-    // dayOfMonthOrdinalParse: /\d{1,2}(th|st|nd|rd)/,
-    // ordinal: function(number) {
-    // const b = number % 10;
-    // const output = (toInt(number % 100 / 10) === 1) ? 'th' :
-    // (b === 1) ? 'st' :
-    // (b === 2) ? 'nd' :
-    // (b === 3) ? 'rd' : 'th';
-    // return number + output;
-    // }
-    // });
+    // locale('en');
+    locale('en', {
+      dayOfMonthOrdinalParse: /\d{1,2}(th|st|nd|rd)/,
+      ordinal: function(number) {
+        const b = number % 10;
+        const output = (toInt(number % 100 / 10) === 1) ? 'th' :
+          (b === 1) ? 'st' :
+          (b === 2) ? 'nd' :
+          (b === 3) ? 'rd' : 'th';
+        return number + output;
+      }
+    });
   }
 
   locale(obj) {
@@ -196,6 +196,8 @@ class Now {
 
   week(val) {
     const week = this.localeData().week(this);
+    // console.log('localeData: ', this.localeData());
+    // console.log('get week: ', week);
     return (+val === 0 || val) ? this.addDays((val - week) * 7) : week;
   }
 
@@ -263,6 +265,7 @@ class Now {
   }
 
   weekYear(val) {
+    console.log('weekYear for week: ', this.week(), this.localeWeekDay());
     return getSetWeekYearHelper.call(this,
       val,
       this.week(),
@@ -528,7 +531,7 @@ class Now {
   }
 
   isLeapYear() {
-    return isLeapYear();
+    return isLeapYear(this.year());
   }
 
   isBefore(obj) {
