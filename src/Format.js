@@ -83,21 +83,18 @@ class Format {
     this.addFormatToken(0, ['gg', 2], 0, function() {
       return this.weekYear() % 100;
     });
-    // this.addFormatToken(0, ['GG', 2], 0, function() {
-    // return this.isoWeekYear() % 100;
-    // });
+    this.addFormatToken(0, ['GG', 2], 0, function() {
+      return this.isoWeekYear() % 100;
+    });
     addWeekYearFormatToken.call(this, 'gggg', 'weekYear');
     addWeekYearFormatToken.call(this, 'ggggg', 'weekYear');
     addWeekYearFormatToken.call(this, 'GGGG', 'isoWeekYear');
     addWeekYearFormatToken.call(this, 'GGGGG', 'isoWeekYear');
-    // this.addWeekYearFormatToken('gggg', 'weekYear');
-    // this.addWeekYearFormatToken('ggggg', 'weekYear');
-    // this.addWeekYearFormatToken('GGGG', 'isoWeekYear');
-    // this.addWeekYearFormatToken('GGGGG', 'isoWeekYear');
 
     // week
+    // this.addFormatToken('w', ['ww', 2], 'wo', 'week');
     this.addFormatToken('w', ['ww', 2], 'wo', 'week');
-    // this.addFormatToken('W', ['WW', 2], 'Wo', 'isoWeek');
+    this.addFormatToken('W', ['WW', 2], 'Wo', 'isoWeek');
 
     // dayOfYear
     this.addFormatToken('DDD', ['DDDD', 3], 'DDDo', 'dayOfYear');
@@ -117,7 +114,7 @@ class Format {
       return this.localeData().weekdays(this, format);
     });
     this.addFormatToken('e', 0, 0, 'localeWeekDay');
-    // this.addFormatToken('E', 0, 0, 'isoWeekday');
+    this.addFormatToken('E', 0, 0, 'isoWeekDay');
 
     // hour
     this.addFormatToken('H', ['HH', 2], 0, 'hour');
@@ -187,27 +184,35 @@ class Format {
     let func = callback;
     if (typeof callback === 'string') {
       func = function() {
-        console.log('call: ', callback);
+        console.log('call: ', ordinal, callback);
+        console.log('call func: ', this[callback]);
         return this[callback]();
       };
     }
     if (token) {
+      // console.log('token: ', token);
       this.formatTokenFunctions[token] = func;
     }
     if (padded) {
+      // console.log('padded: ', padded);
       this.formatTokenFunctions[padded[0]] = function() {
         return zeroFill(func.apply(this, arguments), padded[1], padded[2]);
       };
     }
     if (ordinal) {
       this.formatTokenFunctions[ordinal] = function() {
+        console.log('token: ', ordinal);
+        console.log('args: ', arguments);
+        console.log('func call: ', func.apply(this, arguments));
+        console.log('func call: ', func.apply(this, arguments));
+        console.log('orinal call: ', this.localeData().ordinal);
         return this.localeData().ordinal(func.apply(this, arguments), token);
       };
     }
   }
 
   makeFormatFunction(format) {
-    console.log('format: ', format);
+    // console.log('format: ', format);
     let array = format.match(this.formattingTokens);
     let i;
     let length;
@@ -241,7 +246,7 @@ class Format {
     // console.log('m: ', context);
     // console.log("localeData: ", context.localeData());
     format = this.expandFormat(format, context.localeData());
-    console.log('format: ', format);
+    // console.log('format: ', format);
     this.formatFunctions[format] = this.formatFunctions[format] || this.makeFormatFunction(format);
     // console.log('this.formatFunctions: ', this.formatFunctions[format]);
 
@@ -252,13 +257,13 @@ class Format {
     let i = 5;
 
     function replaceLongDateFormatTokens(input) {
-      console.log('iiiii: ', input);
+      // console.log('iiiii: ', input);
       return locale.longDateFormat(input) || input;
     }
 
     this.localFormattingTokens.lastIndex = 0;
     while (i >= 0 && this.localFormattingTokens.test(format)) {
-      console.log("formmmmm in: ", format)
+      // console.log("formmmmm in: ", format)
       format = format.replace(this.localFormattingTokens, replaceLongDateFormatTokens);
       this.localFormattingTokens.lastIndex = 0;
       i -= 1;
@@ -271,3 +276,4 @@ class Format {
 }
 
 export default new Format;
+

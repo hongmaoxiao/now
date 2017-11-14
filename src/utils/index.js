@@ -5,7 +5,7 @@ import Locale from '../Locale';
 
 import {
   baseConfig,
-} from './config';
+} from '../config';
 
 const ArrayProto = Array.prototype;
 const DateProto = Date.prototype;
@@ -524,13 +524,13 @@ function loadLocale(name) {
 // no arguments are passed in, it will simply return the current global
 // locale key.
 export function getSetGlobalLocale(key, values) {
-  // console.log('keeeee: ', key, values, isUndefined(values));
+  console.log('keeeee: ', key, values, isUndefined(values));
   let data;
   if (key) {
     if (isUndefined(values)) {
-      // console.log('getset key: ', key);
+      console.log('getset key: ', key);
       data = getLocale(key);
-      // console.log('getset value: ', data);
+      console.log('getset value: ', data);
     } else {
       data = defineLocale(key, values);
     }
@@ -656,7 +656,7 @@ export const listLocales = () => keys(locales);
 
 const daysInYear = (year) => isLeapYear(year) ? 366 : 365;
 
-const createUTCDate = () => new Date(Date.UTC.apply(null, arguments));
+const createUTCDate = (...args) => new Date(Date.UTC.apply(null, args));
 
 const firstWeekOffset = (year, dow, doy) => {
   // first-week day -- which january is always in the first week (4 for iso, 1 for other)
