@@ -524,13 +524,13 @@ function loadLocale(name) {
 // no arguments are passed in, it will simply return the current global
 // locale key.
 export function getSetGlobalLocale(key, values) {
-  console.log('keeeee: ', key, values, isUndefined(values));
+  // console.log('keeeee: ', key, values, isUndefined(values));
   let data;
   if (key) {
     if (isUndefined(values)) {
-      console.log('getset key: ', key);
+      // console.log('getset key: ', key);
       data = getLocale(key);
-      console.log('getset value: ', data);
+      // console.log('getset value: ', data);
     } else {
       data = defineLocale(key, values);
     }
