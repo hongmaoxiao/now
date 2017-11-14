@@ -22,6 +22,7 @@ import {
   getSetWeekYearHelper,
   weekOfYear,
   weeksInYear,
+  parseIsoWeekday,
 } from './utils';
 
 import format from './Format';
@@ -101,7 +102,6 @@ class Now {
   }
 
   locale(obj) {
-    console.log('ooooo: ', obj);
     locale(obj);
     return this;
   }
@@ -180,12 +180,12 @@ class Now {
 
   week(val) {
     const week = this.localeData().week(this);
-    return (+val === 0 || val) ? week : this.addDays((input - week) * 7);
+    return (+val === 0 || val) ? this.addDays((input - week) * 7) : week;
   }
 
   isoWeek(val) {
     const week = weekOfYear(this, 1, 4).week;
-    return (+val === 0 || val) ? week : this.addDays((input - week) * 7);
+    return (+val === 0 || val) ? this.addDays((input - week) * 7) : week;
   }
 
   day(val) {
@@ -199,6 +199,19 @@ class Now {
   localeWeekDay(val) {
     const localeWeekDay = (this.weekDay() + 7 - this.localeData()._week.dow) % 7;
     return (+val === 0 || val) ? this.addDays(val - localeWeekDay) : localeWeekDay;
+  }
+
+  isoWeekDay() {
+    // behaves the same as moment#day except
+    // as a getter, returns 7 instead of 0 (1-7 range instead of 0-6)
+    // as a setter, sunday should belong to the previous week.
+
+    if (+val === 0 || val) {
+      const isoWeekDay = parseIsoWeekday(val, this.localeData());
+      return this.day(this.day() === 0 ? isoWeekDay - 7 : isoWeekDay);
+    } else {
+      this.day() || 7;
+    }
   }
 
   hour(val) {
@@ -236,7 +249,7 @@ class Now {
     )
   }
 
-  isoWeekYear() {
+  isoWeekYear(val) {
     return getSetWeekYearHelper.call(this,
       val,
       this.isoWeek(),

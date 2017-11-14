@@ -1,16 +1,11 @@
 /* eslint no-underscore-dangle: ["error", { "allowAfterThis": true }] */
 /* eslint prefer-destructuring: ["error", { "object": false }] */
 
-import {
-  matchWord,
-  regexEscape,
-} from '../lib/parse/regex';
-
 import Locale from '../Locale';
 
 import {
   baseConfig,
-} from '../lib/locale/config';
+} from './config';
 
 const ArrayProto = Array.prototype;
 const DateProto = Date.prototype;
@@ -19,6 +14,9 @@ const nativeIsArray = Array.isArray;
 const nativeIndexOf = ArrayProto.indexOf;
 const nativeDatetoISOString = Date.prototype.toISOString;
 const hasOwnProperty = Object.prototype.hasOwnProperty;
+
+const matchWord = /[0-9]*['a-z\u00A0-\u05FF\u0700-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+|[\u0600-\u06FF\/]+(\s*?[\u0600-\u06FF]+){1,2}/i;
+const regexEscape = (s) => s.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
 
 export const slice = ArrayProto.slice;
 export const invalidDateError = 'Invalid Date';
@@ -32,7 +30,6 @@ export const defaultWeekdaysShortRegex = matchWord;
 export const defaultWeekdaysMinRegex = matchWord;
 export const matchOffset = /Z|[+-]\d\d:?\d\d/gi; // +00:00 -00:00 +0000 -0000 or Z
 export const matchShortOffset = /Z|[+-]\d\d(?::?\d\d)?/gi; // +00 -00 +00:00 -00:00 +0000 -0000 or Z
-
 
 export function isDate(value) {
   return value instanceof Date || toString.call(value) === '[object Date]';
@@ -98,9 +95,26 @@ export function toInt(number) {
   return (+number !== 0 && isFinite(+number)) ? absFloor(+number) : 0;
 }
 
+export const isLeapYear = (year) => (year % 100 !== 0 && year % 4 === 0) || year % 400 === 0;
 
-export const isLeapYear = (year) => {
-  return (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0;
+export function compare(date1, date2) {
+  if (isUndefined(date1) || isUndefined(date2)) {
+    throw new Error('arguments can not be undefined');
+  } else if (!(isDate(date1) && isDate(date2))) {
+    throw new TypeError('arguments require Date type');
+  } else {
+    return (date1 < date2) ? -1 : (date1 > date2) ? 1 : 0;
+  }
+}
+
+export function minus(date1, date2) {
+  if (isUndefined(date1) || isUndefined(date2)) {
+    throw new Error('arguments must be defined');
+  }
+  if (!(isDate(date1) && isDate(date2))) {
+    throw new TypeError('arguments must be Date type');
+  }
+  return date1 - date2;
 }
 
 export function compareArrays(array1, array2, dontConvert) {
@@ -218,27 +232,12 @@ export function zeroFill(number, targetLength, forceSign) {
     Math.pow(10, Math.max(0, zeroToFill)).toString().substr(1) + absNumber;
 }
 
-export function compare(date1, date2) {
-  if (isUndefined(date1) || isUndefined(date2)) {
-    throw new Error('arguments can not be undefined');
-  } else if (!(isDate(date1) && isDate(date2))) {
-    throw new TypeError('arguments require Date type');
-  } else {
-    return (date1 < date2) ? -1 : (date1 > date2) ? 1 : 0;
-  }
-}
-export function minus(date1, date2) {
-  if (isUndefined(date1) || isUndefined(date2)) {
-    throw new Error('arguments must be defined');
-  }
-  if (!(isDate(date1) && isDate(date2))) {
-    throw new TypeError('arguments must be Date type');
-  }
-  return date1 - date2;
-}
-
 export function handleMonthStrictParse(monthName, format, strict) {
-  var i, ii, mom, llc = monthName.toLocaleLowerCase();
+  let i;
+  let ii;
+  let mom;
+  const llc = monthName.toLocaleLowerCase();
+
   if (!this._monthsParse) {
     // this is not used
     this._monthsParse = [];
@@ -277,8 +276,13 @@ export function handleMonthStrictParse(monthName, format, strict) {
     }
   }
 }
+
 export function handleWeekStrictParse(weekdayName, format, strict) {
-  var i, ii, mom, llc = weekdayName.toLocaleLowerCase();
+  let i;
+  let ii;
+  let mom;
+  const llc = weekdayName.toLocaleLowerCase();
+
   if (!this._weekdaysParse) {
     this._weekdaysParse = [];
     this._shortWeekdaysParse = [];
@@ -346,10 +350,12 @@ export function computeMonthsParse() {
     return b.length - a.length;
   }
 
-  var shortPieces = [],
-    longPieces = [],
-    mixedPieces = [],
-    i, mom;
+  const shortPieces = [];
+  const longPieces = [];
+  const mixedPieces = [];
+  let i;
+  let mom;
+
   for (i = 0; i < 12; i++) {
     // make the regex if we don't have it already
     mom = createUTC([2000, i]);
@@ -382,11 +388,16 @@ export function computeWeekdaysParse() {
     return b.length - a.length;
   }
 
-  var minPieces = [],
-    shortPieces = [],
-    longPieces = [],
-    mixedPieces = [],
-    i, mom, minp, shortp, longp;
+  const minPieces = [];
+  const shortPieces = [];
+  const longPieces = [];
+  const mixedPieces = [];
+  let i;
+  let mom;
+  let minp;
+  let shortp;
+  let longp;
+
   for (i = 0; i < 7; i++) {
     // make the regex if we don't have it already
     mom = createUTC([2000, 1]).day(i);
@@ -422,8 +433,9 @@ export function computeWeekdaysParse() {
 }
 
 function mergeConfigs(parentConfig, childConfig) {
-  var res = extend({}, parentConfig),
-    prop;
+  const res = extend({}, parentConfig);
+  let prop;
+
   for (prop in childConfig) {
     if (has(childConfig, prop)) {
       if (isObject(parentConfig[prop]) && isObject(childConfig[prop])) {
@@ -437,6 +449,7 @@ function mergeConfigs(parentConfig, childConfig) {
       }
     }
   }
+
   for (prop in parentConfig) {
     if (has(parentConfig, prop) &&
       !has(childConfig, prop) &&
@@ -445,7 +458,6 @@ function mergeConfigs(parentConfig, childConfig) {
       res[prop] = extend({}, res[prop]);
     }
   }
-  // console.log('res: ', res);
   return res;
 }
 
@@ -462,8 +474,11 @@ function normalizeLocale(key) {
 // try ['en-au', 'en-gb'] as 'en-au', 'en-gb', 'en', as in move through the list trying each
 // substring from most specific to least, but move to the next array item if it's a more specific variant than the current root
 function chooseLocale(names) {
-  var i = 0,
-    j, next, locale, split;
+  let i = 0;
+  let j;
+  let next;
+  let locale;
+  let split;
 
   while (i < names.length) {
     split = normalizeLocale(names[i]).split('-');
@@ -483,6 +498,7 @@ function chooseLocale(names) {
     }
     i++;
   }
+
   return null;
 }
 
@@ -537,13 +553,13 @@ export function defineLocale(name, config) {
     if (locales[name] != null) {
       // console.log('locales name not null: ', locales[name]);
       deprecateSimple('defineLocaleOverride',
-        'use moment.updateLocale(localeName, config) to change ' +
-        'an existing locale. moment.defineLocale(localeName, ' +
-        'config) should only be used for creating a new locale ' +
-        'See http://momentjs.com/guides/#/warnings/define-locale/ for more info.');
+        'use Now.updateLocale(localeName, config) to change ' +
+        'an existing locale. Now.defineLocale(localeName, ' +
+        'config) should only be used for creating a new locale');
+
       parentConfig = locales[name]._config;
     } else if (config.parentLocale != null) {
-      console.log('locales name is null: ', config);
+      // console.log('locales name is null: ', config);
       if (locales[config.parentLocale] != null) {
         parentConfig = locales[config.parentLocale]._config;
       } else {
@@ -640,13 +656,9 @@ export function listLocales() {
   return keys(locales);
 }
 
-const daysInYear = (year) => {
-  return isLeapYear(year) ? 366 : 365;
-}
+const daysInYear = (year) => isLeapYear(year) ? 366 : 365;
 
-const createUTCDate = () => {
-  return new Date(Date.UTC.apply(null, arguments));
-}
+const createUTCDate = () => new Date(Date.UTC.apply(null, arguments));
 
 const firstWeekOffset = (year, dow, doy) => {
   // first-week day -- which january is always in the first week (4 for iso, 1 for other)
@@ -711,10 +723,6 @@ export const weeksInYear = (year, dow, doy) => {
   return (daysInYear(year) - weekOffset + weekOffsetNext) / 7;
 }
 
-function getISOWeeksInYear() {
-  return weeksInYear(this.year(), 1, 4);
-}
-
 export function getSetWeekYearHelper(input, week, weekday, dow, doy) {
   let weeksTarget;
   if (input == null) {
@@ -736,5 +744,12 @@ function setWeekAll(weekYear, week, weekday, dow, doy) {
   this.month(date.getUTCMonth());
   this.day(date.getUTCDate());
   return this;
+}
+
+export const parseIsoWeekday = (input, locale) => {
+  if (isString(input)) {
+    return locale.weekdaysParse(input) % 7 || 7;
+  }
+  return isNaN(input) ? null : input;
 }
 
