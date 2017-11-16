@@ -3,7 +3,7 @@
 //! author : Chyngyz Arystan uulu : https://github.com/chyngyz
 /* jshint -W100 */
 
-import Now from '../index';
+import Now from '../index.js';
 
 const suffixes = {
   0: '-чү',

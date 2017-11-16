@@ -3,7 +3,7 @@
 //! author : Eneko Illarramendi : https://github.com/eillarra
 /* jshint -W100 */
 
-import Now from '../index';
+import Now from '../index.js';
 
 export default Now.defineLocale('eu', {
   months: 'urtarrila_otsaila_martxoa_apirila_maiatza_ekaina_uztaila_abuztua_iraila_urria_azaroa_abendua'.split('_'),

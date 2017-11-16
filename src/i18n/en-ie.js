@@ -3,7 +3,7 @@
 //! author : Chris Cartlidge : https://github.com/chriscartlidge
 /* jshint -W100 */
 
-import Now from '../index';
+import Now from '../index.js';
 
 export default Now.defineLocale('en-ie', {
   months: 'January_February_March_April_May_June_July_August_September_October_November_December'.split('_'),

@@ -3,7 +3,7 @@
 //! author : Tarmo Aidantausta : https://github.com/bleadof
 /* jshint -W100 */
 
-import Now from '../index';
+import Now from '../index.js';
 
 const numbersPast = 'nolla yksi kaksi kolme neljä viisi kuusi seitsemän kahdeksan yhdeksän'.split(' ');
 const numbersFuture = [

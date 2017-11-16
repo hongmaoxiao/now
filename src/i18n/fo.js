@@ -3,7 +3,7 @@
 //! author : Ragnar Johannesen : https://github.com/ragnar123
 /* jshint -W100 */
 
-import Now from '../index';
+import Now from '../index.js';
 
 export default Now.defineLocale('fo', {
   months: 'januar_februar_mars_apríl_mai_juni_juli_august_september_oktober_november_desember'.split('_'),

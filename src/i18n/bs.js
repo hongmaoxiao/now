@@ -4,7 +4,7 @@
 //! based on (hr) translation by Bojan Marković
 /* jshint -W100 */
 
-import Now from '../index';
+import Now from '../index.js';
 
 function translate(number, withoutSuffix, key) {
   let result = `${number} `;

@@ -3,7 +3,7 @@
 //! author : Adam Brunner : https://github.com/adambrunner
 /* jshint -W100 */
 
-import Now from '../index';
+import Now from '../index.js';
 
 const weekEndings = 'vasárnap hétfőn kedden szerdán csütörtökön pénteken szombaton'.split(' ');
 

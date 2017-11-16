@@ -4,7 +4,7 @@
 //!           Sigurd Gartmann : https://github.com/sigurdga
 /* jshint -W100 */
 
-import Now from '../index';
+import Now from '../index.js';
 
 export default Now.defineLocale('nb', {
   months: 'januar_februar_mars_april_mai_juni_juli_august_september_oktober_november_desember'.split('_'),

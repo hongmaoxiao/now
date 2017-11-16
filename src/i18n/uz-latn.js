@@ -3,7 +3,7 @@
 //! author : Rasulbek Mirzayev : github.com/Rasulbeeek
 /* jshint -W100 */
 
-import Now from '../index';
+import Now from '../index.js';
 
 export default Now.defineLocale('uz-latn', {
   months: 'Yanvar_Fevral_Mart_Aprel_May_Iyun_Iyul_Avgust_Sentabr_Oktabr_Noyabr_Dekabr'.split('_'),

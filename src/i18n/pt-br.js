@@ -3,7 +3,7 @@
 //! author : Caio Ribeiro Pereira : https://github.com/caio-ribeiro-pereira
 /* jshint -W100 */
 
-import Now from '../index';
+import Now from '../index.js';
 
 export default Now.defineLocale('pt-br', {
   months: 'janeiro_fevereiro_março_abril_maio_junho_julho_agosto_setembro_outubro_novembro_dezembro'.split('_'),

@@ -5,7 +5,7 @@
 //! author : Коренберг Марк : https://github.com/socketpair
 /* jshint -W100 */
 
-import Now from '../index';
+import Now from '../index.js';
 
 function plural(word, num) {
   const forms = word.split('_');

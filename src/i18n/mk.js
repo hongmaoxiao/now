@@ -3,7 +3,7 @@
 //! author : Borislav Mickov : https://github.com/B0k0
 /* jshint -W100 */
 
-import Now from '../index';
+import Now from '../index.js';
 
 export default Now.defineLocale('mk', {
   months: 'јануари_февруари_март_април_мај_јуни_јули_август_септември_октомври_ноември_декември'.split('_'),

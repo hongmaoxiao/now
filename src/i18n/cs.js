@@ -3,7 +3,7 @@
 //! author : petrbela : https://github.com/petrbela
 /* jshint -W100 */
 
-import Now from '../index';
+import Now from '../index.js';
 
 const months = 'leden_únor_březen_duben_květen_červen_červenec_srpen_září_říjen_listopad_prosinec'.split('_');
 const monthsShort = 'led_úno_bře_dub_kvě_čvn_čvc_srp_zář_říj_lis_pro'.split('_');

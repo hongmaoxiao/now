@@ -4,7 +4,7 @@
 //! author: Mattia Larentis: https://github.com/nostalgiaz
 /* jshint -W100 */
 
-import Now from '../index';
+import Now from '../index.js';
 
 export default Now.defineLocale('it', {
   months: 'gennaio_febbraio_marzo_aprile_maggio_giugno_luglio_agosto_settembre_ottobre_novembre_dicembre'.split('_'),

@@ -3,7 +3,7 @@
 //! author : Ulrik Nielsen : https://github.com/mrbase
 /* jshint -W100 */
 
-import Now from '../index';
+import Now from '../index.js';
 
 export default Now.defineLocale('da', {
   months: 'januar_februar_marts_april_maj_juni_juli_august_september_oktober_november_december'.split('_'),

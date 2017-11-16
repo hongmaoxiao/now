@@ -5,7 +5,7 @@
 // based on: https://www.bk.admin.ch/dokumentation/sprachen/04915/05016/index.html?lang=de#
 /* jshint -W100 */
 
-import Now from '../index';
+import Now from '../index.js';
 
 function processRelativeTime(number, withoutSuffix, key, isFuture) {
   const format = {

@@ -3,7 +3,7 @@
 //! authors : Nurlan Rakhimzhanov : https://github.com/nurlan
 /* jshint -W100 */
 
-import Now from '../index';
+import Now from '../index.js';
 
 const suffixes = {
   0: '-ші',

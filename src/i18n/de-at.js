@@ -6,7 +6,7 @@
 //! author : Mikolaj Dadela : https://github.com/mik01aj
 /* jshint -W100 */
 
-import Now from '../index';
+import Now from '../index.js';
 
 function processRelativeTime(number, withoutSuffix, key, isFuture) {
   const format = {

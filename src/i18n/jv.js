@@ -4,7 +4,7 @@
 //! reference: http://jv.wikipedia.org/wiki/Basa_Jawa
 /* jshint -W100 */
 
-import Now from '../index';
+import Now from '../index.js';
 
 export default Now.defineLocale('jv', {
   months: 'Januari_Februari_Maret_April_Mei_Juni_Juli_Agustus_September_Oktober_Nopember_Desember'.split('_'),

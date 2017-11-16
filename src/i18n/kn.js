@@ -3,7 +3,7 @@
 //! author : Rajeev Naik : https://github.com/rajeevnaikte
 /* jshint -W100 */
 
-import Now from '../index';
+import Now from '../index.js';
 
 const symbolMap = {
   1: '೧',

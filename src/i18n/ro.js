@@ -4,7 +4,7 @@
 //! author : Valentin Agachi : https://github.com/avaly
 /* jshint -W100 */
 
-import Now from '../index';
+import Now from '../index.js';
 
 function relativeTimeWithPlural(number, withoutSuffix, key) {
   const format = {

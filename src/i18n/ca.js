@@ -3,7 +3,7 @@
 //! author : Juan G. Hurtado : https://github.com/juanghurtado
 /* jshint -W100 */
 
-import Now from '../index';
+import Now from '../index.js';
 
 export default Now.defineLocale('ca', {
   months: {

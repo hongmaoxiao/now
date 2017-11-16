@@ -4,7 +4,7 @@
 //! author : Jeeeyul Lee <jeeeyul@gmail.com>
 /* jshint -W100 */
 
-import Now from '../index';
+import Now from '../index.js';
 
 export default Now.defineLocale('ko', {
   months: '1월_2월_3월_4월_5월_6월_7월_8월_9월_10월_11월_12월'.split('_'),

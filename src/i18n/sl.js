@@ -3,7 +3,7 @@
 //! author : Robert Sedovšek : https://github.com/sedovsek
 /* jshint -W100 */
 
-import Now from '../index';
+import Now from '../index.js';
 
 function processRelativeTime(number, withoutSuffix, key, isFuture) {
   let result = `${number} `;

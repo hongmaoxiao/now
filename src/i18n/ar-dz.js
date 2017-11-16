@@ -3,7 +3,7 @@
 //! author : Noureddine LOUAHEDJ : https://github.com/noureddineme
 /* jshint -W100 */
 
-import Now from '../index';
+import Now from '../index.js';
 
 export default Now.defineLocale('ar-dz', {
   months: 'جانفي_فيفري_مارس_أفريل_ماي_جوان_جويلية_أوت_سبتمبر_أكتوبر_نوفمبر_ديسمبر'.split('_'),

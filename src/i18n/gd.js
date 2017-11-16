@@ -3,7 +3,7 @@
 //! author : Jon Ashdown : https://github.com/jonashdown
 /* jshint -W100 */
 
-import Now from '../index';
+import Now from '../index.js';
 
 const months = [
   'Am Faoilleach', 'An Gearran', 'Am Màrt', 'An Giblean', 'An Cèitean', 'An t-Ògmhios', 'An t-Iuchar', 'An Lùnastal', 'An t-Sultain', 'An Dàmhair', 'An t-Samhain', 'An Dùbhlachd',

@@ -3,7 +3,7 @@
 //! author : Milan Janačković<milanjanackovic@gmail.com> : https://github.com/milan-j
 /* jshint -W100 */
 
-import Now from '../index';
+import Now from '../index.js';
 
 const translator = {
   words: { // Different grammatical cases

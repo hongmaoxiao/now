@@ -3,7 +3,7 @@
 //! author : Hinrik Örn Sigurðsson : https://github.com/hinrik
 /* jshint -W100 */
 
-import Now from '../index';
+import Now from '../index.js';
 
 function plural(n) {
   if (n % 100 === 11) {

@@ -4,7 +4,7 @@
 //! author : Weldan Jamili : https://github.com/weldan
 /* jshint -W100 */
 
-import Now from '../index';
+import Now from '../index.js';
 
 export default Now.defineLocale('ms-my', {
   months: 'Januari_Februari_Mac_April_Mei_Jun_Julai_Ogos_September_Oktober_November_Disember'.split('_'),

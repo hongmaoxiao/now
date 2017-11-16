@@ -4,7 +4,7 @@
 //! author : Zack : https://github.com/ZackVision
 /* jshint -W100 */
 
-import Now from '../index';
+import Now from '../index.js';
 
 const months = [
   'جنوری',

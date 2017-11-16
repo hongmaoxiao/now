@@ -3,7 +3,7 @@
 //! author : Miodrag Nikač <miodrag@restartit.me> : https://github.com/miodragnikac
 /* jshint -W100 */
 
-import Now from '../index';
+import Now from '../index.js';
 
 const translator = {
   words: { // Different grammatical cases

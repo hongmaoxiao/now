@@ -4,7 +4,7 @@
 //! author : David Raison : https://github.com/kwisatz
 /* jshint -W100 */
 
-import Now from '../index';
+import Now from '../index.js';
 
 function processRelativeTime(number, withoutSuffix, key, isFuture) {
   const format = {

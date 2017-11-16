@@ -3,7 +3,7 @@
 //! author : Bojan Marković : https://github.com/bmarkovic
 /* jshint -W100 */
 
-import Now from '../index';
+import Now from '../index.js';
 
 function translate(number, withoutSuffix, key) {
   let result = `${number} `;

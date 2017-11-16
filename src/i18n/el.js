@@ -3,7 +3,7 @@
 //! author : Aggelos Karalias : https://github.com/mehiel
 /* jshint -W100 */
 
-import Now from '../index';
+import Now from '../index.js';
 import { isFunction } from '../utils';
 
 export default Now.defineLocale('el', {

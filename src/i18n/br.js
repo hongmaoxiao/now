@@ -3,7 +3,7 @@
 //! author : Jean-Baptiste Le Duigou : https://github.com/jbleduigou
 /* jshint -W100 */
 
-import Now from '../index';
+import Now from '../index.js';
 
 function relativeTimeWithMutation(number, withoutSuffix, key) {
   const format = {

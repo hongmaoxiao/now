@@ -3,7 +3,7 @@
 //! author : Jens Alm : https://github.com/ulmus
 /* jshint -W100 */
 
-import Now from '../index';
+import Now from '../index.js';
 
 export default Now.defineLocale('sv', {
   months: 'januari_februari_mars_april_maj_juni_juli_augusti_september_oktober_november_december'.split('_'),

@@ -3,7 +3,7 @@
 //! author : topchiyev : https://github.com/topchiyev
 /* jshint -W100 */
 
-import Now from '../index';
+import Now from '../index.js';
 
 const suffixes = {
   1: '-inci',

@@ -3,7 +3,7 @@
 //! author : Narain Sagar : https://github.com/narainsagar
 /* jshint -W100 */
 
-import Now from '../index';
+import Now from '../index.js';
 
 const months = [
   'جنوري',

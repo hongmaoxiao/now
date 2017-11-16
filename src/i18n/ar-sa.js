@@ -3,7 +3,7 @@
 //! author : Suhail Alkowaileet : https://github.com/xsoh
 /* jshint -W100 */
 
-import Now from '../index';
+import Now from '../index.js';
 
 const symbolMap = {
   1: '١',

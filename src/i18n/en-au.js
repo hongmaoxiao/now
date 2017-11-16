@@ -3,7 +3,7 @@
 //! author : Jared Morse : https://github.com/jarcoal
 /* jshint -W100 */
 
-import Now from '../index';
+import Now from '../index.js';
 
 export default Now.defineLocale('en-au', {
   months: 'January_February_March_April_May_June_July_August_September_October_November_December'.split('_'),

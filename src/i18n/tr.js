@@ -4,7 +4,7 @@
 //!           Burak Yiğit Kaya: https://github.com/BYK
 /* jshint -W100 */
 
-import Now from '../index';
+import Now from '../index.js';
 
 const suffixes = {
   1: '\'inci',

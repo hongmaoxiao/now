@@ -4,7 +4,7 @@
 //! author : Jānis Elmeris : https://github.com/JanisE
 /* jshint -W100 */
 
-import Now from '../index';
+import Now from '../index.js';
 
 const units = {
   m: 'minūtes_minūtēm_minūte_minūtes'.split('_'),
