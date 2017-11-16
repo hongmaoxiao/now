@@ -1,22 +1,23 @@
 /* eslint no-underscore-dangle: ["error", { "allowAfterThis": true }] */
 /* eslint prefer-destructuring: ["error", { "object": false }] */
 
-import Locale from '../Locale';
+import Locale from '../Locale.js';
 
 import {
   baseConfig,
-} from '../config';
+} from '../config/index.js';
 
 const ArrayProto = Array.prototype;
 const DateProto = Date.prototype;
 const toString = Object.prototype.toString;
 const nativeIsArray = Array.isArray;
 const nativeIndexOf = ArrayProto.indexOf;
-const nativeDatetoISOString = Date.prototype.toISOString;
 const hasOwnProperty = Object.prototype.hasOwnProperty;
 
 const matchWord = /[0-9]*['a-z\u00A0-\u05FF\u0700-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+|[\u0600-\u06FF\/]+(\s*?[\u0600-\u06FF]+){1,2}/i;
 const regexEscape = (s) => s.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+
+export const nativeDatetoISOString = Date.prototype.toISOString;
 
 export const slice = ArrayProto.slice;
 export const invalidDateError = 'Invalid Date';

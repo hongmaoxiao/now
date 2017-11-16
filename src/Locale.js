@@ -17,7 +17,7 @@ import {
   defaultWeekdaysMinRegex,
   computeWeekdaysParse,
   weekOfYear,
-} from './utils';
+} from './utils/index.js';
 
 const MONTHS_IN_FORMAT = /D[oD]?(\[[^\[\]]*\]|\s)+MMMM?/;
 
@@ -340,4 +340,3 @@ class Locale {
 }
 
 export default Locale;
-

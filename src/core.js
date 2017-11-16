@@ -26,9 +26,9 @@ import {
   weeksInYear,
   parseWeekday,
   parseIsoWeekday,
-} from './utils';
+} from './utils/index.js';
 
-import format from './Format';
+import format from './Format.js';
 
 const metaSecond = 1000;
 const metaMinute = 60 * metaSecond;
