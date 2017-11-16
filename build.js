@@ -9,7 +9,7 @@ const { minify } = require('uglify-es');
 const pkg = require('./package.json');
 
 const entry = './src/index.js';
-const moduleName = 'nowjs';
+const moduleName = 'Now';
 const destDefault = './dist/nowjs.js';
 const destMinify = './dist/nowjs.min.js';
 const pluginsDefault = [babel(babelrc.default())];
