@@ -68,7 +68,7 @@ var Locale = function () {
     }
   }, {
     key: 'ordinal',
-    value: function ordinal() {
+    value: function ordinal(number) {
       this._ordinal.replace('%d', number);
     }
   }, {
@@ -11239,6 +11239,17 @@ function offsetFromString(matcher, string) {
   return minutes === 0 ? 0 : parts[0] === '+' ? minutes : -minutes;
 }
 
+function initLocale() {
+  Now$1.defineLocale('en', {
+    dayOfMonthOrdinalParse: /\d{1,2}(th|st|nd|rd)/,
+    ordinal: function ordinal(number) {
+      var b = number % 10;
+      var output = toInt(number % 100 / 10) === 1 ? 'th' : b === 1 ? 'st' : b === 2 ? 'nd' : b === 3 ? 'rd' : 'th';
+      return number + output;
+    }
+  });
+}
+
 var Now$1 = function () {
   function Now() {
     classCallCheck(this, Now);
@@ -11256,7 +11267,6 @@ var Now$1 = function () {
     this._format = format$1;
     this._isUTC = false;
     this.now.parse = this.parse;
-    this.initLocale();
     this.initDate();
     this.initIsDate();
   }
@@ -11265,19 +11275,6 @@ var Now$1 = function () {
     key: 'localeData',
     value: function localeData(key) {
       return getLocale(key);
-    }
-  }, {
-    key: 'initLocale',
-    value: function initLocale() {
-      // locale('en');
-      getSetGlobalLocale('en', {
-        dayOfMonthOrdinalParse: /\d{1,2}(th|st|nd|rd)/,
-        ordinal: function ordinal(number) {
-          var b = number % 10;
-          var output = toInt(number % 100 / 10) === 1 ? 'th' : b === 1 ? 'st' : b === 2 ? 'nd' : b === 3 ? 'rd' : 'th';
-          return number + output;
-        }
-      });
     }
   }, {
     key: 'locale',
@@ -12006,6 +12003,8 @@ var Now$1 = function () {
   }]);
   return Now;
 }();
+
+initLocale();
 
 return Now$1;
 

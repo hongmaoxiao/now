@@ -52,7 +52,7 @@ class Locale {
     this._invaliDate;
   }
 
-  ordinal() {
+  ordinal(number) {
     this._ordinal.replace('%d', number);
   }
 

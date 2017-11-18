@@ -67,6 +67,20 @@ function offsetFromString(matcher, string) {
     parts[0] === '+' ? minutes : -minutes;
 }
 
+function initLocale() {
+  Now.defineLocale('en', {
+    dayOfMonthOrdinalParse: /\d{1,2}(th|st|nd|rd)/,
+    ordinal: function(number) {
+      const b = number % 10;
+      const output = (toInt(number % 100 / 10) === 1) ? 'th' :
+        (b === 1) ? 'st' :
+        (b === 2) ? 'nd' :
+        (b === 3) ? 'rd' : 'th';
+      return number + output;
+    }
+  });
+}
+
 class Now {
   constructor(...args) {
     this.mondayFirst = false;
@@ -77,7 +91,6 @@ class Now {
     this._format = format;
     this._isUTC = false;
     this.now.parse = this.parse;
-    this.initLocale();
     this.initDate();
     this.initIsDate();
   }
@@ -96,21 +109,6 @@ class Now {
 
   localeData(key) {
     return localeData(key);
-  }
-
-  initLocale() {
-    // locale('en');
-    locale('en', {
-      dayOfMonthOrdinalParse: /\d{1,2}(th|st|nd|rd)/,
-      ordinal: function(number) {
-        const b = number % 10;
-        const output = (toInt(number % 100 / 10) === 1) ? 'th' :
-          (b === 1) ? 'st' :
-          (b === 2) ? 'nd' :
-          (b === 3) ? 'rd' : 'th';
-        return number + output;
-      }
-    });
   }
 
   locale(obj) {
@@ -725,4 +723,7 @@ class Now {
   }
 }
 
+initLocale();
+
 export default Now;
+
