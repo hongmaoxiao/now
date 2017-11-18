@@ -195,8 +195,6 @@ test('toJSON skips postformat', () => {
 
 test('toString is just human readable format', () => {
   const now = new Now(2017, 9, 29, 17, 35, 20, 100);
-  console.log('nowString: ', now.toString());
-  console.log('foffff: ', now.format('ddd MMM DD YYYY HH:mm:ss [GMT]ZZ'));
   expect(now.toString()).toEqual(now.format('ddd MMM DD YYYY HH:mm:ss [GMT]ZZ'));
 });
 
@@ -278,7 +276,6 @@ test('toISOString', () => {
 
 test('toISOString() when 0 year', () => {
   let now = new Now(0, 9, 9, 20, 30, 40, 678);
-  console.log("when", now.toISOString());
   expect(now.toISOString()).toBe('1900-10-09T20:30:40.678Z');
 });
 
@@ -554,8 +551,6 @@ test('iso week year formats', () => {
 //     let now = new Now(args);
 //     fn();
 //     formatted5 = now.format('ggggg');
-//     console.log('isoWeekYear: ', isoWeekYear);
-//     console.log('formatted5: ', formatted5);
 //     expect(`0${isoWeekYear}`).toBe(formatted5);
 //
 //     now = new Now(args);

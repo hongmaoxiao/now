@@ -181,40 +181,28 @@ class Format {
   }
 
   addFormatToken(token, padded, ordinal, callback) {
-    // console.log('sasadad: ', token, padded, ordinal, callback);
     let func = callback;
     if (typeof callback === 'string') {
       func = function() {
-        console.log('call: ', ordinal, callback);
-        console.log('call func: ', this[callback]);
         return this[callback]();
       };
     }
     if (token) {
-      // console.log('token: ', token);
       this.formatTokenFunctions[token] = func;
     }
     if (padded) {
-      // console.log('padded: ', padded);
       this.formatTokenFunctions[padded[0]] = function() {
-        console.log('padded: ', padded[1], padded[2], func);
         return zeroFill(func.apply(this, arguments), padded[1], padded[2]);
       };
     }
     if (ordinal) {
       this.formatTokenFunctions[ordinal] = function() {
-        console.log('token: ', ordinal);
-        console.log('args: ', arguments);
-        console.log('func call: ', func.apply(this, arguments));
-        console.log('func call: ', func.apply(this, arguments));
-        console.log('orinal call: ', this.localeData().ordinal);
         return this.localeData().ordinal(func.apply(this, arguments), token);
       };
     }
   }
 
   makeFormatFunction(format) {
-    // console.log('format: ', format);
     let array = format.match(this.formattingTokens);
     let i;
     let length;
@@ -222,19 +210,15 @@ class Format {
     for (i = 0, length = array.length; i < length; i++) {
       if (this.formatTokenFunctions[array[i]]) {
         array[i] = this.formatTokenFunctions[array[i]];
-        console.log("formmmmm array: ", i, array[i]);
       } else {
         array[i] = removeFormattingTokens(array[i]);
-        console.log("formmmmm array: ", i, array[i]);
       }
     }
 
-    console.log("format all: ", array);
     return function(context) {
       let output = '';
       let i;
       for (i = 0; i < length; i++) {
-        console.log('array[i]: ', i, array[i], format);
         output += isFunction(array[i]) ? array[i].call(context, format) : array[i];
       }
       return output;
@@ -246,12 +230,8 @@ class Format {
     // return m.localeData().invalidDate();
     // }
 
-    // console.log('m: ', context);
-    // console.log("localeData: ", context.localeData());
     format = this.expandFormat(format, context.localeData());
-    // console.log('format: ', format);
     this.formatFunctions[format] = this.formatFunctions[format] || this.makeFormatFunction(format);
-    // console.log('this.formatFunctions: ', this.formatFunctions[format]);
 
     return this.formatFunctions[format](context);
   }
@@ -260,18 +240,15 @@ class Format {
     let i = 5;
 
     function replaceLongDateFormatTokens(input) {
-      // console.log('iiiii: ', input);
       return locale.longDateFormat(input) || input;
     }
 
     this.localFormattingTokens.lastIndex = 0;
     while (i >= 0 && this.localFormattingTokens.test(format)) {
-      // console.log("formmmmm in: ", format)
       format = format.replace(this.localFormattingTokens, replaceLongDateFormatTokens);
       this.localFormattingTokens.lastIndex = 0;
       i -= 1;
     }
-    // console.log("formmmmm: ", format)
 
     return format;
   }

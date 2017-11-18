@@ -102,9 +102,6 @@ class Locale {
       return isArray(this._months) ? this._months :
         this._months['standalone'];
     }
-    console.log('isaaaaa: ', isArray(this._months));
-    console.log('months: ', this._months);
-    console.log('context: ', context.month());
     return isArray(this._months) ? this._months[context.month()] :
       this._months[(this._months.isFormat || MONTHS_IN_FORMAT).test(format) ? 'format' : 'standalone'][context.month()];
   }

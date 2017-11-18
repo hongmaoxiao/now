@@ -196,8 +196,6 @@ class Now {
 
   week(val) {
     const week = this.localeData().week(this);
-    // console.log('localeData: ', this.localeData());
-    // console.log('get week: ', week);
     return (+val === 0 || val) ? this.addDays((val - week) * 7) : week;
   }
 
@@ -230,11 +228,9 @@ class Now {
     // as a getter, returns 7 instead of 0 (1-7 range instead of 0-6)
     // as a setter, sunday should belong to the previous week.
     if (+val === 0 || val) {
-      console.log('set week: ', val);
       const isoWeekDay = parseIsoWeekday(val, this.localeData());
       return this.day(this.day() === 0 ? isoWeekDay - 7 : isoWeekDay);
     } else {
-      console.log('in week: ', this.weekDay());
       return this.weekDay() || 7;
     }
   }
@@ -265,7 +261,6 @@ class Now {
   }
 
   weekYear(val) {
-    console.log('weekYear for week: ', this.week(), this.localeWeekDay());
     return getSetWeekYearHelper.call(this,
       val,
       this.week(),

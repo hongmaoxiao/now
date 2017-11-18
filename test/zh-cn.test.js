@@ -30,7 +30,6 @@ test('expect to return format1', () => {
   now.locale('zh-cn');
   for (let i = 0, len = arr.length; i < len; i++) {
     const output = now.format(arr[i][0]);
-    console.log('output: ', output);
     expect(output).toBe(arr[i][1]);
   }
 });
