@@ -3,9 +3,7 @@
 //! author : Atolagbe Abisoye : https://github.com/andela-batolagbe
 /* jshint -W100 */
 
-import Now from '../index.js';
-
-export default Now.defineLocale('yo', {
+export default {
   months: 'Sẹ́rẹ́_Èrèlè_Ẹrẹ̀nà_Ìgbé_Èbibi_Òkùdu_Agẹmo_Ògún_Owewe_Ọ̀wàrà_Bélú_Ọ̀pẹ̀̀'.split('_'),
   monthsShort: 'Sẹ́r_Èrl_Ẹrn_Ìgb_Èbi_Òkù_Agẹ_Ògú_Owe_Ọ̀wà_Bél_Ọ̀pẹ̀̀'.split('_'),
   weekdays: 'Àìkú_Ajé_Ìsẹ́gun_Ọjọ́rú_Ọjọ́bọ_Ẹtì_Àbámẹ́ta'.split('_'),
@@ -48,4 +46,4 @@ export default Now.defineLocale('yo', {
     dow: 1, // Monday is the first day of the week.
     doy: 4, // The week that contains Jan 4th is the first week of the year.
   },
-});
+};

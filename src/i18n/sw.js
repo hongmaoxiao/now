@@ -3,9 +3,7 @@
 //! author : Fahad Kassim : https://github.com/fadsel
 /* jshint -W100 */
 
-import Now from '../index.js';
-
-export default Now.defineLocale('sw', {
+export default {
   months: 'Januari_Februari_Machi_Aprili_Mei_Juni_Julai_Agosti_Septemba_Oktoba_Novemba_Desemba'.split('_'),
   monthsShort: 'Jan_Feb_Mac_Apr_Mei_Jun_Jul_Ago_Sep_Okt_Nov_Des'.split('_'),
   weekdays: 'Jumapili_Jumatatu_Jumanne_Jumatano_Alhamisi_Ijumaa_Jumamosi'.split('_'),
@@ -47,4 +45,4 @@ export default Now.defineLocale('sw', {
     dow: 1, // Monday is the first day of the week.
     doy: 7, // The week that contains Jan 1st is the first week of the year.
   },
-});
+};

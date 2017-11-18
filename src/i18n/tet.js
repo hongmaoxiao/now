@@ -4,9 +4,7 @@
 //! author : Onorio De J. Afonso : https://github.com/marobo
 /* jshint -W100 */
 
-import Now from '../index.js';
-
-export default Now.defineLocale('tet', {
+export default {
   months: 'Janeiru_Fevereiru_Marsu_Abril_Maiu_Juniu_Juliu_Augustu_Setembru_Outubru_Novembru_Dezembru'.split('_'),
   monthsShort: 'Jan_Fev_Mar_Abr_Mai_Jun_Jul_Aug_Set_Out_Nov_Dez'.split('_'),
   weekdays: 'Domingu_Segunda_Tersa_Kuarta_Kinta_Sexta_Sabadu'.split('_'),
@@ -56,4 +54,4 @@ export default Now.defineLocale('tet', {
     dow: 1, // Monday is the first day of the week.
     doy: 4, // The week that contains Jan 4th is the first week of the year.
   },
-});
+};

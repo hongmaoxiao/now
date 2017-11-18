@@ -3,8 +3,6 @@
 //! author : Jon Ashdown : https://github.com/jonashdown
 /* jshint -W100 */
 
-import Now from '../index.js';
-
 const months = [
   'Am Faoilleach', 'An Gearran', 'Am Màrt', 'An Giblean', 'An Cèitean', 'An t-Ògmhios', 'An t-Iuchar', 'An Lùnastal', 'An t-Sultain', 'An Dàmhair', 'An t-Samhain', 'An Dùbhlachd',
 ];
@@ -17,7 +15,7 @@ const weekdaysShort = ['Did', 'Dil', 'Dim', 'Dic', 'Dia', 'Dih', 'Dis'];
 
 const weekdaysMin = ['Dò', 'Lu', 'Mà', 'Ci', 'Ar', 'Ha', 'Sa'];
 
-export default Now.defineLocale('gd', {
+export default {
   months,
   monthsShort,
   monthsParseExact: true,
@@ -64,4 +62,4 @@ export default Now.defineLocale('gd', {
     dow: 1, // Monday is the first day of the week.
     doy: 4, // The week that contains Jan 4th is the first week of the year.
   },
-});
+};

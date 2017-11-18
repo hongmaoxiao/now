@@ -3,10 +3,9 @@
 //! author : Aggelos Karalias : https://github.com/mehiel
 /* jshint -W100 */
 
-import Now from '../index.js';
-import { isFunction } from '../utils';
+import { isFunction } from '../utils/index.js';
 
-export default Now.defineLocale('el', {
+export default {
   monthsNominativeEl: 'Ιανουάριος_Φεβρουάριος_Μάρτιος_Απρίλιος_Μάιος_Ιούνιος_Ιούλιος_Αύγουστος_Σεπτέμβριος_Οκτώβριος_Νοέμβριος_Δεκέμβριος'.split('_'),
   monthsGenitiveEl: 'Ιανουαρίου_Φεβρουαρίου_Μαρτίου_Απριλίου_Μαΐου_Ιουνίου_Ιουλίου_Αυγούστου_Σεπτεμβρίου_Οκτωβρίου_Νοεμβρίου_Δεκεμβρίου'.split('_'),
   months(momentToFormat, format) {
@@ -83,4 +82,4 @@ export default Now.defineLocale('el', {
     dow: 1, // Monday is the first day of the week.
     doy: 4, // The week that contains Jan 4st is the first week of the year.
   },
-});
+};

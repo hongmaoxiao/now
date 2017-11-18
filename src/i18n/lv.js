@@ -4,8 +4,6 @@
 //! author : Jānis Elmeris : https://github.com/JanisE
 /* jshint -W100 */
 
-import Now from '../index.js';
-
 const units = {
   m: 'minūtes_minūtēm_minūte_minūtes'.split('_'),
   mm: 'minūtes_minūtēm_minūte_minūtes'.split('_'),
@@ -43,7 +41,7 @@ function relativeSeconds(number, withoutSuffix) {
   return withoutSuffix ? 'dažas sekundes' : 'dažām sekundēm';
 }
 
-export default Now.defineLocale('lv', {
+export default {
   months: 'janvāris_februāris_marts_aprīlis_maijs_jūnijs_jūlijs_augusts_septembris_oktobris_novembris_decembris'.split('_'),
   monthsShort: 'jan_feb_mar_apr_mai_jūn_jūl_aug_sep_okt_nov_dec'.split('_'),
   weekdays: 'svētdiena_pirmdiena_otrdiena_trešdiena_ceturtdiena_piektdiena_sestdiena'.split('_'),
@@ -87,4 +85,4 @@ export default Now.defineLocale('lv', {
     dow: 1, // Monday is the first day of the week.
     doy: 4, // The week that contains Jan 4th is the first week of the year.
   },
-});
+};

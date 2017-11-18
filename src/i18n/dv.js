@@ -3,8 +3,6 @@
 //! author : Jawish Hameed : https://github.com/jawish
 /* jshint -W100 */
 
-import Now from '../index.js';
-
 const months = [
   'ޖެނުއަރީ',
   'ފެބްރުއަރީ',
@@ -30,7 +28,7 @@ const weekdays = [
   'ހޮނިހިރު',
 ];
 
-export default Now.defineLocale('dv', {
+export default {
   months,
   monthsShort: months,
   weekdays,
@@ -88,4 +86,4 @@ export default Now.defineLocale('dv', {
     dow: 7, // Sunday is the first day of the week.
     doy: 12, // The week that contains Jan 1st is the first week of the year.
   },
-});
+};

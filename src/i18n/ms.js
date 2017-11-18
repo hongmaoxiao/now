@@ -3,9 +3,7 @@
 //! author : Weldan Jamili : https://github.com/weldan
 /* jshint -W100 */
 
-import Now from '../index.js';
-
-export default Now.defineLocale('ms', {
+export default {
   months: 'Januari_Februari_Mac_April_Mei_Jun_Julai_Ogos_September_Oktober_November_Disember'.split('_'),
   monthsShort: 'Jan_Feb_Mac_Apr_Mei_Jun_Jul_Ogs_Sep_Okt_Nov_Dis'.split('_'),
   weekdays: 'Ahad_Isnin_Selasa_Rabu_Khamis_Jumaat_Sabtu'.split('_'),
@@ -69,4 +67,4 @@ export default Now.defineLocale('ms', {
     dow: 1, // Monday is the first day of the week.
     doy: 7, // The week that contains Jan 1st is the first week of the year.
   },
-});
+};

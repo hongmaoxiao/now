@@ -3,9 +3,7 @@
 //! author : Anatoly Mironov : https://github.com/mirontoli
 /* jshint -W100 */
 
-import Now from '../index.js';
-
-export default Now.defineLocale('cv', {
+export default {
   months: 'кӑрлач_нарӑс_пуш_ака_май_ҫӗртме_утӑ_ҫурла_авӑн_юпа_чӳк_раштав'.split('_'),
   monthsShort: 'кӑр_нар_пуш_ака_май_ҫӗр_утӑ_ҫур_авн_юпа_чӳк_раш'.split('_'),
   weekdays: 'вырсарникун_тунтикун_ытларикун_юнкун_кӗҫнерникун_эрнекун_шӑматкун'.split('_'),
@@ -51,4 +49,4 @@ export default Now.defineLocale('cv', {
     dow: 1, // Monday is the first day of the week.
     doy: 7, // The week that contains Jan 1st is the first week of the year.
   },
-});
+};

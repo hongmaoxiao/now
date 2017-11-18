@@ -3,9 +3,7 @@
 //! author : Kridsada Thanabulpong : https://github.com/sirn
 /* jshint -W100 */
 
-import Now from '../index.js';
-
-export default Now.defineLocale('th', {
+export default {
   months: 'มกราคม_กุมภาพันธ์_มีนาคม_เมษายน_พฤษภาคม_มิถุนายน_กรกฎาคม_สิงหาคม_กันยายน_ตุลาคม_พฤศจิกายน_ธันวาคม'.split('_'),
   monthsShort: 'ม.ค._ก.พ._มี.ค._เม.ย._พ.ค._มิ.ย._ก.ค._ส.ค._ก.ย._ต.ค._พ.ย._ธ.ค.'.split('_'),
   monthsParseExact: true,
@@ -54,4 +52,4 @@ export default Now.defineLocale('th', {
     y: '1 ปี',
     yy: '%d ปี',
   },
-});
+};

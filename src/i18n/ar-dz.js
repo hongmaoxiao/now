@@ -3,9 +3,7 @@
 //! author : Noureddine LOUAHEDJ : https://github.com/noureddineme
 /* jshint -W100 */
 
-import Now from '../index.js';
-
-export default Now.defineLocale('ar-dz', {
+export default {
   months: 'جانفي_فيفري_مارس_أفريل_ماي_جوان_جويلية_أوت_سبتمبر_أكتوبر_نوفمبر_ديسمبر'.split('_'),
   monthsShort: 'جانفي_فيفري_مارس_أفريل_ماي_جوان_جويلية_أوت_سبتمبر_أكتوبر_نوفمبر_ديسمبر'.split('_'),
   weekdays: 'الأحد_الإثنين_الثلاثاء_الأربعاء_الخميس_الجمعة_السبت'.split('_'),
@@ -47,4 +45,4 @@ export default Now.defineLocale('ar-dz', {
     dow: 0, // Sunday is the first day of the week.
     doy: 4, // The week that contains Jan 1st is the first week of the year.
   },
-});
+};

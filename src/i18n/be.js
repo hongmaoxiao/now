@@ -5,7 +5,7 @@
 //! Author : Menelion Elensúle : https://github.com/Oire
 /* jshint -W100 */
 
-import Now from '../index.js';
+
 
 function plural(word, num) {
   const forms = word.split('_');
@@ -28,7 +28,7 @@ function relativeTimeWithPlural(number, withoutSuffix, key) {
   return `${number} ${plural(format[key], +number)}`;
 }
 
-export default Now.defineLocale('be', {
+export default {
   months: {
     format: 'студзеня_лютага_сакавіка_красавіка_траўня_чэрвеня_ліпеня_жніўня_верасня_кастрычніка_лістапада_снежня'.split('_'),
     standalone: 'студзень_люты_сакавік_красавік_травень_чэрвень_ліпень_жнівень_верасень_кастрычнік_лістапад_снежань'.split('_'),
@@ -119,4 +119,4 @@ export default Now.defineLocale('be', {
     dow: 1, // Monday is the first day of the week.
     doy: 7, // The week that contains Jan 1st is the first week of the year.
   },
-});
+};

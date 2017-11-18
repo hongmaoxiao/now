@@ -5,9 +5,7 @@
 //! comment : miestasmia corrected the translation by colindean
 /* jshint -W100 */
 
-import Now from '../index.js';
-
-export default Now.defineLocale('eo', {
+export default {
   months: 'januaro_februaro_marto_aprilo_majo_junio_julio_aŭgusto_septembro_oktobro_novembro_decembro'.split('_'),
   monthsShort: 'jan_feb_mar_apr_maj_jun_jul_aŭg_sep_okt_nov_dec'.split('_'),
   weekdays: 'dimanĉo_lundo_mardo_merkredo_ĵaŭdo_vendredo_sabato'.split('_'),
@@ -60,4 +58,4 @@ export default Now.defineLocale('eo', {
     dow: 1, // Monday is the first day of the week.
     doy: 7, // The week that contains Jan 1st is the first week of the year.
   },
-});
+};

@@ -3,8 +3,6 @@
 //! authors : Nurlan Rakhimzhanov : https://github.com/nurlan
 /* jshint -W100 */
 
-import Now from '../index.js';
-
 const suffixes = {
   0: '-ші',
   1: '-ші',
@@ -28,7 +26,7 @@ const suffixes = {
   100: '-ші',
 };
 
-export default Now.defineLocale('kk', {
+export default {
   months: 'қаңтар_ақпан_наурыз_сәуір_мамыр_маусым_шілде_тамыз_қыркүйек_қазан_қараша_желтоқсан'.split('_'),
   monthsShort: 'қаң_ақп_нау_сәу_мам_мау_шіл_там_қыр_қаз_қар_жел'.split('_'),
   weekdays: 'жексенбі_дүйсенбі_сейсенбі_сәрсенбі_бейсенбі_жұма_сенбі'.split('_'),
@@ -75,4 +73,4 @@ export default Now.defineLocale('kk', {
     dow: 1, // Monday is the first day of the week.
     doy: 7, // The week that contains Jan 1st is the first week of the year.
   },
-});
+};

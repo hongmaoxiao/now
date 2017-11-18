@@ -3,9 +3,7 @@
 //! author : Andrew Hood : https://github.com/andrewhood125
 /* jshint -W100 */
 
-import Now from '../index.js';
-
-export default Now.defineLocale('x-pseudo', {
+export default {
   months: 'J~áñúá~rý_F~ébrú~árý_~Márc~h_Áp~ríl_~Máý_~Júñé~_Júl~ý_Áú~gúst~_Sép~témb~ér_Ó~ctób~ér_Ñ~óvém~bér_~Décé~mbér'.split('_'),
   monthsShort: 'J~áñ_~Féb_~Már_~Ápr_~Máý_~Júñ_~Júl_~Áúg_~Sép_~Óct_~Ñóv_~Déc'.split('_'),
   monthsParseExact: true,
@@ -56,4 +54,4 @@ export default Now.defineLocale('x-pseudo', {
     dow: 1, // Monday is the first day of the week.
     doy: 4, // The week that contains Jan 4th is the first week of the year.
   },
-});
+};

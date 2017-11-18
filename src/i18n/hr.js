@@ -3,8 +3,6 @@
 //! author : Bojan Marković : https://github.com/bmarkovic
 /* jshint -W100 */
 
-import Now from '../index.js';
-
 function translate(number, withoutSuffix, key) {
   let result = `${number} `;
   switch (key) {
@@ -58,7 +56,7 @@ function translate(number, withoutSuffix, key) {
   }
 }
 
-export default Now.defineLocale('hr', {
+export default {
   months: {
     format: 'siječnja_veljače_ožujka_travnja_svibnja_lipnja_srpnja_kolovoza_rujna_listopada_studenoga_prosinca'.split('_'),
     standalone: 'siječanj_veljača_ožujak_travanj_svibanj_lipanj_srpanj_kolovoz_rujan_listopad_studeni_prosinac'.split('_'),
@@ -133,4 +131,4 @@ export default Now.defineLocale('hr', {
     dow: 1, // Monday is the first day of the week.
     doy: 7, // The week that contains Jan 1st is the first week of the year.
   },
-});
+};

@@ -3,9 +3,7 @@
 //! author : Krishna Chaitanya Thota : https://github.com/kcthota
 /* jshint -W100 */
 
-import Now from '../index.js';
-
-export default Now.defineLocale('te', {
+export default {
   months: 'జనవరి_ఫిబ్రవరి_మార్చి_ఏప్రిల్_మే_జూన్_జూలై_ఆగస్టు_సెప్టెంబర్_అక్టోబర్_నవంబర్_డిసెంబర్'.split('_'),
   monthsShort: 'జన._ఫిబ్ర._మార్చి_ఏప్రి._మే_జూన్_జూలై_ఆగ._సెప్._అక్టో._నవ._డిసె.'.split('_'),
   monthsParseExact: true,
@@ -76,4 +74,4 @@ export default Now.defineLocale('te', {
     dow: 0, // Sunday is the first day of the week.
     doy: 6, // The week that contains Jan 1st is the first week of the year.
   },
-});
+};

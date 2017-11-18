@@ -3,9 +3,7 @@
 //! author : Jared Morse : https://github.com/jarcoal
 /* jshint -W100 */
 
-import Now from '../index.js';
-
-export default Now.defineLocale('en-au', {
+export default {
   months: 'January_February_March_April_May_June_July_August_September_October_November_December'.split('_'),
   monthsShort: 'Jan_Feb_Mar_Apr_May_Jun_Jul_Aug_Sep_Oct_Nov_Dec'.split('_'),
   weekdays: 'Sunday_Monday_Tuesday_Wednesday_Thursday_Friday_Saturday'.split('_'),
@@ -55,4 +53,4 @@ export default Now.defineLocale('en-au', {
     dow: 1, // Monday is the first day of the week.
     doy: 4, // The week that contains Jan 4th is the first week of the year.
   },
-});
+};

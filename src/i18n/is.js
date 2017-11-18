@@ -3,8 +3,6 @@
 //! author : Hinrik Örn Sigurðsson : https://github.com/hinrik
 /* jshint -W100 */
 
-import Now from '../index.js';
-
 function plural(n) {
   if (n % 100 === 11) {
     return true;
@@ -73,7 +71,7 @@ function translate(number, withoutSuffix, key, isFuture) {
   }
 }
 
-export default Now.defineLocale('is', {
+export default {
   months: 'janúar_febrúar_mars_apríl_maí_júní_júlí_ágúst_september_október_nóvember_desember'.split('_'),
   monthsShort: 'jan_feb_mar_apr_maí_jún_júl_ágú_sep_okt_nóv_des'.split('_'),
   weekdays: 'sunnudagur_mánudagur_þriðjudagur_miðvikudagur_fimmtudagur_föstudagur_laugardagur'.split('_'),
@@ -116,4 +114,4 @@ export default Now.defineLocale('is', {
     dow: 1, // Monday is the first day of the week.
     doy: 4, // The week that contains Jan 4th is the first week of the year.
   },
-});
+};

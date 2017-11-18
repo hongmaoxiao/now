@@ -3,8 +3,6 @@
 //! author : Ali Hmer: https://github.com/kikoanis
 /* jshint -W100 */
 
-import Now from '../index.js';
-
 const symbolMap = {
   1: '1',
   2: '2',
@@ -34,7 +32,7 @@ const plurals = {
 const pluralize = function (u) {
   return function (number, withoutSuffix, string, isFuture) {
     const f = pluralForm(number);
-    const str = plurals[u][pluralForm(number)];
+    let str = plurals[u][pluralForm(number)];
     if (f === 2) {
       str = str[withoutSuffix ? 0 : 1];
     }
@@ -57,7 +55,7 @@ const months = [
   'ديسمبر',
 ];
 
-export default Now.defineLocale('ar-ly', {
+export default {
   months,
   monthsShort: months,
   weekdays: 'الأحد_الإثنين_الثلاثاء_الأربعاء_الخميس_الجمعة_السبت'.split('_'),
@@ -115,4 +113,4 @@ export default Now.defineLocale('ar-ly', {
     dow: 6, // Saturday is the first day of the week.
     doy: 12, // The week that contains Jan 1st is the first week of the year.
   },
-});
+};

@@ -3,9 +3,7 @@
 //! author : Caio Ribeiro Pereira : https://github.com/caio-ribeiro-pereira
 /* jshint -W100 */
 
-import Now from '../index.js';
-
-export default Now.defineLocale('pt-br', {
+export default {
   months: 'janeiro_fevereiro_março_abril_maio_junho_julho_agosto_setembro_outubro_novembro_dezembro'.split('_'),
   monthsShort: 'jan_fev_mar_abr_mai_jun_jul_ago_set_out_nov_dez'.split('_'),
   weekdays: 'Domingo_Segunda-feira_Terça-feira_Quarta-feira_Quinta-feira_Sexta-feira_Sábado'.split('_'),
@@ -50,4 +48,4 @@ export default Now.defineLocale('pt-br', {
   },
   dayOfMonthOrdinalParse: /\d{1,2}º/,
   ordinal: '%dº',
-});
+};

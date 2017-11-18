@@ -4,8 +4,6 @@
 //!           Burak Yiğit Kaya: https://github.com/BYK
 /* jshint -W100 */
 
-import Now from '../index.js';
-
 const suffixes = {
   1: '\'inci',
   5: '\'inci',
@@ -27,7 +25,7 @@ const suffixes = {
   90: '\'ıncı',
 };
 
-export default Now.defineLocale('tr', {
+export default {
   months: 'Ocak_Şubat_Mart_Nisan_Mayıs_Haziran_Temmuz_Ağustos_Eylül_Ekim_Kasım_Aralık'.split('_'),
   monthsShort: 'Oca_Şub_Mar_Nis_May_Haz_Tem_Ağu_Eyl_Eki_Kas_Ara'.split('_'),
   weekdays: 'Pazar_Pazartesi_Salı_Çarşamba_Perşembe_Cuma_Cumartesi'.split('_'),
@@ -78,4 +76,4 @@ export default Now.defineLocale('tr', {
     dow: 1, // Monday is the first day of the week.
     doy: 7, // The week that contains Jan 1st is the first week of the year.
   },
-});
+};

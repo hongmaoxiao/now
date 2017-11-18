@@ -3,8 +3,6 @@
 //! author : Adam Brunner : https://github.com/adambrunner
 /* jshint -W100 */
 
-import Now from '../index.js';
-
 const weekEndings = 'vasárnap hétfőn kedden szerdán csütörtökön pénteken szombaton'.split(' ');
 
 function translate(number, withoutSuffix, key, isFuture) {
@@ -40,7 +38,7 @@ function week(isFuture) {
   return `${isFuture ? '' : '[múlt] '}[${weekEndings[this.day()]}] LT[-kor]`;
 }
 
-export default Now.defineLocale('hu', {
+export default {
   months: 'január_február_március_április_május_június_július_augusztus_szeptember_október_november_december'.split('_'),
   monthsShort: 'jan_feb_márc_ápr_máj_jún_júl_aug_szept_okt_nov_dec'.split('_'),
   weekdays: 'vasárnap_hétfő_kedd_szerda_csütörtök_péntek_szombat'.split('_'),
@@ -97,4 +95,4 @@ export default Now.defineLocale('hu', {
     dow: 1, // Monday is the first day of the week.
     doy: 4, // The week that contains Jan 4th is the first week of the year.
   },
-});
+};

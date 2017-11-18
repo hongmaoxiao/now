@@ -4,8 +4,6 @@
 //! Author : Menelion Elensúle : https://github.com/Oire
 /* jshint -W100 */
 
-import Now from '../index.js';
-
 function plural(word, num) {
   const forms = word.split('_');
   return num % 10 === 1 && num % 100 !== 11 ? forms[0] : (num % 10 >= 2 && num % 10 <= 4 && (num % 100 < 10 || num % 100 >= 20) ? forms[1] : forms[2]);
@@ -52,7 +50,7 @@ function processHoursFunction(str) {
   };
 }
 
-export default Now.defineLocale('uk', {
+export default {
   months: {
     format: 'січня_лютого_березня_квітня_травня_червня_липня_серпня_вересня_жовтня_листопада_грудня'.split('_'),
     standalone: 'січень_лютий_березень_квітень_травень_червень_липень_серпень_вересень_жовтень_листопад_грудень'.split('_'),
@@ -138,4 +136,4 @@ export default Now.defineLocale('uk', {
     dow: 1, // Monday is the first day of the week.
     doy: 7, // The week that contains Jan 1st is the first week of the year.
   },
-});
+};

@@ -3,9 +3,7 @@
 //! author : Ryan Hart : https://github.com/ryanhart2
 /* jshint -W100 */
 
-import Now from '../index.js';
-
-export default Now.defineLocale('lo', {
+export default {
   months: 'ມັງກອນ_ກຸມພາ_ມີນາ_ເມສາ_ພຶດສະພາ_ມິຖຸນາ_ກໍລະກົດ_ສິງຫາ_ກັນຍາ_ຕຸລາ_ພະຈິກ_ທັນວາ'.split('_'),
   monthsShort: 'ມັງກອນ_ກຸມພາ_ມີນາ_ເມສາ_ພຶດສະພາ_ມິຖຸນາ_ກໍລະກົດ_ສິງຫາ_ກັນຍາ_ຕຸລາ_ພະຈິກ_ທັນວາ'.split('_'),
   weekdays: 'ອາທິດ_ຈັນ_ອັງຄານ_ພຸດ_ພະຫັດ_ສຸກ_ເສົາ'.split('_'),
@@ -57,4 +55,4 @@ export default Now.defineLocale('lo', {
   ordinal(number) {
     return `ທີ່${number}`;
   },
-});
+};

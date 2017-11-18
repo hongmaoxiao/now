@@ -3,9 +3,7 @@
 //! authors : Bård Rolstad Henriksen : https://github.com/karamell
 /* jshint -W100 */
 
-import Now from '../index.js';
-
-export default Now.defineLocale('se', {
+export default {
   months: 'ođđajagemánnu_guovvamánnu_njukčamánnu_cuoŋománnu_miessemánnu_geassemánnu_suoidnemánnu_borgemánnu_čakčamánnu_golggotmánnu_skábmamánnu_juovlamánnu'.split('_'),
   monthsShort: 'ođđj_guov_njuk_cuo_mies_geas_suoi_borg_čakč_golg_skáb_juov'.split('_'),
   weekdays: 'sotnabeaivi_vuossárga_maŋŋebárga_gaskavahkku_duorastat_bearjadat_lávvardat'.split('_'),
@@ -48,4 +46,4 @@ export default Now.defineLocale('se', {
     dow: 1, // Monday is the first day of the week.
     doy: 4, // The week that contains Jan 4th is the first week of the year.
   },
-});
+};

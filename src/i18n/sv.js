@@ -3,9 +3,7 @@
 //! author : Jens Alm : https://github.com/ulmus
 /* jshint -W100 */
 
-import Now from '../index.js';
-
-export default Now.defineLocale('sv', {
+export default {
   months: 'januari_februari_mars_april_maj_juni_juli_augusti_september_oktober_november_december'.split('_'),
   monthsShort: 'jan_feb_mar_apr_maj_jun_jul_aug_sep_okt_nov_dec'.split('_'),
   weekdays: 'söndag_måndag_tisdag_onsdag_torsdag_fredag_lördag'.split('_'),
@@ -57,4 +55,4 @@ export default Now.defineLocale('sv', {
     dow: 1, // Monday is the first day of the week.
     doy: 4, // The week that contains Jan 4th is the first week of the year.
   },
-});
+};

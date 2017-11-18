@@ -3,8 +3,6 @@
 //! author : The Discoverer : https://github.com/WikiDiscoverer
 /* jshint -W100 */
 
-import Now from '../index.js';
-
 function processRelativeTime(number, withoutSuffix, key, isFuture) {
   const format = {
     s: ['thodde secondanim', 'thodde second'],
@@ -22,7 +20,7 @@ function processRelativeTime(number, withoutSuffix, key, isFuture) {
   return withoutSuffix ? format[key][0] : format[key][1];
 }
 
-export default Now.defineLocale('gom-latn', {
+export default {
   months: 'Janer_Febrer_Mars_Abril_Mai_Jun_Julai_Agost_Setembr_Otubr_Novembr_Dezembr'.split('_'),
   monthsShort: 'Jan._Feb._Mars_Abr._Mai_Jun_Jul._Ago._Set._Otu._Nov._Dez.'.split('_'),
   monthsParseExact: true,
@@ -109,4 +107,4 @@ export default Now.defineLocale('gom-latn', {
     }
     return 'rati';
   },
-});
+};

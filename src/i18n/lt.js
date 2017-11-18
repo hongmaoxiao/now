@@ -3,8 +3,6 @@
 //! author : Mindaugas Mozūras : https://github.com/mmozuras
 /* jshint -W100 */
 
-import Now from '../index.js';
-
 const units = {
   m: 'minutė_minutės_minutę',
   mm: 'minutės_minučių_minutes',
@@ -49,7 +47,8 @@ function translate(number, withoutSuffix, key, isFuture) {
   }
   return result + (special(number) ? forms(key)[1] : forms(key)[2]);
 }
-export default Now.defineLocale('lt', {
+
+export default {
   months: {
     format: 'sausio_vasario_kovo_balandžio_gegužės_birželio_liepos_rugpjūčio_rugsėjo_spalio_lapkričio_gruodžio'.split('_'),
     standalone: 'sausis_vasaris_kovas_balandis_gegužė_birželis_liepa_rugpjūtis_rugsėjis_spalis_lapkritis_gruodis'.split('_'),
@@ -107,4 +106,4 @@ export default Now.defineLocale('lt', {
     dow: 1, // Monday is the first day of the week.
     doy: 4, // The week that contains Jan 4th is the first week of the year.
   },
-});
+};

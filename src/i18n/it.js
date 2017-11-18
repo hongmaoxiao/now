@@ -4,9 +4,7 @@
 //! author: Mattia Larentis: https://github.com/nostalgiaz
 /* jshint -W100 */
 
-import Now from '../index.js';
-
-export default Now.defineLocale('it', {
+export default {
   months: 'gennaio_febbraio_marzo_aprile_maggio_giugno_luglio_agosto_settembre_ottobre_novembre_dicembre'.split('_'),
   monthsShort: 'gen_feb_mar_apr_mag_giu_lug_ago_set_ott_nov_dic'.split('_'),
   weekdays: 'domenica_lunedì_martedì_mercoledì_giovedì_venerdì_sabato'.split('_'),
@@ -58,4 +56,4 @@ export default Now.defineLocale('it', {
     dow: 1, // Monday is the first day of the week.
     doy: 4, // The week that contains Jan 4th is the first week of the year.
   },
-});
+};

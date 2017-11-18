@@ -3,8 +3,6 @@
 //! author : Narain Sagar : https://github.com/narainsagar
 /* jshint -W100 */
 
-import Now from '../index.js';
-
 const months = [
   'جنوري',
   'فيبروري',
@@ -29,7 +27,7 @@ const days = [
   'ڇنڇر',
 ];
 
-export default Now.defineLocale('sd', {
+export default {
   months,
   monthsShort: months,
   weekdays: days,
@@ -86,4 +84,4 @@ export default Now.defineLocale('sd', {
     dow: 1, // Monday is the first day of the week.
     doy: 4, // The week that contains Jan 4th is the first week of the year.
   },
-});
+};

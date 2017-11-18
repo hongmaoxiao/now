@@ -5,8 +5,6 @@
 //! author : Tin Aung Lin : https://github.com/thanyawzinmin
 /* jshint -W100 */
 
-import Now from '../index.js';
-
 const symbolMap = {
   1: '၁',
   2: '၂',
@@ -33,7 +31,7 @@ const numberMap = {
   '၀': '0',
 };
 
-export default Now.defineLocale('my', {
+export default {
   months: 'ဇန်နဝါရီ_ဖေဖော်ဝါရီ_မတ်_ဧပြီ_မေ_ဇွန်_ဇူလိုင်_သြဂုတ်_စက်တင်ဘာ_အောက်တိုဘာ_နိုဝင်ဘာ_ဒီဇင်ဘာ'.split('_'),
   monthsShort: 'ဇန်_ဖေ_မတ်_ပြီ_မေ_ဇွန်_လိုင်_သြ_စက်_အောက်_နို_ဒီ'.split('_'),
   weekdays: 'တနင်္ဂနွေ_တနင်္လာ_အင်္ဂါ_ဗုဒ္ဓဟူး_ကြာသပတေး_သောကြာ_စနေ'.split('_'),
@@ -81,4 +79,4 @@ export default Now.defineLocale('my', {
     dow: 1, // Monday is the first day of the week.
     doy: 4, // The week that contains Jan 1st is the first week of the year.
   },
-});
+};

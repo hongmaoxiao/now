@@ -6,8 +6,6 @@
 //! author : Mikolaj Dadela : https://github.com/mik01aj
 /* jshint -W100 */
 
-import Now from '../index.js';
-
 function processRelativeTime(number, withoutSuffix, key, isFuture) {
   const format = {
     m: ['eine Minute', 'einer Minute'],
@@ -22,7 +20,7 @@ function processRelativeTime(number, withoutSuffix, key, isFuture) {
   return withoutSuffix ? format[key][0] : format[key][1];
 }
 
-export default Now.defineLocale('de-at', {
+export default {
   months: 'Jänner_Februar_März_April_Mai_Juni_Juli_August_September_Oktober_November_Dezember'.split('_'),
   monthsShort: 'Jän._Feb._März_Apr._Mai_Juni_Juli_Aug._Sep._Okt._Nov._Dez.'.split('_'),
   monthsParseExact: true,
@@ -67,4 +65,4 @@ export default Now.defineLocale('de-at', {
     dow: 1, // Monday is the first day of the week.
     doy: 4, // The week that contains Jan 4th is the first week of the year.
   },
-});
+};

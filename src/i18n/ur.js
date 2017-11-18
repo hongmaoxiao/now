@@ -4,8 +4,6 @@
 //! author : Zack : https://github.com/ZackVision
 /* jshint -W100 */
 
-import Now from '../index.js';
-
 const months = [
   'جنوری',
   'فروری',
@@ -20,6 +18,7 @@ const months = [
   'نومبر',
   'دسمبر',
 ];
+
 const days = [
   'اتوار',
   'پیر',
@@ -30,7 +29,7 @@ const days = [
   'ہفتہ',
 ];
 
-export default Now.defineLocale('ur', {
+export default {
   months,
   monthsShort: months,
   weekdays: days,
@@ -87,4 +86,4 @@ export default Now.defineLocale('ur', {
     dow: 1, // Monday is the first day of the week.
     doy: 4, // The week that contains Jan 4th is the first week of the year.
   },
-});
+};

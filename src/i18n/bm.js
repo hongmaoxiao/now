@@ -4,9 +4,7 @@
 // Language contact person : Abdoufata Kane : https://github.com/abdoufata
 /* jshint -W100 */
 
-import Now from '../index.js';
-
-export default Now.defineLocale('bm', {
+export default {
   months: 'Zanwuyekalo_Fewuruyekalo_Marisikalo_Awirilikalo_Mɛkalo_Zuwɛnkalo_Zuluyekalo_Utikalo_Sɛtanburukalo_ɔkutɔburukalo_Nowanburukalo_Desanburukalo'.split('_'),
   monthsShort: 'Zan_Few_Mar_Awi_Mɛ_Zuw_Zul_Uti_Sɛt_ɔku_Now_Des'.split('_'),
   weekdays: 'Kari_Ntɛnɛn_Tarata_Araba_Alamisa_Juma_Sibiri'.split('_'),
@@ -47,4 +45,4 @@ export default Now.defineLocale('bm', {
     dow: 1, // Monday is the first day of the week.
     doy: 4, // The week that contains Jan 4th is the first week of the year.
   },
-});
+};

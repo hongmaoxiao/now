@@ -3,8 +3,6 @@
 //! author : Suhail Alkowaileet : https://github.com/xsoh
 /* jshint -W100 */
 
-import Now from '../index.js';
-
 const symbolMap = {
   1: '١',
   2: '٢',
@@ -31,7 +29,7 @@ const numberMap = {
   '٠': '0',
 };
 
-export default Now.defineLocale('ar-sa', {
+export default {
   months: 'يناير_فبراير_مارس_أبريل_مايو_يونيو_يوليو_أغسطس_سبتمبر_أكتوبر_نوفمبر_ديسمبر'.split('_'),
   monthsShort: 'يناير_فبراير_مارس_أبريل_مايو_يونيو_يوليو_أغسطس_سبتمبر_أكتوبر_نوفمبر_ديسمبر'.split('_'),
   weekdays: 'الأحد_الإثنين_الثلاثاء_الأربعاء_الخميس_الجمعة_السبت'.split('_'),
@@ -89,4 +87,4 @@ export default Now.defineLocale('ar-sa', {
     dow: 0, // Sunday is the first day of the week.
     doy: 6, // The week that contains Jan 1st is the first week of the year.
   },
-});
+};

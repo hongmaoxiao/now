@@ -3,8 +3,6 @@
 //! author : Robert Sedovšek : https://github.com/sedovsek
 /* jshint -W100 */
 
-import Now from '../index.js';
-
 function processRelativeTime(number, withoutSuffix, key, isFuture) {
   let result = `${number} `;
   switch (key) {
@@ -76,7 +74,7 @@ function processRelativeTime(number, withoutSuffix, key, isFuture) {
   }
 }
 
-export default Now.defineLocale('sl', {
+export default {
   months: 'januar_februar_marec_april_maj_junij_julij_avgust_september_oktober_november_december'.split('_'),
   monthsShort: 'jan._feb._mar._apr._maj._jun._jul._avg._sep._okt._nov._dec.'.split('_'),
   monthsParseExact: true,
@@ -150,4 +148,4 @@ export default Now.defineLocale('sl', {
     dow: 1, // Monday is the first day of the week.
     doy: 7, // The week that contains Jan 1st is the first week of the year.
   },
-});
+};

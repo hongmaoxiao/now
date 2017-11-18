@@ -3,8 +3,6 @@
 //! author : Chyngyz Arystan uulu : https://github.com/chyngyz
 /* jshint -W100 */
 
-import Now from '../index.js';
-
 const suffixes = {
   0: '-чү',
   1: '-чи',
@@ -28,7 +26,7 @@ const suffixes = {
   100: '-чү',
 };
 
-export default Now.defineLocale('ky', {
+export default {
   months: 'январь_февраль_март_апрель_май_июнь_июль_август_сентябрь_октябрь_ноябрь_декабрь'.split('_'),
   monthsShort: 'янв_фев_март_апр_май_июнь_июль_авг_сен_окт_ноя_дек'.split('_'),
   weekdays: 'Жекшемби_Дүйшөмбү_Шейшемби_Шаршемби_Бейшемби_Жума_Ишемби'.split('_'),
@@ -75,4 +73,4 @@ export default Now.defineLocale('ky', {
     dow: 1, // Monday is the first day of the week.
     doy: 7, // The week that contains Jan 1st is the first week of the year.
   },
-});
+};

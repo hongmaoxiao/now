@@ -4,9 +4,7 @@
 //! reference: http://jv.wikipedia.org/wiki/Basa_Jawa
 /* jshint -W100 */
 
-import Now from '../index.js';
-
-export default Now.defineLocale('jv', {
+export default {
   months: 'Januari_Februari_Maret_April_Mei_Juni_Juli_Agustus_September_Oktober_Nopember_Desember'.split('_'),
   monthsShort: 'Jan_Feb_Mar_Apr_Mei_Jun_Jul_Ags_Sep_Okt_Nop_Des'.split('_'),
   weekdays: 'Minggu_Senen_Seloso_Rebu_Kemis_Jemuwah_Septu'.split('_'),
@@ -70,4 +68,4 @@ export default Now.defineLocale('jv', {
     dow: 1, // Monday is the first day of the week.
     doy: 7, // The week that contains Jan 1st is the first week of the year.
   },
-});
+};

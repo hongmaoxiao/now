@@ -3,8 +3,6 @@
 //! author : Rafal Hirsz : https://github.com/evoL
 /* jshint -W100 */
 
-import Now from '../index.js';
-
 const monthsNominative = 'styczeń_luty_marzec_kwiecień_maj_czerwiec_lipiec_sierpień_wrzesień_październik_listopad_grudzień'.split('_');
 const monthsSubjective = 'stycznia_lutego_marca_kwietnia_maja_czerwca_lipca_sierpnia_września_października_listopada_grudnia'.split('_');
 
@@ -30,7 +28,7 @@ function translate(number, withoutSuffix, key) {
   }
 }
 
-export default Now.defineLocale('pl', {
+export default {
   months(momentToFormat, format) {
     if (!momentToFormat) {
       return monthsNominative;
@@ -113,4 +111,4 @@ export default Now.defineLocale('pl', {
     dow: 1, // Monday is the first day of the week.
     doy: 4, // The week that contains Jan 4th is the first week of the year.
   },
-});
+};

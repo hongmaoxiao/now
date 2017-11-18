@@ -4,8 +4,6 @@
 //! based on work of petrbela : https://github.com/petrbela
 /* jshint -W100 */
 
-import Now from '../index.js';
-
 const months = 'január_február_marec_apríl_máj_jún_júl_august_september_október_november_december'.split('_');
 const monthsShort = 'jan_feb_mar_apr_máj_jún_júl_aug_sep_okt_nov_dec'.split('_');
 
@@ -66,7 +64,7 @@ function translate(number, withoutSuffix, key, isFuture) {
   }
 }
 
-export default Now.defineLocale('sk', {
+export default {
   months,
   monthsShort,
   weekdays: 'nedeľa_pondelok_utorok_streda_štvrtok_piatok_sobota'.split('_'),
@@ -140,4 +138,4 @@ export default Now.defineLocale('sk', {
     dow: 1, // Monday is the first day of the week.
     doy: 4, // The week that contains Jan 4th is the first week of the year.
   },
-});
+};

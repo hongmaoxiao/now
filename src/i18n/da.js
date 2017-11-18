@@ -3,9 +3,7 @@
 //! author : Ulrik Nielsen : https://github.com/mrbase
 /* jshint -W100 */
 
-import Now from '../index.js';
-
-export default Now.defineLocale('da', {
+export default {
   months: 'januar_februar_marts_april_maj_juni_juli_august_september_oktober_november_december'.split('_'),
   monthsShort: 'jan_feb_mar_apr_maj_jun_jul_aug_sep_okt_nov_dec'.split('_'),
   weekdays: 'søndag_mandag_tirsdag_onsdag_torsdag_fredag_lørdag'.split('_'),
@@ -48,4 +46,4 @@ export default Now.defineLocale('da', {
     dow: 1, // Monday is the first day of the week.
     doy: 4, // The week that contains Jan 4th is the first week of the year.
   },
-});
+};

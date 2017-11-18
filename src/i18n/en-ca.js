@@ -3,9 +3,7 @@
 //! author : Jonathan Abourbih : https://github.com/jonbca
 /* jshint -W100 */
 
-import Now from '../index.js';
-
-export default Now.defineLocale('en-ca', {
+export default {
   months: 'January_February_March_April_May_June_July_August_September_October_November_December'.split('_'),
   monthsShort: 'Jan_Feb_Mar_Apr_May_Jun_Jul_Aug_Sep_Oct_Nov_Dec'.split('_'),
   weekdays: 'Sunday_Monday_Tuesday_Wednesday_Thursday_Friday_Saturday'.split('_'),
@@ -51,4 +49,4 @@ export default Now.defineLocale('en-ca', {
           (b === 3) ? 'rd' : 'th';
     return number + output;
   },
-});
+};

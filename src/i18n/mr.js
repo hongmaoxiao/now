@@ -4,8 +4,6 @@
 //! author : Vivek Athalye : https://github.com/vnathalye
 /* jshint -W100 */
 
-import Now from '../index.js';
-
 const symbolMap = {
   1: '१',
   2: '२',
@@ -110,7 +108,7 @@ function relativeTimeMr(number, withoutSuffix, string, isFuture) {
   return output.replace(/%d/i, number);
 }
 
-export default Now.defineLocale('mr', {
+export default {
   months: 'जानेवारी_फेब्रुवारी_मार्च_एप्रिल_मे_जून_जुलै_ऑगस्ट_सप्टेंबर_ऑक्टोबर_नोव्हेंबर_डिसेंबर'.split('_'),
   monthsShort: 'जाने._फेब्रु._मार्च._एप्रि._मे._जून._जुलै._ऑग._सप्टें._ऑक्टो._नोव्हें._डिसें.'.split('_'),
   monthsParseExact: true,
@@ -185,4 +183,4 @@ export default Now.defineLocale('mr', {
     dow: 0, // Sunday is the first day of the week.
     doy: 6, // The week that contains Jan 1st is the first week of the year.
   },
-});
+};

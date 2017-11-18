@@ -3,9 +3,7 @@
 //! author : Rasulbek Mirzayev : github.com/Rasulbeeek
 /* jshint -W100 */
 
-import Now from '../index.js';
-
-export default Now.defineLocale('uz-latn', {
+export default {
   months: 'Yanvar_Fevral_Mart_Aprel_May_Iyun_Iyul_Avgust_Sentabr_Oktabr_Noyabr_Dekabr'.split('_'),
   monthsShort: 'Yan_Fev_Mar_Apr_May_Iyun_Iyul_Avg_Sen_Okt_Noy_Dek'.split('_'),
   weekdays: 'Yakshanba_Dushanba_Seshanba_Chorshanba_Payshanba_Juma_Shanba'.split('_'),
@@ -46,4 +44,4 @@ export default Now.defineLocale('uz-latn', {
     dow: 1, // Monday is the first day of the week.
     doy: 7, // The week that contains Jan 1st is the first week of the year.
   },
-});
+};

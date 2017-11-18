@@ -4,8 +4,6 @@
 //! based on (hr) translation by Bojan Marković
 /* jshint -W100 */
 
-import Now from '../index.js';
-
 function translate(number, withoutSuffix, key) {
   let result = `${number} `;
   switch (key) {
@@ -59,7 +57,7 @@ function translate(number, withoutSuffix, key) {
   }
 }
 
-export default Now.defineLocale('bs', {
+export default {
   months: 'januar_februar_mart_april_maj_juni_juli_august_septembar_oktobar_novembar_decembar'.split('_'),
   monthsShort: 'jan._feb._mar._apr._maj._jun._jul._aug._sep._okt._nov._dec.'.split('_'),
   monthsParseExact: true,
@@ -131,4 +129,4 @@ export default Now.defineLocale('bs', {
     dow: 1, // Monday is the first day of the week.
     doy: 7, // The week that contains Jan 1st is the first week of the year.
   },
-});
+};

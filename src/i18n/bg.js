@@ -3,9 +3,7 @@
 //! author : Krasen Borisov : https://github.com/kraz
 /* jshint -W100 */
 
-import Now from '../index.js';
-
-export default Now.defineLocale('bg', {
+export default {
   months: 'януари_февруари_март_април_май_юни_юли_август_септември_октомври_ноември_декември'.split('_'),
   monthsShort: 'янр_фев_мар_апр_май_юни_юли_авг_сеп_окт_ное_дек'.split('_'),
   weekdays: 'неделя_понеделник_вторник_сряда_четвъртък_петък_събота'.split('_'),
@@ -77,4 +75,4 @@ export default Now.defineLocale('bg', {
     dow: 1, // Monday is the first day of the week.
     doy: 7, // The week that contains Jan 1st is the first week of the year.
   },
-});
+};

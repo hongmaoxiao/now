@@ -3,9 +3,7 @@
 //! author : Werner Mollentze : https://github.com/wernerm
 /* jshint -W100 */
 
-import Now from '../index.js';
-
-export default Now.defineLocale('af', {
+export default {
   months: 'Januarie_Februarie_Maart_April_Mei_Junie_Julie_Augustus_September_Oktober_November_Desember'.split('_'),
   monthsShort: 'Jan_Feb_Mrt_Apr_Mei_Jun_Jul_Aug_Sep_Okt_Nov_Des'.split('_'),
   weekdays: 'Sondag_Maandag_Dinsdag_Woensdag_Donderdag_Vrydag_Saterdag'.split('_'),
@@ -60,4 +58,5 @@ export default Now.defineLocale('af', {
     dow: 1, // Maandag is die eerste dag van die week.
     doy: 4, // Die week wat die 4de Januarie bevat is die eerste week van die jaar.
   },
-});
+};
+

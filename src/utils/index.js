@@ -7,6 +7,8 @@ import {
   baseConfig,
 } from '../config/index.js';
 
+import i18ns from '../i18n/index.js';
+
 const ArrayProto = Array.prototype;
 const DateProto = Date.prototype;
 const toString = Object.prototype.toString;
@@ -505,18 +507,10 @@ function chooseLocale(names) {
 
 function loadLocale(name) {
   let oldLocale = null;
-  // console.log('name: ', name, locales[name]);
-  // TODO: Find a better way to register and load all the locales in Node
-  if (!locales[name] && (typeof module !== 'undefined') &&
-    module && module.exports) {
-    try {
-      console.log('name: ', name);
-      oldLocale = globalLocale && globalLocale._abbr;
-      let aliasedRequire = require;
-      aliasedRequire('../i18n/' + name);
-      // console.log('oldLocale: ', oldLocale);
-      getSetGlobalLocale(oldLocale);
-    } catch (e) {}
+  if (!locales[name]) {
+    oldLocale = globalLocale && globalLocale._abbr;
+    defineLocale(name, i18ns[name]);
+    getSetGlobalLocale(oldLocale);
   }
   return locales[name];
 }
@@ -525,13 +519,10 @@ function loadLocale(name) {
 // no arguments are passed in, it will simply return the current global
 // locale key.
 export function getSetGlobalLocale(key, values) {
-  // console.log('keeeee: ', key, values, isUndefined(values));
   let data;
   if (key) {
     if (isUndefined(values)) {
-      // console.log('getset key: ', key);
       data = getLocale(key);
-      // console.log('getset value: ', data);
     } else {
       data = defineLocale(key, values);
     }
@@ -542,8 +533,6 @@ export function getSetGlobalLocale(key, values) {
     }
   }
 
-  // console.log("globalLocale: ", globalLocale);
-
   // return globalLocale._abbr;
 }
 
@@ -552,7 +541,6 @@ export function defineLocale(name, config) {
     let parentConfig = baseConfig;
     config.abbr = name;
     if (locales[name] != null) {
-      // console.log('locales name not null: ', locales[name]);
       deprecateSimple('defineLocaleOverride',
         'use Now.updateLocale(localeName, config) to change ' +
         'an existing locale. Now.defineLocale(localeName, ' +
@@ -560,7 +548,6 @@ export function defineLocale(name, config) {
 
       parentConfig = locales[name]._config;
     } else if (config.parentLocale != null) {
-      // console.log('locales name is null: ', config);
       if (locales[config.parentLocale] != null) {
         parentConfig = locales[config.parentLocale]._config;
       } else {
@@ -574,11 +561,8 @@ export function defineLocale(name, config) {
         return null;
       }
     }
-    // console.log("parentConfig: ", parentConfig);
-    // console.log("config: ", config);
     locales[name] = new Locale(mergeConfigs(parentConfig, config));
 
-    // console.log('locales after: ', locales[name]);
     if (localeFamilies[name]) {
       localeFamilies[name].forEach(function(x) {
         defineLocale(x.name, x.config);
@@ -641,9 +625,7 @@ export function getLocale(key) {
 
   if (!isArray(key)) {
     //short-circuit everything else
-    // console.log('load key: ', key, locale);
     locale = loadLocale(key);
-    // console.log('load success: ', locale);
     if (locale) {
       return locale;
     }
@@ -753,18 +735,19 @@ export const parseIsoWeekday = (input, locale) => {
 }
 
 export const parseWeekday = (input, locale) => {
-    if (isString(input)) {
-        return input;
-    }
+  if (isString(input)) {
+    return input;
+  }
 
-    if (!isNaN(input)) {
-        return parseInt(input, 10);
-    }
+  if (!isNaN(input)) {
+    return parseInt(input, 10);
+  }
 
-    input = locale.weekdaysParse(input);
-    if (isNumber(input)) {
-        return input;
-    }
+  input = locale.weekdaysParse(input);
+  if (isNumber(input)) {
+    return input;
+  }
 
-    return null;
+  return null;
 }
+

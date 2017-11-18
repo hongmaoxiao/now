@@ -3,8 +3,6 @@
 //! author : Dominika Kruk : https://github.com/amaranthrose
 /* jshint -W100 */
 
-import Now from '../index.js';
-
 const numbersNouns = 'pagh_wa’_cha’_wej_loS_vagh_jav_Soch_chorgh_Hut'.split('_');
 
 function translateFuture(output) {
@@ -64,7 +62,7 @@ function numberAsNoun(number) {
   return (word === '') ? 'pagh' : word;
 }
 
-export default Now.defineLocale('tlh', {
+export default {
   months: 'tera’ jar wa’_tera’ jar cha’_tera’ jar wej_tera’ jar loS_tera’ jar vagh_tera’ jar jav_tera’ jar Soch_tera’ jar chorgh_tera’ jar Hut_tera’ jar wa’maH_tera’ jar wa’maH wa’_tera’ jar wa’maH cha’'.split('_'),
   monthsShort: 'jar wa’_jar cha’_jar wej_jar loS_jar vagh_jar jav_jar Soch_jar chorgh_jar Hut_jar wa’maH_jar wa’maH wa’_jar wa’maH cha’'.split('_'),
   monthsParseExact: true,
@@ -108,4 +106,4 @@ export default Now.defineLocale('tlh', {
     dow: 1, // Monday is the first day of the week.
     doy: 4, // The week that contains Jan 4th is the first week of the year.
   },
-});
+};

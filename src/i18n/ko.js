@@ -4,9 +4,7 @@
 //! author : Jeeeyul Lee <jeeeyul@gmail.com>
 /* jshint -W100 */
 
-import Now from '../index.js';
-
-export default Now.defineLocale('ko', {
+export default {
   months: '1월_2월_3월_4월_5월_6월_7월_8월_9월_10월_11월_12월'.split('_'),
   monthsShort: '1월_2월_3월_4월_5월_6월_7월_8월_9월_10월_11월_12월'.split('_'),
   weekdays: '일요일_월요일_화요일_수요일_목요일_금요일_토요일'.split('_'),
@@ -71,4 +69,4 @@ export default Now.defineLocale('ko', {
   meridiem(hour, minute, isUpper) {
     return hour < 12 ? '오전' : '오후';
   },
-});
+};

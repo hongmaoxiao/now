@@ -3,9 +3,7 @@
 //! author : https://github.com/mechuwind
 /* jshint -W100 */
 
-import Now from '../index.js';
-
-export default Now.defineLocale('nn', {
+export default {
   months: 'januar_februar_mars_april_mai_juni_juli_august_september_oktober_november_desember'.split('_'),
   monthsShort: 'jan_feb_mar_apr_mai_jun_jul_aug_sep_okt_nov_des'.split('_'),
   weekdays: 'sundag_måndag_tysdag_onsdag_torsdag_fredag_laurdag'.split('_'),
@@ -48,4 +46,4 @@ export default Now.defineLocale('nn', {
     dow: 1, // Monday is the first day of the week.
     doy: 4, // The week that contains Jan 4th is the first week of the year.
   },
-});
+};

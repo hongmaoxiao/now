@@ -5,8 +5,6 @@
 //! author : forabi https://github.com/forabi
 /* jshint -W100 */
 
-import Now from '../index.js';
-
 const symbolMap = {
   1: '١',
   2: '٢',
@@ -72,7 +70,7 @@ const months = [
   'كانون الأول ديسمبر',
 ];
 
-export default Now.defineLocale('ar', {
+export default {
   months,
   monthsShort: months,
   weekdays: 'الأحد_الإثنين_الثلاثاء_الأربعاء_الخميس_الجمعة_السبت'.split('_'),
@@ -130,4 +128,4 @@ export default Now.defineLocale('ar', {
     dow: 6, // Saturday is the first day of the week.
     doy: 12, // The week that contains Jan 1st is the first week of the year.
   },
-});
+};

@@ -4,9 +4,7 @@
 //!           Sigurd Gartmann : https://github.com/sigurdga
 /* jshint -W100 */
 
-import Now from '../index.js';
-
-export default Now.defineLocale('nb', {
+export default {
   months: 'januar_februar_mars_april_mai_juni_juli_august_september_oktober_november_desember'.split('_'),
   monthsShort: 'jan._feb._mars_april_mai_juni_juli_aug._sep._okt._nov._des.'.split('_'),
   monthsParseExact: true,
@@ -51,4 +49,4 @@ export default Now.defineLocale('nb', {
     dow: 1, // Monday is the first day of the week.
     doy: 4, // The week that contains Jan 4th is the first week of the year.
   },
-});
+};

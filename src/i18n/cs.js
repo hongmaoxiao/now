@@ -3,8 +3,6 @@
 //! author : petrbela : https://github.com/petrbela
 /* jshint -W100 */
 
-import Now from '../index.js';
-
 const months = 'leden_únor_březen_duben_květen_červen_červenec_srpen_září_říjen_listopad_prosinec'.split('_');
 const monthsShort = 'led_úno_bře_dub_kvě_čvn_čvc_srp_zář_říj_lis_pro'.split('_');
 
@@ -65,10 +63,10 @@ function translate(number, withoutSuffix, key, isFuture) {
   }
 }
 
-export default Now.defineLocale('cs', {
+export default {
   months,
   monthsShort,
-  monthsParse: (function (months, monthsShort) {
+  monthsParse: (function(months, monthsShort) {
     let i;
     const _monthsParse = [];
     for (i = 0; i < 12; i++) {
@@ -77,7 +75,7 @@ export default Now.defineLocale('cs', {
     }
     return _monthsParse;
   }(months, monthsShort)),
-  shortMonthsParse: (function (monthsShort) {
+  shortMonthsParse: (function(monthsShort) {
     let i;
     const _shortMonthsParse = [];
     for (i = 0; i < 12; i++) {
@@ -85,7 +83,7 @@ export default Now.defineLocale('cs', {
     }
     return _shortMonthsParse;
   }(monthsShort)),
-  longMonthsParse: (function (months) {
+  longMonthsParse: (function(months) {
     let i;
     const _longMonthsParse = [];
     for (i = 0; i < 12; i++) {
@@ -165,4 +163,5 @@ export default Now.defineLocale('cs', {
     dow: 1, // Monday is the first day of the week.
     doy: 4, // The week that contains Jan 4th is the first week of the year.
   },
-});
+};
+

@@ -3,8 +3,6 @@
 //! author : Tarmo Aidantausta : https://github.com/bleadof
 /* jshint -W100 */
 
-import Now from '../index.js';
-
 const numbersPast = 'nolla yksi kaksi kolme neljä viisi kuusi seitsemän kahdeksan yhdeksän'.split(' ');
 const numbersFuture = [
   'nolla', 'yhden', 'kahden', 'kolmen', 'neljän', 'viiden', 'kuuden',
@@ -50,7 +48,7 @@ function verbalNumber(number, isFuture) {
   return number < 10 ? (isFuture ? numbersFuture[number] : numbersPast[number]) : number;
 }
 
-export default Now.defineLocale('fi', {
+export default {
   months: 'tammikuu_helmikuu_maaliskuu_huhtikuu_toukokuu_kesäkuu_heinäkuu_elokuu_syyskuu_lokakuu_marraskuu_joulukuu'.split('_'),
   monthsShort: 'tammi_helmi_maalis_huhti_touko_kesä_heinä_elo_syys_loka_marras_joulu'.split('_'),
   weekdays: 'sunnuntai_maanantai_tiistai_keskiviikko_torstai_perjantai_lauantai'.split('_'),
@@ -97,4 +95,4 @@ export default Now.defineLocale('fi', {
     dow: 1, // Monday is the first day of the week.
     doy: 4, // The week that contains Jan 4th is the first week of the year.
   },
-});
+};

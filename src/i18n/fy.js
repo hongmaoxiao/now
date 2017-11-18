@@ -3,12 +3,10 @@
 //! author : Robin van der Vliet : https://github.com/robin0van0der0v
 /* jshint -W100 */
 
-import Now from '../index.js';
-
 const monthsShortWithDots = 'jan._feb._mrt._apr._mai_jun._jul._aug._sep._okt._nov._des.'.split('_');
 const monthsShortWithoutDots = 'jan_feb_mrt_apr_mai_jun_jul_aug_sep_okt_nov_des'.split('_');
 
-export default Now.defineLocale('fy', {
+export default {
   months: 'jannewaris_febrewaris_maart_april_maaie_juny_july_augustus_septimber_oktober_novimber_desimber'.split('_'),
   monthsShort(m, format) {
     if (!m) {
@@ -62,4 +60,4 @@ export default Now.defineLocale('fy', {
     dow: 1, // Monday is the first day of the week.
     doy: 4, // The week that contains Jan 4th is the first week of the year.
   },
-});
+};

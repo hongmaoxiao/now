@@ -3,8 +3,6 @@
 //! author : Ebrahim Byagowi : https://github.com/ebraminio
 /* jshint -W100 */
 
-import Now from '../index.js';
-
 const symbolMap = {
   1: '۱',
   2: '۲',
@@ -31,7 +29,7 @@ const numberMap = {
   '۰': '0',
 };
 
-export default Now.defineLocale('fa', {
+export default {
   months: 'ژانویه_فوریه_مارس_آوریل_مه_ژوئن_ژوئیه_اوت_سپتامبر_اکتبر_نوامبر_دسامبر'.split('_'),
   monthsShort: 'ژانویه_فوریه_مارس_آوریل_مه_ژوئن_ژوئیه_اوت_سپتامبر_اکتبر_نوامبر_دسامبر'.split('_'),
   weekdays: 'یک\u200cشنبه_دوشنبه_سه\u200cشنبه_چهارشنبه_پنج\u200cشنبه_جمعه_شنبه'.split('_'),
@@ -91,4 +89,4 @@ export default Now.defineLocale('fa', {
     dow: 6, // Saturday is the first day of the week.
     doy: 12, // The week that contains Jan 1st is the first week of the year.
   },
-});
+};

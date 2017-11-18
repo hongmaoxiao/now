@@ -4,8 +4,6 @@
 //! improvements : Illimar Tambek : https://github.com/ragulka
 /* jshint -W100 */
 
-import Now from '../index.js';
-
 function processRelativeTime(number, withoutSuffix, key, isFuture) {
   const format = {
     s: ['mõne sekundi', 'mõni sekund', 'paar sekundit'],
@@ -25,7 +23,7 @@ function processRelativeTime(number, withoutSuffix, key, isFuture) {
   return isFuture ? format[key][0] : format[key][1];
 }
 
-export default Now.defineLocale('et', {
+export default {
   months: 'jaanuar_veebruar_märts_aprill_mai_juuni_juuli_august_september_oktoober_november_detsember'.split('_'),
   monthsShort: 'jaan_veebr_märts_apr_mai_juuni_juuli_aug_sept_okt_nov_dets'.split('_'),
   weekdays: 'pühapäev_esmaspäev_teisipäev_kolmapäev_neljapäev_reede_laupäev'.split('_'),
@@ -68,4 +66,4 @@ export default Now.defineLocale('et', {
     dow: 1, // Monday is the first day of the week.
     doy: 4, // The week that contains Jan 4th is the first week of the year.
   },
-});
+};

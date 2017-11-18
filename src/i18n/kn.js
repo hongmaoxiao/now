@@ -3,8 +3,6 @@
 //! author : Rajeev Naik : https://github.com/rajeevnaikte
 /* jshint -W100 */
 
-import Now from '../index.js';
-
 const symbolMap = {
   1: '೧',
   2: '೨',
@@ -31,7 +29,7 @@ const numberMap = {
   '೦': '0',
 };
 
-export default Now.defineLocale('kn', {
+export default {
   months: 'ಜನವರಿ_ಫೆಬ್ರವರಿ_ಮಾರ್ಚ್_ಏಪ್ರಿಲ್_ಮೇ_ಜೂನ್_ಜುಲೈ_ಆಗಸ್ಟ್_ಸೆಪ್ಟೆಂಬರ್_ಅಕ್ಟೋಬರ್_ನವೆಂಬರ್_ಡಿಸೆಂಬರ್'.split('_'),
   monthsShort: 'ಜನ_ಫೆಬ್ರ_ಮಾರ್ಚ್_ಏಪ್ರಿಲ್_ಮೇ_ಜೂನ್_ಜುಲೈ_ಆಗಸ್ಟ್_ಸೆಪ್ಟೆಂಬ_ಅಕ್ಟೋಬ_ನವೆಂಬ_ಡಿಸೆಂಬ'.split('_'),
   monthsParseExact: true,
@@ -110,4 +108,4 @@ export default Now.defineLocale('kn', {
     dow: 0, // Sunday is the first day of the week.
     doy: 6, // The week that contains Jan 1st is the first week of the year.
   },
-});
+};

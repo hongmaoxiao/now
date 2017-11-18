@@ -3,8 +3,6 @@
 //! author : Milan Janačković<milanjanackovic@gmail.com> : https://github.com/milan-j
 /* jshint -W100 */
 
-import Now from '../index.js';
-
 const translator = {
   words: { // Different grammatical cases
     m: ['jedan minut', 'jedne minute'],
@@ -27,7 +25,7 @@ const translator = {
   },
 };
 
-export default Now.defineLocale('sr', {
+export default {
   months: 'januar_februar_mart_april_maj_jun_jul_avgust_septembar_oktobar_novembar_decembar'.split('_'),
   monthsShort: 'jan._feb._mar._apr._maj_jun_jul_avg._sep._okt._nov._dec.'.split('_'),
   monthsParseExact: true,
@@ -97,4 +95,4 @@ export default Now.defineLocale('sr', {
     dow: 1, // Monday is the first day of the week.
     doy: 7, // The week that contains Jan 1st is the first week of the year.
   },
-});
+};

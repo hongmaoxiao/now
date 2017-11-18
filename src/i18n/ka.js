@@ -3,9 +3,7 @@
 //! author : Irakli Janiashvili : https://github.com/irakli-janiashvili
 /* jshint -W100 */
 
-import Now from '../index.js';
-
-export default Now.defineLocale('ka', {
+export default {
   months: {
     standalone: 'იანვარი_თებერვალი_მარტი_აპრილი_მაისი_ივნისი_ივლისი_აგვისტო_სექტემბერი_ოქტომბერი_ნოემბერი_დეკემბერი'.split('_'),
     format: 'იანვარს_თებერვალს_მარტს_აპრილის_მაისს_ივნისს_ივლისს_აგვისტს_სექტემბერს_ოქტომბერს_ნოემბერს_დეკემბერს'.split('_'),
@@ -77,4 +75,4 @@ export default Now.defineLocale('ka', {
     dow: 1,
     doy: 7,
   },
-});
+};

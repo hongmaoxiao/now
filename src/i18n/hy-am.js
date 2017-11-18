@@ -3,9 +3,7 @@
 //! author : Armendarabyan : https://github.com/armendarabyan
 /* jshint -W100 */
 
-import Now from '../index.js';
-
-export default Now.defineLocale('hy-am', {
+export default {
   months: {
     format: 'հունվարի_փետրվարի_մարտի_ապրիլի_մայիսի_հունիսի_հուլիսի_օգոստոսի_սեպտեմբերի_հոկտեմբերի_նոյեմբերի_դեկտեմբերի'.split('_'),
     standalone: 'հունվար_փետրվար_մարտ_ապրիլ_մայիս_հունիս_հուլիս_օգոստոս_սեպտեմբեր_հոկտեմբեր_նոյեմբեր_դեկտեմբեր'.split('_'),
@@ -82,4 +80,4 @@ export default Now.defineLocale('hy-am', {
     dow: 1, // Monday is the first day of the week.
     doy: 7, // The week that contains Jan 1st is the first week of the year.
   },
-});
+};

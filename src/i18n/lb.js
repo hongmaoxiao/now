@@ -4,8 +4,6 @@
 //! author : David Raison : https://github.com/kwisatz
 /* jshint -W100 */
 
-import Now from '../index.js';
-
 function processRelativeTime(number, withoutSuffix, key, isFuture) {
   const format = {
     m: ['eng Minutt', 'enger Minutt'],
@@ -73,7 +71,7 @@ function eifelerRegelAppliesToNumber(number) {
   return eifelerRegelAppliesToNumber(number);
 }
 
-export default Now.defineLocale('lb', {
+export default {
   months: 'Januar_Februar_Mäerz_Abrëll_Mee_Juni_Juli_August_September_Oktober_November_Dezember'.split('_'),
   monthsShort: 'Jan._Febr._Mrz._Abr._Mee_Jun._Jul._Aug._Sept._Okt._Nov._Dez.'.split('_'),
   monthsParseExact: true,
@@ -127,4 +125,4 @@ export default Now.defineLocale('lb', {
     dow: 1, // Monday is the first day of the week.
     doy: 4, // The week that contains Jan 4th is the first week of the year.
   },
-});
+};

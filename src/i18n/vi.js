@@ -3,9 +3,7 @@
 //! author : Bang Nguyen : https://github.com/bangnk
 /* jshint -W100 */
 
-import Now from '../index.js';
-
-export default Now.defineLocale('vi', {
+export default {
   months: 'tháng 1_tháng 2_tháng 3_tháng 4_tháng 5_tháng 6_tháng 7_tháng 8_tháng 9_tháng 10_tháng 11_tháng 12'.split('_'),
   monthsShort: 'Th01_Th02_Th03_Th04_Th05_Th06_Th07_Th08_Th09_Th10_Th11_Th12'.split('_'),
   monthsParseExact: true,
@@ -66,4 +64,4 @@ export default Now.defineLocale('vi', {
     dow: 1, // Monday is the first day of the week.
     doy: 4, // The week that contains Jan 4th is the first week of the year.
   },
-});
+};
