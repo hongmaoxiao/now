@@ -178,7 +178,6 @@ class Now {
     const len = args.length;
     let clone;
     if (len > 0) {
-      console.log('utc: ', ...args);
       clone = this.clone(Date.UTC(...args));
       clone._isUTC = true;
       return clone;
@@ -389,31 +388,6 @@ class Now {
       default:
         return this;
     }
-  }
-
-  parse(ifMiliSecond) {
-    let context;
-    if (this instanceof Now) {
-      context = this.date;
-    } else {
-      context = this;
-    }
-    const year = context.getFullYear();
-    let month = context.getMonth() + 1;
-    let date = context.getDate();
-    let hour = context.getHours();
-    let minute = context.getMinutes();
-    let second = context.getSeconds();
-    const milliSecond = context.getMilliseconds();
-    month = month < 10 ? `0${month}` : month;
-    date = date < 10 ? `0${date}` : date;
-    hour = hour < 10 ? `0${hour}` : hour;
-    minute = minute < 10 ? `0${minute}` : minute;
-    second = second < 10 ? `0${second}` : second;
-    if (ifMiliSecond) {
-      return `${year}-${month}-${date} ${hour}:${minute}:${second}.${milliSecond}`;
-    }
-    return `${year}-${month}-${date} ${hour}:${minute}:${second}`;
   }
 
   format(obj) {
