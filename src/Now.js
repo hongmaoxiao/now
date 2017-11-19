@@ -175,7 +175,24 @@ class Now {
   }
 
   UTC(...args) {
-    return this.clone(Date.UTC(args));
+    const len = args.length;
+    let clone;
+    if (len > 0) {
+      console.log('utc: ', ...args);
+      clone = this.clone(Date.UTC(...args));
+      clone._isUTC = true;
+      return clone;
+    }
+    const year = this.year();
+    const month = this.month();
+    const day = this.day();
+    const hour = this.hour();
+    const minute = this.minute();
+    const second = this.second();
+    const milliSecond = this.milliSecond();
+    clone = this.clone(Date.UTC(year, month, day, hour, minute, second, milliSecond));
+    clone._isUTC = true;
+    return clone;
   }
 
   valueOf() {
@@ -333,7 +350,7 @@ class Now {
 
   clone(...args) {
     const len = args.length;
-    return len > 0 ? new Now(args) : new Now(this.date);
+    return len > 0 ? new Now(...args) : new Now(this.date);
   }
 
   truncate(name) {
