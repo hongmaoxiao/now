@@ -726,4 +726,3 @@ class Now {
 initLocale();
 
 export default Now;
-

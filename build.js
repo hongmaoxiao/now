@@ -1,64 +1,91 @@
-const babelrc = require('babelrc-rollup');
 const commandLineArgs = require('command-line-args');
 const rollup = require('rollup');
 const babel = require('rollup-plugin-babel');
 const uglify = require('rollup-plugin-uglify');
-const watch = require('rollup-watch');
 const { minify } = require('uglify-es');
-
 const pkg = require('./package.json');
 
-const entry = './src/index.js';
-const moduleName = 'Now';
-const destDefault = './dist/nowjs.js';
-const destMinify = './dist/nowjs.min.js';
-const pluginsDefault = [babel(babelrc.default())];
+const input = './src/index.js';
+const name = 'Now';
+const watchOutputDefault = './demo/nowjs.js';
+const watchOutputMinify = './demo/nowjs.min.js';
+const outputDefault = './dist/nowjs.js';
+const outputMinify = './dist/nowjs.min.js';
+const pluginsDefault = [babel({
+  exclude: 'node_modules/**'
+})];
 const external = Object.keys(pkg.dependencies);
 const format = 'umd';
 
-const optionDefs = [
-  {
-    name: 'watch',
-    alias: 'w',
-    type: Boolean
-  }
-];
+const inputDefaultOptions = {
+  input: input,
+  external: external,
+  plugins: pluginsDefault
+};
+
+const inputMinifyOptions = Object.assign({}, inputDefaultOptions, {
+  plugins: [...pluginsDefault, uglify({}, minify)]
+});
+
+const outputDefaultOptions = {
+  file: outputDefault,
+  format: format,
+  name: name,
+  sourcemap: true
+};
+
+const outputMinifyOptions = Object.assign({}, outputDefaultOptions, {
+  file: outputMinify
+});
+
+const optionDefs = [{
+  name: 'watch',
+  alias: 'w',
+  type: Boolean
+}];
+
 const options = commandLineArgs(optionDefs);
 
 if (options.watch) {
-  const config = (dest, plugins) => {
+  const config = (file, plugins) => {
     return {
-      entry: entry,
-      dest: dest,
-      format: format,
-      moduleName: moduleName,
-      sourceMap: true,
-      plugins: plugins
+      input,
+      output: {
+        file,
+        format,
+        name,
+        sourcemap: true
+      },
+      plugins
     };
   };
 
-  const configDefault = config(destDefault, pluginsDefault);
-  const configMinify = config(destMinify, [
+  const configDefault = config(watchOutputDefault, pluginsDefault);
+  const configMinify = config(watchOutputMinify, [
     ...pluginsDefault,
     uglify({}, minify)
   ]);
-
-  const watcherDefault = watch(rollup, configDefault);
-  const watcherMinify = watch(rollup, configMinify);
+  const watcherDefault = rollup.watch(configDefault);
+  const watcherMinify = rollup.watch(configMinify);
 
   const stderr = console.error.bind(console);
 
   const eventHandler = (event, filename) => {
     switch (event.code) {
-      case 'STARTING':
-        stderr('checking rollup-watch version...');
+      case 'START':
+        stderr('start bundling...');
         break;
-      case 'BUILD_START':
+      case 'BUNDLE_START':
         stderr(`bundling ${filename}...`);
         break;
-      case 'BUILD_END':
+      case 'BUNDLE_END':
         stderr(
           `${filename} bundled in ${event.duration}ms. Watching for changes...`
+        );
+        break;
+      case 'END':
+        stderr(
+          'finished building all bundles'
         );
         break;
       case 'ERROR':
@@ -69,34 +96,18 @@ if (options.watch) {
     }
   };
 
-  watcherDefault.on('event', event => eventHandler(event, destDefault));
-  watcherMinify.on('event', event => eventHandler(event, destMinify));
+  watcherDefault.on('event', event => eventHandler(event, watchOutputDefault));
+  watcherMinify.on('event', event => eventHandler(event, watchOutputMinify));
 } else {
   rollup
-    .rollup({
-      entry: entry,
-      plugins: pluginsDefault,
-      external: external
-    })
+    .rollup(inputDefaultOptions)
     .then(bundle => {
-      bundle.write({
-        format: format,
-        moduleName: moduleName,
-        dest: destDefault
-      });
+      bundle.write(outputDefaultOptions);
     });
 
   rollup
-    .rollup({
-      entry: entry,
-      plugins: [...pluginsDefault, uglify({}, minify)],
-      external: external
-    })
+    .rollup(inputMinifyOptions)
     .then(bundle => {
-      bundle.write({
-        format: format,
-        moduleName: moduleName,
-        dest: destMinify
-      });
+      bundle.write(outputMinifyOptions);
     });
 }

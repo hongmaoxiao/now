@@ -1,6 +1,17 @@
 {
+  "presets": [
+    [
+      "env",
+      {
+        "modules": false
+      }
+    ]
+  ],
   "plugins": [
     "external-helpers"
   ],
-  "presets": [ "es2015" ]
+  "ignore": [
+    "dist/*.js",
+    "demo/*.js"
+  ]
 }
