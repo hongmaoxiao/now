@@ -351,11 +351,11 @@ test('isDST', () => {
   }
 });
 
-// test('unix timestamp', () => {
-//   const now = new Now(1234567890);
-//   expect(now.format('x')).toBe('1234567890');
-//   expect(now.format('X')).toBe('1234567');
-// });
+test('unix timestamp', () => {
+  const now = new Now(1234567890);
+  expect(now.format('x')).toBe('1234567890');
+  expect(now.format('X')).toBe('1234567');
+});
 
 test('default UTC format', () => {
   const isoRegex = /\d{4}.\d\d.\d\dT\d\d.\d\d.\d\dZ/;

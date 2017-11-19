@@ -11266,7 +11266,6 @@ var Now$1 = function () {
     }
     this._format = format$1;
     this._isUTC = false;
-    this.now.parse = this.parse;
     this.initDate();
     this.initIsDate();
   }
@@ -11309,7 +11308,8 @@ var Now$1 = function () {
     key: 'dateIterator',
     value: function dateIterator(index) {
       var that = this;
-      return function () {
+      var dayObj = void 0;
+      return function (val) {
         var weekDay = that.now.getDay();
         that.mondayFirst = false;
         if (weekDay === 0) {
@@ -11318,14 +11318,16 @@ var Now$1 = function () {
           if (index === 0) {
             _offset = 7;
           }
-          return that.computeBeginningOfWeek().addDays(-(7 - _offset)).date;
+          dayObj = that.computeBeginningOfWeek().addDays(-(7 - _offset));
+          return val && val === 'date' ? dayObj.date : dayObj.format('YYYY-MM-DD HH:mm:ss');
         }
         // today is not sunday, so get after sunday
         var offset = index;
         if (index === 0) {
           offset = 7;
         }
-        return that.computeBeginningOfWeek().addDays(offset).date;
+        dayObj = that.computeBeginningOfWeek().addDays(offset);
+        return val && val === 'date' ? dayObj.date : dayObj.format('YYYY-MM-DD HH:mm:ss');
       };
     }
   }, {
@@ -11454,8 +11456,8 @@ var Now$1 = function () {
       return getSetWeekYearHelper.call(this, val, this.isoWeek(), this.isoWeekDay(), 1, 4);
     }
   }, {
-    key: 'unixr',
-    value: function unixr() {
+    key: 'unix',
+    value: function unix() {
       return Math.floor(this.valueOf() / 1000);
     }
   }, {
@@ -11631,80 +11633,87 @@ var Now$1 = function () {
     }
   }, {
     key: 'beginningOfMinute',
-    value: function beginningOfMinute() {
-      return this.computeBeginningOfMinute().date;
+    value: function beginningOfMinute(val) {
+      return val && val === 'date' ? this.computeBeginningOfMinute().date : this.computeBeginningOfMinute().format('YYYY-MM-DD HH:mm:ss');
     }
   }, {
     key: 'beginningOfHour',
-    value: function beginningOfHour() {
-      return this.computeBeginningOfHour().date;
+    value: function beginningOfHour(val) {
+      return val && val === 'date' ? this.computeBeginningOfHour().date : this.computeBeginningOfHour().format('YYYY-MM-DD HH:mm:ss');
     }
   }, {
     key: 'beginningOfDay',
-    value: function beginningOfDay() {
-      return this.computeBeginningOfDay().date;
+    value: function beginningOfDay(val) {
+      return val && val === 'date' ? this.computeBeginningOfDay().date : this.computeBeginningOfDay().format('YYYY-MM-DD HH:mm:ss');
     }
   }, {
     key: 'beginningOfWeek',
-    value: function beginningOfWeek() {
-      return this.computeBeginningOfWeek().date;
+    value: function beginningOfWeek(val) {
+      return val && val === 'date' ? this.computeBeginningOfWeek().date : this.computeBeginningOfWeek().format('YYYY-MM-DD HH:mm:ss');
     }
   }, {
     key: 'beginningOfMonth',
-    value: function beginningOfMonth() {
-      return this.computeBeginningOfMonth().date;
+    value: function beginningOfMonth(val) {
+      return val && val === 'date' ? this.computeBeginningOfMonth().date : this.computeBeginningOfMonth().format('YYYY-MM-DD HH:mm:ss');
     }
   }, {
     key: 'beginningOfQuarter',
-    value: function beginningOfQuarter() {
-      return this.computeBeginningOfQuarter().date;
+    value: function beginningOfQuarter(val) {
+      return val && val === 'date' ? this.computeBeginningOfQuarter().date : this.computeBeginningOfQuarter().format('YYYY-MM-DD HH:mm:ss');
     }
   }, {
     key: 'beginningOfYear',
-    value: function beginningOfYear() {
-      return this.computeBeginningOfYear().date;
+    value: function beginningOfYear(val) {
+      return val && val === 'date' ? this.computeBeginningOfYear().date : this.computeBeginningOfYear().format('YYYY-MM-DD HH:mm:ss');
     }
   }, {
     key: 'endOfMinute',
-    value: function endOfMinute() {
-      return this.clone().computeBeginningOfMinute().addMilliSeconds(metaMinute - 1).date;
+    value: function endOfMinute(val) {
+      var clone = this.clone().computeBeginningOfMinute().addMilliSeconds(metaMinute - 1);
+      return val && val === 'date' ? clone.date : clone.format('YYYY-MM-DD HH:mm:ss.SSS');
     }
   }, {
     key: 'endOfHour',
-    value: function endOfHour() {
-      return this.clone().computeBeginningOfHour().addMilliSeconds(metaHour - 1).date;
+    value: function endOfHour(val) {
+      var clone = this.clone().computeBeginningOfHour().addMilliSeconds(metaHour - 1);
+      return val && val === 'date' ? clone.date : clone.format('YYYY-MM-DD HH:mm:ss.SSS');
     }
   }, {
     key: 'endOfDay',
-    value: function endOfDay() {
-      return this.clone().computeBeginningOfDay().addMilliSeconds(metaDay - 1).date;
+    value: function endOfDay(val) {
+      var clone = this.clone().computeBeginningOfDay().addMilliSeconds(metaDay - 1);
+      return val && val === 'date' ? clone.date : clone.format('YYYY-MM-DD HH:mm:ss.SSS');
     }
   }, {
     key: 'endOfWeek',
-    value: function endOfWeek() {
+    value: function endOfWeek(val) {
       var clone = this.clone();
       clone.firstDayMonday = this.firstDayMonday;
-      return clone.computeBeginningOfWeek().addMilliSeconds(7 * metaDay - 1).date;
+      var computed = clone.computeBeginningOfWeek().addMilliSeconds(7 * metaDay - 1);
+      return val && val === 'date' ? computed.date : computed.format('YYYY-MM-DD HH:mm:ss.SSS');
     }
   }, {
     key: 'endOfMonth',
-    value: function endOfMonth() {
-      return this.clone().computeBeginningOfMonth().addMonths(1).addMilliSeconds(-1).date;
+    value: function endOfMonth(val) {
+      var clone = this.clone().computeBeginningOfMonth().addMonths(1).addMilliSeconds(-1);
+      return val && val === 'date' ? clone.date : clone.format('YYYY-MM-DD HH:mm:ss.SSS');
     }
   }, {
     key: 'endOfQuarter',
-    value: function endOfQuarter() {
-      return this.clone().computeBeginningOfQuarter().addMonths(3).addMilliSeconds(-1).date;
+    value: function endOfQuarter(val) {
+      var clone = this.clone().computeBeginningOfQuarter().addMonths(3).addMilliSeconds(-1);
+      return val && val === 'date' ? clone.date : clone.format('YYYY-MM-DD HH:mm:ss.SSS');
     }
   }, {
     key: 'endOfYear',
-    value: function endOfYear() {
-      return this.clone().computeBeginningOfYear().addYears(1).addMilliSeconds(-1).date;
+    value: function endOfYear(val) {
+      var clone = this.clone().computeBeginningOfYear().addYears(1).addMilliSeconds(-1);
+      return val && val === 'date' ? clone.date : clone.format('YYYY-MM-DD HH:mm:ss.SSS');
     }
   }, {
     key: 'dayOfYear',
     value: function dayOfYear() {
-      return Math.round((this.beginningOfDay() - this.beginningOfYear()) / metaDay) + 1;
+      return Math.round((this.beginningOfDay('date') - this.beginningOfYear('date')) / metaDay) + 1;
     }
   }, {
     key: 'toJSON',
@@ -11835,7 +11844,7 @@ var Now$1 = function () {
       if (!(isDate(date1) && isDate(date2))) {
         throw new TypeError('arguments must be Date type');
       }
-      return this.after(date1) && this.before(date2);
+      return this.isAfter(date1) && this.isBefore(date2);
     }
 
     // return the duration this.date - date.
