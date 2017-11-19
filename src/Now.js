@@ -562,8 +562,9 @@ class Now {
     return this.format('YYYY-MM-DD[T]HH:mm:ss.SSS[Z]');
   }
 
-  isNow() {
-    return this instanceof Now;
+  isNow(val) {
+    const now = val ? val : this;
+    return now instanceof Now;
   }
 
   isLeapYear() {
@@ -655,12 +656,12 @@ class Now {
     if (isUndefined(date)) {
       throw new Error("sub must be receive more than one argument");
     }
-    if (date instanceof Now) {
+    if (this.isNow(date)) {
       date = date.date;
     }
     if (args.length > 0) {
       let other = args[0];
-      if (other instanceof Now) {
+      if (this.isNow(other)) {
         other = other.date;
       }
       return minus(date, other);
@@ -675,7 +676,7 @@ class Now {
 
     if (date) {
       now = new Date();
-      if (date instanceof Now) {
+      if (this.isNow(date)) {
         subs = minus(date.date, now);
       } else {
         subs = minus(date, now);
@@ -692,12 +693,12 @@ class Now {
     if (isUndefined(date)) {
       throw new Error("since must be receive more than one argument");
     }
-    if (date instanceof Now) {
+    if (this.isNow(date)) {
       date = date.date;
     }
     if (args.length > 0) {
       let other = args[0];
-      if (other instanceof Now) {
+      if (this.isNow(other)) {
         other = other.date;
       }
       return this.sub(other, date);
