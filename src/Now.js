@@ -2,7 +2,6 @@ import {
   invalidDateError,
   invalidDateRegExp,
   compare,
-  slice,
   isDate,
   isUndefined,
   isFunction,
@@ -601,9 +600,8 @@ class Now {
 
   min(...args) {
     let result = Infinity;
-    let compares = slice.call(args);
     let index = 0;
-    const len = compares.length;
+    const len = args.length;
     if (len === 0) {
       throw new Error('min require at least one argument');
     }
@@ -623,9 +621,8 @@ class Now {
 
   max(...args) {
     let result = -Infinity;
-    let compares = slice.call(args);
     let index = 0;
-    const len = compares.length;
+    const len = args.length;
     if (len === 0) {
       throw new Error('max require at least one argument');
     }
