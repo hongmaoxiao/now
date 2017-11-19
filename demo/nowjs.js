@@ -11204,10 +11204,11 @@ var Format = function () {
 
 var format$1 = new Format();
 
-var metaSecond = 1000;
-var metaMinute = 60 * metaSecond;
-var metaHour = 60 * metaMinute;
-var metaDay = 24 * metaHour;
+var VERSION = '0.1.0';
+var SECOND = 1000;
+var MINUTE = 60 * SECOND;
+var HOUR = 60 * MINUTE;
+var DAY = 24 * HOUR;
 var days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 var chunkOffset = /([\+\-]|\d\d)/gi;
 
@@ -11341,11 +11342,23 @@ var Now$1 = function () {
   }, {
     key: 'UTC',
     value: function UTC() {
-      for (var _len2 = arguments.length, args = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
-        args[_key2] = arguments[_key2];
+      var len = arguments.length;
+      var clone = void 0;
+      if (len > 0) {
+        clone = this.clone(Date.UTC.apply(Date, arguments));
+        clone._isUTC = true;
+        return clone;
       }
-
-      return this.clone(Date.UTC(args));
+      var year = this.year();
+      var month = this.month();
+      var day = this.day();
+      var hour = this.hour();
+      var minute = this.minute();
+      var second = this.second();
+      var milliSecond = this.milliSecond();
+      clone = this.clone(Date.UTC(year, month, day, hour, minute, second, milliSecond));
+      clone._isUTC = true;
+      return clone;
     }
   }, {
     key: 'valueOf',
@@ -11509,8 +11522,13 @@ var Now$1 = function () {
     }
   }, {
     key: 'clone',
-    value: function clone(val) {
-      return val ? new Now(val) : new Now(this.date);
+    value: function clone() {
+      for (var _len2 = arguments.length, args = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+        args[_key2] = arguments[_key2];
+      }
+
+      var len = args.length;
+      return len > 0 ? new (Function.prototype.bind.apply(Now, [null].concat(args)))() : new Now(this.date);
     }
   }, {
     key: 'truncate',
@@ -11550,32 +11568,6 @@ var Now$1 = function () {
         default:
           return this;
       }
-    }
-  }, {
-    key: 'parse',
-    value: function parse(ifMiliSecond) {
-      var context = void 0;
-      if (this instanceof Now) {
-        context = this.date;
-      } else {
-        context = this;
-      }
-      var year = context.getFullYear();
-      var month = context.getMonth() + 1;
-      var date = context.getDate();
-      var hour = context.getHours();
-      var minute = context.getMinutes();
-      var second = context.getSeconds();
-      var milliSecond = context.getMilliseconds();
-      month = month < 10 ? '0' + month : month;
-      date = date < 10 ? '0' + date : date;
-      hour = hour < 10 ? '0' + hour : hour;
-      minute = minute < 10 ? '0' + minute : minute;
-      second = second < 10 ? '0' + second : second;
-      if (ifMiliSecond) {
-        return year + '-' + month + '-' + date + ' ' + hour + ':' + minute + ':' + second + '.' + milliSecond;
-      }
-      return year + '-' + month + '-' + date + ' ' + hour + ':' + minute + ':' + second;
     }
   }, {
     key: 'format',
@@ -11669,19 +11661,19 @@ var Now$1 = function () {
   }, {
     key: 'endOfMinute',
     value: function endOfMinute(val) {
-      var clone = this.clone().computeBeginningOfMinute().addMilliSeconds(metaMinute - 1);
+      var clone = this.clone().computeBeginningOfMinute().addMilliSeconds(MINUTE - 1);
       return val && val === 'self' ? clone : clone.format('YYYY-MM-DD HH:mm:ss.SSS');
     }
   }, {
     key: 'endOfHour',
     value: function endOfHour(val) {
-      var clone = this.clone().computeBeginningOfHour().addMilliSeconds(metaHour - 1);
+      var clone = this.clone().computeBeginningOfHour().addMilliSeconds(HOUR - 1);
       return val && val === 'self' ? clone : clone.format('YYYY-MM-DD HH:mm:ss.SSS');
     }
   }, {
     key: 'endOfDay',
     value: function endOfDay(val) {
-      var clone = this.clone().computeBeginningOfDay().addMilliSeconds(metaDay - 1);
+      var clone = this.clone().computeBeginningOfDay().addMilliSeconds(DAY - 1);
       return val && val === 'self' ? clone : clone.format('YYYY-MM-DD HH:mm:ss.SSS');
     }
   }, {
@@ -11689,7 +11681,7 @@ var Now$1 = function () {
     value: function endOfWeek(val) {
       var clone = this.clone();
       clone.firstDayMonday = this.firstDayMonday;
-      var computed = clone.computeBeginningOfWeek().addMilliSeconds(7 * metaDay - 1);
+      var computed = clone.computeBeginningOfWeek().addMilliSeconds(7 * DAY - 1);
       return val && val === 'self' ? computed : computed.format('YYYY-MM-DD HH:mm:ss.SSS');
     }
   }, {
@@ -11713,7 +11705,7 @@ var Now$1 = function () {
   }, {
     key: 'dayOfYear',
     value: function dayOfYear() {
-      return Math.round((this.beginningOfDay('self').date - this.beginningOfYear('self').date) / metaDay) + 1;
+      return Math.round((this.beginningOfDay('self').date - this.beginningOfYear('self').date) / DAY) + 1;
     }
   }, {
     key: 'toJSON',
@@ -11964,6 +11956,11 @@ var Now$1 = function () {
     key: 'isUTC',
     value: function isUTC() {
       return this.isUtc();
+    }
+  }, {
+    key: 'version',
+    get: function get$$1() {
+      return VERSION;
     }
   }, {
     key: 'value',

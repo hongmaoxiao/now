@@ -30,10 +30,11 @@ import {
 
 import format from './Format.js';
 
-const metaSecond = 1000;
-const metaMinute = 60 * metaSecond;
-const metaHour = 60 * metaMinute;
-const metaDay = 24 * metaHour;
+const VERSION = '0.1.0';
+const SECOND = 1000;
+const MINUTE = 60 * SECOND;
+const HOUR = 60 * MINUTE;
+const DAY = 24 * HOUR;
 const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 const chunkOffset = /([\+\-]|\d\d)/gi;
 
@@ -106,6 +107,18 @@ class Now {
     return locales();
   }
 
+  get version() {
+    return VERSION;
+  }
+
+  get value() {
+    return +this.now;
+  }
+
+  get date() {
+    return this.now;
+  }
+
   localeData(key) {
     return localeData(key);
   }
@@ -164,14 +177,6 @@ class Now {
   isDateIterator(index) {
     const that = this;
     return () => that.now.getDay() === index;
-  }
-
-  get value() {
-    return +this.now;
-  }
-
-  get date() {
-    return this.now;
   }
 
   UTC(...args) {
@@ -479,21 +484,21 @@ class Now {
   }
 
   endOfMinute(val) {
-    const clone = this.clone().computeBeginningOfMinute().addMilliSeconds(metaMinute - 1);
+    const clone = this.clone().computeBeginningOfMinute().addMilliSeconds(MINUTE - 1);
     return (val && val === 'self') ?
     clone :
     clone.format('YYYY-MM-DD HH:mm:ss.SSS');
   }
 
   endOfHour(val) {
-    const clone = this.clone().computeBeginningOfHour().addMilliSeconds(metaHour - 1);
+    const clone = this.clone().computeBeginningOfHour().addMilliSeconds(HOUR - 1);
     return (val && val === 'self') ?
     clone :
     clone.format('YYYY-MM-DD HH:mm:ss.SSS');
   }
 
   endOfDay(val) {
-    const clone = this.clone().computeBeginningOfDay().addMilliSeconds(metaDay - 1);
+    const clone = this.clone().computeBeginningOfDay().addMilliSeconds(DAY - 1);
     return (val && val === 'self') ?
     clone :
     clone.format('YYYY-MM-DD HH:mm:ss.SSS');
@@ -502,7 +507,7 @@ class Now {
   endOfWeek(val) {
     const clone = this.clone();
     clone.firstDayMonday = this.firstDayMonday;
-    const computed = clone.computeBeginningOfWeek().addMilliSeconds((7 * metaDay) - 1);
+    const computed = clone.computeBeginningOfWeek().addMilliSeconds((7 * DAY) - 1);
     return (val && val === 'self') ?
     computed :
     computed.format('YYYY-MM-DD HH:mm:ss.SSS');
@@ -530,7 +535,7 @@ class Now {
   }
 
   dayOfYear() {
-    return Math.round((this.beginningOfDay('self').date - this.beginningOfYear('self').date) / metaDay) + 1;
+    return Math.round((this.beginningOfDay('self').date - this.beginningOfYear('self').date) / DAY) + 1;
   }
 
   toJSON() {
