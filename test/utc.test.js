@@ -19,6 +19,17 @@ test('create UTC by some args', () => {
   expect(!isNotEqual).toBeTruthy();
 });
 
+test('UTC for year, month, day...', () => {
+  const now = new Now().UTC(2017, 10, 19, 17, 15, 20, 123);
+  expect(now.year()).toBe(2017);
+  expect(now.month()).toBe(10);
+  expect(now.day()).toBe(19);
+  expect(now.hour()).toBe(17);
+  expect(now.minute()).toBe(15);
+  expect(now.second()).toBe(20);
+  expect(now.milliSecond()).toBe(123);
+});
+
 test('utc and local', () => {
   const now = new Now(2011, 1, 2, 3, 4, 5, 6);
   const utcNow = now.UTC();
