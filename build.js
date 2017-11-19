@@ -12,6 +12,7 @@ const watchOutputMinify = './demo/nowjs.min.js';
 const outputDefault = './dist/nowjs.js';
 const outputMinify = './dist/nowjs.min.js';
 const pluginsDefault = [babel({
+  plugins: ['external-helpers'],
   exclude: 'node_modules/**'
 })];
 const external = Object.keys(pkg.dependencies);
