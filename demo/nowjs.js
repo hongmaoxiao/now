@@ -11738,6 +11738,11 @@ var Now$1 = function () {
       return this.format('YYYY-MM-DD[T]HH:mm:ss.SSS[Z]');
     }
   }, {
+    key: 'isNow',
+    value: function isNow() {
+      return this instanceof Now;
+    }
+  }, {
     key: 'isLeapYear',
     value: function isLeapYear$$1() {
       return isLeapYear(this.year());
@@ -11935,22 +11940,6 @@ var Now$1 = function () {
       }
       return this;
     }
-
-    // parseZone() {
-    //   if (this._tzm != null) {
-    //     this.utcOffset(this._tzm, false, true);
-    //   }
-    //   if (isString(this._i)) {
-    //     const tZone = offsetFromString(matchOffset, this._i);
-    //     if (tZone != null) {
-    //       this.utcOffset(tZone);
-    //     } else {
-    //       this.utcOffset(0, true);
-    //     }
-    //   }
-    //   return this;
-    // }
-
   }, {
     key: 'isDST',
     value: function isDST() {

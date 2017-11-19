@@ -560,6 +560,10 @@ class Now {
     return this.format('YYYY-MM-DD[T]HH:mm:ss.SSS[Z]');
   }
 
+  isNow() {
+    return this instanceof Now;
+  }
+
   isLeapYear() {
     return isLeapYear(this.year());
   }
@@ -721,22 +725,6 @@ class Now {
     }
     return this;
   }
-
-
-  // parseZone() {
-  //   if (this._tzm != null) {
-  //     this.utcOffset(this._tzm, false, true);
-  //   }
-  //   if (isString(this._i)) {
-  //     const tZone = offsetFromString(matchOffset, this._i);
-  //     if (tZone != null) {
-  //       this.utcOffset(tZone);
-  //     } else {
-  //       this.utcOffset(0, true);
-  //     }
-  //   }
-  //   return this;
-  // }
 
   isDST() {
     return this.utcOffset() > this.clone().month(0).utcOffset() ||
