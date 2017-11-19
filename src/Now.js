@@ -655,9 +655,8 @@ class Now {
 
   // return the duration
   sub(date, ...args) {
-    date || (date = 0);
-    if (date === 0) {
-      throw new Error("sub must be receive more than one args");
+    if (isUndefined(date)) {
+      throw new Error("sub must be receive more than one argument");
     }
     if (date instanceof Now) {
       date = date.date;
@@ -693,8 +692,18 @@ class Now {
 
   // return the time elapsed since date
   since(date, ...args) {
+    if (isUndefined(date)) {
+      throw new Error("since must be receive more than one argument");
+    }
+    if (date instanceof Now) {
+      date = date.date;
+    }
     if (args.length > 0) {
-      return this.sub(args[0], date);
+      let other = args[0];
+      if (other instanceof Now) {
+        other = other.date;
+      }
+      return this.sub(other, date);
     }
     const now = new Date();
     return this.sub(now, date);
