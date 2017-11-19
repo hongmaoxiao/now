@@ -655,8 +655,19 @@ class Now {
 
   // return the duration
   sub(date, ...args) {
+    date || (date = 0);
+    if (date === 0) {
+      throw new Error("sub must be receive more than one args");
+    }
+    if (date instanceof Now) {
+      date = date.date;
+    }
     if (args.length > 0) {
-      return minus(date, args[0]);
+      let other = args[0];
+      if (other instanceof Now) {
+        other = other.date;
+      }
+      return minus(date, other);
     }
     return minus(this.date, date);
   }
