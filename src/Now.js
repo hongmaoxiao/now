@@ -149,7 +149,7 @@ class Now {
           offset = 7;
         }
         dayObj = that.computeBeginningOfWeek().addDays(-(7 - offset));
-        return (val && val === 'date') ? dayObj.date : dayObj.format('YYYY-MM-DD HH:mm:ss');
+        return (val && val === 'self') ? dayObj : dayObj.format('YYYY-MM-DD HH:mm:ss');
       }
       // today is not sunday, so get after sunday
       let offset = index;
@@ -157,7 +157,7 @@ class Now {
         offset = 7;
       }
       dayObj = that.computeBeginningOfWeek().addDays(offset);
-      return (val && val === 'date') ? dayObj.date : dayObj.format('YYYY-MM-DD HH:mm:ss');
+      return (val && val === 'self') ? dayObj : dayObj.format('YYYY-MM-DD HH:mm:ss');
     };
   }
 
@@ -445,65 +445,65 @@ class Now {
   }
 
   beginningOfMinute(val) {
-    return (val && val === 'date') ?
-    this.computeBeginningOfMinute().date :
+    return (val && val === 'self') ?
+    this.computeBeginningOfMinute() :
     this.computeBeginningOfMinute().format('YYYY-MM-DD HH:mm:ss');
   }
 
   beginningOfHour(val) {
-    return (val && val === 'date') ?
-    this.computeBeginningOfHour().date :
+    return (val && val === 'self') ?
+    this.computeBeginningOfHour() :
     this.computeBeginningOfHour().format('YYYY-MM-DD HH:mm:ss');
   }
 
   beginningOfDay(val) {
-    return (val && val === 'date') ?
-    this.computeBeginningOfDay().date :
+    return (val && val === 'self') ?
+    this.computeBeginningOfDay() :
     this.computeBeginningOfDay().format('YYYY-MM-DD HH:mm:ss');
   }
 
   beginningOfWeek(val) {
-    return (val && val === 'date') ?
-    this.computeBeginningOfWeek().date :
+    return (val && val === 'self') ?
+    this.computeBeginningOfWeek() :
     this.computeBeginningOfWeek().format('YYYY-MM-DD HH:mm:ss');
   }
 
   beginningOfMonth(val) {
-    return (val && val === 'date') ?
-    this.computeBeginningOfMonth().date :
+    return (val && val === 'self') ?
+    this.computeBeginningOfMonth() :
     this.computeBeginningOfMonth().format('YYYY-MM-DD HH:mm:ss');
   }
 
   beginningOfQuarter(val) {
-    return (val && val === 'date') ?
-    this.computeBeginningOfQuarter().date :
+    return (val && val === 'self') ?
+    this.computeBeginningOfQuarter() :
     this.computeBeginningOfQuarter().format('YYYY-MM-DD HH:mm:ss');
   }
 
   beginningOfYear(val) {
-    return (val && val === 'date') ?
-    this.computeBeginningOfYear().date :
+    return (val && val === 'self') ?
+    this.computeBeginningOfYear() :
     this.computeBeginningOfYear().format('YYYY-MM-DD HH:mm:ss');
   }
 
   endOfMinute(val) {
     const clone = this.clone().computeBeginningOfMinute().addMilliSeconds(metaMinute - 1);
-    return (val && val === 'date') ?
-    clone.date :
+    return (val && val === 'self') ?
+    clone :
     clone.format('YYYY-MM-DD HH:mm:ss.SSS');
   }
 
   endOfHour(val) {
     const clone = this.clone().computeBeginningOfHour().addMilliSeconds(metaHour - 1);
-    return (val && val === 'date') ?
-    clone.date :
+    return (val && val === 'self') ?
+    clone :
     clone.format('YYYY-MM-DD HH:mm:ss.SSS');
   }
 
   endOfDay(val) {
     const clone = this.clone().computeBeginningOfDay().addMilliSeconds(metaDay - 1);
-    return (val && val === 'date') ?
-    clone.date :
+    return (val && val === 'self') ?
+    clone :
     clone.format('YYYY-MM-DD HH:mm:ss.SSS');
   }
 
@@ -511,34 +511,34 @@ class Now {
     const clone = this.clone();
     clone.firstDayMonday = this.firstDayMonday;
     const computed = clone.computeBeginningOfWeek().addMilliSeconds((7 * metaDay) - 1);
-    return (val && val === 'date') ?
-    computed.date :
+    return (val && val === 'self') ?
+    computed :
     computed.format('YYYY-MM-DD HH:mm:ss.SSS');
   }
 
   endOfMonth(val) {
     const clone = this.clone().computeBeginningOfMonth().addMonths(1).addMilliSeconds(-1);
-    return (val && val === 'date') ?
-    clone.date :
+    return (val && val === 'self') ?
+    clone :
     clone.format('YYYY-MM-DD HH:mm:ss.SSS');
   }
 
   endOfQuarter(val) {
     const clone = this.clone().computeBeginningOfQuarter().addMonths(3).addMilliSeconds(-1);
-    return (val && val === 'date') ?
-    clone.date :
+    return (val && val === 'self') ?
+    clone :
     clone.format('YYYY-MM-DD HH:mm:ss.SSS');
   }
 
   endOfYear(val) {
     const clone = this.clone().computeBeginningOfYear().addYears(1).addMilliSeconds(-1);
-    return (val && val === 'date') ?
-    clone.date :
+    return (val && val === 'self') ?
+    clone :
     clone.format('YYYY-MM-DD HH:mm:ss.SSS');
   }
 
   dayOfYear() {
-    return Math.round((this.beginningOfDay('date') - this.beginningOfYear('date')) / metaDay) + 1;
+    return Math.round((this.beginningOfDay('self').date - this.beginningOfYear('self').date) / metaDay) + 1;
   }
 
   toJSON() {
