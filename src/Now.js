@@ -331,8 +331,9 @@ class Now {
     return this;
   }
 
-  clone(val) {
-    return val ? new Now(val) : new Now(this.date);
+  clone(...args) {
+    const len = args.length;
+    return len > 0 ? new Now(args) : new Now(this.date);
   }
 
   truncate(name) {
