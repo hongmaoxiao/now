@@ -645,8 +645,14 @@ class Now {
     if (isUndefined(date1) || isUndefined(date2)) {
       throw new Error('arguments must be defined');
     }
+    if (this.isNow(date1)) {
+      date1 = date1.date;
+    }
+    if (this.isNow(date2)) {
+      date2 = date2.date;
+    }
     if (!(isDate(date1) && isDate(date2))) {
-      throw new TypeError('arguments must be Date type');
+      throw new TypeError('arguments must be Date type or instanceof Now');
     }
     return this.isAfter(date1) && this.isBefore(date2);
   }
