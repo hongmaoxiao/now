@@ -11981,6 +11981,11 @@ var Now$1 = function () {
       this.mondayFirst = value;
     }
   }], [{
+    key: 'version',
+    value: function version() {
+      return VERSION;
+    }
+  }, {
     key: 'defineLocale',
     value: function defineLocale$$1(name, config) {
       return defineLocale(name, config);

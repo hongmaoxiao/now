@@ -15,4 +15,3 @@ test('return elapse time by now', () => {
 
   timer(cb, pass);
 });
-

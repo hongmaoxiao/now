@@ -26,15 +26,16 @@ import {
   weeksInYear,
   parseWeekday,
   parseIsoWeekday,
+  SECOND,
+  MINUTE,
+  HOUR,
+  DAY,
 } from './utils/index.js';
 
 import format from './Format.js';
+import duration from './Duration.js';
 
 const VERSION = '0.1.0';
-const SECOND = 1000;
-const MINUTE = 60 * SECOND;
-const HOUR = 60 * MINUTE;
-const DAY = 24 * HOUR;
 const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 const chunkOffset = /([\+\-]|\d\d)/gi;
 
@@ -90,6 +91,7 @@ class Now {
       throw new TypeError(invalidDateError);
     }
     this._format = format;
+    this._duration = duration;
     this._isUTC = false;
     this.initDate();
     this.initIsDate();
@@ -660,9 +662,24 @@ class Now {
   }
 
   // return the time elapsed by now
-  elapse() {
-    const now = new Date();
-    return minus(now, this.date);
+  elapse(date) {
+    // const now = new Date();
+    // return minus(now, this.date);
+    let now;
+    let subs;
+
+    if (date) {
+      now = new Date();
+      if (date instanceof Now) {
+        subs = minus(now, date.date);
+      } else {
+        subs = minus(now, date);
+      }
+    }
+    now = new Date();
+    subs = minus(now, this.date);
+
+    return new this._duration(subs).human(this, true);
   }
 
   // return the time elapsed since date

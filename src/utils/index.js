@@ -21,6 +21,10 @@ const regexEscape = (s) => s.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
 
 export const nativeDatetoISOString = Date.prototype.toISOString;
 
+export const SECOND = 1000;
+export const MINUTE = 60 * SECOND;
+export const HOUR = 60 * MINUTE;
+export const DAY = 24 * HOUR;
 export const slice = ArrayProto.slice;
 export const invalidDateError = 'Invalid Date';
 export const invalidDateRegExp = /Invalid Date/;
@@ -92,6 +96,17 @@ export function absFloor(number) {
 
 export function absRound(number) {
   return number < 0 ? Math.round(-1 * number) * -1 : Math.round(number);
+}
+
+export const daysToMonths = (days) => {
+  // 400 years have 146097 days (taking into account leap year rules)
+  // 400 years have 12 months === 4800
+  return days * 4800 / 146097;
+}
+
+export const monthsToDays = (months) => {
+  // the reverse of daysToMonths
+  return months * 146097 / 4800;
 }
 
 export function toInt(number) {
@@ -750,4 +765,3 @@ export const parseWeekday = (input, locale) => {
 
   return null;
 }
-
