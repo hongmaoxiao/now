@@ -181,102 +181,45 @@ test('quarter formats', () => {
   expect(output).toBe('Q1-2000');
 });
 
-test('toJSON skips postformat', () => {
-  Now.defineLocale('postformat', {
-    postformat: function(s) {
-      s.replace(/./g, 'X');
-    }
-  });
-  const now = new Now(2000, 0, 1);
-  const output = now.toJSON();
-  expect(output).toBe('2000-01-01T00:00:00.000Z');
-  Now.defineLocale('postformat', null);
-});
-
 test('toString is just human readable format', () => {
   const now = new Now(2017, 9, 29, 17, 35, 20, 100);
   expect(now.toString()).toEqual(now.format('ddd MMM DD YYYY HH:mm:ss [GMT]ZZ'));
 });
 
 test('weekday formats', () => {
-  const fn = () => Now.defineLocale('dow: 3,doy: 5', {
+  Now.defineLocale('dow: 3,doy: 5', {
     week: {
       dow: 3,
       doy: 5
     }
   });
-  fn();
   let now = new Now(1985, 1, 6);
-  fn();
   let output = now.format('e');
   expect(output).toBe('0');
 
   now = new Now(2029, 8, 20);
-  fn();
   output = now.format('e');
   expect(output).toBe('1');
 
   now = new Now(2013, 3, 26);
-  fn();
   output = now.format('e');
   expect(output).toBe('2');
 
   now = new Now(2015, 2, 7);
-  fn();
   output = now.format('e');
   expect(output).toBe('3');
 
   now = new Now(1970, 0, 4);
-  fn();
   output = now.format('e');
   expect(output).toBe('4');
 
   now = new Now(2001, 4, 14);
-  fn();
   output = now.format('e');
   expect(output).toBe('5');
 
   now = new Now(2000, 0, 4);
-  fn();
   output = now.format('e');
   expect(output).toBe('6');
-});
-
-test('toJSON', () => {
-  const supportsJson = typeof JSON !== 'undefined' && JSON.stringify && JSON.stringify.call;
-  const now = new Now(2012, 9, 9, 20, 30, 40, 678);
-  expect(now.toJSON()).toBe('2012-10-09T20:30:40.678Z');
-
-  if (supportsJson) {
-    expect(JSON.stringify({
-      now,
-    })).toBe('{"now":"2012-10-09T20:30:40.678Z"}');
-  }
-});
-
-test('toISOString', () => {
-  let now = new Now(2012, 9, 9, 20, 30, 40, 678);
-  expect(now.toISOString()).toBe('2012-10-09T20:30:40.678Z');
-
-  // big years
-  now = new Now(20123, 9, 9, 20, 30, 40, 678);
-  expect(now.toISOString()).toBe('+020123-10-09T20:30:40.678Z');
-
-  // negative years
-  now = new Now(-1, 9, 9, 20, 30, 40, 678);
-  expect(now.toISOString()).toBe('-000001-10-09T20:30:40.678Z');
-
-  // big negative years
-  now = new Now(-20123, 9, 9, 20, 30, 40, 678);
-  expect(now.toISOString()).toBe('-020123-10-09T20:30:40.678Z');
-
-  now = new Now(2017, 11, 32);
-  expect(now.toISOString()).toBe('2018-01-01T00:00:00.000Z');
-});
-
-test('toISOString() when 0 year', () => {
-  let now = new Now(0, 9, 9, 20, 30, 40, 678);
-  expect(now.toISOString()).toBe('1900-10-09T20:30:40.678Z');
 });
 
 test('long years', () => {
@@ -502,69 +445,58 @@ test('iso week year formats', () => {
   }
 });
 
-// test('week year formats', () => {
-//   // https://en.wikipedia.org/wiki/ISO_week_date
-//   const cases = {
-//     '2005-01-02': '2004-53',
-//     '2005-12-31': '2005-52',
-//     '2007-01-01': '2007-01',
-//     '2007-12-30': '2007-52',
-//     '2007-12-31': '2008-01',
-//     '2008-01-01': '2008-01',
-//     '2008-12-28': '2008-52',
-//     '2008-12-29': '2009-01',
-//     '2008-12-30': '2009-01',
-//     '2008-12-31': '2009-01',
-//     '2009-01-01': '2009-01',
-//     '2009-12-31': '2009-53',
-//     '2010-01-01': '2009-53',
-//     '2010-01-02': '2009-53',
-//     '2010-01-03': '2009-53',
-//     '404-12-31': '0404-53',
-//     '405-12-31': '0405-52'
-//   };
-//   let i;
-//   let isoWeekYear;
-//   let formatted5;
-//   let formatted4;
-//   let formatted2;
-//   let args;
-//
-//   // Now.defineLocale('dow:1,doy:4', {
-//   //   week: {
-//   //     dow: 1,
-//   //     doy: 4
-//   //   }
-//   // });
-//   const fn = () => Now.defineLocale('dow:1,doy:4', {
-//     week: {
-//       dow: 1,
-//       doy: 4
-//     }
-//   });
-//
-//   for (i in cases) {
-//     isoWeekYear = cases[i].split('-')[0];
-//     args = i.split('-').join(',');
-//
-//     fn();
-//     let now = new Now(args);
-//     fn();
-//     formatted5 = now.format('ggggg');
-//     expect(`0${isoWeekYear}`).toBe(formatted5);
-//
-//     now = new Now(args);
-//     fn();
-//     formatted4 = now.format('gggg');
-//     expect(isoWeekYear).toBe(formatted4);
-//
-//     now = new Now(args);
-//     fn();
-//     formatted2 = now.format('gg');
-//     expect(isoWeekYear.slice(2, 4)).toBe(formatted2);
-//   }
-//   Now.defineLocale('dow:1,doy:4', null);
-// });
+test('week year formats', () => {
+  // https://en.wikipedia.org/wiki/ISO_week_date
+  const cases = {
+    '2005-01-02': '2004-53',
+    '2005-12-31': '2005-52',
+    '2007-01-01': '2007-01',
+    '2007-12-30': '2007-52',
+    '2007-12-31': '2008-01',
+    '2008-01-01': '2008-01',
+    '2008-12-28': '2008-52',
+    '2008-12-29': '2009-01',
+    '2008-12-30': '2009-01',
+    '2008-12-31': '2009-01',
+    '2009-01-01': '2009-01',
+    '2009-12-31': '2009-53',
+    '2010-01-01': '2009-53',
+    '2010-01-02': '2009-53',
+    '2010-01-03': '2009-53',
+    '404-12-31': '0404-53',
+    '405-12-31': '0405-52'
+  };
+  let i;
+  let isoWeekYear;
+  let formatted5;
+  let formatted4;
+  let formatted2;
+  let args;
+
+  Now.defineLocale('dow:1,doy:4', {
+    week: {
+      dow: 1,
+      doy: 4
+    }
+  });
+  for (i in cases) {
+    isoWeekYear = cases[i].split('-')[0];
+    args = i.split('-').join(',');
+
+    let now = new Now(args);
+    formatted5 = now.format('ggggg');
+    expect(`0${isoWeekYear}`).toBe(formatted5);
+
+    now = new Now(args);
+    formatted4 = now.format('gggg');
+    expect(isoWeekYear).toBe(formatted4);
+
+    now = new Now(args);
+    formatted2 = now.format('gg');
+    expect(isoWeekYear.slice(2, 4)).toBe(formatted2);
+  }
+  Now.defineLocale('dow:1,doy:4', null);
+});
 
 test('iso weekday formats', () => {
   let now = new Now(1985, 1, 4);
