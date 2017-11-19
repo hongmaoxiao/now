@@ -653,7 +653,7 @@ class Now {
     return this.isAfter(date1) && this.isBefore(date2);
   }
 
-  // return the duration this.date - date.
+  // return the duration
   sub(date, ...args) {
     if (args.length > 0) {
       return minus(date, args[0]);
@@ -661,23 +661,21 @@ class Now {
     return minus(this.date, date);
   }
 
-  // return the time elapsed by now
+  // return the relativeTime format
   elapse(date) {
-    // const now = new Date();
-    // return minus(now, this.date);
     let now;
     let subs;
 
     if (date) {
       now = new Date();
       if (date instanceof Now) {
-        subs = minus(now, date.date);
+        subs = minus(date.date, now);
       } else {
-        subs = minus(now, date);
+        subs = minus(date, now);
       }
     }
     now = new Date();
-    subs = minus(now, this.date);
+    subs = minus(this.date, now);
 
     return new this._duration(subs).human(this, true);
   }

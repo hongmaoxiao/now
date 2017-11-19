@@ -66,7 +66,7 @@ class Duration {
   }
 
   valueOf() {
-    this.value;
+    return this.value;
   }
 
   abs() {
@@ -124,8 +124,7 @@ class Duration {
     let output = this.relativeTime(!withSuffix, locale);
 
     if (withSuffix) {
-      console.log('+this: ', +this.value);
-      output = locale.pastFuture(+this.value, output);
+      output = locale.pastFuture(+this, output);
     }
     return locale.postformat ? locale.postformat(output) : output;
   }
