@@ -44,8 +44,6 @@ test('utcOffset shorthand hours -> minutes', () => {
 test('isUTC', () => {
   expect(new Now().utcOffset(0).isUTC()).toBeTruthy();
   expect(!new Now().utcOffset(1).isUTC()).toBeTruthy();
-
-  // assert.ok(moment.utc().isUTC(), 'moment.utc() creates objects in utc time');
 });
 
 test('getters and setters', () => {
@@ -55,8 +53,6 @@ test('getters and setters', () => {
   expect(now.clone().utcOffset(-120).day(2).day()).toBe(2);
   expect(now.clone().utcOffset(-120).hour(1).hour()).toBe(1);
   expect(now.clone().utcOffset(-120).minute(1).minute()).toBe(1);
-
-  // expect(now.clone().utcOffset(-120).weekDay(1).weekDay()).toBe(1);
 });
 
 test('timezone format', () => {
