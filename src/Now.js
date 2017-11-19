@@ -95,6 +95,10 @@ class Now {
     this.initIsDate();
   }
 
+  static version() {
+    return VERSION;
+  }
+
   static defineLocale(name, config) {
     return defineLocale(name, config);
   }
