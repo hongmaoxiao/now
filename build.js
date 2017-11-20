@@ -7,8 +7,8 @@ const pkg = require('./package.json');
 
 const input = './src/index.js';
 const name = 'Now';
-const watchOutputDefault = './demo/nowjs.js';
-const watchOutputMinify = './demo/nowjs.min.js';
+const watchOutputDefault = './example/nowjs.js';
+const watchOutputMinify = './example/nowjs.min.js';
 const outputDefault = './dist/nowjs.js';
 const outputMinify = './dist/nowjs.min.js';
 const pluginsDefault = [babel({
