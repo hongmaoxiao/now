@@ -2,7 +2,7 @@
   "name": "now.js",
   "version": "0.1.0",
   "description": "now is a time toolkit for javascript",
-  "main": "./dist/nowjs.min.js",
+  "main": "./dist/nowjs.js",
   "scripts": {
     "start": "concurrently --kill-others  \"npm run serve\" \"npm run build -- -w\"",
     "serve": "gulp serve",
@@ -17,7 +17,11 @@
     "url": "git+https://github.com/makelifemorefun/now.git"
   },
   "keywords": [
-    "now"
+    "now",
+    "date",
+    "time",
+    "format",
+    "i18n"
   ],
   "author": "buaaxhm@gmail.com",
   "license": "MIT",
