@@ -92,7 +92,7 @@ class Duration {
   }
 
   relativeTime(withoutSuffix, locale) {
-    this.abs();
+    // this.abs();
     const seconds = this.seconds();
     const minutes = this.minutes();
     const hours = this.hours();

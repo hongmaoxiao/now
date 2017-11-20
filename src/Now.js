@@ -704,7 +704,6 @@ class Now {
     }
     now = new Date();
     subs = minus(this.date, now);
-
     return new this._duration(subs).human(this, true);
   }
 

@@ -1,17 +1,13 @@
 import Now from '../src/index';
 
-test('return elapse time by now', () => {
+test('return elapse time from specific time', () => {
   const now = new Now();
-  const pass = 500;
+  const compare = new Date(+now - 100);
+  expect(now.elapse(compare)).toBe('a few seconds ago');
+});
 
-  const cb = () => {
-    expect(now.elapse()).toBe(pass);
-  }
-  const timer = (cb, time) => {
-    setTimeout(() => {
-      cb && cb();
-    }, time)
-  };
-
-  timer(cb, pass);
+test('elapse receive Now instance', () => {
+  const now = new Now();
+  const compare = new Now(+now - 100);
+  expect(now.elapse(compare)).toBe('a few seconds ago');
 });
