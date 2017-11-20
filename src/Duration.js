@@ -8,7 +8,7 @@ import {
   MINUTE,
   HOUR,
   DAY,
-} from './utils/index.js';
+} from './utils/index';
 
 const round = Math.round;
 const thresholds = {
@@ -17,7 +17,7 @@ const thresholds = {
   m: 45, // minutes to hour
   h: 22, // hours to day
   d: 26, // days to month
-  M: 11 // months to year
+  M: 11, // months to year
 };
 
 class Duration {
@@ -54,7 +54,7 @@ class Duration {
     days -= absCeil(monthsToDays(monthsFromDays));
 
     years = absFloor(months / 12);
-    months = months % 12;
+    months %= 12;
 
     this._data.days = days;
     this._data.months = days;
@@ -101,7 +101,7 @@ class Duration {
     const years = this.years();
 
 
-    let a = seconds <= thresholds.ss && ['s', seconds] ||
+    const a = seconds <= thresholds.ss && ['s', seconds] ||
       seconds < thresholds.s && ['ss', seconds] ||
       minutes <= 1 && ['m'] ||
       minutes < thresholds.m && ['mm', minutes] ||

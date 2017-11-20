@@ -10242,7 +10242,11 @@ var regexEscape = function regexEscape(s) {
 
 var nativeDatetoISOString = Date.prototype.toISOString;
 
-var slice = ArrayProto.slice;
+var SECOND = 1000;
+var MINUTE = 60 * SECOND;
+var HOUR = 60 * MINUTE;
+var DAY = 24 * HOUR;
+
 var invalidDateError = 'Invalid Date';
 var invalidDateRegExp = /Invalid Date/;
 var defaultFormat = 'YYYY-MM-DDTHH:mm:ssZ';
@@ -10303,13 +10307,26 @@ var keys = Object.keys || function (obj) {
   return res;
 };
 
-
+function absCeil(number) {
+  return number < 0 ? Math.floor(number) : Math.ceil(number);
+}
 
 function absFloor(number) {
   return number < 0 ? Math.ceil(number) : Math.floor(number);
 }
 
 
+
+var daysToMonths = function daysToMonths(days) {
+  // 400 years have 146097 days (taking into account leap year rules)
+  // 400 years have 12 months === 4800
+  return days * 4800 / 146097;
+};
+
+var monthsToDays = function monthsToDays(months) {
+  // the reverse of daysToMonths
+  return months * 146097 / 4800;
+};
 
 function toInt(number) {
   return +number !== 0 && isFinite(+number) ? absFloor(+number) : 0;
@@ -11204,11 +11221,168 @@ var Format = function () {
 
 var format$1 = new Format();
 
+var round = Math.round;
+var thresholds = {
+  ss: 44, // a few seconds to seconds
+  s: 45, // seconds to minute
+  m: 45, // minutes to hour
+  h: 22, // hours to day
+  d: 26, // days to month
+  M: 11 // months to year
+};
+
+var Duration = function () {
+  function Duration(val) {
+    classCallCheck(this, Duration);
+
+    val || (val = 0);
+    val = isNumber(parseInt(val, 10)) ? val : 0;
+    this._data = {};
+    this._milliSeconds = val;
+    this.init();
+  }
+
+  createClass(Duration, [{
+    key: 'init',
+    value: function init() {
+      var millis = this._milliSeconds;
+      var seconds = void 0;
+      var minutes = void 0;
+      var hours = void 0;
+      var days = void 0;
+      var monthsFromDays = void 0;
+
+      this._data.milliSeconds = millis % SECOND;
+      seconds = absFloor(millis / SECOND);
+      this._data.seconds = seconds % 60;
+      minutes = absFloor(millis / MINUTE);
+      this._data.minutes = minutes % 60;
+      hours = absFloor(millis / HOUR);
+      this._data.hours = hours % 24;
+      days = absFloor(hours / 24);
+
+      monthsFromDays = absFloor(daysToMonths(days));
+      days -= absCeil(monthsToDays(monthsFromDays));
+
+      this._data.days = days;
+      this._data.months = days;
+      this._data.years = days;
+    }
+  }, {
+    key: 'valueOf',
+    value: function valueOf() {
+      return this.value;
+    }
+  }, {
+    key: 'abs',
+    value: function abs() {
+      var mathAbs = Math.abs;
+      var data = this._data;
+
+      this._milliSeconds = mathAbs(this._milliSeconds);
+
+      this._data.milliSeconds = mathAbs(data.milliSeconds);
+      this._data.seconds = mathAbs(data.seconds);
+      this._data.minutes = mathAbs(data.minutes);
+      this._data.hours = mathAbs(data.hours);
+      this._data.days = mathAbs(data.days);
+      this._data.months = mathAbs(data.months);
+      this._data.years = mathAbs(data.years);
+
+      return this;
+    }
+
+    // helper function for moment.fn.from, moment.fn.fromNow, and moment.duration.fn.humanize
+
+  }, {
+    key: 'substituteTimeAgo',
+    value: function substituteTimeAgo(string, number, withoutSuffix, isFuture, locale) {
+      return locale.relativeTime(number || 1, !!withoutSuffix, string, isFuture);
+    }
+  }, {
+    key: 'relativeTime',
+    value: function relativeTime(withoutSuffix, locale) {
+      // this.abs();
+      var seconds = this.seconds();
+      var minutes = this.minutes();
+      var hours = this.hours();
+      var days = this.days();
+      var months = this.months();
+      var years = this.years();
+
+      var a = seconds <= thresholds.ss && ['s', seconds] || seconds < thresholds.s && ['ss', seconds] || minutes <= 1 && ['m'] || minutes < thresholds.m && ['mm', minutes] || hours <= 1 && ['h'] || hours < thresholds.h && ['hh', hours] || days <= 1 && ['d'] || days < thresholds.d && ['dd', days] || months <= 1 && ['M'] || months < thresholds.M && ['MM', months] || years <= 1 && ['y'] || ['yy', years];
+
+      a[2] = withoutSuffix;
+      a[3] = +this > 0;
+      a[4] = locale;
+      return this.substituteTimeAgo.apply(null, a);
+    }
+  }, {
+    key: 'human',
+    value: function human(context, withSuffix) {
+      var locale = context.localeData();
+      var output = this.relativeTime(!withSuffix, locale);
+
+      if (withSuffix) {
+        output = locale.pastFuture(+this, output);
+      }
+      return locale.postformat ? locale.postformat(output) : output;
+    }
+  }, {
+    key: 'computeMonth',
+    value: function computeMonth() {
+      return daysToMonths(this.value / DAY);
+    }
+  }, {
+    key: 'years',
+    value: function years() {
+      return round(this.computeMonth() / 12);
+    }
+  }, {
+    key: 'months',
+    value: function months() {
+      return round(this.computeMonth());
+    }
+  }, {
+    key: 'weeks',
+    value: function weeks() {
+      return round(this.value / DAY / 7);
+    }
+  }, {
+    key: 'days',
+    value: function days() {
+      return round(this.value / DAY);
+    }
+  }, {
+    key: 'hours',
+    value: function hours() {
+      return round(this.value / HOUR);
+    }
+  }, {
+    key: 'minutes',
+    value: function minutes() {
+      return round(this.value / MINUTE);
+    }
+  }, {
+    key: 'seconds',
+    value: function seconds() {
+      return round(this.value / SECOND);
+    }
+  }, {
+    key: 'milliSeconds',
+    value: function milliSeconds() {
+      return this.value;
+    }
+  }, {
+    key: 'value',
+    get: function get$$1() {
+      return this._milliSeconds;
+    }
+  }]);
+  return Duration;
+}();
+
 var VERSION = '0.1.0';
-var SECOND = 1000;
-var MINUTE = 60 * SECOND;
-var HOUR = 60 * MINUTE;
-var DAY = 24 * HOUR;
 var days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 var chunkOffset = /([\+\-]|\d\d)/gi;
 
@@ -11266,6 +11440,7 @@ var Now$1 = function () {
       throw new TypeError(invalidDateError);
     }
     this._format = format$1;
+    this._duration = Duration;
     this._isUTC = false;
     this.initDate();
     this.initIsDate();
@@ -11731,8 +11906,9 @@ var Now$1 = function () {
     }
   }, {
     key: 'isNow',
-    value: function isNow() {
-      return this instanceof Now;
+    value: function isNow(val) {
+      var now = val ? val : this;
+      return now instanceof Now;
     }
   }, {
     key: 'isLeapYear',
@@ -11775,23 +11951,31 @@ var Now$1 = function () {
   }, {
     key: 'min',
     value: function min() {
+      var _this = this;
+
       var result = Infinity;
 
       for (var _len3 = arguments.length, args = Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
         args[_key3] = arguments[_key3];
       }
 
-      var compares = slice.call(args);
+      var compares = args;
       var index = 0;
       var len = compares.length;
       if (len === 0) {
         throw new Error('min require at least one argument');
       }
+      compares = compares.map(function (value) {
+        if (_this.isNow(value)) {
+          return value.date;
+        }
+        return value;
+      });
       var some = compares.some(function (value) {
         return !isDate(value);
       });
       if (some) {
-        throw new TypeError('min require Date type');
+        throw new TypeError('some arguments not of Date type or Now instance');
       }
       compares = [this.date].concat(compares);
       while (index < len + 1) {
@@ -11805,23 +11989,31 @@ var Now$1 = function () {
   }, {
     key: 'max',
     value: function max() {
+      var _this2 = this;
+
       var result = -Infinity;
 
       for (var _len4 = arguments.length, args = Array(_len4), _key4 = 0; _key4 < _len4; _key4++) {
         args[_key4] = arguments[_key4];
       }
 
-      var compares = slice.call(args);
+      var compares = args;
       var index = 0;
       var len = compares.length;
       if (len === 0) {
         throw new Error('max require at least one argument');
       }
+      compares = compares.map(function (value) {
+        if (_this2.isNow(value)) {
+          return value.date;
+        }
+        return value;
+      });
       var some = compares.some(function (value) {
         return !isDate(value);
       });
       if (some) {
-        throw new TypeError('max require Date type');
+        throw new TypeError('some arguments not of Date type or Now instance');
       }
       compares = [this.date].concat(compares);
       while (index < len + 1) {
@@ -11838,30 +12030,58 @@ var Now$1 = function () {
       if (isUndefined(date1) || isUndefined(date2)) {
         throw new Error('arguments must be defined');
       }
+      if (this.isNow(date1)) {
+        date1 = date1.date;
+      }
+      if (this.isNow(date2)) {
+        date2 = date2.date;
+      }
       if (!(isDate(date1) && isDate(date2))) {
-        throw new TypeError('arguments must be Date type');
+        throw new TypeError('arguments must be Date type or Now instance');
       }
       return this.isAfter(date1) && this.isBefore(date2);
     }
 
-    // return the duration this.date - date.
+    // return the duration
 
   }, {
     key: 'sub',
     value: function sub(date) {
+      if (isUndefined(date)) {
+        throw new Error("sub must be receive more than one argument");
+      }
+      if (this.isNow(date)) {
+        date = date.date;
+      }
       if ((arguments.length <= 1 ? 0 : arguments.length - 1) > 0) {
-        return minus(date, arguments.length <= 1 ? undefined : arguments[1]);
+        var other = arguments.length <= 1 ? undefined : arguments[1];
+        if (this.isNow(other)) {
+          other = other.date;
+        }
+        return minus(date, other);
       }
       return minus(this.date, date);
     }
 
-    // return the time elapsed by now
+    // return the relativeTime format
 
   }, {
     key: 'elapse',
-    value: function elapse() {
-      var now = new Date();
-      return minus(now, this.date);
+    value: function elapse(date) {
+      var now = void 0;
+      var subs = void 0;
+
+      if (date) {
+        now = new Date();
+        if (this.isNow(date)) {
+          subs = minus(date.date, now);
+        } else {
+          subs = minus(date, now);
+        }
+      }
+      now = new Date();
+      subs = minus(this.date, now);
+      return new this._duration(subs).human(this, true);
     }
 
     // return the time elapsed since date
@@ -11869,8 +12089,18 @@ var Now$1 = function () {
   }, {
     key: 'since',
     value: function since(date) {
+      if (isUndefined(date)) {
+        throw new Error("since must be receive more than one argument");
+      }
+      if (this.isNow(date)) {
+        date = date.date;
+      }
       if ((arguments.length <= 1 ? 0 : arguments.length - 1) > 0) {
-        return this.sub(arguments.length <= 1 ? undefined : arguments[1], date);
+        var other = arguments.length <= 1 ? undefined : arguments[1];
+        if (this.isNow(other)) {
+          other = other.date;
+        }
+        return this.sub(other, date);
       }
       var now = new Date();
       return this.sub(now, date);
@@ -11981,6 +12211,11 @@ var Now$1 = function () {
       this.mondayFirst = value;
     }
   }], [{
+    key: 'version',
+    value: function version() {
+      return VERSION;
+    }
+  }, {
     key: 'defineLocale',
     value: function defineLocale$$1(name, config) {
       return defineLocale(name, config);
