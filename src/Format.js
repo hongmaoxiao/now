@@ -230,7 +230,6 @@ class Format {
 
   formatMoment(context, format) {
     let f = format;
-    console.log('ddddd: ', context.localeData());
     f = this.expandFormat(f, context.localeData());
     this.formatFunctions[f] = this.formatFunctions[f] || this.makeFormatFunction(f);
 
