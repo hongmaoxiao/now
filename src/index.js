@@ -1,3 +1,3 @@
-import Now from './Now.js';
+import Now from './Now';
 
 export default Now;

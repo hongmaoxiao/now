@@ -1,3 +1,4 @@
+/* eslint no-underscore-dangle: ["error", { "allowAfterThis": true} ] */
 import {
   isNumber,
   daysToMonths,
@@ -10,7 +11,7 @@ import {
   DAY,
 } from './utils/index';
 
-const round = Math.round;
+const { round } = Math;
 const thresholds = {
   ss: 44, // a few seconds to seconds
   s: 45, // seconds to minute
@@ -20,45 +21,46 @@ const thresholds = {
   M: 11, // months to year
 };
 
+function substituteTimeAgo(string, number, withoutSuffix, isFuture, locale) {
+  return locale.relativeTime(number || 1, !!withoutSuffix, string, isFuture);
+}
+
 class Duration {
   constructor(val) {
-    val || (val = 0);
-    val = isNumber(parseInt(val, 10)) ? val : 0;
+    let d = val;
+    d = d || (d = 0);
+    d = isNumber(parseInt(d, 10)) ? d : 0;
     this._data = {};
-    this._milliSeconds = val;
+    this._milliSeconds = d;
     this.init();
   }
 
   init() {
     const millis = this._milliSeconds;
-    let seconds;
-    let minutes;
-    let hours;
+    const seconds = absFloor(millis / SECOND);
+    const minutes = absFloor(millis / MINUTE);
+    const hours = absFloor(millis / HOUR);
     let days;
     let months;
-    let years;
-    let monthsFromDays;
 
 
     this._data.milliSeconds = millis % SECOND;
-    seconds = absFloor(millis / SECOND);
     this._data.seconds = seconds % 60;
-    minutes = absFloor(millis / MINUTE);
     this._data.minutes = minutes % 60;
-    hours = absFloor(millis / HOUR);
+
     this._data.hours = hours % 24;
     days = absFloor(hours / 24);
 
-    monthsFromDays = absFloor(daysToMonths(days));
+    const monthsFromDays = absFloor(daysToMonths(days));
     months = monthsFromDays;
     days -= absCeil(monthsToDays(monthsFromDays));
 
-    years = absFloor(months / 12);
+    const years = absFloor(months / 12);
     months %= 12;
 
     this._data.days = days;
-    this._data.months = days;
-    this._data.years = days;
+    this._data.months = months;
+    this._data.years = years;
   }
 
   get value() {
@@ -86,11 +88,6 @@ class Duration {
     return this;
   }
 
-  // helper function for moment.fn.from, moment.fn.fromNow, and moment.duration.fn.humanize
-  substituteTimeAgo(string, number, withoutSuffix, isFuture, locale) {
-    return locale.relativeTime(number || 1, !!withoutSuffix, string, isFuture);
-  }
-
   relativeTime(withoutSuffix, locale) {
     // this.abs();
     const seconds = this.seconds();
@@ -101,22 +98,22 @@ class Duration {
     const years = this.years();
 
 
-    const a = seconds <= thresholds.ss && ['s', seconds] ||
-      seconds < thresholds.s && ['ss', seconds] ||
-      minutes <= 1 && ['m'] ||
-      minutes < thresholds.m && ['mm', minutes] ||
-      hours <= 1 && ['h'] ||
-      hours < thresholds.h && ['hh', hours] ||
-      days <= 1 && ['d'] ||
-      days < thresholds.d && ['dd', days] ||
-      months <= 1 && ['M'] ||
-      months < thresholds.M && ['MM', months] ||
-      years <= 1 && ['y'] || ['yy', years];
+    const a = (seconds <= thresholds.ss && ['s', seconds]) ||
+      (seconds < thresholds.s && ['ss', seconds]) ||
+      (minutes <= 1 && ['m']) ||
+      (minutes < thresholds.m && ['mm', minutes]) ||
+      (hours <= 1 && ['h']) ||
+      (hours < thresholds.h && ['hh', hours]) ||
+      (days <= 1 && ['d']) ||
+      (days < thresholds.d && ['dd', days]) ||
+      (months <= 1 && ['M']) ||
+      (months < thresholds.M && ['MM', months]) ||
+      (years <= 1 && ['y']) || ['yy', years];
 
     a[2] = withoutSuffix;
     a[3] = +this > 0;
     a[4] = locale;
-    return this.substituteTimeAgo.apply(null, a);
+    return substituteTimeAgo(...a);
   }
 
   human(context, withSuffix) {
