@@ -8,9 +8,6 @@ import {
   isFunction,
   isArray,
   has,
-  computeMonthsParse,
-  defaultMonthsRegex,
-  defaultMonthsShortRegex,
   defaultWeekdaysRegex,
   defaultWeekdaysShortRegex,
   defaultWeekdaysMinRegex,
@@ -18,7 +15,7 @@ import {
   weekOfYear,
 } from './utils/index';
 
-const MONTHS_IN_FORMAT = /D[oD]?(\[[^\[\]]*\]|\s)+MMMM?/;
+const MONTHS_IN_FORMAT = /D[oD]?(\[[^[\]]*\]|\s)+MMMM?/;
 
 class Locale {
   constructor(config) {
@@ -114,83 +111,6 @@ class Locale {
       this._monthsShort[MONTHS_IN_FORMAT.test(format) ? 'format' : 'standalone'][m.month()];
   }
 
-  // monthsParse(monthName, format, strict) {
-  //   let i;
-  //   let mom;
-  //   let regex;
-
-  //   if (this._monthsParseExact) {
-  //     return handleMonthStrictParse.call(this, monthName, format, strict);
-  //   }
-
-  //   if (!this._monthsParse) {
-  //     this._monthsParse = [];
-  //     this._longMonthsParse = [];
-  //     this._shortMonthsParse = [];
-  //   }
-
-  //   // TODO: add sorting
-  //   // Sorting makes sure if one month (or abbr) is a prefix of another
-  //   // see sorting in computeMonthsParse
-  //   for (i = 0; i < 12; i += 1) {
-  //     // make the regex if we don't have it already
-  //     mom = createUTC([2000, i]);
-  //     if (strict && !this._longMonthsParse[i]) {
-  //       this._longMonthsParse[i] = new RegExp(`^${this.months(mom, '').replace('.', '')}$`, 'i');
-  //       this._shortMonthsParse[i] = new RegExp(`^${this.monthsShort(mom, '')
-  //           .replace('.', '')}$`, 'i');
-  //     }
-  //     if (!strict && !this._monthsParse[i]) {
-  //       regex = `^${this.months(mom, '')}|^${this.monthsShort(mom, '')}`;
-  //       this._monthsParse[i] = new RegExp(regex.replace('.', ''), 'i');
-  //     }
-  //     // test the regex
-  //     if (strict && format === 'MMMM' && this._longMonthsParse[i].test(monthName)) {
-  //       return i;
-  //     } else if (strict && format === 'MMM' && this._shortMonthsParse[i].test(monthName)) {
-  //       return i;
-  //     } else if (!strict && this._monthsParse[i].test(monthName)) {
-  //       return i;
-  //     }
-  //   }
-
-  //   return -1;
-  // }
-
-  monthsRegex(isStrict) {
-    if (this._monthsParseExact) {
-      if (!has(this, '_monthsRegex')) {
-        computeMonthsParse.call(this);
-      }
-      if (isStrict) {
-        return this._monthsStrictRegex;
-      }
-      return this._monthsRegex;
-    }
-    if (!has(this, '_monthsRegex')) {
-      this._monthsRegex = defaultMonthsRegex;
-    }
-    return this._monthsStrictRegex && isStrict ?
-      this._monthsStrictRegex : this._monthsRegex;
-  }
-
-  monthsShortRegex(isStrict) {
-    if (this._monthsParseExact) {
-      if (!has(this, '_monthsRegex')) {
-        computeMonthsParse.call(this);
-      }
-      if (isStrict) {
-        return this._monthsShortStrictRegex;
-      }
-      return this._monthsShortRegex;
-    }
-    if (!has(this, '_monthsShortRegex')) {
-      this._monthsShortRegex = defaultMonthsShortRegex;
-    }
-    return this._monthsShortStrictRegex && isStrict ?
-      this._monthsShortStrictRegex : this._monthsShortRegex;
-  }
-
   week(mom) {
     return weekOfYear(mom, this._week.dow, this._week.doy).week;
   }
@@ -219,53 +139,6 @@ class Locale {
   weekdaysMin(m) {
     return (m) ? this._weekdaysMin[m.weekDay()] : this._weekdaysMin;
   }
-
-  // weekdaysParse(weekdayName, format, strict) {
-  //   let i;
-  //   let mom;
-  //   let regex;
-
-  //   if (this._weekdaysParseExact) {
-  //     return handleWeekStrictParse.call(this, weekdayName, format, strict);
-  //   }
-
-  //   if (!this._weekdaysParse) {
-  //     this._weekdaysParse = [];
-  //     this._minWeekdaysParse = [];
-  //     this._shortWeekdaysParse = [];
-  //     this._fullWeekdaysParse = [];
-  //   }
-
-  //   for (i = 0; i < 7; i += 1) {
-  //     // make the regex if we don't have it already
-
-  //     mom = createUTC([2000, 1]).day(i);
-  //     if (strict && !this._fullWeekdaysParse[i]) {
-  //       this._fullWeekdaysParse[i] = new RegExp(`^${this.weekdays(mom, '')
-  //           .replace('.', '\.?')}$`, 'i');
-  //       this._shortWeekdaysParse[i] = new RegExp(`^${this.weekdaysShort(mom, '')
-  //           .replace('.', '\.?')}$`, 'i');
-  //       this._minWeekdaysParse[i] = new RegExp(`^${this.weekdaysMin(mom, '')
-  //           .replace('.', '\.?')}$`, 'i');
-  //     }
-  //     if (!this._weekdaysParse[i]) {
-  //       regex = `^${this.weekdays(mom, '')}
-  //         |^${this.weekdaysShort(mom, '')}
-  //         |^${this.weekdaysMin(mom, '')}`;
-  //       this._weekdaysParse[i] = new RegExp(regex.replace('.', ''), 'i');
-  //     }
-  //     // test the regex
-  //     if (strict && format === 'dddd' && this._fullWeekdaysParse[i].test(weekdayName)) {
-  //       return i;
-  //     } else if (strict && format === 'ddd' && this._shortWeekdaysParse[i].test(weekdayName)) {
-  //       return i;
-  //     } else if (strict && format === 'dd' && this._minWeekdaysParse[i].test(weekdayName)) {
-  //       return i;
-  //     } else if (!strict && this._weekdaysParse[i].test(weekdayName)) {
-  //       return i;
-  //     }
-  //   }
-  // }
 
   weekdaysRegex(isStrict) {
     if (this._weekdaysParseExact) {
