@@ -3,9 +3,7 @@
 
 import Locale from '../Locale.js';
 
-import {
-  baseConfig,
-} from '../config/index.js';
+import baseConfig from '../config/index.js';
 
 import i18ns from '../i18n/index.js';
 
@@ -17,7 +15,7 @@ const nativeIndexOf = ArrayProto.indexOf;
 const hasOwnProperty = Object.prototype.hasOwnProperty;
 
 const matchWord = /[0-9]*['a-z\u00A0-\u05FF\u0700-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+|[\u0600-\u06FF\/]+(\s*?[\u0600-\u06FF]+){1,2}/i;
-const regexEscape = (s) => s.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+const regexEscape = s => s.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
 
 export const nativeDatetoISOString = Date.prototype.toISOString;
 
@@ -68,23 +66,23 @@ export function isArray(value) {
 
 export function isObject(value) {
   // return value === Object(value);
-  return value != null && Object.prototype.toString.call(value) === '[object Object]'
+  return value != null && Object.prototype.toString.call(value) === '[object Object]';
 }
 
 export function has(obj, key) {
   return hasOwnProperty.call(obj, key);
 }
 
-export const keys = Object.keys || function(obj) {
+export const keys = Object.keys || function (obj) {
   let i;
-  let res = [];
+  const res = [];
   for (i in obj) {
     if (has(obj, i)) {
       res[res.length] = i;
     }
   }
   return res;
-}
+};
 
 export function absCeil(number) {
   return number < 0 ? Math.floor(number) : Math.ceil(number);
@@ -98,22 +96,22 @@ export function absRound(number) {
   return number < 0 ? Math.round(-1 * number) * -1 : Math.round(number);
 }
 
-export const daysToMonths = (days) => {
+export const daysToMonths = days =>
   // 400 years have 146097 days (taking into account leap year rules)
   // 400 years have 12 months === 4800
-  return days * 4800 / 146097;
-}
+  days * 4800 / 146097;
 
-export const monthsToDays = (months) => {
+
+export const monthsToDays = months =>
   // the reverse of daysToMonths
-  return months * 146097 / 4800;
-}
+  months * 146097 / 4800;
+
 
 export function toInt(number) {
   return (+number !== 0 && isFinite(+number)) ? absFloor(+number) : 0;
 }
 
-export const isLeapYear = (year) => (year % 100 !== 0 && year % 4 === 0) || year % 400 === 0;
+export const isLeapYear = year => (year % 100 !== 0 && year % 4 === 0) || year % 400 === 0;
 
 export function compare(date1, date2) {
   if (isUndefined(date1) || isUndefined(date2)) {
@@ -153,7 +151,7 @@ export function compareArrays(array1, array2, dontConvert) {
 }
 
 export function extend(a, b) {
-  for (let i in b) {
+  for (const i in b) {
     if (has(b, i)) {
       a[i] = b[i];
     }
@@ -170,7 +168,7 @@ export function extend(a, b) {
   return a;
 }
 
-export const indexOf = nativeIndexOf || function(o) {
+export const indexOf = nativeIndexOf || function (o) {
   const len = this.length;
   let i;
   for (i = 0; i < len; i++) {
@@ -179,11 +177,11 @@ export const indexOf = nativeIndexOf || function(o) {
     }
   }
   return -1;
-}
+};
 
 let hookCallback;
 export function hooks() {
-  return hookCallback.apply(null, arguments);
+  return hookCallback(...arguments);
 }
 
 export function setHookCallback(callback) {
@@ -193,26 +191,26 @@ export function setHookCallback(callback) {
 function warn(msg) {
   if (hooks.suppressDeprecationWarnings === false &&
     (typeof console !== 'undefined') && console.warn) {
-    console.warn('Deprecation warning: ' + msg);
+    console.warn(`Deprecation warning: ${msg}`);
   }
 }
 
 export function deprecate(msg, fn) {
   let firstTime = true;
 
-  return extend(function() {
+  return extend(function () {
     if (hooks.deprecationHandler != null) {
       hooks.deprecationHandler(null, msg);
     }
     if (firstTime) {
-      let args = [];
+      const args = [];
       let arg;
       for (let i = 0; i < arguments.length; i++) {
         arg = '';
         if (typeof arguments[i] === 'object') {
-          arg += '\n[' + i + '] ';
-          for (let key in arguments[0]) {
-            arg += key + ': ' + arguments[0][key] + ', ';
+          arg += `\n[${i}] `;
+          for (const key in arguments[0]) {
+            arg += `${key}: ${arguments[0][key]}, `;
           }
           arg = arg.slice(0, -2); // Remove trailing comma and space
         } else {
@@ -220,7 +218,7 @@ export function deprecate(msg, fn) {
         }
         args.push(arg);
       }
-      warn(msg + '\nArguments: ' + Array.prototype.slice.call(args).join('') + '\n' + (new Error()).stack);
+      warn(`${msg}\nArguments: ${Array.prototype.slice.call(args).join('')}\n${(new Error()).stack}`);
       firstTime = false;
     }
     return fn.apply(this, arguments);
@@ -243,7 +241,7 @@ hooks.suppressDeprecationWarnings = false;
 hooks.deprecationHandler = null;
 
 export function zeroFill(number, targetLength, forceSign) {
-  const absNumber = '' + Math.abs(number);
+  const absNumber = `${Math.abs(number)}`;
   const zeroToFill = targetLength - absNumber.length;
   const sign = number >= 0;
   return (sign ? (forceSign ? '+' : '') : '-') +
@@ -272,27 +270,24 @@ export function handleMonthStrictParse(monthName, format, strict) {
     if (format === 'MMM') {
       ii = indexOf.call(this._shortMonthsParse, llc);
       return ii !== -1 ? ii : null;
-    } else {
-      ii = indexOf.call(this._longMonthsParse, llc);
-      return ii !== -1 ? ii : null;
     }
-  } else {
-    if (format === 'MMM') {
-      ii = indexOf.call(this._shortMonthsParse, llc);
-      if (ii !== -1) {
-        return ii;
-      }
-      ii = indexOf.call(this._longMonthsParse, llc);
-      return ii !== -1 ? ii : null;
-    } else {
-      ii = indexOf.call(this._longMonthsParse, llc);
-      if (ii !== -1) {
-        return ii;
-      }
-      ii = indexOf.call(this._shortMonthsParse, llc);
-      return ii !== -1 ? ii : null;
-    }
+    ii = indexOf.call(this._longMonthsParse, llc);
+    return ii !== -1 ? ii : null;
   }
+  if (format === 'MMM') {
+    ii = indexOf.call(this._shortMonthsParse, llc);
+    if (ii !== -1) {
+      return ii;
+    }
+    ii = indexOf.call(this._longMonthsParse, llc);
+    return ii !== -1 ? ii : null;
+  }
+  ii = indexOf.call(this._longMonthsParse, llc);
+  if (ii !== -1) {
+    return ii;
+  }
+  ii = indexOf.call(this._shortMonthsParse, llc);
+  return ii !== -1 ? ii : null;
 }
 
 export function handleWeekStrictParse(weekdayName, format, strict) {
@@ -321,46 +316,43 @@ export function handleWeekStrictParse(weekdayName, format, strict) {
     } else if (format === 'ddd') {
       ii = indexOf.call(this._shortWeekdaysParse, llc);
       return ii !== -1 ? ii : null;
-    } else {
-      ii = indexOf.call(this._minWeekdaysParse, llc);
-      return ii !== -1 ? ii : null;
     }
-  } else {
-    if (format === 'dddd') {
-      ii = indexOf.call(this._weekdaysParse, llc);
-      if (ii !== -1) {
-        return ii;
-      }
-      ii = indexOf.call(this._shortWeekdaysParse, llc);
-      if (ii !== -1) {
-        return ii;
-      }
-      ii = indexOf.call(this._minWeekdaysParse, llc);
-      return ii !== -1 ? ii : null;
-    } else if (format === 'ddd') {
-      ii = indexOf.call(this._shortWeekdaysParse, llc);
-      if (ii !== -1) {
-        return ii;
-      }
-      ii = indexOf.call(this._weekdaysParse, llc);
-      if (ii !== -1) {
-        return ii;
-      }
-      ii = indexOf.call(this._minWeekdaysParse, llc);
-      return ii !== -1 ? ii : null;
-    } else {
-      ii = indexOf.call(this._minWeekdaysParse, llc);
-      if (ii !== -1) {
-        return ii;
-      }
-      ii = indexOf.call(this._weekdaysParse, llc);
-      if (ii !== -1) {
-        return ii;
-      }
-      ii = indexOf.call(this._shortWeekdaysParse, llc);
-      return ii !== -1 ? ii : null;
-    }
+    ii = indexOf.call(this._minWeekdaysParse, llc);
+    return ii !== -1 ? ii : null;
   }
+  if (format === 'dddd') {
+    ii = indexOf.call(this._weekdaysParse, llc);
+    if (ii !== -1) {
+      return ii;
+    }
+    ii = indexOf.call(this._shortWeekdaysParse, llc);
+    if (ii !== -1) {
+      return ii;
+    }
+    ii = indexOf.call(this._minWeekdaysParse, llc);
+    return ii !== -1 ? ii : null;
+  } else if (format === 'ddd') {
+    ii = indexOf.call(this._shortWeekdaysParse, llc);
+    if (ii !== -1) {
+      return ii;
+    }
+    ii = indexOf.call(this._weekdaysParse, llc);
+    if (ii !== -1) {
+      return ii;
+    }
+    ii = indexOf.call(this._minWeekdaysParse, llc);
+    return ii !== -1 ? ii : null;
+  }
+  ii = indexOf.call(this._minWeekdaysParse, llc);
+  if (ii !== -1) {
+    return ii;
+  }
+  ii = indexOf.call(this._weekdaysParse, llc);
+  if (ii !== -1) {
+    return ii;
+  }
+  ii = indexOf.call(this._shortWeekdaysParse, llc);
+  return ii !== -1 ? ii : null;
 }
 
 export function computeMonthsParse() {
@@ -395,10 +387,10 @@ export function computeMonthsParse() {
     mixedPieces[i] = regexEscape(mixedPieces[i]);
   }
 
-  this._monthsRegex = new RegExp('^(' + mixedPieces.join('|') + ')', 'i');
+  this._monthsRegex = new RegExp(`^(${mixedPieces.join('|')})`, 'i');
   this._monthsShortRegex = this._monthsRegex;
-  this._monthsStrictRegex = new RegExp('^(' + longPieces.join('|') + ')', 'i');
-  this._monthsShortStrictRegex = new RegExp('^(' + shortPieces.join('|') + ')', 'i');
+  this._monthsStrictRegex = new RegExp(`^(${longPieces.join('|')})`, 'i');
+  this._monthsShortStrictRegex = new RegExp(`^(${shortPieces.join('|')})`, 'i');
 }
 
 export function computeWeekdaysParse() {
@@ -441,13 +433,13 @@ export function computeWeekdaysParse() {
     mixedPieces[i] = regexEscape(mixedPieces[i]);
   }
 
-  this._weekdaysRegex = new RegExp('^(' + mixedPieces.join('|') + ')', 'i');
+  this._weekdaysRegex = new RegExp(`^(${mixedPieces.join('|')})`, 'i');
   this._weekdaysShortRegex = this._weekdaysRegex;
   this._weekdaysMinRegex = this._weekdaysRegex;
 
-  this._weekdaysStrictRegex = new RegExp('^(' + longPieces.join('|') + ')', 'i');
-  this._weekdaysShortStrictRegex = new RegExp('^(' + shortPieces.join('|') + ')', 'i');
-  this._weekdaysMinStrictRegex = new RegExp('^(' + minPieces.join('|') + ')', 'i');
+  this._weekdaysStrictRegex = new RegExp(`^(${longPieces.join('|')})`, 'i');
+  this._weekdaysShortStrictRegex = new RegExp(`^(${shortPieces.join('|')})`, 'i');
+  this._weekdaysMinStrictRegex = new RegExp(`^(${minPieces.join('|')})`, 'i');
 }
 
 function mergeConfigs(parentConfig, childConfig) {
@@ -509,7 +501,7 @@ function chooseLocale(names) {
         return locale;
       }
       if (next && next.length >= j && compareArrays(split, next, true) >= j - 1) {
-        //the next array item is better than a shallower substring of this one
+        // the next array item is better than a shallower substring of this one
         break;
       }
       j--;
@@ -556,10 +548,12 @@ export function defineLocale(name, config) {
     let parentConfig = baseConfig;
     config.abbr = name;
     if (locales[name] != null) {
-      deprecateSimple('defineLocaleOverride',
+      deprecateSimple(
+        'defineLocaleOverride',
         'use Now.updateLocale(localeName, config) to change ' +
         'an existing locale. Now.defineLocale(localeName, ' +
-        'config) should only be used for creating a new locale');
+        'config) should only be used for creating a new locale',
+      );
 
       parentConfig = locales[name]._config;
     } else if (config.parentLocale != null) {
@@ -570,8 +564,8 @@ export function defineLocale(name, config) {
           localeFamilies[config.parentLocale] = [];
         }
         localeFamilies[config.parentLocale].push({
-          name: name,
-          config: config
+          name,
+          config,
         });
         return null;
       }
@@ -579,7 +573,7 @@ export function defineLocale(name, config) {
     locales[name] = new Locale(mergeConfigs(parentConfig, config));
 
     if (localeFamilies[name]) {
-      localeFamilies[name].forEach(function(x) {
+      localeFamilies[name].forEach((x) => {
         defineLocale(x.name, x.config);
       });
     }
@@ -591,11 +585,10 @@ export function defineLocale(name, config) {
 
 
     return locales[name];
-  } else {
-    // useful for testing
-    delete locales[name];
-    return null;
   }
+  // useful for testing
+  delete locales[name];
+  return null;
 }
 
 export function updateLocale(name, config) {
@@ -639,7 +632,7 @@ export function getLocale(key) {
   }
 
   if (!isArray(key)) {
-    //short-circuit everything else
+    // short-circuit everything else
     locale = loadLocale(key);
     if (locale) {
       return locale;
@@ -652,7 +645,7 @@ export function getLocale(key) {
 
 export const listLocales = () => keys(locales);
 
-const daysInYear = (year) => isLeapYear(year) ? 366 : 365;
+const daysInYear = year => (isLeapYear(year) ? 366 : 365);
 
 const createUTCDate = (...args) => new Date(Date.UTC.apply(null, args));
 
@@ -663,7 +656,7 @@ const firstWeekOffset = (year, dow, doy) => {
   const fwdlw = (7 + createUTCDate(year, 0, fwd).getUTCDay() - dow) % 7;
 
   return -fwdlw + fwd - 1;
-}
+};
 
 // https://en.wikipedia.org/wiki/ISO_week_date#Calculating_a_date_given_the_year.2C_week_number_and_weekday
 const dayOfYearFromWeeks = (year, week, weekday, dow, doy) => {
@@ -686,9 +679,9 @@ const dayOfYearFromWeeks = (year, week, weekday, dow, doy) => {
 
   return {
     year: resYear,
-    dayOfYear: resDayOfYear
+    dayOfYear: resDayOfYear,
   };
-}
+};
 
 export const weekOfYear = (mom, dow, doy) => {
   const weekOffset = firstWeekOffset(mom.year(), dow, doy);
@@ -709,27 +702,26 @@ export const weekOfYear = (mom, dow, doy) => {
 
   return {
     week: resWeek,
-    year: resYear
+    year: resYear,
   };
-}
+};
 
 export const weeksInYear = (year, dow, doy) => {
   const weekOffset = firstWeekOffset(year, dow, doy);
   const weekOffsetNext = firstWeekOffset(year + 1, dow, doy);
   return (daysInYear(year) - weekOffset + weekOffsetNext) / 7;
-}
+};
 
 export function getSetWeekYearHelper(input, week, weekday, dow, doy) {
   let weeksTarget;
   if (input == null) {
     return weekOfYear(this, dow, doy).year;
-  } else {
-    weeksTarget = weeksInYear(input, dow, doy);
-    if (week > weeksTarget) {
-      week = weeksTarget;
-    }
-    return setWeekAll.call(this, input, week, weekday, dow, doy);
   }
+  weeksTarget = weeksInYear(input, dow, doy);
+  if (week > weeksTarget) {
+    week = weeksTarget;
+  }
+  return setWeekAll.call(this, input, week, weekday, dow, doy);
 }
 
 function setWeekAll(weekYear, week, weekday, dow, doy) {
@@ -747,7 +739,7 @@ export const parseIsoWeekday = (input, locale) => {
     return locale.weekdaysParse(input) % 7 || 7;
   }
   return isNaN(input) ? null : input;
-}
+};
 
 export const parseWeekday = (input, locale) => {
   if (isString(input)) {
@@ -764,4 +756,4 @@ export const parseWeekday = (input, locale) => {
   }
 
   return null;
-}
+};

@@ -1,3 +1,7 @@
+/* eslint no-underscore-dangle: ["error",
+{ "allowAfterThis": true, "allow": ["_isUTC", "_week"] }
+] */
+/* eslint class-methods-use-this: ["error", { "exceptMethods": ["version", "localeData"] }] */
 import {
   invalidDateError,
   invalidDateRegExp,
@@ -17,7 +21,6 @@ import {
   updateLocale,
   defaultFormat,
   defaultFormatUtc,
-  matchOffset,
   matchShortOffset,
   isLeapYear,
   getSetWeekYearHelper,
@@ -25,32 +28,32 @@ import {
   weeksInYear,
   parseWeekday,
   parseIsoWeekday,
-  SECOND,
   MINUTE,
   HOUR,
   DAY,
-} from './utils/index.js';
+} from './utils/index';
 
-import format from './Format.js';
-import duration from './Duration.js';
+import format from './Format';
+import duration from './Duration';
 
 const VERSION = '0.1.0';
 const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-const chunkOffset = /([\+\-]|\d\d)/gi;
+const chunkOffset = /([+-]|\d\d)/gi;
 
-const nativeGet = function(unit) {
+function nativeGet(unit) {
   const getName = this._isUTC ? `getUTC${unit}` : `get${unit}`;
   return this.date[getName]();
-};
+}
 
-const nativeSet = function(unit, val) {
-  val = parseInt(val);
+function nativeSet(unit, val) {
+  let setValue = val;
+  setValue = parseInt(setValue, 10);
   const setName = this._isUTC ? `setUTC${unit}` : `set${unit}`;
-  if (isNumber(val)) {
-    this.date[setName](val);
+  if (isNumber(setValue)) {
+    this.date[setName](setValue);
   }
   return this;
-};
+}
 
 function offsetFromString(matcher, string) {
   const matches = (string || '').match(matcher);
@@ -60,26 +63,12 @@ function offsetFromString(matcher, string) {
   }
 
   const chunk = matches[matches.length - 1] || [];
-  const parts = (chunk + '').match(chunkOffset) || ['-', 0, 0];
+  const parts = (`${chunk}`).match(chunkOffset) || ['-', 0, 0];
   const minutes = +(parts[1] * 60) + toInt(parts[2]);
 
   return minutes === 0 ?
     0 :
     parts[0] === '+' ? minutes : -minutes;
-}
-
-function initLocale() {
-  Now.defineLocale('en', {
-    dayOfMonthOrdinalParse: /\d{1,2}(th|st|nd|rd)/,
-    ordinal: function(number) {
-      const b = number % 10;
-      const output = (toInt(number % 100 / 10) === 1) ? 'th' :
-        (b === 1) ? 'st' :
-        (b === 2) ? 'nd' :
-        (b === 3) ? 'rd' : 'th';
-      return number + output;
-    }
-  });
 }
 
 class Now {
@@ -226,7 +215,7 @@ class Now {
   }
 
   isoWeek(val) {
-    const week = weekOfYear(this, 1, 4).week;
+    const { week } = weekOfYear(this, 1, 4);
     return (+val === 0 || val) ? this.addDays((val - week) * 7) : week;
   }
 
@@ -235,17 +224,17 @@ class Now {
   }
 
   weekDay(val) {
+    let value = val;
     const weekDay = this._isUTC ? this.date.getUTCDay() : this.date.getDay();
-    if (+val === 0 || val) {
-      val = parseWeekday(val, this.localeData());
-      return this.addDays(val - weekDay);
-    } else {
-      return weekDay;
+    if (+value === 0 || value) {
+      value = parseWeekday(value, this.localeData());
+      return this.addDays(value - weekDay);
     }
+    return weekDay;
   }
 
   localeWeekDay(val) {
-    const localeWeekDay = (this.weekDay() + 7 - this.localeData()._week.dow) % 7;
+    const localeWeekDay = ((this.weekDay() + 7) - this.localeData()._week.dow) % 7;
     return (+val === 0 || val) ? this.addDays(val - localeWeekDay) : localeWeekDay;
   }
 
@@ -256,9 +245,8 @@ class Now {
     if (+val === 0 || val) {
       const isoWeekDay = parseIsoWeekday(val, this.localeData());
       return this.day(this.day() === 0 ? isoWeekDay - 7 : isoWeekDay);
-    } else {
-      return this.weekDay() || 7;
     }
+    return this.weekDay() || 7;
   }
 
   hour(val) {
@@ -287,23 +275,25 @@ class Now {
   }
 
   weekYear(val) {
-    return getSetWeekYearHelper.call(this,
+    return getSetWeekYearHelper.call(
+      this,
       val,
       this.week(),
       this.localeWeekDay(),
       this.localeData()._week.dow,
-      this.localeData()._week.doy
-    )
+      this.localeData()._week.doy,
+    );
   }
 
   isoWeekYear(val) {
-    return getSetWeekYearHelper.call(this,
+    return getSetWeekYearHelper.call(
+      this,
       val,
       this.isoWeek(),
       this.isoWeekDay(),
       1,
-      4
-    )
+      4,
+    );
   }
 
   unix() {
@@ -400,9 +390,9 @@ class Now {
     }
   }
 
-  format(obj) {
-    obj || (obj = this.isUtc() ? defaultFormatUtc : defaultFormat);
-    const output = this._format.formatMoment(this, obj);
+  format(str) {
+    const formatStr = str || (this.isUtc() ? defaultFormatUtc : defaultFormat);
+    const output = this._format.formatMoment(this, formatStr);
     return output;
   }
 
@@ -448,65 +438,65 @@ class Now {
 
   beginningOfMinute(val) {
     return (val && val === 'self') ?
-    this.computeBeginningOfMinute() :
-    this.computeBeginningOfMinute().format('YYYY-MM-DD HH:mm:ss');
+      this.computeBeginningOfMinute() :
+      this.computeBeginningOfMinute().format('YYYY-MM-DD HH:mm:ss');
   }
 
   beginningOfHour(val) {
     return (val && val === 'self') ?
-    this.computeBeginningOfHour() :
-    this.computeBeginningOfHour().format('YYYY-MM-DD HH:mm:ss');
+      this.computeBeginningOfHour() :
+      this.computeBeginningOfHour().format('YYYY-MM-DD HH:mm:ss');
   }
 
   beginningOfDay(val) {
     return (val && val === 'self') ?
-    this.computeBeginningOfDay() :
-    this.computeBeginningOfDay().format('YYYY-MM-DD HH:mm:ss');
+      this.computeBeginningOfDay() :
+      this.computeBeginningOfDay().format('YYYY-MM-DD HH:mm:ss');
   }
 
   beginningOfWeek(val) {
     return (val && val === 'self') ?
-    this.computeBeginningOfWeek() :
-    this.computeBeginningOfWeek().format('YYYY-MM-DD HH:mm:ss');
+      this.computeBeginningOfWeek() :
+      this.computeBeginningOfWeek().format('YYYY-MM-DD HH:mm:ss');
   }
 
   beginningOfMonth(val) {
     return (val && val === 'self') ?
-    this.computeBeginningOfMonth() :
-    this.computeBeginningOfMonth().format('YYYY-MM-DD HH:mm:ss');
+      this.computeBeginningOfMonth() :
+      this.computeBeginningOfMonth().format('YYYY-MM-DD HH:mm:ss');
   }
 
   beginningOfQuarter(val) {
     return (val && val === 'self') ?
-    this.computeBeginningOfQuarter() :
-    this.computeBeginningOfQuarter().format('YYYY-MM-DD HH:mm:ss');
+      this.computeBeginningOfQuarter() :
+      this.computeBeginningOfQuarter().format('YYYY-MM-DD HH:mm:ss');
   }
 
   beginningOfYear(val) {
     return (val && val === 'self') ?
-    this.computeBeginningOfYear() :
-    this.computeBeginningOfYear().format('YYYY-MM-DD HH:mm:ss');
+      this.computeBeginningOfYear() :
+      this.computeBeginningOfYear().format('YYYY-MM-DD HH:mm:ss');
   }
 
   endOfMinute(val) {
     const clone = this.clone().computeBeginningOfMinute().addMilliSeconds(MINUTE - 1);
     return (val && val === 'self') ?
-    clone :
-    clone.format('YYYY-MM-DD HH:mm:ss.SSS');
+      clone :
+      clone.format('YYYY-MM-DD HH:mm:ss.SSS');
   }
 
   endOfHour(val) {
     const clone = this.clone().computeBeginningOfHour().addMilliSeconds(HOUR - 1);
     return (val && val === 'self') ?
-    clone :
-    clone.format('YYYY-MM-DD HH:mm:ss.SSS');
+      clone :
+      clone.format('YYYY-MM-DD HH:mm:ss.SSS');
   }
 
   endOfDay(val) {
     const clone = this.clone().computeBeginningOfDay().addMilliSeconds(DAY - 1);
     return (val && val === 'self') ?
-    clone :
-    clone.format('YYYY-MM-DD HH:mm:ss.SSS');
+      clone :
+      clone.format('YYYY-MM-DD HH:mm:ss.SSS');
   }
 
   endOfWeek(val) {
@@ -514,29 +504,29 @@ class Now {
     clone.firstDayMonday = this.firstDayMonday;
     const computed = clone.computeBeginningOfWeek().addMilliSeconds((7 * DAY) - 1);
     return (val && val === 'self') ?
-    computed :
-    computed.format('YYYY-MM-DD HH:mm:ss.SSS');
+      computed :
+      computed.format('YYYY-MM-DD HH:mm:ss.SSS');
   }
 
   endOfMonth(val) {
     const clone = this.clone().computeBeginningOfMonth().addMonths(1).addMilliSeconds(-1);
     return (val && val === 'self') ?
-    clone :
-    clone.format('YYYY-MM-DD HH:mm:ss.SSS');
+      clone :
+      clone.format('YYYY-MM-DD HH:mm:ss.SSS');
   }
 
   endOfQuarter(val) {
     const clone = this.clone().computeBeginningOfQuarter().addMonths(3).addMilliSeconds(-1);
     return (val && val === 'self') ?
-    clone :
-    clone.format('YYYY-MM-DD HH:mm:ss.SSS');
+      clone :
+      clone.format('YYYY-MM-DD HH:mm:ss.SSS');
   }
 
   endOfYear(val) {
     const clone = this.clone().computeBeginningOfYear().addYears(1).addMilliSeconds(-1);
     return (val && val === 'self') ?
-    clone :
-    clone.format('YYYY-MM-DD HH:mm:ss.SSS');
+      clone :
+      clone.format('YYYY-MM-DD HH:mm:ss.SSS');
   }
 
   dayOfYear() {
@@ -563,7 +553,7 @@ class Now {
   }
 
   isNow(val) {
-    const now = val ? val : this;
+    const now = val || this;
     return now instanceof Now;
   }
 
@@ -584,7 +574,8 @@ class Now {
   }
 
   toArray() {
-    return [this.year(), this.month(), this.day(), this.hour(), this.minute(), this.second(), this.milliSecond()];
+    return [this.year(), this.month(), this.day(), this.hour(), this.minute(),
+      this.second(), this.milliSecond()];
   }
 
   toObject() {
@@ -595,7 +586,7 @@ class Now {
       hour: this.hour(),
       minute: this.minute(),
       second: this.second(),
-      milliSecond: this.milliSecond()
+      milliSecond: this.milliSecond(),
     };
   }
 
@@ -607,7 +598,7 @@ class Now {
     if (len === 0) {
       throw new Error('min require at least one argument');
     }
-    compares = compares.map(value => {
+    compares = compares.map((value) => {
       if (this.isNow(value)) {
         return value.date;
       }
@@ -635,7 +626,7 @@ class Now {
     if (len === 0) {
       throw new Error('max require at least one argument');
     }
-    compares = compares.map(value => {
+    compares = compares.map((value) => {
       if (this.isNow(value)) {
         return value.date;
       }
@@ -656,37 +647,40 @@ class Now {
   }
 
   between(date1, date2) {
-    if (isUndefined(date1) || isUndefined(date2)) {
+    let compareDate1 = date1;
+    let compareDate2 = date2;
+    if (isUndefined(compareDate1) || isUndefined(compareDate2)) {
       throw new Error('arguments must be defined');
     }
-    if (this.isNow(date1)) {
-      date1 = date1.date;
+    if (this.isNow(compareDate1)) {
+      compareDate1 = compareDate1.date;
     }
-    if (this.isNow(date2)) {
-      date2 = date2.date;
+    if (this.isNow(compareDate2)) {
+      compareDate2 = compareDate2.date;
     }
-    if (!(isDate(date1) && isDate(date2))) {
+    if (!(isDate(compareDate1) && isDate(compareDate2))) {
       throw new TypeError('arguments must be Date type or Now instance');
     }
-    return this.isAfter(date1) && this.isBefore(date2);
+    return this.isAfter(compareDate1) && this.isBefore(compareDate2);
   }
 
   // return the duration
-  sub(date, ...args) {
-    if (isUndefined(date)) {
-      throw new Error("sub must be receive more than one argument");
+  sub(obj, ...args) {
+    let dateObj = obj;
+    if (isUndefined(dateObj)) {
+      throw new Error('sub must be receive more than one argument');
     }
-    if (this.isNow(date)) {
-      date = date.date;
+    if (this.isNow(dateObj)) {
+      dateObj = dateObj.date;
     }
     if (args.length > 0) {
       let other = args[0];
       if (this.isNow(other)) {
         other = other.date;
       }
-      return minus(date, other);
+      return minus(dateObj, other);
     }
-    return minus(this.date, date);
+    return minus(this.date, dateObj);
   }
 
   // return the relativeTime format
@@ -708,22 +702,23 @@ class Now {
   }
 
   // return the time elapsed since date
-  since(date, ...args) {
-    if (isUndefined(date)) {
-      throw new Error("since must be receive more than one argument");
+  since(obj, ...args) {
+    let dateObj = obj;
+    if (isUndefined(dateObj)) {
+      throw new Error('since must be receive more than one argument');
     }
-    if (this.isNow(date)) {
-      date = date.date;
+    if (this.isNow(dateObj)) {
+      dateObj = dateObj.date;
     }
     if (args.length > 0) {
       let other = args[0];
       if (this.isNow(other)) {
         other = other.date;
       }
-      return this.sub(other, date);
+      return this.sub(other, dateObj);
     }
     const now = new Date();
-    return this.sub(now, date);
+    return this.sub(now, dateObj);
   }
 
   getDateOffset() {
@@ -742,7 +737,7 @@ class Now {
           return this;
         }
       } else if (isNumber(minutes) && (Math.abs(minutes) < 16 && !keepMinutes)) {
-        minutes = minutes * 60;
+        minutes *= 60;
       }
       if (!this._isUTC && keepLocalTime) {
         localAdjust = this.getDateOffset();
@@ -758,9 +753,8 @@ class Now {
         }
       }
       return this;
-    } else {
-      return this._isUTC ? offset : this.getDateOffset();
     }
+    return this._isUTC ? offset : this.getDateOffset();
   }
 
   utc(keepLocalTime) {
@@ -799,6 +793,20 @@ class Now {
   isUTC() {
     return this.isUtc();
   }
+}
+
+function initLocale() {
+  Now.defineLocale('en', {
+    dayOfMonthOrdinalParse: /\d{1,2}(th|st|nd|rd)/,
+    ordinal(number) {
+      const b = number % 10;
+      const output = (toInt((number % 100) / 10) === 1) ? 'th' :
+        (b === 1) ? 'st' :
+          (b === 2) ? 'nd' :
+            (b === 3) ? 'rd' : 'th';
+      return number + output;
+    },
+  });
 }
 
 initLocale();

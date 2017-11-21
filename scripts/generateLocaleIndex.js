@@ -2,6 +2,7 @@ const fs = require('fs');
 const path = require('path');
 
 const ignoreFiles = ['index.js'];
+const dashReg = /-/;
 
 function listLocales() {
   const locales = fs.readdirSync(path.join(process.cwd(), 'src', 'i18n'));
@@ -9,16 +10,20 @@ function listLocales() {
     .filter((file) => !ignoreFiles.includes(file))
     .map(locale => ({
       name: locale.slice(0, locale.length - 3),
-      parseName: locale.slice(0, locale.length - 3).replace(/-/, ''),
-      path: `./${locale}`
+      parseName: locale.slice(0, locale.length - 3).replace(dashReg, ''),
     }));
 }
 
 const locales = listLocales();
 
 function generateIndex(files) {
-  const imports = files.map((file) => `import ${file.parseName} from '${file.path}'`);
-  const exports = files.map((file) => `  '${file.name}': ${file.parseName}`);
+  const imports = files.map((file) => `import ${file.parseName} from '${file.name}'`);
+  const exports = files.map((file) => {
+    if (dashReg.test(file.name)) {
+      return `  '${file.name}': ${file.parseName}`;
+    }
+    return `  ${file.name}`;
+  });
 
   const indexLines = []
     .concat(imports.join(';\n'))
@@ -32,4 +37,3 @@ function generateIndex(files) {
 }
 
 fs.writeFileSync(path.join(process.cwd(), 'src', 'i18n', 'index.js'), generateIndex(locales));
-

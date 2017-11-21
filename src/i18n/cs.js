@@ -66,7 +66,7 @@ function translate(number, withoutSuffix, key, isFuture) {
 export default {
   months,
   monthsShort,
-  monthsParse: (function(months, monthsShort) {
+  monthsParse: (function (months, monthsShort) {
     let i;
     const _monthsParse = [];
     for (i = 0; i < 12; i++) {
@@ -75,7 +75,7 @@ export default {
     }
     return _monthsParse;
   }(months, monthsShort)),
-  shortMonthsParse: (function(monthsShort) {
+  shortMonthsParse: (function (monthsShort) {
     let i;
     const _shortMonthsParse = [];
     for (i = 0; i < 12; i++) {
@@ -83,7 +83,7 @@ export default {
     }
     return _shortMonthsParse;
   }(monthsShort)),
-  longMonthsParse: (function(months) {
+  longMonthsParse: (function (months) {
     let i;
     const _longMonthsParse = [];
     for (i = 0; i < 12; i++) {

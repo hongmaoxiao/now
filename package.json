@@ -9,7 +9,6 @@
     "test": "jest",
     "prepublish": "npm run build",
     "build": "node build.js",
-    "precommit": "npm run lint",
     "lint": "./node_modules/.bin/eslint --fix ./src"
   },
   "repository": {
@@ -42,6 +41,7 @@
     "gulp": "^3.9.1",
     "gulp-webserver": "^0.9.1",
     "jest": "^21.2.1",
+    "pre-commit": "^1.2.2",
     "rollup": "^0.51.7",
     "rollup-plugin-babel": "^3.0.2",
     "rollup-plugin-uglify": "^2.0.1",

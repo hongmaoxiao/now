@@ -4,7 +4,7 @@ const defaultCalendar = {
   nextWeek: 'dddd [at] LT',
   lastDay: '[Yesterday at] LT',
   lastWeek: '[Last] dddd [at] LT',
-  sameElse: 'L'
+  sameElse: 'L',
 };
 
 const defaultLongDateFormat = {
@@ -13,7 +13,7 @@ const defaultLongDateFormat = {
   L: 'MM/DD/YYYY',
   LL: 'MMMM D, YYYY',
   LLL: 'MMMM D, YYYY h:mm A',
-  LLLL: 'dddd, MMMM D, YYYY h:mm A'
+  LLLL: 'dddd, MMMM D, YYYY h:mm A',
 };
 
 const defaultInvalidDate = 'Invalid date';
@@ -35,7 +35,7 @@ const defaultRelativeTime = {
   M: 'a month',
   MM: '%d months',
   y: 'a year',
-  yy: '%d years'
+  yy: '%d years',
 };
 
 const defaultLocaleMonths = 'January_February_March_April_May_June_July_August_September_October_November_December'.split('_');
@@ -43,7 +43,7 @@ const defaultLocaleMonthsShort = 'Jan_Feb_Mar_Apr_May_Jun_Jul_Aug_Sep_Oct_Nov_De
 
 const defaultLocaleWeek = {
   dow: 0, // Sunday is the first day of the week.
-  doy: 6 // The week that contains Jan 1st is the first week of the year.
+  doy: 6, // The week that contains Jan 1st is the first week of the year.
 };
 
 const defaultLocaleWeekdays = 'Sunday_Monday_Tuesday_Wednesday_Thursday_Friday_Saturday'.split('_');
@@ -53,7 +53,7 @@ const defaultLocaleWeekdaysMin = 'Su_Mo_Tu_We_Th_Fr_Sa'.split('_');
 
 const defaultLocaleMeridiemParse = /[ap]\.?m?\.?/i;
 
-export const baseConfig = {
+export default {
   calendar: defaultCalendar,
   longDateFormat: defaultLongDateFormat,
   invalidDate: defaultInvalidDate,
@@ -70,6 +70,5 @@ export const baseConfig = {
   weekdaysMin: defaultLocaleWeekdaysMin,
   weekdaysShort: defaultLocaleWeekdaysShort,
 
-  meridiemParse: defaultLocaleMeridiemParse
+  meridiemParse: defaultLocaleMeridiemParse,
 };
-
