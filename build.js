@@ -8,7 +8,6 @@ const pkg = require('./package.json');
 const input = './src/index.js';
 const name = 'Now';
 const watchOutputDefault = './example/nowjs.js';
-const watchOutputMinify = './example/nowjs.min.js';
 const outputDefault = './dist/nowjs.js';
 const outputMinify = './dist/nowjs.min.js';
 const pluginsDefault = [babel({
@@ -62,12 +61,7 @@ if (options.watch) {
   };
 
   const configDefault = config(watchOutputDefault, pluginsDefault);
-  const configMinify = config(watchOutputMinify, [
-    ...pluginsDefault,
-    uglify({}, minify)
-  ]);
   const watcherDefault = rollup.watch(configDefault);
-  const watcherMinify = rollup.watch(configMinify);
 
   const stderr = console.error.bind(console);
 
@@ -98,7 +92,6 @@ if (options.watch) {
   };
 
   watcherDefault.on('event', event => eventHandler(event, watchOutputDefault));
-  watcherMinify.on('event', event => eventHandler(event, watchOutputMinify));
 } else {
   rollup
     .rollup(inputDefaultOptions)
