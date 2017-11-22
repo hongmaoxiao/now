@@ -3,12 +3,13 @@
 //! author : Dmitry Demidov : https://github.com/demidov91
 //! author: Praleska: http://praleska.pro/
 //! Author : Menelion Elensúle : https://github.com/Oire
-/* jshint -W100 */
-
 
 function plural(word, num) {
   const forms = word.split('_');
-  return num % 10 === 1 && num % 100 !== 11 ? forms[0] : (num % 10 >= 2 && num % 10 <= 4 && (num % 100 < 10 || num % 100 >= 20) ? forms[1] : forms[2]);
+  return num % 10 === 1 && num % 100 !== 11 ?
+    forms[0] :
+    (num % 10 >= 2 && num % 10 <= 4 && (num % 100 < 10 || num % 100 >= 20) ?
+      forms[1] : forms[2]);
 }
 
 function relativeTimeWithPlural(number, withoutSuffix, key) {
@@ -66,6 +67,8 @@ export default {
         case 2:
         case 4:
           return '[У мінулы] dddd [ў] LT';
+        default:
+          return '';
       }
     },
     sameElse: 'L',
@@ -89,7 +92,7 @@ export default {
   isPM(input) {
     return /^(дня|вечара)$/.test(input);
   },
-  meridiem(hour, minute, isLower) {
+  meridiem(hour) {
     if (hour < 4) {
       return 'ночы';
     } else if (hour < 12) {

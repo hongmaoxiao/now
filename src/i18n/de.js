@@ -3,9 +3,8 @@
 //! author : lluchs : https://github.com/lluchs
 //! author: Menelion Elensúle: https://github.com/Oire
 //! author : Mikolaj Dadela : https://github.com/mik01aj
-/* jshint -W100 */
 
-function processRelativeTime(number, withoutSuffix, key, isFuture) {
+function processRelativeTime(number, withoutSuffix, key) {
   const format = {
     m: ['eine Minute', 'einer Minute'],
     h: ['eine Stunde', 'einer Stunde'],

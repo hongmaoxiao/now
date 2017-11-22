@@ -1,7 +1,6 @@
 //! now.js locale configuration
 //! locale : Azerbaijani [az]
 //! author : topchiyev : https://github.com/topchiyev
-/* jshint -W100 */
 
 const suffixes = {
   1: '-inci',
@@ -66,7 +65,7 @@ export default {
   isPM(input) {
     return /^(gündüz|axşam)$/.test(input);
   },
-  meridiem(hour, minute, isLower) {
+  meridiem(hour) {
     if (hour < 4) {
       return 'gecə';
     } else if (hour < 12) {
@@ -82,7 +81,7 @@ export default {
       return `${number}-ıncı`;
     }
     const a = number % 10;
-    const b = number % 100 - a;
+    const b = (number % 100) - a;
     const c = number >= 100 ? 100 : null;
     return number + (suffixes[a] || suffixes[b] || suffixes[c]);
   },

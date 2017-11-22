@@ -1,7 +1,6 @@
 //! now.js locale configuration
 //! locale : Icelandic [is]
 //! author : Hinrik Örn Sigurðsson : https://github.com/hinrik
-/* jshint -W100 */
 
 function plural(n) {
   if (n % 100 === 11) {
@@ -68,6 +67,8 @@ function translate(number, withoutSuffix, key, isFuture) {
         return result + (withoutSuffix || isFuture ? 'ár' : 'árum');
       }
       return result + (withoutSuffix || isFuture ? 'ár' : 'ári');
+    default:
+      return result;
   }
 }
 

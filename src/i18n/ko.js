@@ -2,7 +2,6 @@
 //! locale : Korean [ko]
 //! author : Kyungwook, Park : https://github.com/kyungw00k
 //! author : Jeeeyul Lee <jeeeyul@gmail.com>
-/* jshint -W100 */
 
 export default {
   months: '1월_2월_3월_4월_5월_6월_7월_8월_9월_10월_11월_12월'.split('_'),
@@ -66,7 +65,7 @@ export default {
   isPM(token) {
     return token === '오후';
   },
-  meridiem(hour, minute, isUpper) {
+  meridiem(hour, minute) {
     return hour < 12 ? '오전' : '오후';
   },
 };

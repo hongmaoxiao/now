@@ -1,7 +1,6 @@
 //! now.js locale configuration
 //! locale : Croatian [hr]
 //! author : Bojan Marković : https://github.com/bmarkovic
-/* jshint -W100 */
 
 function translate(number, withoutSuffix, key) {
   let result = `${number} `;
@@ -53,6 +52,8 @@ function translate(number, withoutSuffix, key) {
         result += 'godina';
       }
       return result;
+    default:
+      return result;
   }
 }
 
@@ -91,6 +92,8 @@ export default {
         case 4:
         case 5:
           return '[u] dddd [u] LT';
+        default:
+          return '';
       }
     },
     lastDay: '[jučer u] LT',
@@ -106,6 +109,8 @@ export default {
         case 4:
         case 5:
           return '[prošli] dddd [u] LT';
+        default:
+          return '';
       }
     },
     sameElse: 'L',

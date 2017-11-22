@@ -3,7 +3,6 @@
 //! author : Abdel Said: https://github.com/abdelsaid
 //! author : Ahmed Elkhatib
 //! author : forabi https://github.com/forabi
-/* jshint -W100 */
 
 const symbolMap = {
   1: '١',
@@ -32,7 +31,17 @@ const numberMap = {
 };
 
 const pluralForm = function (n) {
-  return n === 0 ? 0 : n === 1 ? 1 : n === 2 ? 2 : n % 100 >= 3 && n % 100 <= 10 ? 3 : n % 100 >= 11 ? 4 : 5;
+  return n === 0 ?
+    0 :
+    n === 1 ?
+      1 :
+      n === 2 ?
+        2 :
+        n % 100 >= 3 && n % 100 <= 10 ?
+          3 :
+          n % 100 >= 11 ?
+            4 :
+            5;
 };
 
 const plurals = {
@@ -45,7 +54,7 @@ const plurals = {
 };
 
 const pluralize = function (u) {
-  return function (number, withoutSuffix, string, isFuture) {
+  return function (number, withoutSuffix) {
     const f = pluralForm(number);
     let str = plurals[u][pluralForm(number)];
     if (f === 2) {
@@ -89,7 +98,7 @@ export default {
   isPM(input) {
     return input === 'م';
   },
-  meridiem(hour, minute, isLower) {
+  meridiem(hour) {
     if (hour < 12) {
       return 'ص';
     }

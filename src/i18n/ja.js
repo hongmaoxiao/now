@@ -1,7 +1,6 @@
 //! now.js locale configuration
 //! locale : Japanese [ja]
 //! author : LI Long : https://github.com/baryon
-/* jshint -W100 */
 
 export default {
   months: '1月_2月_3月_4月_5月_6月_7月_8月_9月_10月_11月_12月'.split('_'),
@@ -25,7 +24,7 @@ export default {
   isPM(input) {
     return input === '午後';
   },
-  meridiem(hour, minute, isLower) {
+  meridiem(hour) {
     if (hour < 12) {
       return '午前';
     }

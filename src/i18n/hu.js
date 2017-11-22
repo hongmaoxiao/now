@@ -1,7 +1,6 @@
 //! now.js locale configuration
 //! locale : Hungarian [hu]
 //! author : Adam Brunner : https://github.com/adambrunner
-/* jshint -W100 */
 
 const weekEndings = 'vasárnap hétfőn kedden szerdán csütörtökön pénteken szombaton'.split(' ');
 
@@ -30,8 +29,9 @@ function translate(number, withoutSuffix, key, isFuture) {
       return `egy${isFuture || withoutSuffix ? ' év' : ' éve'}`;
     case 'yy':
       return num + (isFuture || withoutSuffix ? ' év' : ' éve');
+    default:
+      return '';
   }
-  return '';
 }
 
 function week(isFuture) {

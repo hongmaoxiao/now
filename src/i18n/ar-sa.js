@@ -1,7 +1,6 @@
 //! now.js locale configuration
 //! locale : Arabic (Saudi Arabia) [ar-sa]
 //! author : Suhail Alkowaileet : https://github.com/xsoh
-/* jshint -W100 */
 
 const symbolMap = {
   1: '١',
@@ -48,7 +47,7 @@ export default {
   isPM(input) {
     return input === 'م';
   },
-  meridiem(hour, minute, isLower) {
+  meridiem(hour) {
     if (hour < 12) {
       return 'ص';
     }

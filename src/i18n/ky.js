@@ -1,7 +1,6 @@
 //! now.js locale configuration
 //! locale : Kyrgyz [ky]
 //! author : Chyngyz Arystan uulu : https://github.com/chyngyz
-/* jshint -W100 */
 
 const suffixes = {
   0: '-чү',

@@ -1,7 +1,6 @@
 //! now.js locale configuration
 //! locale : Georgian [ka]
 //! author : Irakli Janiashvili : https://github.com/irakli-janiashvili
-/* jshint -W100 */
 
 export default {
   months: {
@@ -45,6 +44,7 @@ export default {
       if ((/წელი/).test(s)) {
         return s.replace(/წელი$/, 'წლის უკან');
       }
+      return s;
     },
     s: 'რამდენიმე წამი',
     m: 'წუთი',

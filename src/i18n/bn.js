@@ -1,7 +1,6 @@
 //! now.js locale configuration
 //! locale : Bengali [bn]
 //! author : Kaushik Gandhi : https://github.com/kaushikgandhi
-/* jshint -W100 */
 
 const symbolMap = {
   1: '১',
@@ -74,17 +73,18 @@ export default {
   },
   meridiemParse: /রাত|সকাল|দুপুর|বিকাল|রাত/,
   meridiemHour(hour, meridiem) {
-    if (hour === 12) {
-      hour = 0;
+    let h = hour;
+    if (h === 12) {
+      h = 0;
     }
-    if ((meridiem === 'রাত' && hour >= 4) ||
-      (meridiem === 'দুপুর' && hour < 5) ||
+    if ((meridiem === 'রাত' && h >= 4) ||
+      (meridiem === 'দুপুর' && h < 5) ||
       meridiem === 'বিকাল') {
-      return hour + 12;
+      return h + 12;
     }
-    return hour;
+    return h;
   },
-  meridiem(hour, minute, isLower) {
+  meridiem(hour) {
     if (hour < 4) {
       return 'রাত';
     } else if (hour < 10) {

@@ -1,7 +1,6 @@
 //! now.js locale configuration
 //! locale : Kazakh [kk]
 //! authors : Nurlan Rakhimzhanov : https://github.com/nurlan
-/* jshint -W100 */
 
 const suffixes = {
   0: '-ші',

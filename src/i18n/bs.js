@@ -2,7 +2,6 @@
 //! locale : Bosnian [bs]
 //! author : Nedim Cholich : https://github.com/frontyard
 //! based on (hr) translation by Bojan Marković
-/* jshint -W100 */
 
 function translate(number, withoutSuffix, key) {
   let result = `${number} `;
@@ -54,6 +53,8 @@ function translate(number, withoutSuffix, key) {
         result += 'godina';
       }
       return result;
+    default:
+      return result;
   }
 }
 
@@ -89,6 +90,8 @@ export default {
         case 4:
         case 5:
           return '[u] dddd [u] LT';
+        default:
+          return '';
       }
     },
     lastDay: '[jučer u] LT',
@@ -104,6 +107,8 @@ export default {
         case 4:
         case 5:
           return '[prošli] dddd [u] LT';
+        default:
+          return '';
       }
     },
     sameElse: 'L',

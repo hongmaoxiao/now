@@ -1,7 +1,7 @@
 //! now.js locale configuration
 //! locale : English (United Kingdom) [en-gb]
 //! author : Chris Gedrim : https://github.com/chrisgedrim
-/* jshint -W100 */
+/* eslint no-bitwise: ["error", { "allow": ["~"] }] */
 
 export default {
   months: 'January_February_March_April_May_June_July_August_September_October_November_December'.split('_'),
@@ -43,7 +43,7 @@ export default {
   dayOfMonthOrdinalParse: /\d{1,2}(st|nd|rd|th)/,
   ordinal(number) {
     const b = number % 10;
-    const output = (~~(number % 100 / 10) === 1) ? 'th' :
+    const output = (~~((number % 100) / 10) === 1) ? 'th' :
       (b === 1) ? 'st' :
         (b === 2) ? 'nd' :
           (b === 3) ? 'rd' : 'th';

@@ -1,9 +1,8 @@
 //! now.js locale configuration
 //! locale : Konkani Latin script [gom-latn]
 //! author : The Discoverer : https://github.com/WikiDiscoverer
-/* jshint -W100 */
 
-function processRelativeTime(number, withoutSuffix, key, isFuture) {
+function processRelativeTime(number, withoutSuffix, key) {
   const format = {
     s: ['thodde secondanim', 'thodde second'],
     m: ['eka mintan', 'ek minute'],
@@ -82,20 +81,22 @@ export default {
   },
   meridiemParse: /rati|sokalli|donparam|sanje/,
   meridiemHour(hour, meridiem) {
-    if (hour === 12) {
-      hour = 0;
+    let h = hour;
+    if (h === 12) {
+      h = 0;
     }
     if (meridiem === 'rati') {
-      return hour < 4 ? hour : hour + 12;
+      return h < 4 ? h : h + 12;
     } else if (meridiem === 'sokalli') {
-      return hour;
+      return h;
     } else if (meridiem === 'donparam') {
-      return hour > 12 ? hour : hour + 12;
+      return h > 12 ? h : h + 12;
     } else if (meridiem === 'sanje') {
-      return hour + 12;
+      return h + 12;
     }
+    return h;
   },
-  meridiem(hour, minute, isLower) {
+  meridiem(hour) {
     if (hour < 4) {
       return 'rati';
     } else if (hour < 12) {

@@ -1,7 +1,6 @@
 //! now.js locale configuration
 //! locale : Catalan [ca]
 //! author : Juan G. Hurtado : https://github.com/juanghurtado
-/* jshint -W100 */
 
 export default {
   months: {

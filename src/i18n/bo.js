@@ -1,7 +1,6 @@
 //! now.js locale configuration
 //! locale : Tibetan [bo]
 //! author : Thupten N. Chakrishar : https://github.com/vajradog
-/* jshint -W100 */
 
 const symbolMap = {
   1: '༡',
@@ -74,17 +73,18 @@ export default {
   },
   meridiemParse: /མཚན་མོ|ཞོགས་ཀས|ཉིན་གུང|དགོང་དག|མཚན་མོ/,
   meridiemHour(hour, meridiem) {
-    if (hour === 12) {
-      hour = 0;
+    let h = hour;
+    if (h === 12) {
+      h = 0;
     }
-    if ((meridiem === 'མཚན་མོ' && hour >= 4) ||
-      (meridiem === 'ཉིན་གུང' && hour < 5) ||
+    if ((meridiem === 'མཚན་མོ' && h >= 4) ||
+      (meridiem === 'ཉིན་གུང' && h < 5) ||
       meridiem === 'དགོང་དག') {
-      return hour + 12;
+      return h + 12;
     }
-    return hour;
+    return h;
   },
-  meridiem(hour, minute, isLower) {
+  meridiem(hour) {
     if (hour < 4) {
       return 'མཚན་མོ';
     } else if (hour < 10) {

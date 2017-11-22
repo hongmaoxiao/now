@@ -1,9 +1,9 @@
 //! now.js locale configuration
 //! locale : Greek [el]
 //! author : Aggelos Karalias : https://github.com/mehiel
-/* jshint -W100 */
+/* eslint no-underscore-dangle: ["error", { "allowAfterThis": true} ] */
 
-import { isFunction } from '../utils/index.js';
+import { isFunction } from '../utils/index';
 
 export default {
   monthsNominativeEl: 'Ιανουάριος_Φεβρουάριος_Μάρτιος_Απρίλιος_Μάιος_Ιούνιος_Ιούλιος_Αύγουστος_Σεπτέμβριος_Οκτώβριος_Νοέμβριος_Δεκέμβριος'.split('_'),
@@ -54,8 +54,8 @@ export default {
     sameElse: 'L',
   },
   calendar(key, mom) {
-    let output = this._calendarEl[key],
-      hours = mom && mom.hours();
+    let output = this._calendarEl[key];
+    const hours = mom && mom.hours();
     if (isFunction(output)) {
       output = output.apply(mom);
     }

@@ -1,7 +1,6 @@
 //! now.js locale configuration
 //! locale : Kannada [kn]
 //! author : Rajeev Naik : https://github.com/rajeevnaikte
-/* jshint -W100 */
 
 const symbolMap = {
   1: '೧',
@@ -75,20 +74,22 @@ export default {
   },
   meridiemParse: /ರಾತ್ರಿ|ಬೆಳಿಗ್ಗೆ|ಮಧ್ಯಾಹ್ನ|ಸಂಜೆ/,
   meridiemHour(hour, meridiem) {
-    if (hour === 12) {
-      hour = 0;
+    let h = hour;
+    if (h === 12) {
+      h = 0;
     }
     if (meridiem === 'ರಾತ್ರಿ') {
-      return hour < 4 ? hour : hour + 12;
+      return h < 4 ? h : h + 12;
     } else if (meridiem === 'ಬೆಳಿಗ್ಗೆ') {
-      return hour;
+      return h;
     } else if (meridiem === 'ಮಧ್ಯಾಹ್ನ') {
-      return hour >= 10 ? hour : hour + 12;
+      return h >= 10 ? h : h + 12;
     } else if (meridiem === 'ಸಂಜೆ') {
-      return hour + 12;
+      return h + 12;
     }
+    return h;
   },
-  meridiem(hour, minute, isLower) {
+  meridiem(hour) {
     if (hour < 4) {
       return 'ರಾತ್ರಿ';
     } else if (hour < 10) {

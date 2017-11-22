@@ -1,7 +1,7 @@
 //! now.js locale configuration
 //! locale : Czech [cs]
 //! author : petrbela : https://github.com/petrbela
-/* jshint -W100 */
+/* eslint no-bitwise: ["error", { "allow": ["~"] }] */
 
 const months = 'leden_únor_březen_duben_květen_červen_červenec_srpen_září_říjen_listopad_prosinec'.split('_');
 const monthsShort = 'led_úno_bře_dub_kvě_čvn_čvc_srp_zář_říj_lis_pro'.split('_');
@@ -22,8 +22,6 @@ function translate(number, withoutSuffix, key, isFuture) {
         return result + (plural(number) ? 'minuty' : 'minut');
       }
       return `${result}minutami`;
-
-      break;
     case 'h': // an hour / in an hour / an hour ago
       return withoutSuffix ? 'hodina' : (isFuture ? 'hodinu' : 'hodinou');
     case 'hh': // 9 hours / in 9 hours / 9 hours ago
@@ -31,8 +29,6 @@ function translate(number, withoutSuffix, key, isFuture) {
         return result + (plural(number) ? 'hodiny' : 'hodin');
       }
       return `${result}hodinami`;
-
-      break;
     case 'd': // a day / in a day / a day ago
       return (withoutSuffix || isFuture) ? 'den' : 'dnem';
     case 'dd': // 9 days / in 9 days / 9 days ago
@@ -40,8 +36,6 @@ function translate(number, withoutSuffix, key, isFuture) {
         return result + (plural(number) ? 'dny' : 'dní');
       }
       return `${result}dny`;
-
-      break;
     case 'M': // a month / in a month / a month ago
       return (withoutSuffix || isFuture) ? 'měsíc' : 'měsícem';
     case 'MM': // 9 months / in 9 months / 9 months ago
@@ -49,8 +43,6 @@ function translate(number, withoutSuffix, key, isFuture) {
         return result + (plural(number) ? 'měsíce' : 'měsíců');
       }
       return `${result}měsíci`;
-
-      break;
     case 'y': // a year / in a year / a year ago
       return (withoutSuffix || isFuture) ? 'rok' : 'rokem';
     case 'yy': // 9 years / in 9 years / 9 years ago
@@ -58,38 +50,38 @@ function translate(number, withoutSuffix, key, isFuture) {
         return result + (plural(number) ? 'roky' : 'let');
       }
       return `${result}lety`;
-
-      break;
+    default:
+      return result;
   }
 }
 
 export default {
   months,
   monthsShort,
-  monthsParse: (function (months, monthsShort) {
+  monthsParse: (function (month, monthShort) {
     let i;
-    const _monthsParse = [];
-    for (i = 0; i < 12; i++) {
+    const monthsParseRes = [];
+    for (i = 0; i < 12; i += 1) {
       // use custom parser to solve problem with July (červenec)
-      _monthsParse[i] = new RegExp(`^${months[i]}$|^${monthsShort[i]}$`, 'i');
+      monthsParseRes[i] = new RegExp(`^${month[i]}$|^${monthShort[i]}$`, 'i');
     }
-    return _monthsParse;
+    return monthsParseRes;
   }(months, monthsShort)),
-  shortMonthsParse: (function (monthsShort) {
+  shortMonthsParse: (function (monthShort) {
     let i;
-    const _shortMonthsParse = [];
-    for (i = 0; i < 12; i++) {
-      _shortMonthsParse[i] = new RegExp(`^${monthsShort[i]}$`, 'i');
+    const shortMonthsParseRes = [];
+    for (i = 0; i < 12; i += 1) {
+      shortMonthsParseRes[i] = new RegExp(`^${monthShort[i]}$`, 'i');
     }
-    return _shortMonthsParse;
+    return shortMonthsParseRes;
   }(monthsShort)),
-  longMonthsParse: (function (months) {
+  longMonthsParse: (function (month) {
     let i;
-    const _longMonthsParse = [];
-    for (i = 0; i < 12; i++) {
-      _longMonthsParse[i] = new RegExp(`^${months[i]}$`, 'i');
+    const longMonthsParseRes = [];
+    for (i = 0; i < 12; i += 1) {
+      longMonthsParseRes[i] = new RegExp(`^${month[i]}$`, 'i');
     }
-    return _longMonthsParse;
+    return longMonthsParseRes;
   }(months)),
   weekdays: 'neděle_pondělí_úterý_středa_čtvrtek_pátek_sobota'.split('_'),
   weekdaysShort: 'ne_po_út_st_čt_pá_so'.split('_'),
@@ -121,6 +113,8 @@ export default {
           return '[v pátek v] LT';
         case 6:
           return '[v sobotu v] LT';
+        default:
+          return '';
       }
     },
     lastDay: '[včera v] LT',
@@ -138,6 +132,8 @@ export default {
           return '[minulý] dddd [v] LT';
         case 6:
           return '[minulou sobotu v] LT';
+        default:
+          return '';
       }
     },
     sameElse: 'L',

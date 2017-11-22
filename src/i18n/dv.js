@@ -47,7 +47,7 @@ export default {
   isPM(input) {
     return input === 'މފ';
   },
-  meridiem(hour, minute, isLower) {
+  meridiem(hour) {
     if (hour < 12) {
       return 'މކ';
     }

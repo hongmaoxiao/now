@@ -2,9 +2,8 @@
 //! locale : Luxembourgish [lb]
 //! author : mweimerskirch : https://github.com/mweimerskirch
 //! author : David Raison : https://github.com/kwisatz
-/* jshint -W100 */
 
-function processRelativeTime(number, withoutSuffix, key, isFuture) {
+function processRelativeTime(number, withoutSuffix, key) {
   const format = {
     m: ['eng Minutt', 'enger Minutt'],
     h: ['eng Stonn', 'enger Stonn'],

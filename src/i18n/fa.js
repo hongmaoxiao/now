@@ -1,7 +1,6 @@
 //! now.js locale configuration
 //! locale : Persian [fa]
 //! author : Ebrahim Byagowi : https://github.com/ebraminio
-/* jshint -W100 */
 
 const symbolMap = {
   1: '۱',
@@ -48,7 +47,7 @@ export default {
   isPM(input) {
     return /بعد از ظهر/.test(input);
   },
-  meridiem(hour, minute, isLower) {
+  meridiem(hour) {
     if (hour < 12) {
       return 'قبل از ظهر';
     }

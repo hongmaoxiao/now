@@ -1,4 +1,3 @@
-/* eslint func-names: ["error", "never"] */
 /* eslint no-bitwise: ["error", { "allow": ["~"] }] */
 import {
   zeroFill,

@@ -4,9 +4,8 @@
 //! author: Menelion Elensúle: https://github.com/Oire
 //! author : Martin Groller : https://github.com/MadMG
 //! author : Mikolaj Dadela : https://github.com/mik01aj
-/* jshint -W100 */
 
-function processRelativeTime(number, withoutSuffix, key, isFuture) {
+function processRelativeTime(number, withoutSuffix, key) {
   const format = {
     m: ['eine Minute', 'einer Minute'],
     h: ['eine Stunde', 'einer Stunde'],

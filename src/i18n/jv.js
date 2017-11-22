@@ -2,7 +2,6 @@
 //! locale : Javanese [jv]
 //! author : Rony Lantip : https://github.com/lantip
 //! reference: http://jv.wikipedia.org/wiki/Basa_Jawa
-/* jshint -W100 */
 
 export default {
   months: 'Januari_Februari_Maret_April_Mei_Juni_Juli_Agustus_September_Oktober_Nopember_Desember'.split('_'),
@@ -20,18 +19,20 @@ export default {
   },
   meridiemParse: /enjing|siyang|sonten|ndalu/,
   meridiemHour(hour, meridiem) {
-    if (hour === 12) {
-      hour = 0;
+    let h = hour;
+    if (h === 12) {
+      h = 0;
     }
     if (meridiem === 'enjing') {
-      return hour;
+      return h;
     } else if (meridiem === 'siyang') {
-      return hour >= 11 ? hour : hour + 12;
+      return h >= 11 ? h : h + 12;
     } else if (meridiem === 'sonten' || meridiem === 'ndalu') {
-      return hour + 12;
+      return h + 12;
     }
+    return h;
   },
-  meridiem(hours, minutes, isLower) {
+  meridiem(hours) {
     if (hours < 11) {
       return 'enjing';
     } else if (hours < 15) {

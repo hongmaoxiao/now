@@ -1,7 +1,6 @@
 //! now.js locale configuration
 //! locale : Gujarati [gu]
 //! author : Kaushik Thanki : https://github.com/Kaushik1987
-/* jshint -W100 */
 
 const symbolMap = {
   1: '૧',
@@ -77,20 +76,22 @@ export default {
   // a rigid notion of a 'Pahar' it is not used as rigidly in modern Gujarati.
   meridiemParse: /રાત|બપોર|સવાર|સાંજ/,
   meridiemHour(hour, meridiem) {
-    if (hour === 12) {
-      hour = 0;
+    let h = hour;
+    if (h === 12) {
+      h = 0;
     }
     if (meridiem === 'રાત') {
-      return hour < 4 ? hour : hour + 12;
+      return h < 4 ? h : h + 12;
     } else if (meridiem === 'સવાર') {
-      return hour;
+      return h;
     } else if (meridiem === 'બપોર') {
-      return hour >= 10 ? hour : hour + 12;
+      return h >= 10 ? h : h + 12;
     } else if (meridiem === 'સાંજ') {
-      return hour + 12;
+      return h + 12;
     }
+    return h;
   },
-  meridiem(hour, minute, isLower) {
+  meridiem(hour) {
     if (hour < 4) {
       return 'રાત';
     } else if (hour < 10) {

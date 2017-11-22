@@ -1,13 +1,16 @@
 //! now.js locale configuration
 //! locale : Finnish [fi]
 //! author : Tarmo Aidantausta : https://github.com/bleadof
-/* jshint -W100 */
 
 const numbersPast = 'nolla yksi kaksi kolme neljä viisi kuusi seitsemän kahdeksan yhdeksän'.split(' ');
 const numbersFuture = [
   'nolla', 'yhden', 'kahden', 'kolmen', 'neljän', 'viiden', 'kuuden',
   numbersPast[7], numbersPast[8], numbersPast[9],
 ];
+
+function verbalNumber(number, isFuture) {
+  return number < 10 ? (isFuture ? numbersFuture[number] : numbersPast[number]) : number;
+}
 
 function translate(number, withoutSuffix, key, isFuture) {
   let result = '';
@@ -39,13 +42,11 @@ function translate(number, withoutSuffix, key, isFuture) {
     case 'yy':
       result = isFuture ? 'vuoden' : 'vuotta';
       break;
+    default:
+      break;
   }
   result = `${verbalNumber(number, isFuture)} ${result}`;
   return result;
-}
-
-function verbalNumber(number, isFuture) {
-  return number < 10 ? (isFuture ? numbersFuture[number] : numbersPast[number]) : number;
 }
 
 export default {

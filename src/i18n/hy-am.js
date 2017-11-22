@@ -1,7 +1,6 @@
 //! now.js locale configuration
 //! locale : Armenian [hy-am]
 //! author : Armendarabyan : https://github.com/armendarabyan
-/* jshint -W100 */
 
 export default {
   months: {

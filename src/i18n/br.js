@@ -1,7 +1,25 @@
 //! now.js locale configuration
 //! locale : Breton [br]
 //! author : Jean-Baptiste Le Duigou : https://github.com/jbleduigou
-/* jshint -W100 */
+
+function softMutation(text) {
+  const mutationTable = {
+    m: 'v',
+    b: 'v',
+    d: 'z',
+  };
+  if (mutationTable[text.charAt(0)] === undefined) {
+    return text;
+  }
+  return mutationTable[text.charAt(0)] + text.substring(1);
+}
+
+function mutation(text, number) {
+  if (number === 2) {
+    return softMutation(text);
+  }
+  return text;
+}
 
 function relativeTimeWithMutation(number, withoutSuffix, key) {
   const format = {
@@ -10,6 +28,13 @@ function relativeTimeWithMutation(number, withoutSuffix, key) {
     dd: 'devezh',
   };
   return `${number} ${mutation(format[key], number)}`;
+}
+
+function lastNumber(number) {
+  if (number > 9) {
+    return lastNumber(number % 10);
+  }
+  return number;
 }
 
 function specialMutationForYears(number) {
@@ -23,32 +48,6 @@ function specialMutationForYears(number) {
     default:
       return `${number} vloaz`;
   }
-}
-
-function lastNumber(number) {
-  if (number > 9) {
-    return lastNumber(number % 10);
-  }
-  return number;
-}
-
-function mutation(text, number) {
-  if (number === 2) {
-    return softMutation(text);
-  }
-  return text;
-}
-
-function softMutation(text) {
-  const mutationTable = {
-    m: 'v',
-    b: 'v',
-    d: 'z',
-  };
-  if (mutationTable[text.charAt(0)] === undefined) {
-    return text;
-  }
-  return mutationTable[text.charAt(0)] + text.substring(1);
 }
 
 export default {

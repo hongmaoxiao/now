@@ -2,7 +2,6 @@
 //! locale : Bambara [bm]
 //! author : Estelle Comment : https://github.com/estellecomment
 // Language contact person : Abdoufata Kane : https://github.com/abdoufata
-/* jshint -W100 */
 
 export default {
   months: 'Zanwuyekalo_Fewuruyekalo_Marisikalo_Awirilikalo_Mɛkalo_Zuwɛnkalo_Zuluyekalo_Utikalo_Sɛtanburukalo_ɔkutɔburukalo_Nowanburukalo_Desanburukalo'.split('_'),
