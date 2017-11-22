@@ -11,9 +11,9 @@
     "build": "node build.js",
     "lint": "./node_modules/.bin/eslint --fix ./src"
   },
-  "pre-commit": {
+  "pre-commit": [
     "lint"
-  },
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/makelifemorefun/now.git"
