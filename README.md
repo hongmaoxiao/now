@@ -19,18 +19,13 @@ Import now.js into your page
 <script type="text/javascript" src="/path/to/nowjs.min.js"></script>
 ```
 
-For node
-
-```node
-import Now from 'now.js';
-now = new Now();
-now.format() // "2017-11-20T22:23:35+08:00"
-```
-
-### Usage
+### Examples
 ```javascript
+import Now from 'now.js'; // for node(browser do not need to import)
+
 now = new Now() // "2017-11-20 22:23:00.285"
 
+import Now
 now.beginningOfMinute()   // "2017-11-20 22:23:00"
 now.beginningOfHour()     // "2017-11-20 22:00:00"
 now.beginningOfDay()      // "2017-11-20 00:00:00"
@@ -61,13 +56,16 @@ beginningOfMinute.isMonday() // true
 
 ```
 
-# Author
+### Browser Support
+Modern browsers and Internet Explorer 10+.
+
+### Author
 
 **hongmaoxiao**
 
 * <http://github.com/hongmaoxiao>
 * <buaaxhm@gmail.com>
 
-## License
+### License
 
 MIT
