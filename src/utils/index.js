@@ -2,7 +2,6 @@
 /* eslint prefer-destructuring: ["error", { "object": false }] */
 /* eslint no-void: 0 */
 /* global isFinite */
-/* eslint no-restricted-globals: ["error"] */
 /* eslint no-console: ["error", { allow: ["warn", "error"] }] */
 /* eslint no-underscore-dangle: ["error",
 { "allowAfterThis": true, "allow": ["_config", "_locale", "_abbr"] }

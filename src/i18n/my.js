@@ -3,7 +3,6 @@
 //! author : Squar team, mysquar.com
 //! author : David Rossellat : https://github.com/gholadr
 //! author : Tin Aung Lin : https://github.com/thanyawzinmin
-/* jshint -W100 */
 
 const symbolMap = {
   1: '၁',

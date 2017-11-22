@@ -3,7 +3,6 @@
 //! author : Ben : https://github.com/ben-lin
 //! author : Chris Lam : https://github.com/hehachris
 //! author : Konstantin : https://github.com/skfd
-/* jshint -W100 */
 
 export default {
   months: '一月_二月_三月_四月_五月_六月_七月_八月_九月_十月_十一月_十二月'.split('_'),
@@ -25,19 +24,21 @@ export default {
   },
   meridiemParse: /凌晨|早上|上午|中午|下午|晚上/,
   meridiemHour(hour, meridiem) {
-    if (hour === 12) {
-      hour = 0;
+    let h = hour;
+    if (h === 12) {
+      h = 0;
     }
     if (meridiem === '凌晨' || meridiem === '早上' || meridiem === '上午') {
-      return hour;
+      return h;
     } else if (meridiem === '中午') {
-      return hour >= 11 ? hour : hour + 12;
+      return h >= 11 ? h : h + 12;
     } else if (meridiem === '下午' || meridiem === '晚上') {
-      return hour + 12;
+      return h + 12;
     }
+    return h;
   },
-  meridiem(hour, minute, isLower) {
-    const hm = hour * 100 + minute;
+  meridiem(hour, minute) {
+    const hm = (hour * 100) + minute;
     if (hm < 600) {
       return '凌晨';
     } else if (hm < 900) {

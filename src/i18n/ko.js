@@ -65,7 +65,7 @@ export default {
   isPM(token) {
     return token === '오후';
   },
-  meridiem(hour, minute) {
+  meridiem(hour) {
     return hour < 12 ? '오전' : '오후';
   },
 };

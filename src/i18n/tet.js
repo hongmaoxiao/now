@@ -2,7 +2,7 @@
 //! locale : Tetun Dili (East Timor) [tet]
 //! author : Joshua Brooks : https://github.com/joshbrooks
 //! author : Onorio De J. Afonso : https://github.com/marobo
-/* jshint -W100 */
+/* eslint no-bitwise: ["error", { "allow": ["~"] }] */
 
 export default {
   months: 'Janeiru_Fevereiru_Marsu_Abril_Maiu_Juniu_Juliu_Augustu_Setembru_Outubru_Novembru_Dezembru'.split('_'),
@@ -44,7 +44,7 @@ export default {
   dayOfMonthOrdinalParse: /\d{1,2}(st|nd|rd|th)/,
   ordinal(number) {
     const b = number % 10;
-    const output = (~~(number % 100 / 10) === 1) ? 'th' :
+    const output = (~~((number % 100) / 10) === 1) ? 'th' :
       (b === 1) ? 'st' :
         (b === 2) ? 'nd' :
           (b === 3) ? 'rd' : 'th';

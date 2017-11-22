@@ -2,7 +2,6 @@
 //! locale : Urdu [ur]
 //! author : Sawood Alam : https://github.com/ibnesayeed
 //! author : Zack : https://github.com/ZackVision
-/* jshint -W100 */
 
 const months = [
   'جنوری',
@@ -47,7 +46,7 @@ export default {
   isPM(input) {
     return input === 'شام';
   },
-  meridiem(hour, minute, isLower) {
+  meridiem(hour) {
     if (hour < 12) {
       return 'صبح';
     }

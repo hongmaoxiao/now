@@ -2,7 +2,6 @@
 //! locale : Romanian [ro]
 //! author : Vlad Gurdiga : https://github.com/gurdiga
 //! author : Valentin Agachi : https://github.com/avaly
-/* jshint -W100 */
 
 function relativeTimeWithPlural(number, withoutSuffix, key) {
   const format = {
@@ -63,4 +62,3 @@ export default {
     doy: 7, // The week that contains Jan 1st is the first week of the year.
   },
 };
-

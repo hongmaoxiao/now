@@ -1,7 +1,6 @@
 //! now.js locale configuration
 //! locale : Malayalam [ml]
 //! author : Floyd Pink : https://github.com/floydpink
-/* jshint -W100 */
 
 export default {
   months: 'ജനുവരി_ഫെബ്രുവരി_മാർച്ച്_ഏപ്രിൽ_മേയ്_ജൂൺ_ജൂലൈ_ഓഗസ്റ്റ്_സെപ്റ്റംബർ_ഒക്ടോബർ_നവംബർ_ഡിസംബർ'.split('_'),
@@ -43,17 +42,18 @@ export default {
   },
   meridiemParse: /രാത്രി|രാവിലെ|ഉച്ച കഴിഞ്ഞ്|വൈകുന്നേരം|രാത്രി/i,
   meridiemHour(hour, meridiem) {
-    if (hour === 12) {
-      hour = 0;
+    let h = hour;
+    if (h === 12) {
+      h = 0;
     }
-    if ((meridiem === 'രാത്രി' && hour >= 4) ||
+    if ((meridiem === 'രാത്രി' && h >= 4) ||
       meridiem === 'ഉച്ച കഴിഞ്ഞ്' ||
       meridiem === 'വൈകുന്നേരം') {
-      return hour + 12;
+      return h + 12;
     }
-    return hour;
+    return h;
   },
-  meridiem(hour, minute, isLower) {
+  meridiem(hour) {
     if (hour < 4) {
       return 'രാത്രി';
     } else if (hour < 12) {

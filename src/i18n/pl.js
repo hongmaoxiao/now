@@ -1,7 +1,7 @@
 //! now.js locale configuration
 //! locale : Polish [pl]
 //! author : Rafal Hirsz : https://github.com/evoL
-/* jshint -W100 */
+/* eslint no-bitwise: ["error", { "allow": ["~"] }] */
 
 const monthsNominative = 'styczeń_luty_marzec_kwiecień_maj_czerwiec_lipiec_sierpień_wrzesień_październik_listopad_grudzień'.split('_');
 const monthsSubjective = 'stycznia_lutego_marca_kwietnia_maja_czerwca_lipca_sierpnia_września_października_listopada_grudnia'.split('_');
@@ -25,6 +25,8 @@ function translate(number, withoutSuffix, key) {
       return result + (plural(number) ? 'miesiące' : 'miesięcy');
     case 'yy':
       return result + (plural(number) ? 'lata' : 'lat');
+    default:
+      return result;
   }
 }
 

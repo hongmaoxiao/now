@@ -3,7 +3,6 @@
 //! author : Flakërim Ismani : https://github.com/flakerimi
 //! author : Menelion Elensúle : https://github.com/Oire
 //! author : Oerd Cukalla : https://github.com/oerd
-/* jshint -W100 */
 
 export default {
   months: 'Janar_Shkurt_Mars_Prill_Maj_Qershor_Korrik_Gusht_Shtator_Tetor_Nëntor_Dhjetor'.split('_'),
@@ -16,7 +15,7 @@ export default {
   isPM(input) {
     return input.charAt(0) === 'M';
   },
-  meridiem(hours, minutes, isLower) {
+  meridiem(hours) {
     return hours < 12 ? 'PD' : 'MD';
   },
   longDateFormat: {

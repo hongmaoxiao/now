@@ -1,7 +1,6 @@
 //! now.js locale configuration
 //! locale : Maldivian [dv]
 //! author : Jawish Hameed : https://github.com/jawish
-/* jshint -W100 */
 
 const months = [
   'ޖެނުއަރީ',

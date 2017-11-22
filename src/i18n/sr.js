@@ -1,7 +1,6 @@
 //! now.js locale configuration
 //! locale : Serbian [sr]
 //! author : Milan Janačković<milanjanackovic@gmail.com> : https://github.com/milan-j
-/* jshint -W100 */
 
 const translator = {
   words: { // Different grammatical cases
@@ -57,6 +56,8 @@ export default {
         case 4:
         case 5:
           return '[u] dddd [u] LT';
+        default:
+          return '';
       }
     },
     lastDay: '[juče u] LT',

@@ -14,6 +14,49 @@ function processRelativeTime(number, withoutSuffix, key) {
   return withoutSuffix ? format[key][0] : format[key][1];
 }
 
+/**
+ * Returns true if the word before the given number loses the '-n' ending.
+ * e.g. 'an 10 Deeg' but 'a 5 Deeg'
+ *
+ * @param number {integer}
+ * @returns {boolean}
+ */
+function eifelerRegelAppliesToNumber(number) {
+  let n = number;
+  n = parseInt(n, 10);
+  /* eslint no-restricted-globals: [ 0 ] */
+  if (isNaN(n)) {
+    return false;
+  }
+  if (n < 0) {
+    // Negative Number --> always true
+    return true;
+  } else if (n < 10) {
+    // Only 1 digit
+    if (n >= 4 && n <= 7) {
+      return true;
+    }
+    return false;
+  } else if (n < 100) {
+    // 2 digits
+    const lastDigit = n % 10;
+    const firstDigit = n / 10;
+    if (lastDigit === 0) {
+      return eifelerRegelAppliesToNumber(firstDigit);
+    }
+    return eifelerRegelAppliesToNumber(lastDigit);
+  } else if (n < 10000) {
+    // 3 or 4 digits --> recursively check first digit
+    while (n >= 10) {
+      n /= 10;
+    }
+    return eifelerRegelAppliesToNumber(n);
+  }
+  // Anything larger than 4 digits: recursively check first n-3 digits
+  n /= 1000;
+  return eifelerRegelAppliesToNumber(n);
+}
+
 function processFutureTime(string) {
   const number = string.substr(0, string.indexOf(' '));
   if (eifelerRegelAppliesToNumber(number)) {
@@ -28,46 +71,6 @@ function processPastTime(string) {
     return `viru ${string}`;
   }
   return `virun ${string}`;
-}
-/**
- * Returns true if the word before the given number loses the '-n' ending.
- * e.g. 'an 10 Deeg' but 'a 5 Deeg'
- *
- * @param number {integer}
- * @returns {boolean}
- */
-function eifelerRegelAppliesToNumber(number) {
-  number = parseInt(number, 10);
-  if (isNaN(number)) {
-    return false;
-  }
-  if (number < 0) {
-    // Negative Number --> always true
-    return true;
-  } else if (number < 10) {
-    // Only 1 digit
-    if (number >= 4 && number <= 7) {
-      return true;
-    }
-    return false;
-  } else if (number < 100) {
-    // 2 digits
-    const lastDigit = number % 10;
-    const firstDigit = number / 10;
-    if (lastDigit === 0) {
-      return eifelerRegelAppliesToNumber(firstDigit);
-    }
-    return eifelerRegelAppliesToNumber(lastDigit);
-  } else if (number < 10000) {
-    // 3 or 4 digits --> recursively check first digit
-    while (number >= 10) {
-      number /= 10;
-    }
-    return eifelerRegelAppliesToNumber(number);
-  }
-  // Anything larger than 4 digits: recursively check first n-3 digits
-  number /= 1000;
-  return eifelerRegelAppliesToNumber(number);
 }
 
 export default {
@@ -93,7 +96,8 @@ export default {
     nextWeek: 'dddd [um] LT',
     lastDay: '[Gëschter um] LT',
     lastWeek() {
-      // Different date string for 'Dënschdeg' (Tuesday) and 'Donneschdeg' (Thursday) due to phonological rule
+      // Different date string for 'Dënschdeg' (Tuesday) and 'Donneschdeg' (Thursday)
+      // due to phonological rule
       switch (this.day()) {
         case 2:
         case 4:

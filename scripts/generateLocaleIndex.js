@@ -17,7 +17,7 @@ function listLocales() {
 const locales = listLocales();
 
 function generateIndex(files) {
-  const imports = files.map((file) => `import ${file.parseName} from '${file.name}'`);
+  const imports = files.map((file) => `import ${file.parseName} from './${file.name}'`);
   const exports = files.map((file) => {
     if (dashReg.test(file.name)) {
       return `  '${file.name}': ${file.parseName}`;

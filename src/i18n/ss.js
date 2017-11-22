@@ -1,7 +1,6 @@
 //! now.js locale configuration
 //! locale : siSwati [ss]
 //! author : Nicolai Davies<mail@nicolai.io> : https://github.com/nicolaidavies
-/* jshint -W100 */
 
 export default {
   months: "Bhimbidvwane_Indlovana_Indlov'lenkhulu_Mabasa_Inkhwekhweti_Inhlaba_Kholwane_Ingci_Inyoni_Imphala_Lweti_Ingongoni".split('_'),
@@ -42,7 +41,7 @@ export default {
     yy: '%d iminyaka',
   },
   meridiemParse: /ekuseni|emini|entsambama|ebusuku/,
-  meridiem(hours, minutes, isLower) {
+  meridiem(hours) {
     if (hours < 11) {
       return 'ekuseni';
     } else if (hours < 15) {
@@ -53,19 +52,21 @@ export default {
     return 'ebusuku';
   },
   meridiemHour(hour, meridiem) {
-    if (hour === 12) {
-      hour = 0;
+    let h = hour;
+    if (h === 12) {
+      h = 0;
     }
     if (meridiem === 'ekuseni') {
-      return hour;
+      return h;
     } else if (meridiem === 'emini') {
-      return hour >= 11 ? hour : hour + 12;
+      return h >= 11 ? h : h + 12;
     } else if (meridiem === 'entsambama' || meridiem === 'ebusuku') {
-      if (hour === 0) {
+      if (h === 0) {
         return 0;
       }
-      return hour + 12;
+      return h + 12;
     }
+    return h;
   },
   dayOfMonthOrdinalParse: /\d{1,2}/,
   ordinal: '%d',

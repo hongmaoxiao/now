@@ -1,7 +1,6 @@
 //! now.js locale configuration
 //! locale : Punjabi (India) [pa-in]
 //! author : Harpreet Singh : https://github.com/harpreetkhalsagtbit
-/* jshint -W100 */
 
 const symbolMap = {
   1: '੧',
@@ -30,7 +29,8 @@ const numberMap = {
 };
 
 export default {
-  // There are months name as per Nanakshahi Calender but they are not used as rigidly in modern Punjabi.
+  // There are months name as per Nanakshahi Calender
+  // but they are not used as rigidly in modern Punjabi.
   months: 'ਜਨਵਰੀ_ਫ਼ਰਵਰੀ_ਮਾਰਚ_ਅਪ੍ਰੈਲ_ਮਈ_ਜੂਨ_ਜੁਲਾਈ_ਅਗਸਤ_ਸਤੰਬਰ_ਅਕਤੂਬਰ_ਨਵੰਬਰ_ਦਸੰਬਰ'.split('_'),
   monthsShort: 'ਜਨਵਰੀ_ਫ਼ਰਵਰੀ_ਮਾਰਚ_ਅਪ੍ਰੈਲ_ਮਈ_ਜੂਨ_ਜੁਲਾਈ_ਅਗਸਤ_ਸਤੰਬਰ_ਅਕਤੂਬਰ_ਨਵੰਬਰ_ਦਸੰਬਰ'.split('_'),
   weekdays: 'ਐਤਵਾਰ_ਸੋਮਵਾਰ_ਮੰਗਲਵਾਰ_ਬੁਧਵਾਰ_ਵੀਰਵਾਰ_ਸ਼ੁੱਕਰਵਾਰ_ਸ਼ਨੀਚਰਵਾਰ'.split('_'),
@@ -77,20 +77,22 @@ export default {
   // a rigid notion of a 'Pahar' it is not used as rigidly in modern Punjabi.
   meridiemParse: /ਰਾਤ|ਸਵੇਰ|ਦੁਪਹਿਰ|ਸ਼ਾਮ/,
   meridiemHour(hour, meridiem) {
-    if (hour === 12) {
-      hour = 0;
+    let h = hour;
+    if (h === 12) {
+      h = 0;
     }
     if (meridiem === 'ਰਾਤ') {
-      return hour < 4 ? hour : hour + 12;
+      return h < 4 ? h : h + 12;
     } else if (meridiem === 'ਸਵੇਰ') {
-      return hour;
+      return h;
     } else if (meridiem === 'ਦੁਪਹਿਰ') {
-      return hour >= 10 ? hour : hour + 12;
+      return h >= 10 ? h : h + 12;
     } else if (meridiem === 'ਸ਼ਾਮ') {
-      return hour + 12;
+      return h + 12;
     }
+    return h;
   },
-  meridiem(hour, minute, isLower) {
+  meridiem(hour) {
     if (hour < 4) {
       return 'ਰਾਤ';
     } else if (hour < 10) {

@@ -1,7 +1,6 @@
 //! now.js locale configuration
 //! locale : Montenegrin [me]
 //! author : Miodrag Nikač <miodrag@restartit.me> : https://github.com/miodragnikac
-/* jshint -W100 */
 
 const translator = {
   words: { // Different grammatical cases
@@ -58,6 +57,8 @@ export default {
         case 4:
         case 5:
           return '[u] dddd [u] LT';
+        default:
+          return '';
       }
     },
     lastDay: '[juče u] LT',

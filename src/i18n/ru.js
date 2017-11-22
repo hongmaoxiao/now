@@ -3,11 +3,14 @@
 //! author : Viktorminator : https://github.com/Viktorminator
 //! Author : Menelion Elensúle : https://github.com/Oire
 //! author : Коренберг Марк : https://github.com/socketpair
-/* jshint -W100 */
 
 function plural(word, num) {
   const forms = word.split('_');
-  return num % 10 === 1 && num % 100 !== 11 ? forms[0] : (num % 10 >= 2 && num % 10 <= 4 && (num % 100 < 10 || num % 100 >= 20) ? forms[1] : forms[2]);
+  return num % 10 === 1 && num % 100 !== 11 ?
+    forms[0] :
+    (num % 10 >= 2 && num % 10 <= 4 && (num % 100 < 10 || num % 100 >= 20) ?
+      forms[1] :
+      forms[2]);
 }
 
 function relativeTimeWithPlural(number, withoutSuffix, key) {
@@ -49,7 +52,8 @@ export default {
   longMonthsParse: monthsParse,
   shortMonthsParse: monthsParse,
 
-  // полные названия с падежами, по три буквы, для некоторых, по 4 буквы, сокращения с точкой и без точки
+  // полные названия с падежами, по три буквы, для некоторых,
+  // по 4 буквы, сокращения с точкой и без точки
   monthsRegex: /^(январ[ья]|янв\.?|феврал[ья]|февр?\.?|марта?|мар\.?|апрел[ья]|апр\.?|ма[йя]|июн[ья]|июн\.?|июл[ья]|июл\.?|августа?|авг\.?|сентябр[ья]|сент?\.?|октябр[ья]|окт\.?|ноябр[ья]|нояб?\.?|декабр[ья]|дек\.?)/i,
 
   // копия предыдущего
@@ -85,6 +89,8 @@ export default {
           case 5:
           case 6:
             return '[В следующую] dddd [в] LT';
+          default:
+            return '';
         }
       } else {
         if (this.day() === 2) {
@@ -106,6 +112,8 @@ export default {
           case 5:
           case 6:
             return '[В прошлую] dddd [в] LT';
+          default:
+            return '';
         }
       } else {
         if (this.day() === 2) {
@@ -135,7 +143,7 @@ export default {
   isPM(input) {
     return /^(дня|вечера)$/.test(input);
   },
-  meridiem(hour, minute, isLower) {
+  meridiem(hour) {
     if (hour < 4) {
       return 'ночи';
     } else if (hour < 12) {

@@ -1,7 +1,6 @@
 //! now.js locale configuration
 //! locale : Tamil [ta]
 //! author : Arjunkumar Krishnamoorthy : https://github.com/tk120404
-/* jshint -W100 */
 
 const symbolMap = {
   1: '௧',
@@ -78,7 +77,7 @@ export default {
   },
   // refer http://ta.wikipedia.org/s/1er1
   meridiemParse: /யாமம்|வைகறை|காலை|நண்பகல்|எற்பாடு|மாலை/,
-  meridiem(hour, minute, isLower) {
+  meridiem(hour) {
     if (hour < 2) {
       return ' யாமம்';
     } else if (hour < 6) {
@@ -95,17 +94,18 @@ export default {
     return ' யாமம்';
   },
   meridiemHour(hour, meridiem) {
-    if (hour === 12) {
-      hour = 0;
+    let h = hour;
+    if (h === 12) {
+      h = 0;
     }
     if (meridiem === 'யாமம்') {
-      return hour < 2 ? hour : hour + 12;
+      return h < 2 ? h : h + 12;
     } else if (meridiem === 'வைகறை' || meridiem === 'காலை') {
-      return hour;
+      return h;
     } else if (meridiem === 'நண்பகல்') {
-      return hour >= 10 ? hour : hour + 12;
+      return h >= 10 ? h : h + 12;
     }
-    return hour + 12;
+    return h + 12;
   },
   week: {
     dow: 0, // Sunday is the first day of the week.

@@ -1,7 +1,6 @@
 //! now.js locale configuration
 //! locale : Lao [lo]
 //! author : Ryan Hart : https://github.com/ryanhart2
-/* jshint -W100 */
 
 export default {
   months: 'ມັງກອນ_ກຸມພາ_ມີນາ_ເມສາ_ພຶດສະພາ_ມິຖຸນາ_ກໍລະກົດ_ສິງຫາ_ກັນຍາ_ຕຸລາ_ພະຈິກ_ທັນວາ'.split('_'),
@@ -22,7 +21,7 @@ export default {
   isPM(input) {
     return input === 'ຕອນແລງ';
   },
-  meridiem(hour, minute, isLower) {
+  meridiem(hour) {
     if (hour < 12) {
       return 'ຕອນເຊົ້າ';
     }

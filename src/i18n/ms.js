@@ -1,7 +1,6 @@
 //! now.js locale configuration
 //! locale : Malay [ms]
 //! author : Weldan Jamili : https://github.com/weldan
-/* jshint -W100 */
 
 export default {
   months: 'Januari_Februari_Mac_April_Mei_Jun_Julai_Ogos_September_Oktober_November_Disember'.split('_'),
@@ -19,18 +18,20 @@ export default {
   },
   meridiemParse: /pagi|tengahari|petang|malam/,
   meridiemHour(hour, meridiem) {
-    if (hour === 12) {
-      hour = 0;
+    let h = hour;
+    if (h === 12) {
+      h = 0;
     }
     if (meridiem === 'pagi') {
-      return hour;
+      return h;
     } else if (meridiem === 'tengahari') {
-      return hour >= 11 ? hour : hour + 12;
+      return h >= 11 ? h : h + 12;
     } else if (meridiem === 'petang' || meridiem === 'malam') {
-      return hour + 12;
+      return h + 12;
     }
+    return h;
   },
-  meridiem(hours, minutes, isLower) {
+  meridiem(hours) {
     if (hours < 11) {
       return 'pagi';
     } else if (hours < 15) {

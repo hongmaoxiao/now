@@ -2,11 +2,14 @@
 //! locale : Ukrainian [uk]
 //! author : zemlanin : https://github.com/zemlanin
 //! Author : Menelion Elensúle : https://github.com/Oire
-/* jshint -W100 */
 
 function plural(word, num) {
   const forms = word.split('_');
-  return num % 10 === 1 && num % 100 !== 11 ? forms[0] : (num % 10 >= 2 && num % 10 <= 4 && (num % 100 < 10 || num % 100 >= 20) ? forms[1] : forms[2]);
+  return num % 10 === 1 && num % 100 !== 11 ?
+    forms[0] :
+    (num % 10 >= 2 && num % 10 <= 4 && (num % 100 < 10 || num % 100 >= 20) ?
+      forms[1] :
+      forms[2]);
 }
 
 function relativeTimeWithPlural(number, withoutSuffix, key) {
@@ -83,6 +86,8 @@ export default {
         case 2:
         case 4:
           return processHoursFunction('[Минулого] dddd [').call(this);
+        default:
+          return '';
       }
     },
     sameElse: 'L',
@@ -102,12 +107,13 @@ export default {
     y: 'рік',
     yy: relativeTimeWithPlural,
   },
-  // M. E.: those two are virtually unused but a user might want to implement them for his/her website for some reason
+  // M. E.: those two are virtually unused but a user might want to implement them
+  // for his/her website for some reason
   meridiemParse: /ночі|ранку|дня|вечора/,
   isPM(input) {
     return /^(дня|вечора)$/.test(input);
   },
-  meridiem(hour, minute, isLower) {
+  meridiem(hour) {
     if (hour < 4) {
       return 'ночі';
     } else if (hour < 12) {

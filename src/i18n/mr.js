@@ -2,7 +2,6 @@
 //! locale : Marathi [mr]
 //! author : Harshad Kale : https://github.com/kalehv
 //! author : Vivek Athalye : https://github.com/vnathalye
-/* jshint -W100 */
 
 const symbolMap = {
   1: '१',
@@ -30,7 +29,7 @@ const numberMap = {
   '०': '0',
 };
 
-function relativeTimeMr(number, withoutSuffix, string, isFuture) {
+function relativeTimeMr(number, withoutSuffix, string) {
   let output = '';
   if (withoutSuffix) {
     switch (string) {
@@ -67,6 +66,8 @@ function relativeTimeMr(number, withoutSuffix, string, isFuture) {
       case 'yy':
         output = '%d वर्षे';
         break;
+      default:
+        break;
     }
   } else {
     switch (string) {
@@ -102,6 +103,8 @@ function relativeTimeMr(number, withoutSuffix, string, isFuture) {
         break;
       case 'yy':
         output = '%d वर्षां';
+        break;
+      default:
         break;
     }
   }
@@ -154,20 +157,22 @@ export default {
   },
   meridiemParse: /रात्री|सकाळी|दुपारी|सायंकाळी/,
   meridiemHour(hour, meridiem) {
-    if (hour === 12) {
-      hour = 0;
+    let h = hour;
+    if (h === 12) {
+      h = 0;
     }
     if (meridiem === 'रात्री') {
-      return hour < 4 ? hour : hour + 12;
+      return h < 4 ? h : h + 12;
     } else if (meridiem === 'सकाळी') {
-      return hour;
+      return h;
     } else if (meridiem === 'दुपारी') {
-      return hour >= 10 ? hour : hour + 12;
+      return h >= 10 ? h : h + 12;
     } else if (meridiem === 'सायंकाळी') {
-      return hour + 12;
+      return h + 12;
     }
+    return h;
   },
-  meridiem(hour, minute, isLower) {
+  meridiem(hour) {
     if (hour < 4) {
       return 'रात्री';
     } else if (hour < 10) {

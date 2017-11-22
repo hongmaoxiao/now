@@ -2,7 +2,6 @@
 //! locale : Turkish [tr]
 //! authors : Erhan Gundogan : https://github.com/erhangundogan,
 //!           Burak Yiğit Kaya: https://github.com/BYK
-/* jshint -W100 */
 
 const suffixes = {
   1: '\'inci',
@@ -68,7 +67,7 @@ export default {
       return `${number}'ıncı`;
     }
     const a = number % 10;
-    const b = number % 100 - a;
+    const b = (number % 100) - a;
     const c = number >= 100 ? 100 : null;
     return number + (suffixes[a] || suffixes[b] || suffixes[c]);
   },

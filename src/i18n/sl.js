@@ -1,7 +1,6 @@
 //! now.js locale configuration
 //! locale : Slovenian [sl]
 //! author : Robert Sedovšek : https://github.com/sedovsek
-/* jshint -W100 */
 
 function processRelativeTime(number, withoutSuffix, key, isFuture) {
   let result = `${number} `;
@@ -71,6 +70,8 @@ function processRelativeTime(number, withoutSuffix, key, isFuture) {
         result += withoutSuffix || isFuture ? 'let' : 'leti';
       }
       return result;
+    default:
+      return result;
   }
 }
 
@@ -107,6 +108,8 @@ export default {
         case 4:
         case 5:
           return '[v] dddd [ob] LT';
+        default:
+          return '';
       }
     },
     lastDay: '[včeraj ob] LT',
@@ -123,6 +126,8 @@ export default {
         case 4:
         case 5:
           return '[prejšnji] dddd [ob] LT';
+        default:
+          return '';
       }
     },
     sameElse: 'L',

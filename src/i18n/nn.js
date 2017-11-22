@@ -1,7 +1,6 @@
 //! now.js locale configuration
 //! locale : Nynorsk [nn]
 //! author : https://github.com/mechuwind
-/* jshint -W100 */
 
 export default {
   months: 'januar_februar_mars_april_mai_juni_juli_august_september_oktober_november_desember'.split('_'),

@@ -1,7 +1,6 @@
 //! now.js locale configuration
 //! locale : Nepalese [ne]
 //! author : suvash : https://github.com/suvash
-/* jshint -W100 */
 
 const symbolMap = {
   1: '१',
@@ -53,20 +52,22 @@ export default {
   },
   meridiemParse: /राति|बिहान|दिउँसो|साँझ/,
   meridiemHour(hour, meridiem) {
-    if (hour === 12) {
-      hour = 0;
+    let h = hour;
+    if (h === 12) {
+      h = 0;
     }
     if (meridiem === 'राति') {
-      return hour < 4 ? hour : hour + 12;
+      return h < 4 ? h : h + 12;
     } else if (meridiem === 'बिहान') {
-      return hour;
+      return h;
     } else if (meridiem === 'दिउँसो') {
-      return hour >= 10 ? hour : hour + 12;
+      return h >= 10 ? h : h + 12;
     } else if (meridiem === 'साँझ') {
-      return hour + 12;
+      return h + 12;
     }
+    return h;
   },
-  meridiem(hour, minute, isLower) {
+  meridiem(hour) {
     if (hour < 3) {
       return 'राति';
     } else if (hour < 12) {

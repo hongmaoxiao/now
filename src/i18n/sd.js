@@ -1,7 +1,6 @@
 //! now.js locale configuration
 //! locale : Sindhi [sd]
 //! author : Narain Sagar : https://github.com/narainsagar
-/* jshint -W100 */
 
 const months = [
   'جنوري',
@@ -45,7 +44,7 @@ export default {
   isPM(input) {
     return input === 'شام';
   },
-  meridiem(hour, minute, isLower) {
+  meridiem(hour) {
     if (hour < 12) {
       return 'صبح';
     }

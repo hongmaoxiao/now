@@ -2,7 +2,6 @@
 //! locale : Latvian [lv]
 //! author : Kristaps Karlsons : https://github.com/skakri
 //! author : Jānis Elmeris : https://github.com/JanisE
-/* jshint -W100 */
 
 const units = {
   m: 'minūtes_minūtēm_minūte_minūtes'.split('_'),

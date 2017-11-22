@@ -1,7 +1,6 @@
 //! now.js locale configuration
 //! locale : Macedonian [mk]
 //! author : Borislav Mickov : https://github.com/B0k0
-/* jshint -W100 */
 
 export default {
   months: 'јануари_февруари_март_април_мај_јуни_јули_август_септември_октомври_ноември_декември'.split('_'),
@@ -33,6 +32,8 @@ export default {
         case 4:
         case 5:
           return '[Изминатиот] dddd [во] LT';
+        default:
+          return '';
       }
     },
     sameElse: 'L',

@@ -1,7 +1,6 @@
 //! now.js locale configuration
 //! locale : Klingon [tlh]
 //! author : Dominika Kruk : https://github.com/amaranthrose
-/* jshint -W100 */
 
 const numbersNouns = 'pagh_wa’_cha’_wej_loS_vagh_jav_Soch_chorgh_Hut'.split('_');
 
@@ -29,22 +28,6 @@ function translatePast(output) {
   return time;
 }
 
-function translate(number, withoutSuffix, string, isFuture) {
-  const numberNoun = numberAsNoun(number);
-  switch (string) {
-    case 'mm':
-      return `${numberNoun} tup`;
-    case 'hh':
-      return `${numberNoun} rep`;
-    case 'dd':
-      return `${numberNoun} jaj`;
-    case 'MM':
-      return `${numberNoun} jar`;
-    case 'yy':
-      return `${numberNoun} DIS`;
-  }
-}
-
 function numberAsNoun(number) {
   const hundred = Math.floor((number % 1000) / 100);
   const ten = Math.floor((number % 100) / 10);
@@ -60,6 +43,24 @@ function numberAsNoun(number) {
     word += ((word !== '') ? ' ' : '') + numbersNouns[one];
   }
   return (word === '') ? 'pagh' : word;
+}
+
+function translate(number, withoutSuffix, string) {
+  const numberNoun = numberAsNoun(number);
+  switch (string) {
+    case 'mm':
+      return `${numberNoun} tup`;
+    case 'hh':
+      return `${numberNoun} rep`;
+    case 'dd':
+      return `${numberNoun} jaj`;
+    case 'MM':
+      return `${numberNoun} jar`;
+    case 'yy':
+      return `${numberNoun} DIS`;
+    default:
+      return numberNoun;
+  }
 }
 
 export default {
