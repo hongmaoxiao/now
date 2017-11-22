@@ -3,3 +3,5 @@
 doc/*.html
 node_modules
 dist/*.map
+example/*.js
+example/*.map
