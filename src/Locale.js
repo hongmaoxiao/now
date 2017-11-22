@@ -7,11 +7,6 @@
 import {
   isFunction,
   isArray,
-  has,
-  defaultWeekdaysRegex,
-  defaultWeekdaysShortRegex,
-  defaultWeekdaysMinRegex,
-  computeWeekdaysParse,
   weekOfYear,
 } from './utils/index';
 
@@ -138,57 +133,6 @@ class Locale {
 
   weekdaysMin(m) {
     return (m) ? this._weekdaysMin[m.weekDay()] : this._weekdaysMin;
-  }
-
-  weekdaysRegex(isStrict) {
-    if (this._weekdaysParseExact) {
-      if (!has(this, '_weekdaysRegex')) {
-        computeWeekdaysParse.call(this);
-      }
-      if (isStrict) {
-        return this._weekdaysStrictRegex;
-      }
-      return this._weekdaysRegex;
-    }
-    if (!has(this, '_weekdaysRegex')) {
-      this._weekdaysRegex = defaultWeekdaysRegex;
-    }
-    return this._weekdaysStrictRegex && isStrict ?
-      this._weekdaysStrictRegex : this._weekdaysRegex;
-  }
-
-  weekdaysShortRegex(isStrict) {
-    if (this._weekdaysParseExact) {
-      if (!has(this, '_weekdaysRegex')) {
-        computeWeekdaysParse.call(this);
-      }
-      if (isStrict) {
-        return this._weekdaysShortStrictRegex;
-      }
-      return this._weekdaysShortRegex;
-    }
-    if (!has(this, '_weekdaysShortRegex')) {
-      this._weekdaysShortRegex = defaultWeekdaysShortRegex;
-    }
-    return this._weekdaysShortStrictRegex && isStrict ?
-      this._weekdaysShortStrictRegex : this._weekdaysShortRegex;
-  }
-
-  weekdaysMinRegex(isStrict) {
-    if (this._weekdaysParseExact) {
-      if (!has(this, '_weekdaysRegex')) {
-        computeWeekdaysParse.call(this);
-      }
-      if (isStrict) {
-        return this._weekdaysMinStrictRegex;
-      }
-      return this._weekdaysMinRegex;
-    }
-    if (!has(this, '_weekdaysMinRegex')) {
-      this._weekdaysMinRegex = defaultWeekdaysMinRegex;
-    }
-    return this._weekdaysMinStrictRegex && isStrict ?
-      this._weekdaysMinStrictRegex : this._weekdaysMinRegex;
   }
 
   isPM(input) {
