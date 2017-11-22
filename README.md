@@ -21,7 +21,7 @@ Import now.js into your page
 
 ### Examples
 ```javascript
-import Now from 'now.js'; // for node(browser do not need to import)
+import Now from 'now.js'; // for node(browser do not need this)
 
 now = new Now() // "2017-11-20 22:23:00.285"
 
