@@ -592,11 +592,18 @@ class Now {
 
   min(...args) {
     let result = Infinity;
+    let resultIndex;
     let compares = args;
     let index = 0;
-    const len = compares.length;
+    let len = compares.length;
+
     if (len === 0) {
       throw new Error('min require at least one argument');
+    }
+    // args length is 1, add this
+    if (len === 1) {
+      compares.unshift(this);
+      len += 1;
     }
     compares = compares.map((value) => {
       if (this.isNow(value)) {
@@ -608,23 +615,31 @@ class Now {
     if (some) {
       throw new TypeError('some arguments not of Date type or Now instance');
     }
-    compares = [this.date].concat(compares);
-    while (index < len + 1) {
+    while (index < len) {
       if (+compares[index] < result) {
         result = compares[index];
+        resultIndex = index;
       }
       index += 1;
     }
-    return result;
+    // return the original
+    return compares[resultIndex];
   }
 
   max(...args) {
     let result = -Infinity;
+    let resultIndex;
     let compares = args;
     let index = 0;
-    const len = compares.length;
+    let len = compares.length;
+    
     if (len === 0) {
       throw new Error('max require at least one argument');
+    }
+    // args length is 1, add this
+    if (len === 1) {
+      compares.unshift(this);
+      len += 1;
     }
     compares = compares.map((value) => {
       if (this.isNow(value)) {
@@ -636,14 +651,15 @@ class Now {
     if (some) {
       throw new TypeError('some arguments not of Date type or Now instance');
     }
-    compares = [this.date].concat(compares);
-    while (index < len + 1) {
+    while (index < len) {
       if (+compares[index] > result) {
         result = compares[index];
+        resultIndex = index;
       }
       index += 1;
     }
-    return result;
+    // return the original
+    return compares[resultIndex];
   }
 
   between(date1, date2) {
