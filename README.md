@@ -19,7 +19,7 @@ Import now.js into your page
 <script type="text/javascript" src="/path/to/nowjs.min.js"></script>
 ```
 
-### Examples
+## Examples
 ```javascript
 import Now from 'now.js'; // for node(browser do not need this)
 
@@ -55,16 +55,16 @@ beginningOfMinute.isMonday() // true
 
 ```
 
-### Browser Support
+## Browser Support
 Modern browsers and Internet Explorer 10+.
 
-### Author
+## Author
 
 **hongmaoxiao**
 
 * <http://github.com/hongmaoxiao>
 * <buaaxhm@gmail.com>
 
-### License
+## License
 
 MIT
