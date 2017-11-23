@@ -46,8 +46,7 @@ now.endOfMonth()          // "2017-11-30 23:59:59.999"
 now.endOfQuarter()        // "2017-12-31 23:59:59.999"
 now.endOfYear()           // "2017-12-31 23:59:59.999"
 
-All the above functions return String type. If you want to do more of them,
-pass 'self' to return Now instance.
+All the above functions return String type. You can pass 'self' to return Now instance:
 
 var beginningOfMinute = now.beginningOfMinute('self') // return Now instance
 beginningOfMinute.format('ddd, Ah') // "Mon, PM10"
