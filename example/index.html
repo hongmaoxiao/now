@@ -3,8 +3,300 @@
 <head>
   <meta charset="UTF-8">
   <title>Now demo</title>
+  <link rel="stylesheet" href="./index.css">
 </head>
 <body>
+  <div class="sidebar">
+    <a href="#" class="now">
+      now.js
+      <span class="version">(0.1.0)</span>
+    </a>
+    <div class="api">
+      <a href="#Stactic-Functions" class="main-title">Stactic Functions</a>
+      <ul class="main-section">
+        <li>
+          <a href="#version">version</a>
+        </li>
+        <li>
+          <a href="#defineLocale">defineLocale</a>
+        </li>
+        <li>
+          <a href="#updateLocale">updateLocale</a>
+        </li>
+        <li>
+          <a href="#locales">locales</a>
+        </li>
+      </ul>
+    </div>
+    <div class="api">
+      <a href="#Functions" class="main-title">Functions</a>
+      <ul class="main-section">
+        <li>
+          <a href="#date">date</a>
+        </li>
+        <li>
+          <a href="#value">value</a>
+        </li>
+        <li>
+          <a href="#valueOf">valueOf</a>
+        </li>
+        <li>
+          <a href="#unix">unix</a>
+        </li>
+        <li>
+          <a href="#toString">toString</a>
+        </li>
+        <li>
+          <a href="#toISOString">toISOString</a>
+        </li>
+        <li>
+          <a href="#toJson">toJson</a>
+        </li>
+        <li>
+          <a href="#toArray">toArray</a>
+        </li>
+        <li>
+          <a href="#toObject">toObject</a>
+        </li>
+        <li>
+          <a href="#firstDayMonday">firstDayMonday</a>
+        </li>
+        <li>
+          <a href="#clone">clone</a>
+        </li>
+        <li>
+          <a href="#UTC">UTC</a>
+        </li>
+        <li>
+          <a href="#Sunday">Sunday</a>
+        </li>
+        <li>
+          <a href="#Monday">Monday</a>
+        </li>
+        <li>
+          <a href="#Tuesday">Tuesday</a>
+        </li>
+        <li>
+          <a href="#Wednesday">Wednesday</a>
+        </li>
+        <li>
+          <a href="#Thursday">Thursday</a>
+        </li>
+        <li>
+          <a href="#Friday">Friday</a>
+        </li>
+        <li>
+          <a href="#Saturday">Saturday</a>
+        </li>
+        <li>
+          <a href="#isSunday">isSunday</a>
+        </li>
+        <li>
+          <a href="#isMonday">isMonday</a>
+        </li>
+        <li>
+          <a href="#isTuesday">isTuesday</a>
+        </li>
+        <li>
+          <a href="#isWednesday">isWednesday</a>
+        </li>
+        <li>
+          <a href="#isThursday">isThursday</a>
+        </li>
+        <li>
+          <a href="#isFriday">isFriday</a>
+        </li>
+        <li>
+          <a href="#isSaturday">isSaturday</a>
+        </li>
+        <li>
+          <a href="#year">year</a>
+        </li>
+        <li>
+          <a href="#quarter">quarter</a>
+        </li>
+        <li>
+          <a href="#month">month</a>
+        </li>
+        <li>
+          <a href="#week">week</a>
+        </li>
+        <li>
+          <a href="#isoWeek">isoWeek</a>
+        </li>
+        <li>
+          <a href="#day">day</a>
+        </li>
+        <li>
+          <a href="#weekDay">weekDay</a>
+        </li>
+        <li>
+          <a href="#localeWeekDay">localeWeekDay</a>
+        </li>
+        <li>
+          <a href="#isoWeekDay">isoWeekDay</a>
+        </li>
+        <li>
+          <a href="#hour">hour</a>
+        </li>
+        <li>
+          <a href="#minute">minute</a>
+        </li>
+        <li>
+          <a href="#second">second</a>
+        </li>
+        <li>
+          <a href="#milliSecond">milliSecond</a>
+        </li>
+        <li>
+          <a href="#weeksInYear">weeksInYear</a>
+        </li>
+        <li>
+          <a href="#isoWeeksInYear">isoWeeksInYear</a>
+        </li>
+        <li>
+          <a href="#weekYear">weekYear</a>
+        </li>
+        <li>
+          <a href="#isoWeekYear">isoWeekYear</a>
+        </li>
+        <li>
+          <a href="#dayOfYear">dayOfYear</a>
+        </li>
+        <li>
+          <a href="#addMilliSeconds">addMilliSeconds</a>
+        </li>
+        <li>
+          <a href="#addSeconds">addSeconds</a>
+        </li>
+        <li>
+          <a href="#addMinutes">addMinutes</a>
+        </li>
+        <li>
+          <a href="#addHours">addHours</a>
+        </li>
+        <li>
+          <a href="#addDays">addDays</a>
+        </li>
+        <li>
+          <a href="#addWeeks">addWeeks</a>
+        </li>
+        <li>
+          <a href="#addMonths">addMonths</a>
+        </li>
+        <li>
+          <a href="#addQuarters">addQuarters</a>
+        </li>
+        <li>
+          <a href="#addYears">addYears</a>
+        </li>
+        <li>
+          <a href="#truncate">truncate</a>
+        </li>
+        <li>
+          <a href="#beginningOfMinute">beginningOfMinute</a>
+        </li>
+        <li>
+          <a href="#beginningOfHour">beginningOfHour</a>
+        </li>
+        <li>
+          <a href="#beginningOfDay">beginningOfDay</a>
+        </li>
+        <li>
+          <a href="#beginningOfWeek">beginningOfWeek</a>
+        </li>
+        <li>
+          <a href="#beginningOfMonth">beginningOfMonth</a>
+        </li>
+        <li>
+          <a href="#beginningOfQuarter">beginningOfQuarter</a>
+        </li>
+        <li>
+          <a href="#beginningOfYear">beginningOfYear</a>
+        </li>
+        <li>
+          <a href="#endOfMinute">endOfMinute</a>
+        </li>
+        <li>
+          <a href="#endOfHour">endOfHour</a>
+        </li>
+        <li>
+          <a href="#endOfDay">endOfDay</a>
+        </li>
+        <li>
+          <a href="#endOfWeek">endOfWeek</a>
+        </li>
+        <li>
+          <a href="#endOfMonth">endOfMonth</a>
+        </li>
+        <li>
+          <a href="#endOfQuarter">endOfQuarter</a>
+        </li>
+        <li>
+          <a href="#endOfYear">endOfYear</a>
+        </li>
+        <li>
+          <a href="#isNow">isNow</a>
+        </li>
+        <li>
+          <a href="#isLeapYear">isLeapYear</a>
+        </li>
+        <li>
+          <a href="#isBefore">isBefore</a>
+        </li>
+        <li>
+          <a href="#isAfter">isAfter</a>
+        </li>
+        <li>
+          <a href="#isEqual">isEqual</a>
+        </li>
+        <li>
+          <a href="#min">min</a>
+        </li>
+        <li>
+          <a href="#max">max</a>
+        </li>
+        <li>
+          <a href="#between">between</a>
+        </li>
+        <li>
+          <a href="#sub">sub</a>
+        </li>
+        <li>
+          <a href="#since">since</a>
+        </li>
+        <li>
+          <a href="#getDateOffset">getDateOffset</a>
+        </li>
+        <li>
+          <a href="#utcOffset">utcOffset</a>
+        </li>
+        <li>
+          <a href="#utc">utc</a>
+        </li>
+        <li>
+          <a href="#local">local</a>
+        </li>
+        <li>
+          <a href="#isLocal">isLocal</a>
+        </li>
+        <li>
+          <a href="#isUTC">isUTC</a>
+        </li>
+      </ul>
+    </div>
+    <div class="api">
+      <a href="#Format" class="main-title">Format</a>
+      <ul class="main-section">
+        <li>
+          <a href="#format">format</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="container">
+
+  </div>
   <script src="./nowjs.js"></script>
 </body>
 </html>

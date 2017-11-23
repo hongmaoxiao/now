@@ -342,6 +342,11 @@ class Now {
     return this;
   }
 
+  addQuarters(value) {
+    this.date.setMonth(this.date.getMonth() + value * 3);
+    return this;
+  }
+
   addYears(value) {
     this.date.setFullYear(this.date.getFullYear() + value);
     return this;
@@ -632,7 +637,7 @@ class Now {
     let compares = args;
     let index = 0;
     let len = compares.length;
-    
+
     if (len === 0) {
       throw new Error('max require at least one argument');
     }
@@ -715,6 +720,10 @@ class Now {
     now = new Date();
     subs = minus(this.date, now);
     return new this._duration(subs).human(this, true);
+  }
+
+  timeAgo(date) {
+    return this.elapse(date);
   }
 
   // return the time elapsed since date
