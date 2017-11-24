@@ -76,7 +76,7 @@ class Now {
     this.mondayFirst = false;
     this.now = new Date(...args);
     if (invalidDateRegExp.test(this.now)) {
-      throw new TypeError(invalidDateError);
+      throw new Error(invalidDateError);
     }
     this._format = format;
     this._duration = duration;
