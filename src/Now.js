@@ -343,7 +343,7 @@ class Now {
   }
 
   addQuarters(value) {
-    this.date.setMonth(this.date.getMonth() + value * 3);
+    this.date.setMonth(this.date.getMonth() + (value * 3));
     return this;
   }
 
