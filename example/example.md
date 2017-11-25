@@ -215,5 +215,94 @@ now.format() // "2017-11-25T01:53:49+08:00"
 
 self = now.sunday('self')
 self.format() // "2017-11-20T00:00:00+08:00"
-self.elapse() // "a few days ago"
+self.elapse() // "5 days ago"
+```
+### tuesday(['self'])
+Return tuesday. 'self' is optional. Similar to **monday**.
+
+### wednesday(['self'])
+Return wednesday. 'self' is optional. Similar to **monday**.
+
+### thursday(['self'])
+Return thursday. 'self' is optional. Similar to **monday**.
+
+### friday(['self'])
+Return friday. 'self' is optional. Similar to **monday**.
+
+### saturday(['self'])
+Return saturday. 'self' is optional. Similar to **monday**.
+
+### isSunday()
+Return whether the given date is sunday.
+```javascript
+now = new Now();
+now.format() // "2017-11-25T12:30:19+08:00"
+
+now.isSunday() // false
+```
+
+### isMonday()
+Return whether the given date is monday.
+```javascript
+now = new Now();
+now.format() // "2017-11-25T12:30:19+08:00"
+
+now.isMonday() // false
+```
+
+### isTuesday()
+Return whether the given date is tuesday. Similar to **isMonday**.
+
+### isWednesday()
+Return whether the given date is wednesday. Similar to **isMonday**.
+
+### isThursday()
+Return whether the given date is thursday. Similar to **isMonday**.
+
+### isFriday()
+Return whether the given date is friday. Similar to **isMonday**.
+
+### isSaturday()
+Return whether the given date is saturday. Similar to **isMonday**.
+
+### year()
+Get or sets the year.
+```javascript
+now = new Now();
+now.format() // "2017-11-25T20:48:42+08:00"
+
+// get
+now.year() // 2017
+
+// set
+now.year(2020)
+now.year() // 2020
+```
+
+### quarter()
+Get or sets quarter.
+```javascript
+now = new Now();
+now.format() // "2017-11-25T20:48:42+08:00"
+
+// get
+now.quarter() // 4
+
+// set
+now.quarter(1)
+now.quarter() // 1
+```
+
+### quarter()
+Get or sets quarter.
+```javascript
+now = new Now();
+now.format() // "2017-11-25T20:48:42+08:00"
+
+// get
+now.quarter() // 4
+
+// set
+now.quarter(1)
+now.quarter() // 1
 ```

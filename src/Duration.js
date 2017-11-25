@@ -71,31 +71,15 @@ class Duration {
     return this.value;
   }
 
-  abs() {
-    const mathAbs = Math.abs;
-    const data = this._data;
-
-    this._milliSeconds = mathAbs(this._milliSeconds);
-
-    this._data.milliSeconds = mathAbs(data.milliSeconds);
-    this._data.seconds = mathAbs(data.seconds);
-    this._data.minutes = mathAbs(data.minutes);
-    this._data.hours = mathAbs(data.hours);
-    this._data.days = mathAbs(data.days);
-    this._data.months = mathAbs(data.months);
-    this._data.years = mathAbs(data.years);
-
-    return this;
-  }
-
   relativeTime(withoutSuffix, locale) {
-    // this.abs();
-    const seconds = this.seconds();
-    const minutes = this.minutes();
-    const hours = this.hours();
-    const days = this.days();
-    const months = this.months();
-    const years = this.years();
+    const mathAbs = Math.abs;
+
+    const seconds = mathAbs(this.seconds());
+    const minutes = mathAbs(this.minutes());
+    const hours = mathAbs(this.hours());
+    const days = mathAbs(this.days());
+    const months = mathAbs(this.months());
+    const years = mathAbs(this.years());
 
 
     const a = (seconds <= thresholds.ss && ['s', seconds]) ||

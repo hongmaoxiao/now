@@ -309,46 +309,55 @@ class Now {
   }
 
   addMilliSeconds(value) {
-    this.date.setMilliseconds(this.date.getMilliseconds() + value);
+    const val = value || 0;
+    this.date.setMilliseconds(this.date.getMilliseconds() + val);
     return this;
   }
 
   addSeconds(value) {
-    this.date.setSeconds(this.date.getSeconds() + value);
+    const val = value || 0;
+    this.date.setSeconds(this.date.getSeconds() + val);
     return this;
   }
 
   addMinutes(value) {
-    this.date.setMinutes(this.date.getMinutes() + value);
+    const val = value || 0;
+    this.date.setMinutes(this.date.getMinutes() + val);
     return this;
   }
 
   addHours(value) {
-    this.date.setHours(this.date.getHours() + value);
+    const val = value || 0;
+    this.date.setHours(this.date.getHours() + val);
     return this;
   }
 
   addDays(value) {
-    this.date.setDate(this.date.getDate() + value);
+    const val = value || 0;
+    this.date.setDate(this.date.getDate() + val);
     return this;
   }
 
   addWeeks(value) {
-    return this.date.addDays(7 * value);
+    const val = value || 0;
+    return this.addDays(7 * val);
   }
 
   addMonths(value) {
-    this.date.setMonth(this.date.getMonth() + value);
+    const val = value || 0;
+    this.date.setMonth(this.date.getMonth() + val);
     return this;
   }
 
   addQuarters(value) {
-    this.date.setMonth(this.date.getMonth() + (value * 3));
+    const val = value || 0;
+    this.date.setMonth(this.date.getMonth() + (val * 3));
     return this;
   }
 
   addYears(value) {
-    this.date.setFullYear(this.date.getFullYear() + value);
+    const val = value || 0;
+    this.date.setFullYear(this.date.getFullYear() + val);
     return this;
   }
 
@@ -389,6 +398,11 @@ class Now {
       case 'minute':
         context.setSeconds(0);
         context.setMilliseconds(0);
+        return this;
+      case 'second':
+        context.setMilliseconds(0);
+        return this;
+      case 'milliSecond':
         return this;
       default:
         return this;
@@ -534,8 +548,9 @@ class Now {
       clone.format('YYYY-MM-DD HH:mm:ss.SSS');
   }
 
-  dayOfYear() {
-    return Math.round((this.beginningOfDay('self').date - this.beginningOfYear('self').date) / DAY) + 1;
+  dayOfYear(val) {
+    const doy = Math.round((this.beginningOfDay('self').date - this.beginningOfYear('self').date) / DAY) + 1;
+    return (+val === 0 || val) ? this.addDays(val - doy) : doy;
   }
 
   toJSON() {
