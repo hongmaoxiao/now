@@ -429,6 +429,20 @@ class Now {
     return clone.truncate('day');
   }
 
+  beginningOfMilliSecond(val) {
+    const computed = this.clone().truncate('milliSecond');
+    return (val && val === 'self') ?
+      computed :
+      computed.format('YYYY-MM-DD HH:mm:ss.SSS');
+  }
+
+  beginningOfSecond(val) {
+    const computed = this.clone().truncate('second');
+    return (val && val === 'self') ?
+      computed :
+      computed.format('YYYY-MM-DD HH:mm:ss.SSS');
+  }
+
   beginningOfMinute(val) {
     const computed = this.clone().truncate('minute');
     return (val && val === 'self') ?
