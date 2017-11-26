@@ -569,8 +569,11 @@ class Now {
     return this.format('YYYY-MM-DD[T]HH:mm:ss.SSS[Z]');
   }
 
-  isNow(val) {
-    const now = val || this;
+  isNow(...args) {
+    let now = args[0];
+    if (args.length === 0) {
+      now = this;
+    }
     return now instanceof Now;
   }
 
