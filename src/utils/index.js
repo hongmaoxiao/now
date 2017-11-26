@@ -187,7 +187,7 @@ export function compareArrays(array1, array2, dontConvert) {
 
 export function extend(a, b) {
   const res = a;
-  const bKeys = Object.keys(b);
+  const bKeys = keys(b);
   const bKeysLen = bKeys.length;
   let i;
 
@@ -295,9 +295,9 @@ function mergeConfigs(parentConfig, childConfig) {
   const res = extend({}, parentConfig);
   let i;
   let j;
-  const cKeys = Object.keys(childConfig);
+  const cKeys = keys(childConfig);
   const cLen = cKeys.length;
-  const pKeys = Object.keys(parentConfig);
+  const pKeys = keys(parentConfig);
   const pLen = pKeys.length;
 
   for (i = 0; i < cLen; i += 1) {
@@ -502,7 +502,7 @@ export function updateLocale(name, config) {
   return locales[name];
 }
 
-export const listLocales = () => keys(locales);
+export const listLocales = () => keys(i18ns);
 
 const daysInYear = year => (isLeapYear(year) ? 366 : 365);
 

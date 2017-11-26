@@ -83,6 +83,8 @@ function compare(date1, date2) {
   }
 }
 
+const getDateOffset = (date)  => -Math.round(date.getTimezoneOffset() / 15) * 15;
+
 class Now {
   constructor(...args) {
     this.mondayFirst = false;
@@ -758,7 +760,7 @@ class Now {
     let compareDate1 = date1;
     let compareDate2 = date2;
     if (isUndefined(compareDate1) || isUndefined(compareDate2)) {
-      throw new Error('arguments must be defined');
+      throw new Error('between require two arguments');
     }
     if (this.isNow(compareDate1)) {
       compareDate1 = compareDate1.date;
@@ -793,19 +795,18 @@ class Now {
 
   // return the relativeTime format
   elapse(date) {
-    let now;
     let subs;
+    const now = new Date();
 
     if (date) {
-      now = new Date();
       if (this.isNow(date)) {
         subs = minus(date.date, now);
       } else {
         subs = minus(date, now);
       }
+    } else {
+      subs = minus(this.date, now);
     }
-    now = new Date();
-    subs = minus(this.date, now);
     return new this._duration(subs).human(this, true);
   }
 
@@ -833,10 +834,6 @@ class Now {
     return this.sub(now, dateObj);
   }
 
-  getDateOffset() {
-    return -Math.round(this.date.getTimezoneOffset() / 15) * 15;
-  }
-
   utcOffset(input, keepLocalTime, keepMinutes) {
     const offset = this._offset || 0;
     let localAdjust;
@@ -852,7 +849,7 @@ class Now {
         minutes *= 60;
       }
       if (!this._isUTC && keepLocalTime) {
-        localAdjust = this.getDateOffset();
+        localAdjust = getDateOffset(this.date);
       }
       this._offset = minutes;
       this._isUTC = true;
