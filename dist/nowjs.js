@@ -28,7 +28,63 @@ var createClass = function () {
   };
 }();
 
-var MONTHS_IN_FORMAT = /D[oD]?(\[[^\[\]]*\]|\s)+MMMM?/;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+var toConsumableArray = function (arr) {
+  if (Array.isArray(arr)) {
+    for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) arr2[i] = arr[i];
+
+    return arr2;
+  } else {
+    return Array.from(arr);
+  }
+};
+
+/* eslint no-underscore-dangle: ["error", { "allowAfterThis": true} ] */
+/* eslint class-methods-use-this: [
+  "error",
+  { "exceptMethods": ["preparse", "postformat", "isPM", "meridiem"] }
+]
+*/
+var MONTHS_IN_FORMAT = /D[oD]?(\[[^[\]]*\]|\s)+MMMM?/;
 
 var Locale = function () {
   function Locale(config) {
@@ -48,8 +104,8 @@ var Locale = function () {
   }, {
     key: 'longDateFormat',
     value: function longDateFormat(key) {
-      var format = this._longDateFormat[key],
-          formatUpper = this._longDateFormat[key.toUpperCase()];
+      var format = this._longDateFormat[key];
+      var formatUpper = this._longDateFormat[key.toUpperCase()];
 
       if (format || !formatUpper) {
         return format;
@@ -64,7 +120,7 @@ var Locale = function () {
   }, {
     key: 'invalidDate',
     value: function invalidDate() {
-      this._invaliDate;
+      return this._invaliDate;
     }
   }, {
     key: 'ordinal',
@@ -96,15 +152,17 @@ var Locale = function () {
   }, {
     key: 'set',
     value: function set$$1(config) {
+      var keys$$1 = Object.keys(config);
+      var len = keys$$1.length;
       var prop = void 0;
       var i = void 0;
 
-      for (i in config) {
-        prop = config[i];
+      for (i = 0; i <= len; i += 1) {
+        prop = config[keys$$1[i]];
         if (isFunction(prop)) {
-          this[i] = prop;
+          this[keys$$1[i]] = prop;
         } else {
-          this['_' + i] = prop;
+          this['_' + keys$$1[i]] = prop;
         }
       }
       this._config = config;
@@ -130,81 +188,6 @@ var Locale = function () {
         return isArray(this._monthsShort) ? this._monthsShort : this._monthsShort.standalone;
       }
       return isArray(this._monthsShort) ? this._monthsShort[m.month()] : this._monthsShort[MONTHS_IN_FORMAT.test(format) ? 'format' : 'standalone'][m.month()];
-    }
-  }, {
-    key: 'monthsParse',
-    value: function monthsParse(monthName, format, strict) {
-      var i = void 0;
-      var mom = void 0;
-      var regex = void 0;
-
-      if (this._monthsParseExact) {
-        return handleMonthStrictParse.call(this, monthName, format, strict);
-      }
-
-      if (!this._monthsParse) {
-        this._monthsParse = [];
-        this._longMonthsParse = [];
-        this._shortMonthsParse = [];
-      }
-
-      // TODO: add sorting
-      // Sorting makes sure if one month (or abbr) is a prefix of another
-      // see sorting in computeMonthsParse
-      for (i = 0; i < 12; i++) {
-        // make the regex if we don't have it already
-        mom = createUTC([2000, i]);
-        if (strict && !this._longMonthsParse[i]) {
-          this._longMonthsParse[i] = new RegExp('^' + this.months(mom, '').replace('.', '') + '$', 'i');
-          this._shortMonthsParse[i] = new RegExp('^' + this.monthsShort(mom, '').replace('.', '') + '$', 'i');
-        }
-        if (!strict && !this._monthsParse[i]) {
-          regex = '^' + this.months(mom, '') + '|^' + this.monthsShort(mom, '');
-          this._monthsParse[i] = new RegExp(regex.replace('.', ''), 'i');
-        }
-        // test the regex
-        if (strict && format === 'MMMM' && this._longMonthsParse[i].test(monthName)) {
-          return i;
-        } else if (strict && format === 'MMM' && this._shortMonthsParse[i].test(monthName)) {
-          return i;
-        } else if (!strict && this._monthsParse[i].test(monthName)) {
-          return i;
-        }
-      }
-    }
-  }, {
-    key: 'monthsRegex',
-    value: function monthsRegex(isStrict) {
-      if (this._monthsParseExact) {
-        if (!has(this, '_monthsRegex')) {
-          computeMonthsParse.call(this);
-        }
-        if (isStrict) {
-          return this._monthsStrictRegex;
-        }
-        return this._monthsRegex;
-      }
-      if (!has(this, '_monthsRegex')) {
-        this._monthsRegex = defaultMonthsRegex;
-      }
-      return this._monthsStrictRegex && isStrict ? this._monthsStrictRegex : this._monthsRegex;
-    }
-  }, {
-    key: 'monthsShortRegex',
-    value: function monthsShortRegex(isStrict) {
-      if (this._monthsParseExact) {
-        if (!has(this, '_monthsRegex')) {
-          computeMonthsParse.call(this);
-        }
-        if (isStrict) {
-          return this._monthsShortStrictRegex;
-        }
-        return this._monthsShortRegex;
-      }
-      if (!has(this, '_monthsShortRegex')) {
-        this._monthsShortRegex = defaultMonthsShortRegex;
-      }
-      return this._monthsShortStrictRegex && isStrict ? this._monthsShortStrictRegex : this._monthsShortRegex;
     }
   }, {
     key: 'week',
@@ -238,100 +221,6 @@ var Locale = function () {
     key: 'weekdaysMin',
     value: function weekdaysMin(m) {
       return m ? this._weekdaysMin[m.weekDay()] : this._weekdaysMin;
-    }
-  }, {
-    key: 'weekdaysParse',
-    value: function weekdaysParse(weekdayName, format, strict) {
-      var i = void 0;
-      var mom = void 0;
-      var regex = void 0;
-
-      if (this._weekdaysParseExact) {
-        return handleWeekStrictParse.call(this, weekdayName, format, strict);
-      }
-
-      if (!this._weekdaysParse) {
-        this._weekdaysParse = [];
-        this._minWeekdaysParse = [];
-        this._shortWeekdaysParse = [];
-        this._fullWeekdaysParse = [];
-      }
-
-      for (i = 0; i < 7; i++) {
-        // make the regex if we don't have it already
-
-        mom = createUTC([2000, 1]).day(i);
-        if (strict && !this._fullWeekdaysParse[i]) {
-          this._fullWeekdaysParse[i] = new RegExp('^' + this.weekdays(mom, '').replace('.', '\.?') + '$', 'i');
-          this._shortWeekdaysParse[i] = new RegExp('^' + this.weekdaysShort(mom, '').replace('.', '\.?') + '$', 'i');
-          this._minWeekdaysParse[i] = new RegExp('^' + this.weekdaysMin(mom, '').replace('.', '\.?') + '$', 'i');
-        }
-        if (!this._weekdaysParse[i]) {
-          regex = '^' + this.weekdays(mom, '') + '|^' + this.weekdaysShort(mom, '') + '|^' + this.weekdaysMin(mom, '');
-          this._weekdaysParse[i] = new RegExp(regex.replace('.', ''), 'i');
-        }
-        // test the regex
-        if (strict && format === 'dddd' && this._fullWeekdaysParse[i].test(weekdayName)) {
-          return i;
-        } else if (strict && format === 'ddd' && this._shortWeekdaysParse[i].test(weekdayName)) {
-          return i;
-        } else if (strict && format === 'dd' && this._minWeekdaysParse[i].test(weekdayName)) {
-          return i;
-        } else if (!strict && this._weekdaysParse[i].test(weekdayName)) {
-          return i;
-        }
-      }
-    }
-  }, {
-    key: 'weekdaysRegex',
-    value: function weekdaysRegex(isStrict) {
-      if (this._weekdaysParseExact) {
-        if (!has(this, '_weekdaysRegex')) {
-          computeWeekdaysParse.call(this);
-        }
-        if (isStrict) {
-          return this._weekdaysStrictRegex;
-        }
-        return this._weekdaysRegex;
-      }
-      if (!has(this, '_weekdaysRegex')) {
-        this._weekdaysRegex = defaultWeekdaysRegex;
-      }
-      return this._weekdaysStrictRegex && isStrict ? this._weekdaysStrictRegex : this._weekdaysRegex;
-    }
-  }, {
-    key: 'weekdaysShortRegex',
-    value: function weekdaysShortRegex(isStrict) {
-      if (this._weekdaysParseExact) {
-        if (!has(this, '_weekdaysRegex')) {
-          computeWeekdaysParse.call(this);
-        }
-        if (isStrict) {
-          return this._weekdaysShortStrictRegex;
-        }
-        return this._weekdaysShortRegex;
-      }
-      if (!has(this, '_weekdaysShortRegex')) {
-        this._weekdaysShortRegex = defaultWeekdaysShortRegex;
-      }
-      return this._weekdaysShortStrictRegex && isStrict ? this._weekdaysShortStrictRegex : this._weekdaysShortRegex;
-    }
-  }, {
-    key: 'weekdaysMinRegex',
-    value: function weekdaysMinRegex(isStrict) {
-      if (this._weekdaysParseExact) {
-        if (!has(this, '_weekdaysRegex')) {
-          computeWeekdaysParse.call(this);
-        }
-        if (isStrict) {
-          return this._weekdaysMinStrictRegex;
-        }
-        return this._weekdaysMinRegex;
-      }
-      if (!has(this, '_weekdaysMinRegex')) {
-        this._weekdaysMinRegex = defaultWeekdaysMinRegex;
-      }
-      return this._weekdaysMinStrictRegex && isStrict ? this._weekdaysMinStrictRegex : this._weekdaysMinRegex;
     }
   }, {
     key: 'isPM',
@@ -430,7 +319,6 @@ var baseConfig = {
 //! now.js locale configuration
 //! locale : Afrikaans [af]
 //! author : Werner Mollentze : https://github.com/wernerm
-/* jshint -W100 */
 
 var af = {
   months: 'Januarie_Februarie_Maart_April_Mei_Junie_Julie_Augustus_September_Oktober_November_Desember'.split('_'),
@@ -495,7 +383,6 @@ var af = {
 //! now.js locale configuration
 //! locale : Arabic (Algeria) [ar-dz]
 //! author : Noureddine LOUAHEDJ : https://github.com/noureddineme
-/* jshint -W100 */
 
 var ardz = {
   months: 'جانفي_فيفري_مارس_أفريل_ماي_جوان_جويلية_أوت_سبتمبر_أكتوبر_نوفمبر_ديسمبر'.split('_'),
@@ -544,7 +431,6 @@ var ardz = {
 //! now.js locale configuration
 //! locale : Arabic (Kuwait) [ar-kw]
 //! author : Nusret Parlak: https://github.com/nusretparlak
-/* jshint -W100 */
 
 var arkw = {
   months: 'يناير_فبراير_مارس_أبريل_ماي_يونيو_يوليوز_غشت_شتنبر_أكتوبر_نونبر_دجنبر'.split('_'),
@@ -593,7 +479,6 @@ var arkw = {
 //! now.js locale configuration
 //! locale : Arabic (Lybia) [ar-ly]
 //! author : Ali Hmer: https://github.com/kikoanis
-/* jshint -W100 */
 
 var symbolMap = {
   1: '1',
@@ -622,7 +507,7 @@ var plurals = {
 };
 
 var pluralize = function pluralize(u) {
-  return function (number, withoutSuffix, string, isFuture) {
+  return function (number, withoutSuffix) {
     var f = pluralForm(number);
     var str = plurals[u][pluralForm(number)];
     if (f === 2) {
@@ -653,7 +538,7 @@ var arly = {
   isPM: function isPM(input) {
     return input === 'م';
   },
-  meridiem: function meridiem(hour, minute, isLower) {
+  meridiem: function meridiem(hour) {
     if (hour < 12) {
       return 'ص';
     }
@@ -702,7 +587,6 @@ var arly = {
 //! locale : Arabic (Morocco) [ar-ma]
 //! author : ElFadili Yassine : https://github.com/ElFadiliY
 //! author : Abdel Said : https://github.com/abdelsaid
-/* jshint -W100 */
 
 var arma = {
   months: 'يناير_فبراير_مارس_أبريل_ماي_يونيو_يوليوز_غشت_شتنبر_أكتوبر_نونبر_دجنبر'.split('_'),
@@ -751,7 +635,6 @@ var arma = {
 //! now.js locale configuration
 //! locale : Arabic (Saudi Arabia) [ar-sa]
 //! author : Suhail Alkowaileet : https://github.com/xsoh
-/* jshint -W100 */
 
 var symbolMap$1 = {
   1: '١',
@@ -798,7 +681,7 @@ var arsa = {
   isPM: function isPM(input) {
     return input === 'م';
   },
-  meridiem: function meridiem(hour, minute, isLower) {
+  meridiem: function meridiem(hour) {
     if (hour < 12) {
       return 'ص';
     }
@@ -848,7 +731,6 @@ var arsa = {
 //! now.js locale configuration
 //! locale  :  Arabic (Tunisia) [ar-tn]
 //! author : Nader Toukabri : https://github.com/naderio
-/* jshint -W100 */
 
 var artn = {
   months: 'جانفي_فيفري_مارس_أفريل_ماي_جوان_جويلية_أوت_سبتمبر_أكتوبر_نوفمبر_ديسمبر'.split('_'),
@@ -899,7 +781,6 @@ var artn = {
 //! author : Abdel Said: https://github.com/abdelsaid
 //! author : Ahmed Elkhatib
 //! author : forabi https://github.com/forabi
-/* jshint -W100 */
 
 var symbolMap$2 = {
   1: '١',
@@ -941,7 +822,7 @@ var plurals$1 = {
 };
 
 var pluralize$1 = function pluralize(u) {
-  return function (number, withoutSuffix, string, isFuture) {
+  return function (number, withoutSuffix) {
     var f = pluralForm$1(number);
     var str = plurals$1[u][pluralForm$1(number)];
     if (f === 2) {
@@ -972,7 +853,7 @@ var ar = {
   isPM: function isPM(input) {
     return input === 'م';
   },
-  meridiem: function meridiem(hour, minute, isLower) {
+  meridiem: function meridiem(hour) {
     if (hour < 12) {
       return 'ص';
     }
@@ -1022,7 +903,6 @@ var ar = {
 //! now.js locale configuration
 //! locale : Azerbaijani [az]
 //! author : topchiyev : https://github.com/topchiyev
-/* jshint -W100 */
 
 var suffixes = {
   1: '-inci',
@@ -1088,7 +968,7 @@ var az = {
     return (/^(gündüz|axşam)$/.test(input)
     );
   },
-  meridiem: function meridiem(hour, minute, isLower) {
+  meridiem: function meridiem(hour) {
     if (hour < 4) {
       return 'gecə';
     } else if (hour < 12) {
@@ -1122,7 +1002,6 @@ var az = {
 //! author : Dmitry Demidov : https://github.com/demidov91
 //! author: Praleska: http://praleska.pro/
 //! Author : Menelion Elensúle : https://github.com/Oire
-/* jshint -W100 */
 
 function plural(word, num) {
   var forms = word.split('_');
@@ -1184,6 +1063,8 @@ var be = {
         case 2:
         case 4:
           return '[У мінулы] dddd [ў] LT';
+        default:
+          return '';
       }
     },
 
@@ -1209,7 +1090,7 @@ var be = {
     return (/^(дня|вечара)$/.test(input)
     );
   },
-  meridiem: function meridiem(hour, minute, isLower) {
+  meridiem: function meridiem(hour) {
     if (hour < 4) {
       return 'ночы';
     } else if (hour < 12) {
@@ -1245,7 +1126,6 @@ var be = {
 //! now.js locale configuration
 //! locale : Bulgarian [bg]
 //! author : Krasen Borisov : https://github.com/kraz
-/* jshint -W100 */
 
 var bg = {
   months: 'януари_февруари_март_април_май_юни_юли_август_септември_октомври_ноември_декември'.split('_'),
@@ -1277,6 +1157,8 @@ var bg = {
         case 4:
         case 5:
           return '[В изминалия] dddd [в] LT';
+        default:
+          return '';
       }
     },
 
@@ -1327,7 +1209,6 @@ var bg = {
 //! locale : Bambara [bm]
 //! author : Estelle Comment : https://github.com/estellecomment
 // Language contact person : Abdoufata Kane : https://github.com/abdoufata
-/* jshint -W100 */
 
 var bm = {
   months: 'Zanwuyekalo_Fewuruyekalo_Marisikalo_Awirilikalo_Mɛkalo_Zuwɛnkalo_Zuluyekalo_Utikalo_Sɛtanburukalo_ɔkutɔburukalo_Nowanburukalo_Desanburukalo'.split('_'),
@@ -1375,7 +1256,6 @@ var bm = {
 //! now.js locale configuration
 //! locale : Bengali [bn]
 //! author : Kaushik Gandhi : https://github.com/kaushikgandhi
-/* jshint -W100 */
 
 var symbolMap$3 = {
   1: '১',
@@ -1453,15 +1333,16 @@ var bn = {
 
   meridiemParse: /রাত|সকাল|দুপুর|বিকাল|রাত/,
   meridiemHour: function meridiemHour(hour, meridiem) {
-    if (hour === 12) {
-      hour = 0;
+    var h = hour;
+    if (h === 12) {
+      h = 0;
     }
-    if (meridiem === 'রাত' && hour >= 4 || meridiem === 'দুপুর' && hour < 5 || meridiem === 'বিকাল') {
-      return hour + 12;
+    if (meridiem === 'রাত' && h >= 4 || meridiem === 'দুপুর' && h < 5 || meridiem === 'বিকাল') {
+      return h + 12;
     }
-    return hour;
+    return h;
   },
-  meridiem: function meridiem(hour, minute, isLower) {
+  meridiem: function meridiem(hour) {
     if (hour < 4) {
       return 'রাত';
     } else if (hour < 10) {
@@ -1483,7 +1364,6 @@ var bn = {
 //! now.js locale configuration
 //! locale : Tibetan [bo]
 //! author : Thupten N. Chakrishar : https://github.com/vajradog
-/* jshint -W100 */
 
 var symbolMap$4 = {
   1: '༡',
@@ -1561,15 +1441,16 @@ var bo = {
 
   meridiemParse: /མཚན་མོ|ཞོགས་ཀས|ཉིན་གུང|དགོང་དག|མཚན་མོ/,
   meridiemHour: function meridiemHour(hour, meridiem) {
-    if (hour === 12) {
-      hour = 0;
+    var h = hour;
+    if (h === 12) {
+      h = 0;
     }
-    if (meridiem === 'མཚན་མོ' && hour >= 4 || meridiem === 'ཉིན་གུང' && hour < 5 || meridiem === 'དགོང་དག') {
-      return hour + 12;
+    if (meridiem === 'མཚན་མོ' && h >= 4 || meridiem === 'ཉིན་གུང' && h < 5 || meridiem === 'དགོང་དག') {
+      return h + 12;
     }
-    return hour;
+    return h;
   },
-  meridiem: function meridiem(hour, minute, isLower) {
+  meridiem: function meridiem(hour) {
     if (hour < 4) {
       return 'མཚན་མོ';
     } else if (hour < 10) {
@@ -1591,7 +1472,25 @@ var bo = {
 //! now.js locale configuration
 //! locale : Breton [br]
 //! author : Jean-Baptiste Le Duigou : https://github.com/jbleduigou
-/* jshint -W100 */
+
+function softMutation(text) {
+  var mutationTable = {
+    m: 'v',
+    b: 'v',
+    d: 'z'
+  };
+  if (mutationTable[text.charAt(0)] === undefined) {
+    return text;
+  }
+  return mutationTable[text.charAt(0)] + text.substring(1);
+}
+
+function mutation(text, number) {
+  if (number === 2) {
+    return softMutation(text);
+  }
+  return text;
+}
 
 function relativeTimeWithMutation(number, withoutSuffix, key) {
   var format = {
@@ -1600,6 +1499,13 @@ function relativeTimeWithMutation(number, withoutSuffix, key) {
     dd: 'devezh'
   };
   return number + ' ' + mutation(format[key], number);
+}
+
+function lastNumber(number) {
+  if (number > 9) {
+    return lastNumber(number % 10);
+  }
+  return number;
 }
 
 function specialMutationForYears(number) {
@@ -1613,32 +1519,6 @@ function specialMutationForYears(number) {
     default:
       return number + ' vloaz';
   }
-}
-
-function lastNumber(number) {
-  if (number > 9) {
-    return lastNumber(number % 10);
-  }
-  return number;
-}
-
-function mutation(text, number) {
-  if (number === 2) {
-    return softMutation(text);
-  }
-  return text;
-}
-
-function softMutation(text) {
-  var mutationTable = {
-    m: 'v',
-    b: 'v',
-    d: 'z'
-  };
-  if (mutationTable[text.charAt(0)] === undefined) {
-    return text;
-  }
-  return mutationTable[text.charAt(0)] + text.substring(1);
 }
 
 var br = {
@@ -1695,7 +1575,6 @@ var br = {
 //! locale : Bosnian [bs]
 //! author : Nedim Cholich : https://github.com/frontyard
 //! based on (hr) translation by Bojan Marković
-/* jshint -W100 */
 
 function translate(number, withoutSuffix, key) {
   var result = number + ' ';
@@ -1747,6 +1626,8 @@ function translate(number, withoutSuffix, key) {
         result += 'godina';
       }
       return result;
+    default:
+      return result;
   }
 }
 
@@ -1782,6 +1663,8 @@ var bs = {
         case 4:
         case 5:
           return '[u] dddd [u] LT';
+        default:
+          return '';
       }
     },
 
@@ -1798,6 +1681,8 @@ var bs = {
         case 4:
         case 5:
           return '[prošli] dddd [u] LT';
+        default:
+          return '';
       }
     },
 
@@ -1829,7 +1714,6 @@ var bs = {
 //! now.js locale configuration
 //! locale : Catalan [ca]
 //! author : Juan G. Hurtado : https://github.com/juanghurtado
-/* jshint -W100 */
 
 var ca = {
   months: {
@@ -1906,7 +1790,7 @@ var ca = {
 //! now.js locale configuration
 //! locale : Czech [cs]
 //! author : petrbela : https://github.com/petrbela
-/* jshint -W100 */
+/* eslint no-bitwise: ["error", { "allow": ["~"] }] */
 
 var months$2 = 'leden_únor_březen_duben_květen_červen_červenec_srpen_září_říjen_listopad_prosinec'.split('_');
 var monthsShort = 'led_úno_bře_dub_kvě_čvn_čvc_srp_zář_říj_lis_pro'.split('_');
@@ -1930,8 +1814,6 @@ function translate$1(number, withoutSuffix, key, isFuture) {
         return result + (plural$1(number) ? 'minuty' : 'minut');
       }
       return result + 'minutami';
-
-      break;
     case 'h':
       // an hour / in an hour / an hour ago
       return withoutSuffix ? 'hodina' : isFuture ? 'hodinu' : 'hodinou';
@@ -1941,8 +1823,6 @@ function translate$1(number, withoutSuffix, key, isFuture) {
         return result + (plural$1(number) ? 'hodiny' : 'hodin');
       }
       return result + 'hodinami';
-
-      break;
     case 'd':
       // a day / in a day / a day ago
       return withoutSuffix || isFuture ? 'den' : 'dnem';
@@ -1952,8 +1832,6 @@ function translate$1(number, withoutSuffix, key, isFuture) {
         return result + (plural$1(number) ? 'dny' : 'dní');
       }
       return result + 'dny';
-
-      break;
     case 'M':
       // a month / in a month / a month ago
       return withoutSuffix || isFuture ? 'měsíc' : 'měsícem';
@@ -1963,8 +1841,6 @@ function translate$1(number, withoutSuffix, key, isFuture) {
         return result + (plural$1(number) ? 'měsíce' : 'měsíců');
       }
       return result + 'm\u011Bs\xEDci';
-
-      break;
     case 'y':
       // a year / in a year / a year ago
       return withoutSuffix || isFuture ? 'rok' : 'rokem';
@@ -1974,38 +1850,38 @@ function translate$1(number, withoutSuffix, key, isFuture) {
         return result + (plural$1(number) ? 'roky' : 'let');
       }
       return result + 'lety';
-
-      break;
+    default:
+      return result;
   }
 }
 
 var cs = {
   months: months$2,
   monthsShort: monthsShort,
-  monthsParse: function (months, monthsShort) {
+  monthsParse: function (month, monthShort) {
     var i = void 0;
-    var _monthsParse = [];
-    for (i = 0; i < 12; i++) {
+    var monthsParseRes = [];
+    for (i = 0; i < 12; i += 1) {
       // use custom parser to solve problem with July (červenec)
-      _monthsParse[i] = new RegExp('^' + months[i] + '$|^' + monthsShort[i] + '$', 'i');
+      monthsParseRes[i] = new RegExp('^' + month[i] + '$|^' + monthShort[i] + '$', 'i');
     }
-    return _monthsParse;
+    return monthsParseRes;
   }(months$2, monthsShort),
-  shortMonthsParse: function (monthsShort) {
+  shortMonthsParse: function (monthShort) {
     var i = void 0;
-    var _shortMonthsParse = [];
-    for (i = 0; i < 12; i++) {
-      _shortMonthsParse[i] = new RegExp('^' + monthsShort[i] + '$', 'i');
+    var shortMonthsParseRes = [];
+    for (i = 0; i < 12; i += 1) {
+      shortMonthsParseRes[i] = new RegExp('^' + monthShort[i] + '$', 'i');
     }
-    return _shortMonthsParse;
+    return shortMonthsParseRes;
   }(monthsShort),
-  longMonthsParse: function (months) {
+  longMonthsParse: function (month) {
     var i = void 0;
-    var _longMonthsParse = [];
-    for (i = 0; i < 12; i++) {
-      _longMonthsParse[i] = new RegExp('^' + months[i] + '$', 'i');
+    var longMonthsParseRes = [];
+    for (i = 0; i < 12; i += 1) {
+      longMonthsParseRes[i] = new RegExp('^' + month[i] + '$', 'i');
     }
-    return _longMonthsParse;
+    return longMonthsParseRes;
   }(months$2),
   weekdays: 'neděle_pondělí_úterý_středa_čtvrtek_pátek_sobota'.split('_'),
   weekdaysShort: 'ne_po_út_st_čt_pá_so'.split('_'),
@@ -2037,6 +1913,8 @@ var cs = {
           return '[v pátek v] LT';
         case 6:
           return '[v sobotu v] LT';
+        default:
+          return '';
       }
     },
 
@@ -2055,6 +1933,8 @@ var cs = {
           return '[minulý] dddd [v] LT';
         case 6:
           return '[minulou sobotu v] LT';
+        default:
+          return '';
       }
     },
 
@@ -2086,7 +1966,6 @@ var cs = {
 //! now.js locale configuration
 //! locale : Chuvash [cv]
 //! author : Anatoly Mironov : https://github.com/mirontoli
-/* jshint -W100 */
 
 var cv = {
   months: 'кӑрлач_нарӑс_пуш_ака_май_ҫӗртме_утӑ_ҫурла_авӑн_юпа_чӳк_раштав'.split('_'),
@@ -2141,7 +2020,6 @@ var cv = {
 //! locale : Welsh [cy]
 //! author : Robert Allen : https://github.com/robgallen
 //! author : https://github.com/ryangreaves
-/* jshint -W100 */
 
 var cy = {
   months: 'Ionawr_Chwefror_Mawrth_Ebrill_Mai_Mehefin_Gorffennaf_Awst_Medi_Hydref_Tachwedd_Rhagfyr'.split('_'),
@@ -2210,7 +2088,6 @@ var cy = {
 //! now.js locale configuration
 //! locale : Danish [da]
 //! author : Ulrik Nielsen : https://github.com/mrbase
-/* jshint -W100 */
 
 var da = {
   months: 'januar_februar_marts_april_maj_juni_juli_august_september_oktober_november_december'.split('_'),
@@ -2263,9 +2140,8 @@ var da = {
 //! author: Menelion Elensúle: https://github.com/Oire
 //! author : Martin Groller : https://github.com/MadMG
 //! author : Mikolaj Dadela : https://github.com/mik01aj
-/* jshint -W100 */
 
-function processRelativeTime(number, withoutSuffix, key, isFuture) {
+function processRelativeTime(number, withoutSuffix, key) {
   var format = {
     m: ['eine Minute', 'einer Minute'],
     h: ['eine Stunde', 'einer Stunde'],
@@ -2331,9 +2207,8 @@ var deat = {
 //! author : sschueller : https://github.com/sschueller
 
 // based on: https://www.bk.admin.ch/dokumentation/sprachen/04915/05016/index.html?lang=de#
-/* jshint -W100 */
 
-function processRelativeTime$1(number, withoutSuffix, key, isFuture) {
+function processRelativeTime$1(number, withoutSuffix, key) {
   var format = {
     m: ['eine Minute', 'einer Minute'],
     h: ['eine Stunde', 'einer Stunde'],
@@ -2399,9 +2274,8 @@ var dech = {
 //! author : lluchs : https://github.com/lluchs
 //! author: Menelion Elensúle: https://github.com/Oire
 //! author : Mikolaj Dadela : https://github.com/mik01aj
-/* jshint -W100 */
 
-function processRelativeTime$2(number, withoutSuffix, key, isFuture) {
+function processRelativeTime$2(number, withoutSuffix, key) {
   var format = {
     m: ['eine Minute', 'einer Minute'],
     h: ['eine Stunde', 'einer Stunde'],
@@ -2465,7 +2339,6 @@ var de = {
 //! now.js locale configuration
 //! locale : Maldivian [dv]
 //! author : Jawish Hameed : https://github.com/jawish
-/* jshint -W100 */
 
 var months$3 = ['ޖެނުއަރީ', 'ފެބްރުއަރީ', 'މާރިޗު', 'އޭޕްރީލު', 'މޭ', 'ޖޫން', 'ޖުލައި', 'އޯގަސްޓު', 'ސެޕްޓެމްބަރު', 'އޮކްޓޯބަރު', 'ނޮވެމްބަރު', 'ޑިސެމްބަރު'];
 
@@ -2490,7 +2363,7 @@ var dv = {
   isPM: function isPM(input) {
     return input === 'މފ';
   },
-  meridiem: function meridiem(hour, minute, isLower) {
+  meridiem: function meridiem(hour) {
     if (hour < 12) {
       return 'މކ';
     }
@@ -2536,7 +2409,7 @@ var dv = {
 //! now.js locale configuration
 //! locale : Greek [el]
 //! author : Aggelos Karalias : https://github.com/mehiel
-/* jshint -W100 */
+/* eslint no-underscore-dangle: ["error", { "allowAfterThis": true} ] */
 
 var el = {
   monthsNominativeEl: 'Ιανουάριος_Φεβρουάριος_Μάρτιος_Απρίλιος_Μάιος_Ιούνιος_Ιούλιος_Αύγουστος_Σεπτέμβριος_Οκτώβριος_Νοέμβριος_Δεκέμβριος'.split('_'),
@@ -2591,8 +2464,8 @@ var el = {
     sameElse: 'L'
   },
   calendar: function calendar(key, mom) {
-    var output = this._calendarEl[key],
-        hours = mom && mom.hours();
+    var output = this._calendarEl[key];
+    var hours = mom && mom.hours();
     if (isFunction(output)) {
       output = output.apply(mom);
     }
@@ -2625,7 +2498,7 @@ var el = {
 //! now.js locale configuration
 //! locale : English (Australia) [en-au]
 //! author : Jared Morse : https://github.com/jarcoal
-/* jshint -W100 */
+/* eslint no-bitwise: ["error", { "allow": ["~"] }] */
 
 var enau = {
   months: 'January_February_March_April_May_June_July_August_September_October_November_December'.split('_'),
@@ -2680,7 +2553,7 @@ var enau = {
 //! now.js locale configuration
 //! locale : English (Canada) [en-ca]
 //! author : Jonathan Abourbih : https://github.com/jonbca
-/* jshint -W100 */
+/* eslint no-bitwise: ["error", { "allow": ["~"] }] */
 
 var enca = {
   months: 'January_February_March_April_May_June_July_August_September_October_November_December'.split('_'),
@@ -2730,7 +2603,7 @@ var enca = {
 //! now.js locale configuration
 //! locale : English (United Kingdom) [en-gb]
 //! author : Chris Gedrim : https://github.com/chrisgedrim
-/* jshint -W100 */
+/* eslint no-bitwise: ["error", { "allow": ["~"] }] */
 
 var engb = {
   months: 'January_February_March_April_May_June_July_August_September_October_November_December'.split('_'),
@@ -2785,7 +2658,7 @@ var engb = {
 //! now.js locale configuration
 //! locale : English (Ireland) [en-ie]
 //! author : Chris Cartlidge : https://github.com/chriscartlidge
-/* jshint -W100 */
+/* eslint no-bitwise: ["error", { "allow": ["~"] }] */
 
 var enie = {
   months: 'January_February_March_April_May_June_July_August_September_October_November_December'.split('_'),
@@ -2840,7 +2713,7 @@ var enie = {
 //! now.js locale configuration
 //! locale : English (New Zealand) [en-nz]
 //! author : Luke McGregor : https://github.com/lukemcgregor
-/* jshint -W100 */
+/* eslint no-bitwise: ["error", { "allow": ["~"] }] */
 
 var ennz = {
   months: 'January_February_March_April_May_June_July_August_September_October_November_December'.split('_'),
@@ -2897,7 +2770,6 @@ var ennz = {
 //! author : Colin Dean : https://github.com/colindean
 //! author : Mia Nordentoft Imperatori : https://github.com/miestasmia
 //! comment : miestasmia corrected the translation by colindean
-/* jshint -W100 */
 
 var eo = {
   months: 'januaro_februaro_marto_aprilo_majo_junio_julio_aŭgusto_septembro_oktobro_novembro_decembro'.split('_'),
@@ -2957,7 +2829,6 @@ var eo = {
 
 //! now.js locale configuration
 //! locale : Spanish (Dominican Republic) [es-do]
-/* jshint -W100 */
 
 var monthsShortDot = 'ene._feb._mar._abr._may._jun._jul._ago._sep._oct._nov._dic.'.split('_');
 var _monthsShort = 'ene_feb_mar_abr_may_jun_jul_ago_sep_oct_nov_dic'.split('_');
@@ -3040,7 +2911,6 @@ var esdo = {
 //! now.js locale configuration
 //! locale : Spanish(United State) [es-us]
 //! author : bustta : https://github.com/bustta
-/* jshint -W100 */
 
 var monthsShortDot$1 = 'ene._feb._mar._abr._may._jun._jul._ago._sep._oct._nov._dic.'.split('_');
 var _monthsShort$1 = 'ene_feb_mar_abr_may_jun_jul_ago_sep_oct_nov_dic'.split('_');
@@ -3114,7 +2984,6 @@ var esus = {
 //! now.js locale configuration
 //! locale : Spanish [es]
 //! author : Julio Napurí : https://github.com/julionc
-/* jshint -W100 */
 
 var monthsShortDot$2 = 'ene._feb._mar._abr._may._jun._jul._ago._sep._oct._nov._dic.'.split('_');
 var _monthsShort$2 = 'ene_feb_mar_abr_may_jun_jul_ago_sep_oct_nov_dic'.split('_');
@@ -3198,7 +3067,6 @@ var es = {
 //! locale : Estonian [et]
 //! author : Henry Kehlmann : https://github.com/madhenry
 //! improvements : Illimar Tambek : https://github.com/ragulka
-/* jshint -W100 */
 
 function processRelativeTime$3(number, withoutSuffix, key, isFuture) {
   var format = {
@@ -3267,7 +3135,6 @@ var et = {
 //! now.js locale configuration
 //! locale : Basque [eu]
 //! author : Eneko Illarramendi : https://github.com/eillarra
-/* jshint -W100 */
 
 var eu = {
   months: 'urtarrila_otsaila_martxoa_apirila_maiatza_ekaina_uztaila_abuztua_iraila_urria_azaroa_abendua'.split('_'),
@@ -3323,7 +3190,6 @@ var eu = {
 //! now.js locale configuration
 //! locale : Persian [fa]
 //! author : Ebrahim Byagowi : https://github.com/ebraminio
-/* jshint -W100 */
 
 var symbolMap$5 = {
   1: '۱',
@@ -3371,7 +3237,7 @@ var fa = {
     return (/بعد از ظهر/.test(input)
     );
   },
-  meridiem: function meridiem(hour, minute, isLower) {
+  meridiem: function meridiem(hour) {
     if (hour < 12) {
       return 'قبل از ظهر';
     }
@@ -3423,10 +3289,13 @@ var fa = {
 //! now.js locale configuration
 //! locale : Finnish [fi]
 //! author : Tarmo Aidantausta : https://github.com/bleadof
-/* jshint -W100 */
 
 var numbersPast = 'nolla yksi kaksi kolme neljä viisi kuusi seitsemän kahdeksan yhdeksän'.split(' ');
 var numbersFuture = ['nolla', 'yhden', 'kahden', 'kolmen', 'neljän', 'viiden', 'kuuden', numbersPast[7], numbersPast[8], numbersPast[9]];
+
+function verbalNumber(number, isFuture) {
+  return number < 10 ? isFuture ? numbersFuture[number] : numbersPast[number] : number;
+}
 
 function translate$2(number, withoutSuffix, key, isFuture) {
   var result = '';
@@ -3458,13 +3327,11 @@ function translate$2(number, withoutSuffix, key, isFuture) {
     case 'yy':
       result = isFuture ? 'vuoden' : 'vuotta';
       break;
+    default:
+      break;
   }
   result = verbalNumber(number, isFuture) + ' ' + result;
   return result;
-}
-
-function verbalNumber(number, isFuture) {
-  return number < 10 ? isFuture ? numbersFuture[number] : numbersPast[number] : number;
 }
 
 var fi = {
@@ -3519,7 +3386,6 @@ var fi = {
 //! now.js locale configuration
 //! locale : Faroese [fo]
 //! author : Ragnar Johannesen : https://github.com/ragnar123
-/* jshint -W100 */
 
 var fo = {
   months: 'januar_februar_mars_apríl_mai_juni_juli_august_september_oktober_november_desember'.split('_'),
@@ -3569,7 +3435,6 @@ var fo = {
 //! now.js locale configuration
 //! locale : French (Canada) [fr-ca]
 //! author : Jonathan Abourbih : https://github.com/jonbca
-/* jshint -W100 */
 
 var frca = {
   months: 'janvier_février_mars_avril_mai_juin_juillet_août_septembre_octobre_novembre_décembre'.split('_'),
@@ -3633,7 +3498,6 @@ var frca = {
 //! now.js locale configuration
 //! locale : French (Switzerland) [fr-ch]
 //! author : Gaspard Bucher : https://github.com/gaspard
-/* jshint -W100 */
 
 var frch = {
   months: 'janvier_février_mars_avril_mai_juin_juillet_août_septembre_octobre_novembre_décembre'.split('_'),
@@ -3702,7 +3566,6 @@ var frch = {
 //! now.js locale configuration
 //! locale : French [fr]
 //! author : John Fischer : https://github.com/jfroffice
-/* jshint -W100 */
 
 var fr = {
   months: 'janvier_février_mars_avril_mai_juin_juillet_août_septembre_octobre_novembre_décembre'.split('_'),
@@ -3776,7 +3639,6 @@ var fr = {
 //! now.js locale configuration
 //! locale : Frisian [fy]
 //! author : Robin van der Vliet : https://github.com/robin0van0der0v
-/* jshint -W100 */
 
 var monthsShortWithDots = 'jan._feb._mrt._apr._mai_jun._jul._aug._sep._okt._nov._des.'.split('_');
 var monthsShortWithoutDots = 'jan_feb_mrt_apr_mai_jun_jul_aug_sep_okt_nov_des'.split('_');
@@ -3842,7 +3704,6 @@ var fy = {
 //! now.js locale configuration
 //! locale : Scottish Gaelic [gd]
 //! author : Jon Ashdown : https://github.com/jonashdown
-/* jshint -W100 */
 
 var months$4 = ['Am Faoilleach', 'An Gearran', 'Am Màrt', 'An Giblean', 'An Cèitean', 'An t-Ògmhios', 'An t-Iuchar', 'An Lùnastal', 'An t-Sultain', 'An Dàmhair', 'An t-Samhain', 'An Dùbhlachd'];
 
@@ -3907,7 +3768,6 @@ var gd = {
 //! now.js locale configuration
 //! locale : Galician [gl]
 //! author : Juan G. Hurtado : https://github.com/juanghurtado
-/* jshint -W100 */
 
 var gl = {
   months: 'xaneiro_febreiro_marzo_abril_maio_xuño_xullo_agosto_setembro_outubro_novembro_decembro'.split('_'),
@@ -3976,9 +3836,8 @@ var gl = {
 //! now.js locale configuration
 //! locale : Konkani Latin script [gom-latn]
 //! author : The Discoverer : https://github.com/WikiDiscoverer
-/* jshint -W100 */
 
-function processRelativeTime$4(number, withoutSuffix, key, isFuture) {
+function processRelativeTime$4(number, withoutSuffix, key) {
   var format = {
     s: ['thodde secondanim', 'thodde second'],
     m: ['eka mintan', 'ek minute'],
@@ -4058,20 +3917,22 @@ var gomlatn = {
   },
   meridiemParse: /rati|sokalli|donparam|sanje/,
   meridiemHour: function meridiemHour(hour, meridiem) {
-    if (hour === 12) {
-      hour = 0;
+    var h = hour;
+    if (h === 12) {
+      h = 0;
     }
     if (meridiem === 'rati') {
-      return hour < 4 ? hour : hour + 12;
+      return h < 4 ? h : h + 12;
     } else if (meridiem === 'sokalli') {
-      return hour;
+      return h;
     } else if (meridiem === 'donparam') {
-      return hour > 12 ? hour : hour + 12;
+      return h > 12 ? h : h + 12;
     } else if (meridiem === 'sanje') {
-      return hour + 12;
+      return h + 12;
     }
+    return h;
   },
-  meridiem: function meridiem(hour, minute, isLower) {
+  meridiem: function meridiem(hour) {
     if (hour < 4) {
       return 'rati';
     } else if (hour < 12) {
@@ -4088,7 +3949,6 @@ var gomlatn = {
 //! now.js locale configuration
 //! locale : Gujarati [gu]
 //! author : Kaushik Thanki : https://github.com/Kaushik1987
-/* jshint -W100 */
 
 var symbolMap$6 = {
   1: '૧',
@@ -4169,20 +4029,22 @@ var gu = {
   // a rigid notion of a 'Pahar' it is not used as rigidly in modern Gujarati.
   meridiemParse: /રાત|બપોર|સવાર|સાંજ/,
   meridiemHour: function meridiemHour(hour, meridiem) {
-    if (hour === 12) {
-      hour = 0;
+    var h = hour;
+    if (h === 12) {
+      h = 0;
     }
     if (meridiem === 'રાત') {
-      return hour < 4 ? hour : hour + 12;
+      return h < 4 ? h : h + 12;
     } else if (meridiem === 'સવાર') {
-      return hour;
+      return h;
     } else if (meridiem === 'બપોર') {
-      return hour >= 10 ? hour : hour + 12;
+      return h >= 10 ? h : h + 12;
     } else if (meridiem === 'સાંજ') {
-      return hour + 12;
+      return h + 12;
     }
+    return h;
   },
-  meridiem: function meridiem(hour, minute, isLower) {
+  meridiem: function meridiem(hour) {
     if (hour < 4) {
       return 'રાત';
     } else if (hour < 10) {
@@ -4206,7 +4068,6 @@ var gu = {
 //! author : Tomer Cohen : https://github.com/tomer
 //! author : Moshe Simantov : https://github.com/DevelopmentIL
 //! author : Tal Ater : https://github.com/TalAter
-/* jshint -W100 */
 
 var he = {
   months: 'ינואר_פברואר_מרץ_אפריל_מאי_יוני_יולי_אוגוסט_ספטמבר_אוקטובר_נובמבר_דצמבר'.split('_'),
@@ -4296,7 +4157,6 @@ var he = {
 //! now.js locale configuration
 //! locale : Hindi [hi]
 //! author : Mayank Singhal : https://github.com/mayanksinghal
-/* jshint -W100 */
 
 var symbolMap$7 = {
   1: '१',
@@ -4377,20 +4237,22 @@ var hi = {
   // a rigid notion of a 'Pahar' it is not used as rigidly in modern Hindi.
   meridiemParse: /रात|सुबह|दोपहर|शाम/,
   meridiemHour: function meridiemHour(hour, meridiem) {
-    if (hour === 12) {
-      hour = 0;
+    var h = hour;
+    if (h === 12) {
+      h = 0;
     }
     if (meridiem === 'रात') {
-      return hour < 4 ? hour : hour + 12;
+      return h < 4 ? h : h + 12;
     } else if (meridiem === 'सुबह') {
-      return hour;
+      return h;
     } else if (meridiem === 'दोपहर') {
-      return hour >= 10 ? hour : hour + 12;
+      return h >= 10 ? h : h + 12;
     } else if (meridiem === 'शाम') {
-      return hour + 12;
+      return h + 12;
     }
+    return h;
   },
-  meridiem: function meridiem(hour, minute, isLower) {
+  meridiem: function meridiem(hour) {
     if (hour < 4) {
       return 'रात';
     } else if (hour < 10) {
@@ -4412,7 +4274,6 @@ var hi = {
 //! now.js locale configuration
 //! locale : Croatian [hr]
 //! author : Bojan Marković : https://github.com/bmarkovic
-/* jshint -W100 */
 
 function translate$3(number, withoutSuffix, key) {
   var result = number + ' ';
@@ -4464,6 +4325,8 @@ function translate$3(number, withoutSuffix, key) {
         result += 'godina';
       }
       return result;
+    default:
+      return result;
   }
 }
 
@@ -4502,6 +4365,8 @@ var hr = {
         case 4:
         case 5:
           return '[u] dddd [u] LT';
+        default:
+          return '';
       }
     },
 
@@ -4518,6 +4383,8 @@ var hr = {
         case 4:
         case 5:
           return '[prošli] dddd [u] LT';
+        default:
+          return '';
       }
     },
 
@@ -4549,7 +4416,6 @@ var hr = {
 //! now.js locale configuration
 //! locale : Hungarian [hu]
 //! author : Adam Brunner : https://github.com/adambrunner
-/* jshint -W100 */
 
 var weekEndings = 'vasárnap hétfőn kedden szerdán csütörtökön pénteken szombaton'.split(' ');
 
@@ -4578,8 +4444,9 @@ function translate$4(number, withoutSuffix, key, isFuture) {
       return 'egy' + (isFuture || withoutSuffix ? ' év' : ' éve');
     case 'yy':
       return num + (isFuture || withoutSuffix ? ' év' : ' éve');
+    default:
+      return '';
   }
-  return '';
 }
 
 function week(isFuture) {
@@ -4651,7 +4518,6 @@ var hu = {
 //! now.js locale configuration
 //! locale : Armenian [hy-am]
 //! author : Armendarabyan : https://github.com/armendarabyan
-/* jshint -W100 */
 
 var hyam = {
   months: {
@@ -4740,7 +4606,6 @@ var hyam = {
 //! locale : Indonesian [id]
 //! author : Mohammad Satrio Utomo : https://github.com/tyok
 //! reference: http://id.wikisource.org/wiki/Pedoman_Umum_Ejaan_Bahasa_Indonesia_yang_Disempurnakan
-/* jshint -W100 */
 
 var id = {
   months: 'Januari_Februari_Maret_April_Mei_Juni_Juli_Agustus_September_Oktober_November_Desember'.split('_'),
@@ -4758,18 +4623,20 @@ var id = {
   },
   meridiemParse: /pagi|siang|sore|malam/,
   meridiemHour: function meridiemHour(hour, meridiem) {
-    if (hour === 12) {
-      hour = 0;
+    var h = hour;
+    if (h === 12) {
+      h = 0;
     }
     if (meridiem === 'pagi') {
-      return hour;
+      return h;
     } else if (meridiem === 'siang') {
-      return hour >= 11 ? hour : hour + 12;
+      return h >= 11 ? h : h + 12;
     } else if (meridiem === 'sore' || meridiem === 'malam') {
-      return hour + 12;
+      return h + 12;
     }
+    return h;
   },
-  meridiem: function meridiem(hours, minutes, isLower) {
+  meridiem: function meridiem(hours) {
     if (hours < 11) {
       return 'pagi';
     } else if (hours < 15) {
@@ -4812,7 +4679,6 @@ var id = {
 //! now.js locale configuration
 //! locale : Icelandic [is]
 //! author : Hinrik Örn Sigurðsson : https://github.com/hinrik
-/* jshint -W100 */
 
 function plural$2(n) {
   if (n % 100 === 11) {
@@ -4879,6 +4745,8 @@ function translate$5(number, withoutSuffix, key, isFuture) {
         return result + (withoutSuffix || isFuture ? 'ár' : 'árum');
       }
       return result + (withoutSuffix || isFuture ? 'ár' : 'ári');
+    default:
+      return result;
   }
 }
 
@@ -4931,7 +4799,6 @@ var is = {
 //! locale : Italian [it]
 //! author : Lorenzo : https://github.com/aliem
 //! author: Mattia Larentis: https://github.com/nostalgiaz
-/* jshint -W100 */
 
 var it = {
   months: 'gennaio_febbraio_marzo_aprile_maggio_giugno_luglio_agosto_settembre_ottobre_novembre_dicembre'.split('_'),
@@ -4992,7 +4859,6 @@ var it = {
 //! now.js locale configuration
 //! locale : Japanese [ja]
 //! author : LI Long : https://github.com/baryon
-/* jshint -W100 */
 
 var ja = {
   months: '1月_2月_3月_4月_5月_6月_7月_8月_9月_10月_11月_12月'.split('_'),
@@ -5016,7 +4882,7 @@ var ja = {
   isPM: function isPM(input) {
     return input === '午後';
   },
-  meridiem: function meridiem(hour, minute, isLower) {
+  meridiem: function meridiem(hour) {
     if (hour < 12) {
       return '午前';
     }
@@ -5064,7 +4930,6 @@ var ja = {
 //! locale : Javanese [jv]
 //! author : Rony Lantip : https://github.com/lantip
 //! reference: http://jv.wikipedia.org/wiki/Basa_Jawa
-/* jshint -W100 */
 
 var jv = {
   months: 'Januari_Februari_Maret_April_Mei_Juni_Juli_Agustus_September_Oktober_Nopember_Desember'.split('_'),
@@ -5082,18 +4947,20 @@ var jv = {
   },
   meridiemParse: /enjing|siyang|sonten|ndalu/,
   meridiemHour: function meridiemHour(hour, meridiem) {
-    if (hour === 12) {
-      hour = 0;
+    var h = hour;
+    if (h === 12) {
+      h = 0;
     }
     if (meridiem === 'enjing') {
-      return hour;
+      return h;
     } else if (meridiem === 'siyang') {
-      return hour >= 11 ? hour : hour + 12;
+      return h >= 11 ? h : h + 12;
     } else if (meridiem === 'sonten' || meridiem === 'ndalu') {
-      return hour + 12;
+      return h + 12;
     }
+    return h;
   },
-  meridiem: function meridiem(hours, minutes, isLower) {
+  meridiem: function meridiem(hours) {
     if (hours < 11) {
       return 'enjing';
     } else if (hours < 15) {
@@ -5136,7 +5003,6 @@ var jv = {
 //! now.js locale configuration
 //! locale : Georgian [ka]
 //! author : Irakli Janiashvili : https://github.com/irakli-janiashvili
-/* jshint -W100 */
 
 var ka = {
   months: {
@@ -5179,6 +5045,7 @@ var ka = {
       if (/წელი/.test(s)) {
         return s.replace(/წელი$/, 'წლის უკან');
       }
+      return s;
     },
 
     s: 'რამდენიმე წამი',
@@ -5216,7 +5083,6 @@ var ka = {
 //! now.js locale configuration
 //! locale : Kazakh [kk]
 //! authors : Nurlan Rakhimzhanov : https://github.com/nurlan
-/* jshint -W100 */
 
 var suffixes$1 = {
   0: '-ші',
@@ -5294,7 +5160,6 @@ var kk = {
 //! now.js locale configuration
 //! locale : Cambodian [km]
 //! author : Kruy Vanna : https://github.com/kruyvanna
-/* jshint -W100 */
 
 var km = {
   months: 'មករា_កុម្ភៈ_មីនា_មេសា_ឧសភា_មិថុនា_កក្កដា_សីហា_កញ្ញា_តុលា_វិច្ឆិកា_ធ្នូ'.split('_'),
@@ -5342,7 +5207,6 @@ var km = {
 //! now.js locale configuration
 //! locale : Kannada [kn]
 //! author : Rajeev Naik : https://github.com/rajeevnaikte
-/* jshint -W100 */
 
 var symbolMap$8 = {
   1: '೧',
@@ -5421,20 +5285,22 @@ var kn = {
 
   meridiemParse: /ರಾತ್ರಿ|ಬೆಳಿಗ್ಗೆ|ಮಧ್ಯಾಹ್ನ|ಸಂಜೆ/,
   meridiemHour: function meridiemHour(hour, meridiem) {
-    if (hour === 12) {
-      hour = 0;
+    var h = hour;
+    if (h === 12) {
+      h = 0;
     }
     if (meridiem === 'ರಾತ್ರಿ') {
-      return hour < 4 ? hour : hour + 12;
+      return h < 4 ? h : h + 12;
     } else if (meridiem === 'ಬೆಳಿಗ್ಗೆ') {
-      return hour;
+      return h;
     } else if (meridiem === 'ಮಧ್ಯಾಹ್ನ') {
-      return hour >= 10 ? hour : hour + 12;
+      return h >= 10 ? h : h + 12;
     } else if (meridiem === 'ಸಂಜೆ') {
-      return hour + 12;
+      return h + 12;
     }
+    return h;
   },
-  meridiem: function meridiem(hour, minute, isLower) {
+  meridiem: function meridiem(hour) {
     if (hour < 4) {
       return 'ರಾತ್ರಿ';
     } else if (hour < 10) {
@@ -5462,7 +5328,6 @@ var kn = {
 //! locale : Korean [ko]
 //! author : Kyungwook, Park : https://github.com/kyungw00k
 //! author : Jeeeyul Lee <jeeeyul@gmail.com>
-/* jshint -W100 */
 
 var ko = {
   months: '1월_2월_3월_4월_5월_6월_7월_8월_9월_10월_11월_12월'.split('_'),
@@ -5527,7 +5392,7 @@ var ko = {
   isPM: function isPM(token) {
     return token === '오후';
   },
-  meridiem: function meridiem(hour, minute, isUpper) {
+  meridiem: function meridiem(hour) {
     return hour < 12 ? '오전' : '오후';
   }
 };
@@ -5535,7 +5400,6 @@ var ko = {
 //! now.js locale configuration
 //! locale : Kyrgyz [ky]
 //! author : Chyngyz Arystan uulu : https://github.com/chyngyz
-/* jshint -W100 */
 
 var suffixes$2 = {
   0: '-чү',
@@ -5614,9 +5478,8 @@ var ky = {
 //! locale : Luxembourgish [lb]
 //! author : mweimerskirch : https://github.com/mweimerskirch
 //! author : David Raison : https://github.com/kwisatz
-/* jshint -W100 */
 
-function processRelativeTime$5(number, withoutSuffix, key, isFuture) {
+function processRelativeTime$5(number, withoutSuffix, key) {
   var format = {
     m: ['eng Minutt', 'enger Minutt'],
     h: ['eng Stonn', 'enger Stonn'],
@@ -5625,6 +5488,49 @@ function processRelativeTime$5(number, withoutSuffix, key, isFuture) {
     y: ['ee Joer', 'engem Joer']
   };
   return withoutSuffix ? format[key][0] : format[key][1];
+}
+
+/**
+ * Returns true if the word before the given number loses the '-n' ending.
+ * e.g. 'an 10 Deeg' but 'a 5 Deeg'
+ *
+ * @param number {integer}
+ * @returns {boolean}
+ */
+function eifelerRegelAppliesToNumber(number) {
+  var n = number;
+  n = parseInt(n, 10);
+  /* eslint no-restricted-globals: [ 0 ] */
+  if (isNaN(n)) {
+    return false;
+  }
+  if (n < 0) {
+    // Negative Number --> always true
+    return true;
+  } else if (n < 10) {
+    // Only 1 digit
+    if (n >= 4 && n <= 7) {
+      return true;
+    }
+    return false;
+  } else if (n < 100) {
+    // 2 digits
+    var lastDigit = n % 10;
+    var firstDigit = n / 10;
+    if (lastDigit === 0) {
+      return eifelerRegelAppliesToNumber(firstDigit);
+    }
+    return eifelerRegelAppliesToNumber(lastDigit);
+  } else if (n < 10000) {
+    // 3 or 4 digits --> recursively check first digit
+    while (n >= 10) {
+      n /= 10;
+    }
+    return eifelerRegelAppliesToNumber(n);
+  }
+  // Anything larger than 4 digits: recursively check first n-3 digits
+  n /= 1000;
+  return eifelerRegelAppliesToNumber(n);
 }
 
 function processFutureTime(string) {
@@ -5641,46 +5547,6 @@ function processPastTime(string) {
     return 'viru ' + string;
   }
   return 'virun ' + string;
-}
-/**
- * Returns true if the word before the given number loses the '-n' ending.
- * e.g. 'an 10 Deeg' but 'a 5 Deeg'
- *
- * @param number {integer}
- * @returns {boolean}
- */
-function eifelerRegelAppliesToNumber(number) {
-  number = parseInt(number, 10);
-  if (isNaN(number)) {
-    return false;
-  }
-  if (number < 0) {
-    // Negative Number --> always true
-    return true;
-  } else if (number < 10) {
-    // Only 1 digit
-    if (number >= 4 && number <= 7) {
-      return true;
-    }
-    return false;
-  } else if (number < 100) {
-    // 2 digits
-    var lastDigit = number % 10;
-    var firstDigit = number / 10;
-    if (lastDigit === 0) {
-      return eifelerRegelAppliesToNumber(firstDigit);
-    }
-    return eifelerRegelAppliesToNumber(lastDigit);
-  } else if (number < 10000) {
-    // 3 or 4 digits --> recursively check first digit
-    while (number >= 10) {
-      number /= 10;
-    }
-    return eifelerRegelAppliesToNumber(number);
-  }
-  // Anything larger than 4 digits: recursively check first n-3 digits
-  number /= 1000;
-  return eifelerRegelAppliesToNumber(number);
 }
 
 var lb = {
@@ -5706,7 +5572,8 @@ var lb = {
     nextWeek: 'dddd [um] LT',
     lastDay: '[Gëschter um] LT',
     lastWeek: function lastWeek() {
-      // Different date string for 'Dënschdeg' (Tuesday) and 'Donneschdeg' (Thursday) due to phonological rule
+      // Different date string for 'Dënschdeg' (Tuesday) and 'Donneschdeg' (Thursday)
+      // due to phonological rule
       switch (this.day()) {
         case 2:
         case 4:
@@ -5742,7 +5609,6 @@ var lb = {
 //! now.js locale configuration
 //! locale : Lao [lo]
 //! author : Ryan Hart : https://github.com/ryanhart2
-/* jshint -W100 */
 
 var lo = {
   months: 'ມັງກອນ_ກຸມພາ_ມີນາ_ເມສາ_ພຶດສະພາ_ມິຖຸນາ_ກໍລະກົດ_ສິງຫາ_ກັນຍາ_ຕຸລາ_ພະຈິກ_ທັນວາ'.split('_'),
@@ -5763,7 +5629,7 @@ var lo = {
   isPM: function isPM(input) {
     return input === 'ຕອນແລງ';
   },
-  meridiem: function meridiem(hour, minute, isLower) {
+  meridiem: function meridiem(hour) {
     if (hour < 12) {
       return 'ຕອນເຊົ້າ';
     }
@@ -5802,7 +5668,6 @@ var lo = {
 //! now.js locale configuration
 //! locale : Lithuanian [lt]
 //! author : Mindaugas Mozūras : https://github.com/mmozuras
-/* jshint -W100 */
 
 var units = {
   m: 'minutė_minutės_minutę',
@@ -5824,16 +5689,16 @@ function translateSeconds(number, withoutSuffix, key, isFuture) {
   return isFuture ? 'kelių sekundžių' : 'kelias sekundes';
 }
 
+function forms(key) {
+  return units[key].split('_');
+}
+
 function translateSingular(number, withoutSuffix, key, isFuture) {
   return withoutSuffix ? forms(key)[0] : isFuture ? forms(key)[1] : forms(key)[2];
 }
 
 function special(number) {
   return number % 10 === 0 || number > 10 && number < 20;
-}
-
-function forms(key) {
-  return units[key].split('_');
 }
 
 function translate$6(number, withoutSuffix, key, isFuture) {
@@ -5853,7 +5718,7 @@ var lt = {
   months: {
     format: 'sausio_vasario_kovo_balandžio_gegužės_birželio_liepos_rugpjūčio_rugsėjo_spalio_lapkričio_gruodžio'.split('_'),
     standalone: 'sausis_vasaris_kovas_balandis_gegužė_birželis_liepa_rugpjūtis_rugsėjis_spalis_lapkritis_gruodis'.split('_'),
-    isFormat: /D[oD]?(\[[^\[\]]*\]|\s)+MMMM?|MMMM?(\[[^\[\]]*\]|\s)+D[oD]?/
+    isFormat: /D[oD]?(\[[^[\]]*\]|\s)+MMMM?|MMMM?(\[[^[\]]*\]|\s)+D[oD]?/
   },
   monthsShort: 'sau_vas_kov_bal_geg_bir_lie_rgp_rgs_spa_lap_grd'.split('_'),
   weekdays: {
@@ -5914,7 +5779,6 @@ var lt = {
 //! locale : Latvian [lv]
 //! author : Kristaps Karlsons : https://github.com/skakri
 //! author : Jānis Elmeris : https://github.com/JanisE
-/* jshint -W100 */
 
 var units$1 = {
   m: 'minūtes_minūtēm_minūte_minūtes'.split('_'),
@@ -6002,7 +5866,6 @@ var lv = {
 //! now.js locale configuration
 //! locale : Montenegrin [me]
 //! author : Miodrag Nikač <miodrag@restartit.me> : https://github.com/miodragnikac
-/* jshint -W100 */
 
 var translator = {
   words: { // Different grammatical cases
@@ -6059,6 +5922,8 @@ var me = {
         case 4:
         case 5:
           return '[u] dddd [u] LT';
+        default:
+          return '';
       }
     },
 
@@ -6096,15 +5961,14 @@ var me = {
 //! now.js locale configuration
 //! locale : Maori [mi]
 //! author : John Corrigan <robbiecloset@gmail.com> : https://github.com/johnideal
-/* jshint -W100 */
 
 var mi = {
   months: 'Kohi-tāte_Hui-tanguru_Poutū-te-rangi_Paenga-whāwhā_Haratua_Pipiri_Hōngoingoi_Here-turi-kōkā_Mahuru_Whiringa-ā-nuku_Whiringa-ā-rangi_Hakihea'.split('_'),
   monthsShort: 'Kohi_Hui_Pou_Pae_Hara_Pipi_Hōngoi_Here_Mahu_Whi-nu_Whi-ra_Haki'.split('_'),
-  monthsRegex: /(?:['a-z\u0101\u014D\u016B]+\-?){1,3}/i,
-  monthsStrictRegex: /(?:['a-z\u0101\u014D\u016B]+\-?){1,3}/i,
-  monthsShortRegex: /(?:['a-z\u0101\u014D\u016B]+\-?){1,3}/i,
-  monthsShortStrictRegex: /(?:['a-z\u0101\u014D\u016B]+\-?){1,2}/i,
+  monthsRegex: /(?:['a-z\u0101\u014D\u016B]+-?){1,3}/i,
+  monthsStrictRegex: /(?:['a-z\u0101\u014D\u016B]+-?){1,3}/i,
+  monthsShortRegex: /(?:['a-z\u0101\u014D\u016B]+-?){1,3}/i,
+  monthsShortStrictRegex: /(?:['a-z\u0101\u014D\u016B]+-?){1,2}/i,
   weekdays: 'Rātapu_Mane_Tūrei_Wenerei_Tāite_Paraire_Hātarei'.split('_'),
   weekdaysShort: 'Ta_Ma_Tū_We_Tāi_Pa_Hā'.split('_'),
   weekdaysMin: 'Ta_Ma_Tū_We_Tāi_Pa_Hā'.split('_'),
@@ -6150,7 +6014,6 @@ var mi = {
 //! now.js locale configuration
 //! locale : Macedonian [mk]
 //! author : Borislav Mickov : https://github.com/B0k0
-/* jshint -W100 */
 
 var mk = {
   months: 'јануари_февруари_март_април_мај_јуни_јули_август_септември_октомври_ноември_декември'.split('_'),
@@ -6182,6 +6045,8 @@ var mk = {
         case 4:
         case 5:
           return '[Изминатиот] dddd [во] LT';
+        default:
+          return '';
       }
     },
 
@@ -6231,7 +6096,6 @@ var mk = {
 //! now.js locale configuration
 //! locale : Malayalam [ml]
 //! author : Floyd Pink : https://github.com/floydpink
-/* jshint -W100 */
 
 var ml = {
   months: 'ജനുവരി_ഫെബ്രുവരി_മാർച്ച്_ഏപ്രിൽ_മേയ്_ജൂൺ_ജൂലൈ_ഓഗസ്റ്റ്_സെപ്റ്റംബർ_ഒക്ടോബർ_നവംബർ_ഡിസംബർ'.split('_'),
@@ -6273,15 +6137,16 @@ var ml = {
   },
   meridiemParse: /രാത്രി|രാവിലെ|ഉച്ച കഴിഞ്ഞ്|വൈകുന്നേരം|രാത്രി/i,
   meridiemHour: function meridiemHour(hour, meridiem) {
-    if (hour === 12) {
-      hour = 0;
+    var h = hour;
+    if (h === 12) {
+      h = 0;
     }
-    if (meridiem === 'രാത്രി' && hour >= 4 || meridiem === 'ഉച്ച കഴിഞ്ഞ്' || meridiem === 'വൈകുന്നേരം') {
-      return hour + 12;
+    if (meridiem === 'രാത്രി' && h >= 4 || meridiem === 'ഉച്ച കഴിഞ്ഞ്' || meridiem === 'വൈകുന്നേരം') {
+      return h + 12;
     }
-    return hour;
+    return h;
   },
-  meridiem: function meridiem(hour, minute, isLower) {
+  meridiem: function meridiem(hour) {
     if (hour < 4) {
       return 'രാത്രി';
     } else if (hour < 12) {
@@ -6299,7 +6164,6 @@ var ml = {
 //! locale : Marathi [mr]
 //! author : Harshad Kale : https://github.com/kalehv
 //! author : Vivek Athalye : https://github.com/vnathalye
-/* jshint -W100 */
 
 var symbolMap$9 = {
   1: '१',
@@ -6327,7 +6191,7 @@ var numberMap$8 = {
   '०': '0'
 };
 
-function relativeTimeMr(number, withoutSuffix, string, isFuture) {
+function relativeTimeMr(number, withoutSuffix, string) {
   var output = '';
   if (withoutSuffix) {
     switch (string) {
@@ -6364,6 +6228,8 @@ function relativeTimeMr(number, withoutSuffix, string, isFuture) {
       case 'yy':
         output = '%d वर्षे';
         break;
+      default:
+        break;
     }
   } else {
     switch (string) {
@@ -6399,6 +6265,8 @@ function relativeTimeMr(number, withoutSuffix, string, isFuture) {
         break;
       case 'yy':
         output = '%d वर्षां';
+        break;
+      default:
         break;
     }
   }
@@ -6456,20 +6324,22 @@ var mr = {
 
   meridiemParse: /रात्री|सकाळी|दुपारी|सायंकाळी/,
   meridiemHour: function meridiemHour(hour, meridiem) {
-    if (hour === 12) {
-      hour = 0;
+    var h = hour;
+    if (h === 12) {
+      h = 0;
     }
     if (meridiem === 'रात्री') {
-      return hour < 4 ? hour : hour + 12;
+      return h < 4 ? h : h + 12;
     } else if (meridiem === 'सकाळी') {
-      return hour;
+      return h;
     } else if (meridiem === 'दुपारी') {
-      return hour >= 10 ? hour : hour + 12;
+      return h >= 10 ? h : h + 12;
     } else if (meridiem === 'सायंकाळी') {
-      return hour + 12;
+      return h + 12;
     }
+    return h;
   },
-  meridiem: function meridiem(hour, minute, isLower) {
+  meridiem: function meridiem(hour) {
     if (hour < 4) {
       return 'रात्री';
     } else if (hour < 10) {
@@ -6492,7 +6362,6 @@ var mr = {
 //! locale : Malay [ms-my]
 //! note : DEPRECATED, the correct one is [ms]
 //! author : Weldan Jamili : https://github.com/weldan
-/* jshint -W100 */
 
 var msmy = {
   months: 'Januari_Februari_Mac_April_Mei_Jun_Julai_Ogos_September_Oktober_November_Disember'.split('_'),
@@ -6510,18 +6379,20 @@ var msmy = {
   },
   meridiemParse: /pagi|tengahari|petang|malam/,
   meridiemHour: function meridiemHour(hour, meridiem) {
-    if (hour === 12) {
-      hour = 0;
+    var h = hour;
+    if (h === 12) {
+      h = 0;
     }
     if (meridiem === 'pagi') {
-      return hour;
+      return h;
     } else if (meridiem === 'tengahari') {
-      return hour >= 11 ? hour : hour + 12;
+      return h >= 11 ? h : h + 12;
     } else if (meridiem === 'petang' || meridiem === 'malam') {
-      return hour + 12;
+      return h + 12;
     }
+    return h;
   },
-  meridiem: function meridiem(hours, minutes, isLower) {
+  meridiem: function meridiem(hours) {
     if (hours < 11) {
       return 'pagi';
     } else if (hours < 15) {
@@ -6564,7 +6435,6 @@ var msmy = {
 //! now.js locale configuration
 //! locale : Malay [ms]
 //! author : Weldan Jamili : https://github.com/weldan
-/* jshint -W100 */
 
 var ms = {
   months: 'Januari_Februari_Mac_April_Mei_Jun_Julai_Ogos_September_Oktober_November_Disember'.split('_'),
@@ -6582,18 +6452,20 @@ var ms = {
   },
   meridiemParse: /pagi|tengahari|petang|malam/,
   meridiemHour: function meridiemHour(hour, meridiem) {
-    if (hour === 12) {
-      hour = 0;
+    var h = hour;
+    if (h === 12) {
+      h = 0;
     }
     if (meridiem === 'pagi') {
-      return hour;
+      return h;
     } else if (meridiem === 'tengahari') {
-      return hour >= 11 ? hour : hour + 12;
+      return h >= 11 ? h : h + 12;
     } else if (meridiem === 'petang' || meridiem === 'malam') {
-      return hour + 12;
+      return h + 12;
     }
+    return h;
   },
-  meridiem: function meridiem(hours, minutes, isLower) {
+  meridiem: function meridiem(hours) {
     if (hours < 11) {
       return 'pagi';
     } else if (hours < 15) {
@@ -6638,7 +6510,6 @@ var ms = {
 //! author : Squar team, mysquar.com
 //! author : David Rossellat : https://github.com/gholadr
 //! author : Tin Aung Lin : https://github.com/thanyawzinmin
-/* jshint -W100 */
 
 var symbolMap$10 = {
   1: '၁',
@@ -6725,7 +6596,6 @@ var my = {
 //! locale : Norwegian Bokmål [nb]
 //! authors : Espen Hovlandsdal : https://github.com/rexxars
 //!           Sigurd Gartmann : https://github.com/sigurdga
-/* jshint -W100 */
 
 var nb = {
   months: 'januar_februar_mars_april_mai_juni_juli_august_september_oktober_november_desember'.split('_'),
@@ -6777,7 +6647,6 @@ var nb = {
 //! now.js locale configuration
 //! locale : Nepalese [ne]
 //! author : suvash : https://github.com/suvash
-/* jshint -W100 */
 
 var symbolMap$11 = {
   1: '१',
@@ -6834,20 +6703,22 @@ var ne = {
 
   meridiemParse: /राति|बिहान|दिउँसो|साँझ/,
   meridiemHour: function meridiemHour(hour, meridiem) {
-    if (hour === 12) {
-      hour = 0;
+    var h = hour;
+    if (h === 12) {
+      h = 0;
     }
     if (meridiem === 'राति') {
-      return hour < 4 ? hour : hour + 12;
+      return h < 4 ? h : h + 12;
     } else if (meridiem === 'बिहान') {
-      return hour;
+      return h;
     } else if (meridiem === 'दिउँसो') {
-      return hour >= 10 ? hour : hour + 12;
+      return h >= 10 ? h : h + 12;
     } else if (meridiem === 'साँझ') {
-      return hour + 12;
+      return h + 12;
     }
+    return h;
   },
-  meridiem: function meridiem(hour, minute, isLower) {
+  meridiem: function meridiem(hour) {
     if (hour < 3) {
       return 'राति';
     } else if (hour < 12) {
@@ -6893,7 +6764,6 @@ var ne = {
 //! locale : Dutch (Belgium) [nl-be]
 //! author : Joris Röling : https://github.com/jorisroling
 //! author : Jacob Middag : https://github.com/middagj
-/* jshint -W100 */
 
 var monthsShortWithDots$1 = 'jan._feb._mrt._apr._mei_jun._jul._aug._sep._okt._nov._dec.'.split('_');
 var monthsShortWithoutDots$1 = 'jan_feb_mrt_apr_mei_jun_jul_aug_sep_okt_nov_dec'.split('_');
@@ -6972,7 +6842,6 @@ var nlbe = {
 //! locale : Dutch [nl]
 //! author : Joris Röling : https://github.com/jorisroling
 //! author : Jacob Middag : https://github.com/middagj
-/* jshint -W100 */
 
 var monthsShortWithDots$2 = 'jan._feb._mrt._apr._mei_jun._jul._aug._sep._okt._nov._dec.'.split('_');
 var monthsShortWithoutDots$2 = 'jan_feb_mrt_apr_mei_jun_jul_aug_sep_okt_nov_dec'.split('_');
@@ -7050,7 +6919,6 @@ var nl = {
 //! now.js locale configuration
 //! locale : Nynorsk [nn]
 //! author : https://github.com/mechuwind
-/* jshint -W100 */
 
 var nn = {
   months: 'januar_februar_mars_april_mai_juni_juli_august_september_oktober_november_desember'.split('_'),
@@ -7100,7 +6968,6 @@ var nn = {
 //! now.js locale configuration
 //! locale : Punjabi (India) [pa-in]
 //! author : Harpreet Singh : https://github.com/harpreetkhalsagtbit
-/* jshint -W100 */
 
 var symbolMap$12 = {
   1: '੧',
@@ -7129,7 +6996,8 @@ var numberMap$11 = {
 };
 
 var pain = {
-  // There are months name as per Nanakshahi Calender but they are not used as rigidly in modern Punjabi.
+  // There are months name as per Nanakshahi Calender
+  // but they are not used as rigidly in modern Punjabi.
   months: 'ਜਨਵਰੀ_ਫ਼ਰਵਰੀ_ਮਾਰਚ_ਅਪ੍ਰੈਲ_ਮਈ_ਜੂਨ_ਜੁਲਾਈ_ਅਗਸਤ_ਸਤੰਬਰ_ਅਕਤੂਬਰ_ਨਵੰਬਰ_ਦਸੰਬਰ'.split('_'),
   monthsShort: 'ਜਨਵਰੀ_ਫ਼ਰਵਰੀ_ਮਾਰਚ_ਅਪ੍ਰੈਲ_ਮਈ_ਜੂਨ_ਜੁਲਾਈ_ਅਗਸਤ_ਸਤੰਬਰ_ਅਕਤੂਬਰ_ਨਵੰਬਰ_ਦਸੰਬਰ'.split('_'),
   weekdays: 'ਐਤਵਾਰ_ਸੋਮਵਾਰ_ਮੰਗਲਵਾਰ_ਬੁਧਵਾਰ_ਵੀਰਵਾਰ_ਸ਼ੁੱਕਰਵਾਰ_ਸ਼ਨੀਚਰਵਾਰ'.split('_'),
@@ -7181,20 +7049,22 @@ var pain = {
   // a rigid notion of a 'Pahar' it is not used as rigidly in modern Punjabi.
   meridiemParse: /ਰਾਤ|ਸਵੇਰ|ਦੁਪਹਿਰ|ਸ਼ਾਮ/,
   meridiemHour: function meridiemHour(hour, meridiem) {
-    if (hour === 12) {
-      hour = 0;
+    var h = hour;
+    if (h === 12) {
+      h = 0;
     }
     if (meridiem === 'ਰਾਤ') {
-      return hour < 4 ? hour : hour + 12;
+      return h < 4 ? h : h + 12;
     } else if (meridiem === 'ਸਵੇਰ') {
-      return hour;
+      return h;
     } else if (meridiem === 'ਦੁਪਹਿਰ') {
-      return hour >= 10 ? hour : hour + 12;
+      return h >= 10 ? h : h + 12;
     } else if (meridiem === 'ਸ਼ਾਮ') {
-      return hour + 12;
+      return h + 12;
     }
+    return h;
   },
-  meridiem: function meridiem(hour, minute, isLower) {
+  meridiem: function meridiem(hour) {
     if (hour < 4) {
       return 'ਰਾਤ';
     } else if (hour < 10) {
@@ -7216,7 +7086,7 @@ var pain = {
 //! now.js locale configuration
 //! locale : Polish [pl]
 //! author : Rafal Hirsz : https://github.com/evoL
-/* jshint -W100 */
+/* eslint no-bitwise: ["error", { "allow": ["~"] }] */
 
 var monthsNominative = 'styczeń_luty_marzec_kwiecień_maj_czerwiec_lipiec_sierpień_wrzesień_październik_listopad_grudzień'.split('_');
 var monthsSubjective = 'stycznia_lutego_marca_kwietnia_maja_czerwca_lipca_sierpnia_września_października_listopada_grudnia'.split('_');
@@ -7240,6 +7110,8 @@ function translate$7(number, withoutSuffix, key) {
       return result + (plural$3(number) ? 'miesiące' : 'miesięcy');
     case 'yy':
       return result + (plural$3(number) ? 'lata' : 'lat');
+    default:
+      return result;
   }
 }
 
@@ -7334,7 +7206,6 @@ var pl = {
 //! now.js locale configuration
 //! locale : Portuguese (Brazil) [pt-br]
 //! author : Caio Ribeiro Pereira : https://github.com/caio-ribeiro-pereira
-/* jshint -W100 */
 
 var ptbr = {
   months: 'janeiro_fevereiro_março_abril_maio_junho_julho_agosto_setembro_outubro_novembro_dezembro'.split('_'),
@@ -7386,7 +7257,6 @@ var ptbr = {
 //! now.js locale configuration
 //! locale : Portuguese [pt]
 //! author : Jefferson : https://github.com/jalex79
-/* jshint -W100 */
 
 var pt = {
   months: 'janeiro_fevereiro_março_abril_maio_junho_julho_agosto_setembro_outubro_novembro_dezembro'.split('_'),
@@ -7442,7 +7312,6 @@ var pt = {
 //! locale : Romanian [ro]
 //! author : Vlad Gurdiga : https://github.com/gurdiga
 //! author : Valentin Agachi : https://github.com/avaly
-/* jshint -W100 */
 
 function relativeTimeWithPlural$2(number, withoutSuffix, key) {
   var format = {
@@ -7509,7 +7378,6 @@ var ro = {
 //! author : Viktorminator : https://github.com/Viktorminator
 //! Author : Menelion Elensúle : https://github.com/Oire
 //! author : Коренберг Марк : https://github.com/socketpair
-/* jshint -W100 */
 
 function plural$4(word, num) {
   var forms = word.split('_');
@@ -7555,7 +7423,8 @@ var ru = {
   longMonthsParse: monthsParse$4,
   shortMonthsParse: monthsParse$4,
 
-  // полные названия с падежами, по три буквы, для некоторых, по 4 буквы, сокращения с точкой и без точки
+  // полные названия с падежами, по три буквы, для некоторых,
+  // по 4 буквы, сокращения с точкой и без точки
   monthsRegex: /^(январ[ья]|янв\.?|феврал[ья]|февр?\.?|марта?|мар\.?|апрел[ья]|апр\.?|ма[йя]|июн[ья]|июн\.?|июл[ья]|июл\.?|августа?|авг\.?|сентябр[ья]|сент?\.?|октябр[ья]|окт\.?|ноябр[ья]|нояб?\.?|декабр[ья]|дек\.?)/i,
 
   // копия предыдущего
@@ -7591,6 +7460,8 @@ var ru = {
           case 5:
           case 6:
             return '[В следующую] dddd [в] LT';
+          default:
+            return '';
         }
       } else {
         if (this.day() === 2) {
@@ -7612,6 +7483,8 @@ var ru = {
           case 5:
           case 6:
             return '[В прошлую] dddd [в] LT';
+          default:
+            return '';
         }
       } else {
         if (this.day() === 2) {
@@ -7643,7 +7516,7 @@ var ru = {
     return (/^(дня|вечера)$/.test(input)
     );
   },
-  meridiem: function meridiem(hour, minute, isLower) {
+  meridiem: function meridiem(hour) {
     if (hour < 4) {
       return 'ночи';
     } else if (hour < 12) {
@@ -7680,7 +7553,6 @@ var ru = {
 //! now.js locale configuration
 //! locale : Sindhi [sd]
 //! author : Narain Sagar : https://github.com/narainsagar
-/* jshint -W100 */
 
 var months$5 = ['جنوري', 'فيبروري', 'مارچ', 'اپريل', 'مئي', 'جون', 'جولاءِ', 'آگسٽ', 'سيپٽمبر', 'آڪٽوبر', 'نومبر', 'ڊسمبر'];
 var days$1 = ['آچر', 'سومر', 'اڱارو', 'اربع', 'خميس', 'جمع', 'ڇنڇر'];
@@ -7703,7 +7575,7 @@ var sd = {
   isPM: function isPM(input) {
     return input === 'شام';
   },
-  meridiem: function meridiem(hour, minute, isLower) {
+  meridiem: function meridiem(hour) {
     if (hour < 12) {
       return 'صبح';
     }
@@ -7749,7 +7621,6 @@ var sd = {
 //! now.js locale configuration
 //! locale : Northern Sami [se]
 //! authors : Bård Rolstad Henriksen : https://github.com/karamell
-/* jshint -W100 */
 
 var se = {
   months: 'ođđajagemánnu_guovvamánnu_njukčamánnu_cuoŋománnu_miessemánnu_geassemánnu_suoidnemánnu_borgemánnu_čakčamánnu_golggotmánnu_skábmamánnu_juovlamánnu'.split('_'),
@@ -7799,7 +7670,6 @@ var se = {
 //! now.js locale configuration
 //! locale : Sinhalese [si]
 //! author : Sampath Sitinamaluwa : https://github.com/sampathsris
-/* jshint -W100 */
 
 var si = {
   months: 'ජනවාරි_පෙබරවාරි_මාර්තු_අප්‍රේල්_මැයි_ජූනි_ජූලි_අගෝස්තු_සැප්තැම්බර්_ඔක්තෝබර්_නොවැම්බර්_දෙසැම්බර්'.split('_'),
@@ -7860,7 +7730,6 @@ var si = {
 //! locale : Slovak [sk]
 //! author : Martin Minka : https://github.com/k2s
 //! based on work of petrbela : https://github.com/petrbela
-/* jshint -W100 */
 
 var months$6 = 'január_február_marec_apríl_máj_jún_júl_august_september_október_november_december'.split('_');
 var monthsShort$2 = 'jan_feb_mar_apr_máj_jún_júl_aug_sep_okt_nov_dec'.split('_');
@@ -7884,8 +7753,6 @@ function translate$8(number, withoutSuffix, key, isFuture) {
         return result + (plural$5(number) ? 'minúty' : 'minút');
       }
       return result + 'min\xFAtami';
-
-      break;
     case 'h':
       // an hour / in an hour / an hour ago
       return withoutSuffix ? 'hodina' : isFuture ? 'hodinu' : 'hodinou';
@@ -7895,8 +7762,6 @@ function translate$8(number, withoutSuffix, key, isFuture) {
         return result + (plural$5(number) ? 'hodiny' : 'hodín');
       }
       return result + 'hodinami';
-
-      break;
     case 'd':
       // a day / in a day / a day ago
       return withoutSuffix || isFuture ? 'deň' : 'dňom';
@@ -7906,8 +7771,6 @@ function translate$8(number, withoutSuffix, key, isFuture) {
         return result + (plural$5(number) ? 'dni' : 'dní');
       }
       return result + 'd\u0148ami';
-
-      break;
     case 'M':
       // a month / in a month / a month ago
       return withoutSuffix || isFuture ? 'mesiac' : 'mesiacom';
@@ -7917,8 +7780,6 @@ function translate$8(number, withoutSuffix, key, isFuture) {
         return result + (plural$5(number) ? 'mesiace' : 'mesiacov');
       }
       return result + 'mesiacmi';
-
-      break;
     case 'y':
       // a year / in a year / a year ago
       return withoutSuffix || isFuture ? 'rok' : 'rokom';
@@ -7928,8 +7789,8 @@ function translate$8(number, withoutSuffix, key, isFuture) {
         return result + (plural$5(number) ? 'roky' : 'rokov');
       }
       return result + 'rokmi';
-
-      break;
+    default:
+      return result;
   }
 }
 
@@ -7965,6 +7826,8 @@ var sk = {
           return '[v piatok o] LT';
         case 6:
           return '[v sobotu o] LT';
+        default:
+          return '';
       }
     },
 
@@ -7983,6 +7846,8 @@ var sk = {
           return '[minulý] dddd [o] LT';
         case 6:
           return '[minulú sobotu o] LT';
+        default:
+          return '';
       }
     },
 
@@ -8014,7 +7879,6 @@ var sk = {
 //! now.js locale configuration
 //! locale : Slovenian [sl]
 //! author : Robert Sedovšek : https://github.com/sedovsek
-/* jshint -W100 */
 
 function processRelativeTime$6(number, withoutSuffix, key, isFuture) {
   var result = number + ' ';
@@ -8084,6 +7948,8 @@ function processRelativeTime$6(number, withoutSuffix, key, isFuture) {
         result += withoutSuffix || isFuture ? 'let' : 'leti';
       }
       return result;
+    default:
+      return result;
   }
 }
 
@@ -8120,6 +7986,8 @@ var sl = {
         case 4:
         case 5:
           return '[v] dddd [ob] LT';
+        default:
+          return '';
       }
     },
 
@@ -8137,6 +8005,8 @@ var sl = {
         case 4:
         case 5:
           return '[prejšnji] dddd [ob] LT';
+        default:
+          return '';
       }
     },
 
@@ -8170,7 +8040,6 @@ var sl = {
 //! author : Flakërim Ismani : https://github.com/flakerimi
 //! author : Menelion Elensúle : https://github.com/Oire
 //! author : Oerd Cukalla : https://github.com/oerd
-/* jshint -W100 */
 
 var sq = {
   months: 'Janar_Shkurt_Mars_Prill_Maj_Qershor_Korrik_Gusht_Shtator_Tetor_Nëntor_Dhjetor'.split('_'),
@@ -8183,7 +8052,7 @@ var sq = {
   isPM: function isPM(input) {
     return input.charAt(0) === 'M';
   },
-  meridiem: function meridiem(hours, minutes, isLower) {
+  meridiem: function meridiem(hours) {
     return hours < 12 ? 'PD' : 'MD';
   },
 
@@ -8229,7 +8098,6 @@ var sq = {
 //! now.js locale configuration
 //! locale : Serbian Cyrillic [sr-cyrl]
 //! author : Milan Janačković<milanjanackovic@gmail.com> : https://github.com/milan-j
-/* jshint -W100 */
 
 var translator$1 = {
   words: { // Different grammatical cases
@@ -8285,6 +8153,8 @@ var srcyrl = {
         case 4:
         case 5:
           return '[у] dddd [у] LT';
+        default:
+          return '';
       }
     },
 
@@ -8322,7 +8192,6 @@ var srcyrl = {
 //! now.js locale configuration
 //! locale : Serbian [sr]
 //! author : Milan Janačković<milanjanackovic@gmail.com> : https://github.com/milan-j
-/* jshint -W100 */
 
 var translator$2 = {
   words: { // Different grammatical cases
@@ -8378,6 +8247,8 @@ var sr = {
         case 4:
         case 5:
           return '[u] dddd [u] LT';
+        default:
+          return '';
       }
     },
 
@@ -8415,7 +8286,6 @@ var sr = {
 //! now.js locale configuration
 //! locale : siSwati [ss]
 //! author : Nicolai Davies<mail@nicolai.io> : https://github.com/nicolaidavies
-/* jshint -W100 */
 
 var ss = {
   months: "Bhimbidvwane_Indlovana_Indlov'lenkhulu_Mabasa_Inkhwekhweti_Inhlaba_Kholwane_Ingci_Inyoni_Imphala_Lweti_Ingongoni".split('_'),
@@ -8456,7 +8326,7 @@ var ss = {
     yy: '%d iminyaka'
   },
   meridiemParse: /ekuseni|emini|entsambama|ebusuku/,
-  meridiem: function meridiem(hours, minutes, isLower) {
+  meridiem: function meridiem(hours) {
     if (hours < 11) {
       return 'ekuseni';
     } else if (hours < 15) {
@@ -8467,19 +8337,21 @@ var ss = {
     return 'ebusuku';
   },
   meridiemHour: function meridiemHour(hour, meridiem) {
-    if (hour === 12) {
-      hour = 0;
+    var h = hour;
+    if (h === 12) {
+      h = 0;
     }
     if (meridiem === 'ekuseni') {
-      return hour;
+      return h;
     } else if (meridiem === 'emini') {
-      return hour >= 11 ? hour : hour + 12;
+      return h >= 11 ? h : h + 12;
     } else if (meridiem === 'entsambama' || meridiem === 'ebusuku') {
-      if (hour === 0) {
+      if (h === 0) {
         return 0;
       }
-      return hour + 12;
+      return h + 12;
     }
+    return h;
   },
 
   dayOfMonthOrdinalParse: /\d{1,2}/,
@@ -8493,7 +8365,7 @@ var ss = {
 //! now.js locale configuration
 //! locale : Swedish [sv]
 //! author : Jens Alm : https://github.com/ulmus
-/* jshint -W100 */
+/* eslint no-bitwise: ["error", { "allow": ["~"] }] */
 
 var sv = {
   months: 'januari_februari_mars_april_maj_juni_juli_augusti_september_oktober_november_december'.split('_'),
@@ -8550,7 +8422,6 @@ var sv = {
 //! now.js locale configuration
 //! locale : Swahili [sw]
 //! author : Fahad Kassim : https://github.com/fadsel
-/* jshint -W100 */
 
 var sw = {
   months: 'Januari_Februari_Machi_Aprili_Mei_Juni_Julai_Agosti_Septemba_Oktoba_Novemba_Desemba'.split('_'),
@@ -8599,7 +8470,6 @@ var sw = {
 //! now.js locale configuration
 //! locale : Tamil [ta]
 //! author : Arjunkumar Krishnamoorthy : https://github.com/tk120404
-/* jshint -W100 */
 
 var symbolMap$13 = {
   1: '௧',
@@ -8681,7 +8551,7 @@ var ta = {
 
   // refer http://ta.wikipedia.org/s/1er1
   meridiemParse: /யாமம்|வைகறை|காலை|நண்பகல்|எற்பாடு|மாலை/,
-  meridiem: function meridiem(hour, minute, isLower) {
+  meridiem: function meridiem(hour) {
     if (hour < 2) {
       return ' யாமம்';
     } else if (hour < 6) {
@@ -8698,17 +8568,18 @@ var ta = {
     return ' யாமம்';
   },
   meridiemHour: function meridiemHour(hour, meridiem) {
-    if (hour === 12) {
-      hour = 0;
+    var h = hour;
+    if (h === 12) {
+      h = 0;
     }
     if (meridiem === 'யாமம்') {
-      return hour < 2 ? hour : hour + 12;
+      return h < 2 ? h : h + 12;
     } else if (meridiem === 'வைகறை' || meridiem === 'காலை') {
-      return hour;
+      return h;
     } else if (meridiem === 'நண்பகல்') {
-      return hour >= 10 ? hour : hour + 12;
+      return h >= 10 ? h : h + 12;
     }
-    return hour + 12;
+    return h + 12;
   },
 
   week: {
@@ -8720,7 +8591,6 @@ var ta = {
 //! now.js locale configuration
 //! locale : Telugu [te]
 //! author : Krishna Chaitanya Thota : https://github.com/kcthota
-/* jshint -W100 */
 
 var te = {
   months: 'జనవరి_ఫిబ్రవరి_మార్చి_ఏప్రిల్_మే_జూన్_జూలై_ఆగస్టు_సెప్టెంబర్_అక్టోబర్_నవంబర్_డిసెంబర్'.split('_'),
@@ -8764,20 +8634,22 @@ var te = {
   ordinal: '%dవ',
   meridiemParse: /రాత్రి|ఉదయం|మధ్యాహ్నం|సాయంత్రం/,
   meridiemHour: function meridiemHour(hour, meridiem) {
-    if (hour === 12) {
-      hour = 0;
+    var h = hour;
+    if (h === 12) {
+      h = 0;
     }
     if (meridiem === 'రాత్రి') {
-      return hour < 4 ? hour : hour + 12;
+      return h < 4 ? h : h + 12;
     } else if (meridiem === 'ఉదయం') {
-      return hour;
+      return h;
     } else if (meridiem === 'మధ్యాహ్నం') {
-      return hour >= 10 ? hour : hour + 12;
+      return h >= 10 ? h : h + 12;
     } else if (meridiem === 'సాయంత్రం') {
-      return hour + 12;
+      return h + 12;
     }
+    return h;
   },
-  meridiem: function meridiem(hour, minute, isLower) {
+  meridiem: function meridiem(hour) {
     if (hour < 4) {
       return 'రాత్రి';
     } else if (hour < 10) {
@@ -8800,7 +8672,7 @@ var te = {
 //! locale : Tetun Dili (East Timor) [tet]
 //! author : Joshua Brooks : https://github.com/joshbrooks
 //! author : Onorio De J. Afonso : https://github.com/marobo
-/* jshint -W100 */
+/* eslint no-bitwise: ["error", { "allow": ["~"] }] */
 
 var tet = {
   months: 'Janeiru_Fevereiru_Marsu_Abril_Maiu_Juniu_Juliu_Augustu_Setembru_Outubru_Novembru_Dezembru'.split('_'),
@@ -8855,7 +8727,6 @@ var tet = {
 //! now.js locale configuration
 //! locale : Thai [th]
 //! author : Kridsada Thanabulpong : https://github.com/sirn
-/* jshint -W100 */
 
 var th = {
   months: 'มกราคม_กุมภาพันธ์_มีนาคม_เมษายน_พฤษภาคม_มิถุนายน_กรกฎาคม_สิงหาคม_กันยายน_ตุลาคม_พฤศจิกายน_ธันวาคม'.split('_'),
@@ -8877,7 +8748,7 @@ var th = {
   isPM: function isPM(input) {
     return input === 'หลังเที่ยง';
   },
-  meridiem: function meridiem(hour, minute, isLower) {
+  meridiem: function meridiem(hour) {
     if (hour < 12) {
       return 'ก่อนเที่ยง';
     }
@@ -8912,7 +8783,6 @@ var th = {
 //! now.js locale configuration
 //! locale : Tagalog (Philippines) [tl-ph]
 //! author : Dan Hagman : https://github.com/hagmandan
-/* jshint -W100 */
 
 var tlph = {
   months: 'Enero_Pebrero_Marso_Abril_Mayo_Hunyo_Hulyo_Agosto_Setyembre_Oktubre_Nobyembre_Disyembre'.split('_'),
@@ -8965,7 +8835,6 @@ var tlph = {
 //! now.js locale configuration
 //! locale : Klingon [tlh]
 //! author : Dominika Kruk : https://github.com/amaranthrose
-/* jshint -W100 */
 
 var numbersNouns = 'pagh_wa’_cha’_wej_loS_vagh_jav_Soch_chorgh_Hut'.split('_');
 
@@ -8979,22 +8848,6 @@ function translatePast(output) {
   var time = output;
   time = output.indexOf('jaj') !== -1 ? time.slice(0, -3) + 'Hu\u2019' : output.indexOf('jar') !== -1 ? time.slice(0, -3) + 'wen' : output.indexOf('DIS') !== -1 ? time.slice(0, -3) + 'ben' : time + ' ret';
   return time;
-}
-
-function translate$9(number, withoutSuffix, string, isFuture) {
-  var numberNoun = numberAsNoun(number);
-  switch (string) {
-    case 'mm':
-      return numberNoun + ' tup';
-    case 'hh':
-      return numberNoun + ' rep';
-    case 'dd':
-      return numberNoun + ' jaj';
-    case 'MM':
-      return numberNoun + ' jar';
-    case 'yy':
-      return numberNoun + ' DIS';
-  }
 }
 
 function numberAsNoun(number) {
@@ -9012,6 +8865,24 @@ function numberAsNoun(number) {
     word += (word !== '' ? ' ' : '') + numbersNouns[one];
   }
   return word === '' ? 'pagh' : word;
+}
+
+function translate$9(number, withoutSuffix, string) {
+  var numberNoun = numberAsNoun(number);
+  switch (string) {
+    case 'mm':
+      return numberNoun + ' tup';
+    case 'hh':
+      return numberNoun + ' rep';
+    case 'dd':
+      return numberNoun + ' jaj';
+    case 'MM':
+      return numberNoun + ' jar';
+    case 'yy':
+      return numberNoun + ' DIS';
+    default:
+      return numberNoun;
+  }
 }
 
 var tlh = {
@@ -9064,7 +8935,6 @@ var tlh = {
 //! locale : Turkish [tr]
 //! authors : Erhan Gundogan : https://github.com/erhangundogan,
 //!           Burak Yiğit Kaya: https://github.com/BYK
-/* jshint -W100 */
 
 var suffixes$3 = {
   1: '\'inci',
@@ -9146,10 +9016,28 @@ var tr = {
 //! locale : Talossan [tzl]
 //! author : Robin van der Vliet : https://github.com/robin0van0der0v
 //! author : Iustì Canun
-/* jshint -W100 */
 
-// After the year there should be a slash and the amount of years since December 26, 1979 in Roman numerals.
+// After the year there should be a slash and the amount of years since
+// December 26, 1979 in Roman numerals.
 // This is currently too difficult (maybe even impossible) to add.
+
+function processRelativeTime$7(number, withoutSuffix, key, isFuture) {
+  var format = {
+    s: ['viensas secunds', '\'iensas secunds'],
+    m: ['\'n míut', '\'iens míut'],
+    mm: [number + ' m\xEDuts', number + ' m\xEDuts'],
+    h: ['\'n þora', '\'iensa þora'],
+    hh: [number + ' \xFEoras', number + ' \xFEoras'],
+    d: ['\'n ziua', '\'iensa ziua'],
+    dd: [number + ' ziuas', number + ' ziuas'],
+    M: ['\'n mes', '\'iens mes'],
+    MM: [number + ' mesen', number + ' mesen'],
+    y: ['\'n ar', '\'iens ar'],
+    yy: [number + ' ars', number + ' ars']
+  };
+  return isFuture ? format[key][0] : withoutSuffix ? format[key][0] : format[key][1];
+}
+
 var tzl = {
   months: 'Januar_Fevraglh_Març_Avrïu_Mai_Gün_Julia_Guscht_Setemvar_Listopäts_Noemvar_Zecemvar'.split('_'),
   monthsShort: 'Jan_Fev_Mar_Avr_Mai_Gün_Jul_Gus_Set_Lis_Noe_Zec'.split('_'),
@@ -9164,7 +9052,7 @@ var tzl = {
     LLL: 'D. MMMM [dallas] YYYY HH.mm',
     LLLL: 'dddd, [li] D. MMMM [dallas] YYYY HH.mm'
   },
-  meridiemParse: /d\'o|d\'a/i,
+  meridiemParse: /d'o|d'a/i,
   isPM: function isPM(input) {
     return input.toLowerCase() === 'd\'o';
   },
@@ -9206,27 +9094,9 @@ var tzl = {
   }
 };
 
-function processRelativeTime$7(number, withoutSuffix, key, isFuture) {
-  var format = {
-    s: ['viensas secunds', '\'iensas secunds'],
-    m: ['\'n míut', '\'iens míut'],
-    mm: [number + ' m\xEDuts', number + ' m\xEDuts'],
-    h: ['\'n þora', '\'iensa þora'],
-    hh: [number + ' \xFEoras', number + ' \xFEoras'],
-    d: ['\'n ziua', '\'iensa ziua'],
-    dd: [number + ' ziuas', number + ' ziuas'],
-    M: ['\'n mes', '\'iens mes'],
-    MM: [number + ' mesen', number + ' mesen'],
-    y: ['\'n ar', '\'iens ar'],
-    yy: [number + ' ars', number + ' ars']
-  };
-  return isFuture ? format[key][0] : withoutSuffix ? format[key][0] : format[key][1];
-}
-
 //! now.js locale configuration
 //! locale : Central Atlas Tamazight Latin [tzm-latn]
 //! author : Abdel Said : https://github.com/abdelsaid
-/* jshint -W100 */
 
 var tzmlatn = {
   months: 'innayr_brˤayrˤ_marˤsˤ_ibrir_mayyw_ywnyw_ywlywz_ɣwšt_šwtanbir_ktˤwbrˤ_nwwanbir_dwjnbir'.split('_'),
@@ -9274,7 +9144,6 @@ var tzmlatn = {
 //! now.js locale configuration
 //! locale : Central Atlas Tamazight [tzm]
 //! author : Abdel Said : https://github.com/abdelsaid
-/* jshint -W100 */
 
 var tzm = {
   months: 'ⵉⵏⵏⴰⵢⵔ_ⴱⵕⴰⵢⵕ_ⵎⴰⵕⵚ_ⵉⴱⵔⵉⵔ_ⵎⴰⵢⵢⵓ_ⵢⵓⵏⵢⵓ_ⵢⵓⵍⵢⵓⵣ_ⵖⵓⵛⵜ_ⵛⵓⵜⴰⵏⴱⵉⵔ_ⴽⵟⵓⴱⵕ_ⵏⵓⵡⴰⵏⴱⵉⵔ_ⴷⵓⵊⵏⴱⵉⵔ'.split('_'),
@@ -9323,7 +9192,6 @@ var tzm = {
 //! locale : Ukrainian [uk]
 //! author : zemlanin : https://github.com/zemlanin
 //! Author : Menelion Elensúle : https://github.com/Oire
-/* jshint -W100 */
 
 function plural$6(word, num) {
   var forms = word.split('_');
@@ -9400,6 +9268,8 @@ var uk = {
         case 2:
         case 4:
           return processHoursFunction('[Минулого] dddd [').call(this);
+        default:
+          return '';
       }
     },
 
@@ -9420,13 +9290,14 @@ var uk = {
     y: 'рік',
     yy: relativeTimeWithPlural$4
   },
-  // M. E.: those two are virtually unused but a user might want to implement them for his/her website for some reason
+  // M. E.: those two are virtually unused but a user might want to implement them
+  // for his/her website for some reason
   meridiemParse: /ночі|ранку|дня|вечора/,
   isPM: function isPM(input) {
     return (/^(дня|вечора)$/.test(input)
     );
   },
-  meridiem: function meridiem(hour, minute, isLower) {
+  meridiem: function meridiem(hour) {
     if (hour < 4) {
       return 'ночі';
     } else if (hour < 12) {
@@ -9463,7 +9334,6 @@ var uk = {
 //! locale : Urdu [ur]
 //! author : Sawood Alam : https://github.com/ibnesayeed
 //! author : Zack : https://github.com/ZackVision
-/* jshint -W100 */
 
 var months$7 = ['جنوری', 'فروری', 'مارچ', 'اپریل', 'مئی', 'جون', 'جولائی', 'اگست', 'ستمبر', 'اکتوبر', 'نومبر', 'دسمبر'];
 
@@ -9487,7 +9357,7 @@ var ur = {
   isPM: function isPM(input) {
     return input === 'شام';
   },
-  meridiem: function meridiem(hour, minute, isLower) {
+  meridiem: function meridiem(hour) {
     if (hour < 12) {
       return 'صبح';
     }
@@ -9533,7 +9403,6 @@ var ur = {
 //! now.js locale configuration
 //! locale : Uzbek Latin [uz-latn]
 //! author : Rasulbek Mirzayev : github.com/Rasulbeeek
-/* jshint -W100 */
 
 var uzlatn = {
   months: 'Yanvar_Fevral_Mart_Aprel_May_Iyun_Iyul_Avgust_Sentabr_Oktabr_Noyabr_Dekabr'.split('_'),
@@ -9581,7 +9450,6 @@ var uzlatn = {
 //! now.js locale configuration
 //! locale : Uzbek [uz]
 //! author : Sardor Muminov : https://github.com/muminoff
-/* jshint -W100 */
 
 var uz = {
   months: 'январ_феврал_март_апрел_май_июн_июл_август_сентябр_октябр_ноябр_декабр'.split('_'),
@@ -9629,7 +9497,6 @@ var uz = {
 //! now.js locale configuration
 //! locale : Vietnamese [vi]
 //! author : Bang Nguyen : https://github.com/bangnk
-/* jshint -W100 */
 
 var vi = {
   months: 'tháng 1_tháng 2_tháng 3_tháng 4_tháng 5_tháng 6_tháng 7_tháng 8_tháng 9_tháng 10_tháng 11_tháng 12'.split('_'),
@@ -9700,7 +9567,7 @@ var vi = {
 //! now.js locale configuration
 //! locale : Pseudo [x-pseudo]
 //! author : Andrew Hood : https://github.com/andrewhood125
-/* jshint -W100 */
+/* eslint no-bitwise: ["error", { "allow": ["~"] }] */
 
 var xpseudo = {
   months: 'J~áñúá~rý_F~ébrú~árý_~Márc~h_Áp~ríl_~Máý_~Júñé~_Júl~ý_Áú~gúst~_Sép~témb~ér_Ó~ctób~ér_Ñ~óvém~bér_~Décé~mbér'.split('_'),
@@ -9756,7 +9623,6 @@ var xpseudo = {
 //! now.js locale configuration
 //! locale : Yoruba Nigeria [yo]
 //! author : Atolagbe Abisoye : https://github.com/andela-batolagbe
-/* jshint -W100 */
 
 var yo = {
   months: 'Sẹ́rẹ́_Èrèlè_Ẹrẹ̀nà_Ìgbé_Èbibi_Òkùdu_Agẹmo_Ògún_Owewe_Ọ̀wàrà_Bélú_Ọ̀pẹ̀̀'.split('_'),
@@ -9807,7 +9673,6 @@ var yo = {
 //! locale : Chinese (China) [zh-cn]
 //! author : suupic : https://github.com/suupic
 //! author : Zeno Zeng : https://github.com/zenozeng
-/* jshint -W100 */
 
 var zhcn = {
   months: '一月_二月_三月_四月_五月_六月_七月_八月_九月_十月_十一月_十二月'.split('_'),
@@ -9829,18 +9694,19 @@ var zhcn = {
   },
   meridiemParse: /凌晨|早上|上午|中午|下午|晚上/,
   meridiemHour: function meridiemHour(hour, meridiem) {
-    if (hour === 12) {
-      hour = 0;
+    var h = hour;
+    if (h === 12) {
+      h = 0;
     }
     if (meridiem === '凌晨' || meridiem === '早上' || meridiem === '上午') {
-      return hour;
+      return h;
     } else if (meridiem === '下午' || meridiem === '晚上') {
-      return hour + 12;
+      return h + 12;
     }
     // '中午'
-    return hour >= 11 ? hour : hour + 12;
+    return h >= 11 ? h : h + 12;
   },
-  meridiem: function meridiem(hour, minute, isLower) {
+  meridiem: function meridiem(hour, minute) {
     var hm = hour * 100 + minute;
     if (hm < 600) {
       return '凌晨';
@@ -9908,7 +9774,6 @@ var zhcn = {
 //! author : Ben : https://github.com/ben-lin
 //! author : Chris Lam : https://github.com/hehachris
 //! author : Konstantin : https://github.com/skfd
-/* jshint -W100 */
 
 var zhhk = {
   months: '一月_二月_三月_四月_五月_六月_七月_八月_九月_十月_十一月_十二月'.split('_'),
@@ -9930,18 +9795,20 @@ var zhhk = {
   },
   meridiemParse: /凌晨|早上|上午|中午|下午|晚上/,
   meridiemHour: function meridiemHour(hour, meridiem) {
-    if (hour === 12) {
-      hour = 0;
+    var h = hour;
+    if (h === 12) {
+      h = 0;
     }
     if (meridiem === '凌晨' || meridiem === '早上' || meridiem === '上午') {
-      return hour;
+      return h;
     } else if (meridiem === '中午') {
-      return hour >= 11 ? hour : hour + 12;
+      return h >= 11 ? h : h + 12;
     } else if (meridiem === '下午' || meridiem === '晚上') {
-      return hour + 12;
+      return h + 12;
     }
+    return h;
   },
-  meridiem: function meridiem(hour, minute, isLower) {
+  meridiem: function meridiem(hour, minute) {
     var hm = hour * 100 + minute;
     if (hm < 600) {
       return '凌晨';
@@ -10003,7 +9870,6 @@ var zhhk = {
 //! locale : Chinese (Taiwan) [zh-tw]
 //! author : Ben : https://github.com/ben-lin
 //! author : Chris Lam : https://github.com/hehachris
-/* jshint -W100 */
 
 var zhtw = {
   months: '一月_二月_三月_四月_五月_六月_七月_八月_九月_十月_十一月_十二月'.split('_'),
@@ -10025,18 +9891,20 @@ var zhtw = {
   },
   meridiemParse: /凌晨|早上|上午|中午|下午|晚上/,
   meridiemHour: function meridiemHour(hour, meridiem) {
-    if (hour === 12) {
-      hour = 0;
+    var h = hour;
+    if (h === 12) {
+      h = 0;
     }
     if (meridiem === '凌晨' || meridiem === '早上' || meridiem === '上午') {
-      return hour;
+      return h;
     } else if (meridiem === '中午') {
-      return hour >= 11 ? hour : hour + 12;
+      return h >= 11 ? h : h + 12;
     } else if (meridiem === '下午' || meridiem === '晚上') {
-      return hour + 12;
+      return h + 12;
     }
+    return h;
   },
-  meridiem: function meridiem(hour, minute, isLower) {
+  meridiem: function meridiem(hour, minute) {
     var hm = hour * 100 + minute;
     if (hm < 600) {
       return '凌晨';
@@ -10095,121 +9963,121 @@ var zhtw = {
 };
 
 var i18ns = {
-  'af': af,
+  af: af,
   'ar-dz': ardz,
   'ar-kw': arkw,
   'ar-ly': arly,
   'ar-ma': arma,
   'ar-sa': arsa,
   'ar-tn': artn,
-  'ar': ar,
-  'az': az,
-  'be': be,
-  'bg': bg,
-  'bm': bm,
-  'bn': bn,
-  'bo': bo,
-  'br': br,
-  'bs': bs,
-  'ca': ca,
-  'cs': cs,
-  'cv': cv,
-  'cy': cy,
-  'da': da,
+  ar: ar,
+  az: az,
+  be: be,
+  bg: bg,
+  bm: bm,
+  bn: bn,
+  bo: bo,
+  br: br,
+  bs: bs,
+  ca: ca,
+  cs: cs,
+  cv: cv,
+  cy: cy,
+  da: da,
   'de-at': deat,
   'de-ch': dech,
-  'de': de,
-  'dv': dv,
-  'el': el,
+  de: de,
+  dv: dv,
+  el: el,
   'en-au': enau,
   'en-ca': enca,
   'en-gb': engb,
   'en-ie': enie,
   'en-nz': ennz,
-  'eo': eo,
+  eo: eo,
   'es-do': esdo,
   'es-us': esus,
-  'es': es,
-  'et': et,
-  'eu': eu,
-  'fa': fa,
-  'fi': fi,
-  'fo': fo,
+  es: es,
+  et: et,
+  eu: eu,
+  fa: fa,
+  fi: fi,
+  fo: fo,
   'fr-ca': frca,
   'fr-ch': frch,
-  'fr': fr,
-  'fy': fy,
-  'gd': gd,
-  'gl': gl,
+  fr: fr,
+  fy: fy,
+  gd: gd,
+  gl: gl,
   'gom-latn': gomlatn,
-  'gu': gu,
-  'he': he,
-  'hi': hi,
-  'hr': hr,
-  'hu': hu,
+  gu: gu,
+  he: he,
+  hi: hi,
+  hr: hr,
+  hu: hu,
   'hy-am': hyam,
-  'id': id,
-  'is': is,
-  'it': it,
-  'ja': ja,
-  'jv': jv,
-  'ka': ka,
-  'kk': kk,
-  'km': km,
-  'kn': kn,
-  'ko': ko,
-  'ky': ky,
-  'lb': lb,
-  'lo': lo,
-  'lt': lt,
-  'lv': lv,
-  'me': me,
-  'mi': mi,
-  'mk': mk,
-  'ml': ml,
-  'mr': mr,
+  id: id,
+  is: is,
+  it: it,
+  ja: ja,
+  jv: jv,
+  ka: ka,
+  kk: kk,
+  km: km,
+  kn: kn,
+  ko: ko,
+  ky: ky,
+  lb: lb,
+  lo: lo,
+  lt: lt,
+  lv: lv,
+  me: me,
+  mi: mi,
+  mk: mk,
+  ml: ml,
+  mr: mr,
   'ms-my': msmy,
-  'ms': ms,
-  'my': my,
-  'nb': nb,
-  'ne': ne,
+  ms: ms,
+  my: my,
+  nb: nb,
+  ne: ne,
   'nl-be': nlbe,
-  'nl': nl,
-  'nn': nn,
+  nl: nl,
+  nn: nn,
   'pa-in': pain,
-  'pl': pl,
+  pl: pl,
   'pt-br': ptbr,
-  'pt': pt,
-  'ro': ro,
-  'ru': ru,
-  'sd': sd,
-  'se': se,
-  'si': si,
-  'sk': sk,
-  'sl': sl,
-  'sq': sq,
+  pt: pt,
+  ro: ro,
+  ru: ru,
+  sd: sd,
+  se: se,
+  si: si,
+  sk: sk,
+  sl: sl,
+  sq: sq,
   'sr-cyrl': srcyrl,
-  'sr': sr,
-  'ss': ss,
-  'sv': sv,
-  'sw': sw,
-  'ta': ta,
-  'te': te,
-  'tet': tet,
-  'th': th,
+  sr: sr,
+  ss: ss,
+  sv: sv,
+  sw: sw,
+  ta: ta,
+  te: te,
+  tet: tet,
+  th: th,
   'tl-ph': tlph,
-  'tlh': tlh,
-  'tr': tr,
-  'tzl': tzl,
+  tlh: tlh,
+  tr: tr,
+  tzl: tzl,
   'tzm-latn': tzmlatn,
-  'tzm': tzm,
-  'uk': uk,
-  'ur': ur,
+  tzm: tzm,
+  uk: uk,
+  ur: ur,
   'uz-latn': uzlatn,
-  'uz': uz,
-  'vi': vi,
+  uz: uz,
+  vi: vi,
   'x-pseudo': xpseudo,
-  'yo': yo,
+  yo: yo,
   'zh-cn': zhcn,
   'zh-hk': zhhk,
   'zh-tw': zhtw
@@ -10217,17 +10085,17 @@ var i18ns = {
 
 /* eslint no-underscore-dangle: ["error", { "allowAfterThis": true }] */
 /* eslint prefer-destructuring: ["error", { "object": false }] */
+/* eslint no-void: 0 */
+/* global isFinite */
+/* eslint no-console: ["error", { allow: ["warn", "error"] }] */
+/* eslint no-underscore-dangle: ["error",
+{ "allowAfterThis": true, "allow": ["_config", "_locale", "_abbr"] }
+] */
+/* eslint no-use-before-define: ["error", { "functions": false }] */
 
-var ArrayProto = Array.prototype;
 var toString = Object.prototype.toString;
 var nativeIsArray = Array.isArray;
-var nativeIndexOf = ArrayProto.indexOf;
 var hasOwnProperty = Object.prototype.hasOwnProperty;
-
-var matchWord = /[0-9]*['a-z\u00A0-\u05FF\u0700-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+|[\u0600-\u06FF\/]+(\s*?[\u0600-\u06FF]+){1,2}/i;
-var regexEscape = function regexEscape(s) {
-  return s.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
-};
 
 var nativeDatetoISOString = Date.prototype.toISOString;
 
@@ -10235,16 +10103,15 @@ var SECOND = 1000;
 var MINUTE = 60 * SECOND;
 var HOUR = 60 * MINUTE;
 var DAY = 24 * HOUR;
+var MAX_ARRAY_INDEX = Math.pow(2, 53) - 1;
 
 var invalidDateError = 'Invalid Date';
 var invalidDateRegExp = /Invalid Date/;
 var defaultFormat = 'YYYY-MM-DDTHH:mm:ssZ';
 var defaultFormatUtc = 'YYYY-MM-DDTHH:mm:ss[Z]';
-var defaultMonthsShortRegex = matchWord;
-var defaultMonthsRegex = matchWord;
-var defaultWeekdaysRegex = matchWord;
-var defaultWeekdaysShortRegex = matchWord;
-var defaultWeekdaysMinRegex = matchWord;
+
+
+
  // +00:00 -00:00 +0000 -0000 or Z
 var matchShortOffset = /Z|[+-]\d\d(?::?\d\d)?/gi; // +00 -00 +00:00 -00:00 +0000 -0000 or Z
 
@@ -10281,6 +10148,51 @@ function isObject(value) {
   return value != null && Object.prototype.toString.call(value) === '[object Object]';
 }
 
+function isArguments(value) {
+  return toString.call(value) === '[object Arguments]';
+}
+
+var isArrayLike = function isArrayLike(obj) {
+  var len = obj.length;
+  return typeof len === 'number' && len >= 0 && len < MAX_ARRAY_INDEX;
+};
+
+var baseFlatten = function baseFlatten(input, shallow, strict, output) {
+  var res = output || [];
+  var inputLen = input.length;
+  var idx = res.length;
+  var i = void 0;
+
+  for (i = 0; i < inputLen; i += 1) {
+    var value = input[i];
+
+    if (isArrayLike(value) && isArray(value) || isArguments(value)) {
+      if (shallow) {
+        var j = 0;
+        var len = value.length;
+
+        while (j < len) {
+          res[idx] = value[j];
+          idx += 1;
+          j += 1;
+        }
+      } else {
+        baseFlatten(value, shallow, strict, res);
+        idx = res.length;
+      }
+    } else if (!strict) {
+      res[idx] = value;
+      idx += 1;
+    }
+  }
+
+  return res;
+};
+
+var flatten = function flatten(array, shallow) {
+  return baseFlatten(array, shallow, false);
+};
+
 function has(obj, key) {
   return hasOwnProperty.call(obj, key);
 }
@@ -10288,6 +10200,7 @@ function has(obj, key) {
 var keys = Object.keys || function (obj) {
   var i = void 0;
   var res = [];
+  /* eslint no-restricted-syntax: ["error", "BinaryExpression[operator='in']"] */
   for (i in obj) {
     if (has(obj, i)) {
       res[res.length] = i;
@@ -10306,38 +10219,25 @@ function absFloor(number) {
 
 
 
+// 400 years have 146097 days (taking into account leap year rules)
+// 400 years have 12 months === 4800
 var daysToMonths = function daysToMonths(days) {
-  return (
-    // 400 years have 146097 days (taking into account leap year rules)
-    // 400 years have 12 months === 4800
-    days * 4800 / 146097
-  );
+  return days * 4800 / 146097;
 };
 
+// the reverse of daysToMonths
 var monthsToDays = function monthsToDays(months) {
-  return (
-    // the reverse of daysToMonths
-    months * 146097 / 4800
-  );
+  return months * 146097 / 4800;
 };
 
 function toInt(number) {
+  /* eslint no-restricted-globals: [ 0 ] */
   return +number !== 0 && isFinite(+number) ? absFloor(+number) : 0;
 }
 
 var isLeapYear = function isLeapYear(year) {
   return year % 100 !== 0 && year % 4 === 0 || year % 400 === 0;
 };
-
-function compare(date1, date2) {
-  if (isUndefined(date1) || isUndefined(date2)) {
-    throw new Error('arguments can not be undefined');
-  } else if (!(isDate(date1) && isDate(date2))) {
-    throw new TypeError('arguments require Date type');
-  } else {
-    return date1 < date2 ? -1 : date1 > date2 ? 1 : 0;
-  }
-}
 
 function minus(date1, date2) {
   if (isUndefined(date1) || isUndefined(date2)) {
@@ -10366,37 +10266,37 @@ function compareArrays(array1, array2, dontConvert) {
 }
 
 function extend(a, b) {
-  for (var i in b) {
-    if (has(b, i)) {
-      a[i] = b[i];
+  var res = a;
+  var bKeys = keys(b);
+  var bKeysLen = bKeys.length;
+  var i = void 0;
+
+  for (i = 0; i < bKeysLen; i += 1) {
+    if (has(b, bKeys[i])) {
+      res[bKeys[i]] = b[bKeys[i]];
     }
   }
 
   if (has(b, 'toString')) {
-    a.toString = b.toString;
+    res.toString = b.toString;
   }
 
   if (has(b, 'valueOf')) {
-    a.valueOf = b.valueOf;
+    res.valueOf = b.valueOf;
   }
 
-  return a;
+  return res;
 }
 
-var indexOf = nativeIndexOf || function (o) {
-  var len = this.length;
-  var i = void 0;
-  for (i = 0; i < len; i++) {
-    if (this[i] === o) {
-      return i;
-    }
-  }
-  return -1;
-};
+
 
 var hookCallback = void 0;
 function hooks() {
-  return hookCallback.apply(undefined, arguments);
+  for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+    args[_key] = arguments[_key];
+  }
+
+  return hookCallback(args);
 }
 
 
@@ -10431,224 +10331,36 @@ function zeroFill(number, targetLength, forceSign) {
   return (sign ? forceSign ? '+' : '' : '-') + Math.pow(10, Math.max(0, zeroToFill)).toString().substr(1) + absNumber;
 }
 
-function handleMonthStrictParse(monthName, format, strict) {
-  var i = void 0;
-  var ii = void 0;
-  var mom = void 0;
-  var llc = monthName.toLocaleLowerCase();
-
-  if (!this._monthsParse) {
-    // this is not used
-    this._monthsParse = [];
-    this._longMonthsParse = [];
-    this._shortMonthsParse = [];
-    for (i = 0; i < 12; ++i) {
-      mom = createUTC([2000, i]);
-      this._shortMonthsParse[i] = this.monthsShort(mom, '').toLocaleLowerCase();
-      this._longMonthsParse[i] = this.months(mom, '').toLocaleLowerCase();
-    }
-  }
-
-  if (strict) {
-    if (format === 'MMM') {
-      ii = indexOf.call(this._shortMonthsParse, llc);
-      return ii !== -1 ? ii : null;
-    }
-    ii = indexOf.call(this._longMonthsParse, llc);
-    return ii !== -1 ? ii : null;
-  }
-  if (format === 'MMM') {
-    ii = indexOf.call(this._shortMonthsParse, llc);
-    if (ii !== -1) {
-      return ii;
-    }
-    ii = indexOf.call(this._longMonthsParse, llc);
-    return ii !== -1 ? ii : null;
-  }
-  ii = indexOf.call(this._longMonthsParse, llc);
-  if (ii !== -1) {
-    return ii;
-  }
-  ii = indexOf.call(this._shortMonthsParse, llc);
-  return ii !== -1 ? ii : null;
-}
-
-function handleWeekStrictParse(weekdayName, format, strict) {
-  var i = void 0;
-  var ii = void 0;
-  var mom = void 0;
-  var llc = weekdayName.toLocaleLowerCase();
-
-  if (!this._weekdaysParse) {
-    this._weekdaysParse = [];
-    this._shortWeekdaysParse = [];
-    this._minWeekdaysParse = [];
-
-    for (i = 0; i < 7; ++i) {
-      mom = createUTC([2000, 1]).day(i);
-      this._minWeekdaysParse[i] = this.weekdaysMin(mom, '').toLocaleLowerCase();
-      this._shortWeekdaysParse[i] = this.weekdaysShort(mom, '').toLocaleLowerCase();
-      this._weekdaysParse[i] = this.weekdays(mom, '').toLocaleLowerCase();
-    }
-  }
-
-  if (strict) {
-    if (format === 'dddd') {
-      ii = indexOf.call(this._weekdaysParse, llc);
-      return ii !== -1 ? ii : null;
-    } else if (format === 'ddd') {
-      ii = indexOf.call(this._shortWeekdaysParse, llc);
-      return ii !== -1 ? ii : null;
-    }
-    ii = indexOf.call(this._minWeekdaysParse, llc);
-    return ii !== -1 ? ii : null;
-  }
-  if (format === 'dddd') {
-    ii = indexOf.call(this._weekdaysParse, llc);
-    if (ii !== -1) {
-      return ii;
-    }
-    ii = indexOf.call(this._shortWeekdaysParse, llc);
-    if (ii !== -1) {
-      return ii;
-    }
-    ii = indexOf.call(this._minWeekdaysParse, llc);
-    return ii !== -1 ? ii : null;
-  } else if (format === 'ddd') {
-    ii = indexOf.call(this._shortWeekdaysParse, llc);
-    if (ii !== -1) {
-      return ii;
-    }
-    ii = indexOf.call(this._weekdaysParse, llc);
-    if (ii !== -1) {
-      return ii;
-    }
-    ii = indexOf.call(this._minWeekdaysParse, llc);
-    return ii !== -1 ? ii : null;
-  }
-  ii = indexOf.call(this._minWeekdaysParse, llc);
-  if (ii !== -1) {
-    return ii;
-  }
-  ii = indexOf.call(this._weekdaysParse, llc);
-  if (ii !== -1) {
-    return ii;
-  }
-  ii = indexOf.call(this._shortWeekdaysParse, llc);
-  return ii !== -1 ? ii : null;
-}
-
-function computeMonthsParse() {
-  function cmpLenRev(a, b) {
-    return b.length - a.length;
-  }
-
-  var shortPieces = [];
-  var longPieces = [];
-  var mixedPieces = [];
-  var i = void 0;
-  var mom = void 0;
-
-  for (i = 0; i < 12; i++) {
-    // make the regex if we don't have it already
-    mom = createUTC([2000, i]);
-    shortPieces.push(this.monthsShort(mom, ''));
-    longPieces.push(this.months(mom, ''));
-    mixedPieces.push(this.months(mom, ''));
-    mixedPieces.push(this.monthsShort(mom, ''));
-  }
-  // Sorting makes sure if one month (or abbr) is a prefix of another it
-  // will match the longer piece.
-  shortPieces.sort(cmpLenRev);
-  longPieces.sort(cmpLenRev);
-  mixedPieces.sort(cmpLenRev);
-  for (i = 0; i < 12; i++) {
-    shortPieces[i] = regexEscape(shortPieces[i]);
-    longPieces[i] = regexEscape(longPieces[i]);
-  }
-  for (i = 0; i < 24; i++) {
-    mixedPieces[i] = regexEscape(mixedPieces[i]);
-  }
-
-  this._monthsRegex = new RegExp('^(' + mixedPieces.join('|') + ')', 'i');
-  this._monthsShortRegex = this._monthsRegex;
-  this._monthsStrictRegex = new RegExp('^(' + longPieces.join('|') + ')', 'i');
-  this._monthsShortStrictRegex = new RegExp('^(' + shortPieces.join('|') + ')', 'i');
-}
-
-function computeWeekdaysParse() {
-  function cmpLenRev(a, b) {
-    return b.length - a.length;
-  }
-
-  var minPieces = [];
-  var shortPieces = [];
-  var longPieces = [];
-  var mixedPieces = [];
-  var i = void 0;
-  var mom = void 0;
-  var minp = void 0;
-  var shortp = void 0;
-  var longp = void 0;
-
-  for (i = 0; i < 7; i++) {
-    // make the regex if we don't have it already
-    mom = createUTC([2000, 1]).day(i);
-    minp = this.weekdaysMin(mom, '');
-    shortp = this.weekdaysShort(mom, '');
-    longp = this.weekdays(mom, '');
-    minPieces.push(minp);
-    shortPieces.push(shortp);
-    longPieces.push(longp);
-    mixedPieces.push(minp);
-    mixedPieces.push(shortp);
-    mixedPieces.push(longp);
-  }
-  // Sorting makes sure if one weekday (or abbr) is a prefix of another it
-  // will match the longer piece.
-  minPieces.sort(cmpLenRev);
-  shortPieces.sort(cmpLenRev);
-  longPieces.sort(cmpLenRev);
-  mixedPieces.sort(cmpLenRev);
-  for (i = 0; i < 7; i++) {
-    shortPieces[i] = regexEscape(shortPieces[i]);
-    longPieces[i] = regexEscape(longPieces[i]);
-    mixedPieces[i] = regexEscape(mixedPieces[i]);
-  }
-
-  this._weekdaysRegex = new RegExp('^(' + mixedPieces.join('|') + ')', 'i');
-  this._weekdaysShortRegex = this._weekdaysRegex;
-  this._weekdaysMinRegex = this._weekdaysRegex;
-
-  this._weekdaysStrictRegex = new RegExp('^(' + longPieces.join('|') + ')', 'i');
-  this._weekdaysShortStrictRegex = new RegExp('^(' + shortPieces.join('|') + ')', 'i');
-  this._weekdaysMinStrictRegex = new RegExp('^(' + minPieces.join('|') + ')', 'i');
-}
-
 function mergeConfigs(parentConfig, childConfig) {
   var res = extend({}, parentConfig);
-  var prop = void 0;
+  var i = void 0;
+  var j = void 0;
+  var cKeys = keys(childConfig);
+  var cLen = cKeys.length;
+  var pKeys = keys(parentConfig);
+  var pLen = pKeys.length;
 
-  for (prop in childConfig) {
-    if (has(childConfig, prop)) {
-      if (isObject(parentConfig[prop]) && isObject(childConfig[prop])) {
-        res[prop] = {};
-        extend(res[prop], parentConfig[prop]);
-        extend(res[prop], childConfig[prop]);
-      } else if (childConfig[prop] != null) {
-        res[prop] = childConfig[prop];
+  for (i = 0; i < cLen; i += 1) {
+    if (has(childConfig, cKeys[i])) {
+      if (isObject(parentConfig[cKeys[i]]) && isObject(childConfig[cKeys[i]])) {
+        res[cKeys[i]] = {};
+        extend(res[cKeys[i]], parentConfig[cKeys[i]]);
+        extend(res[cKeys[i]], childConfig[cKeys[i]]);
+      } else if (childConfig[cKeys[i]] != null) {
+        res[cKeys[i]] = childConfig[cKeys[i]];
       } else {
-        delete res[prop];
+        delete res[cKeys[i]];
       }
     }
   }
 
-  for (prop in parentConfig) {
-    if (has(parentConfig, prop) && !has(childConfig, prop) && isObject(parentConfig[prop])) {
+  for (j = 0; j < pLen; j += 1) {
+    if (has(parentConfig, cKeys[j]) && !has(childConfig, cKeys[j]) && isObject(parentConfig[cKeys[j]])) {
       // make sure changes to properties don't modify parent config
-      res[prop] = extend({}, res[prop]);
+      res[cKeys[j]] = extend({}, res[cKeys[j]]);
     }
   }
+
   return res;
 }
 
@@ -10661,9 +10373,83 @@ function normalizeLocale(key) {
   return key ? key.toLowerCase().replace('_', '-') : key;
 }
 
+function defineLocale(name, config) {
+  var configCanBeModify = config;
+  if (configCanBeModify !== null) {
+    var parentConfig = baseConfig;
+    configCanBeModify.abbr = name;
+    if (locales[name] != null) {
+      deprecateSimple('defineLocaleOverride', 'use Now.updateLocale(localeName, config) to change ' + 'an existing locale. Now.defineLocale(localeName, ' + 'config) should only be used for creating a new locale');
+
+      parentConfig = locales[name]._config;
+    } else if (configCanBeModify.parentLocale != null) {
+      if (locales[configCanBeModify.parentLocale] != null) {
+        parentConfig = locales[configCanBeModify.parentLocale]._config;
+      } else {
+        if (!localeFamilies[configCanBeModify.parentLocale]) {
+          localeFamilies[configCanBeModify.parentLocale] = [];
+        }
+        localeFamilies[configCanBeModify.parentLocale].push({
+          name: name,
+          configCanBeModify: configCanBeModify
+        });
+        return null;
+      }
+    }
+    locales[name] = new Locale(mergeConfigs(parentConfig, configCanBeModify));
+
+    if (localeFamilies[name]) {
+      localeFamilies[name].forEach(function (x) {
+        defineLocale(x.name, x.config);
+      });
+    }
+
+    // backwards compat for now: also set the locale
+    // make sure we set the locale AFTER all child locales have been
+    // created, so we won't end up with the child locale set.
+    getSetGlobalLocale(name);
+
+    return locales[name];
+  }
+  // useful for testing
+  delete locales[name];
+  return null;
+}
+
+// This function will load locale and then set the global locale.  If
+// no arguments are passed in, it will simply return the current global
+// locale key.
+function getSetGlobalLocale(key, values) {
+  var data = void 0;
+  if (key) {
+    if (isUndefined(values)) {
+      data = getLocale(key);
+    } else {
+      data = defineLocale(key, values);
+    }
+
+    if (data) {
+      globalLocale = data;
+    }
+  }
+
+  // return globalLocale._abbr;
+}
+
+function loadLocale(name) {
+  var oldLocale = null;
+  if (!locales[name]) {
+    oldLocale = globalLocale && globalLocale._abbr;
+    defineLocale(name, i18ns[name]);
+    getSetGlobalLocale(oldLocale);
+  }
+  return locales[name];
+}
+
 // pick the locale from the array
-// try ['en-au', 'en-gb'] as 'en-au', 'en-gb', 'en', as in move through the list trying each
-// substring from most specific to least, but move to the next array item if it's a more specific variant than the current root
+// try ['en-au', 'en-gb'] as 'en-au', 'en-gb', 'en', as in move through the list
+// trying each substring from most specific to least, but move to the next array
+// item if it's a more specific variant than the current root
 function chooseLocale(names) {
   var i = 0;
   var j = void 0;
@@ -10685,97 +10471,49 @@ function chooseLocale(names) {
         // the next array item is better than a shallower substring of this one
         break;
       }
-      j--;
+      j -= 1;
     }
-    i++;
+    i += 1;
   }
 
   return null;
 }
 
-function loadLocale(name) {
-  var oldLocale = null;
-  if (!locales[name]) {
-    oldLocale = globalLocale && globalLocale._abbr;
-    defineLocale(name, i18ns[name]);
-    getSetGlobalLocale(oldLocale);
-  }
-  return locales[name];
-}
+// returns locale data
+function getLocale(key) {
+  var locale = void 0;
+  var keyCanBeModify = key;
 
-// This function will load locale and then set the global locale.  If
-// no arguments are passed in, it will simply return the current global
-// locale key.
-function getSetGlobalLocale(key, values) {
-  var data = void 0;
-  if (key) {
-    if (isUndefined(values)) {
-      data = getLocale(key);
-    } else {
-      data = defineLocale(key, values);
-    }
-
-    if (data) {
-      // moment.duration._locale = moment._locale = data;
-      globalLocale = data;
-    }
+  if (keyCanBeModify && keyCanBeModify._locale && keyCanBeModify._locale._abbr) {
+    keyCanBeModify = keyCanBeModify._locale._abbr;
   }
 
-  // return globalLocale._abbr;
-}
-
-function defineLocale(name, config) {
-  if (config !== null) {
-    var parentConfig = baseConfig;
-    config.abbr = name;
-    if (locales[name] != null) {
-      deprecateSimple('defineLocaleOverride', 'use Now.updateLocale(localeName, config) to change ' + 'an existing locale. Now.defineLocale(localeName, ' + 'config) should only be used for creating a new locale');
-
-      parentConfig = locales[name]._config;
-    } else if (config.parentLocale != null) {
-      if (locales[config.parentLocale] != null) {
-        parentConfig = locales[config.parentLocale]._config;
-      } else {
-        if (!localeFamilies[config.parentLocale]) {
-          localeFamilies[config.parentLocale] = [];
-        }
-        localeFamilies[config.parentLocale].push({
-          name: name,
-          config: config
-        });
-        return null;
-      }
-    }
-    locales[name] = new Locale(mergeConfigs(parentConfig, config));
-
-    if (localeFamilies[name]) {
-      localeFamilies[name].forEach(function (x) {
-        defineLocale(x.name, x.config);
-      });
-    }
-
-    // backwards compat for now: also set the locale
-    // make sure we set the locale AFTER all child locales have been
-    // created, so we won't end up with the child locale set.
-    getSetGlobalLocale(name);
-
-    return locales[name];
+  if (!keyCanBeModify) {
+    return globalLocale;
   }
-  // useful for testing
-  delete locales[name];
-  return null;
+
+  if (!isArray(keyCanBeModify)) {
+    // short-circuit everything else
+    locale = loadLocale(keyCanBeModify);
+    if (locale) {
+      return locale;
+    }
+    keyCanBeModify = [keyCanBeModify];
+  }
+
+  return chooseLocale(keyCanBeModify);
 }
 
 function updateLocale(name, config) {
-  if (config != null) {
-    var locale = void 0;
+  var configCanBeModify = config;
+  if (configCanBeModify != null) {
     var parentConfig = baseConfig;
     // MERGE
     if (locales[name] != null) {
       parentConfig = locales[name]._config;
     }
-    config = mergeConfigs(parentConfig, config);
-    locale = new Locale(config);
+    configCanBeModify = mergeConfigs(parentConfig, configCanBeModify);
+    var locale = new Locale(configCanBeModify);
     locale.parentLocale = locales[name];
     locales[name] = locale;
 
@@ -10783,6 +10521,7 @@ function updateLocale(name, config) {
     getSetGlobalLocale(name);
   } else {
     // pass null for config to unupdate, useful for tests
+    /* eslint no-lonely-if: 0 */
     if (locales[name] != null) {
       if (locales[name].parentLocale != null) {
         locales[name] = locales[name].parentLocale;
@@ -10794,32 +10533,8 @@ function updateLocale(name, config) {
   return locales[name];
 }
 
-// returns locale data
-function getLocale(key) {
-  var locale = void 0;
-
-  if (key && key._locale && key._locale._abbr) {
-    key = key._locale._abbr;
-  }
-
-  if (!key) {
-    return globalLocale;
-  }
-
-  if (!isArray(key)) {
-    // short-circuit everything else
-    locale = loadLocale(key);
-    if (locale) {
-      return locale;
-    }
-    key = [key];
-  }
-
-  return chooseLocale(key);
-}
-
 var listLocales = function listLocales() {
-  return keys(locales);
+  return keys(i18ns);
 };
 
 var daysInYear = function daysInYear(year) {
@@ -10827,8 +10542,8 @@ var daysInYear = function daysInYear(year) {
 };
 
 var createUTCDate = function createUTCDate() {
-  for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-    args[_key] = arguments[_key];
+  for (var _len3 = arguments.length, args = Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
+    args[_key3] = arguments[_key3];
   }
 
   return new Date(Date.UTC.apply(null, args));
@@ -10868,6 +10583,12 @@ var dayOfYearFromWeeks = function dayOfYearFromWeeks(year, week, weekday, dow, d
   };
 };
 
+var weeksInYear = function weeksInYear(year, dow, doy) {
+  var weekOffset = firstWeekOffset(year, dow, doy);
+  var weekOffsetNext = firstWeekOffset(year + 1, dow, doy);
+  return (daysInYear(year) - weekOffset + weekOffsetNext) / 7;
+};
+
 var weekOfYear = function weekOfYear(mom, dow, doy) {
   var weekOffset = firstWeekOffset(mom.year(), dow, doy);
   var week = Math.floor((mom.dayOfYear() - weekOffset - 1) / 7) + 1;
@@ -10891,24 +10612,6 @@ var weekOfYear = function weekOfYear(mom, dow, doy) {
   };
 };
 
-var weeksInYear = function weeksInYear(year, dow, doy) {
-  var weekOffset = firstWeekOffset(year, dow, doy);
-  var weekOffsetNext = firstWeekOffset(year + 1, dow, doy);
-  return (daysInYear(year) - weekOffset + weekOffsetNext) / 7;
-};
-
-function getSetWeekYearHelper(input, week, weekday, dow, doy) {
-  var weeksTarget = void 0;
-  if (input == null) {
-    return weekOfYear(this, dow, doy).year;
-  }
-  weeksTarget = weeksInYear(input, dow, doy);
-  if (week > weeksTarget) {
-    week = weeksTarget;
-  }
-  return setWeekAll.call(this, input, week, weekday, dow, doy);
-}
-
 function setWeekAll(weekYear, week, weekday, dow, doy) {
   var dayOfYearData = dayOfYearFromWeeks(weekYear, week, weekday, dow, doy);
   var date = createUTCDate(dayOfYearData.year, 0, dayOfYearData.dayOfYear);
@@ -10919,6 +10622,19 @@ function setWeekAll(weekYear, week, weekday, dow, doy) {
   return this;
 }
 
+function getSetWeekYearHelper(input, week, weekday, dow, doy) {
+  var weekCanBeModify = week;
+
+  if (input == null) {
+    return weekOfYear(this, dow, doy).year;
+  }
+  var weeksTarget = weeksInYear(input, dow, doy);
+  if (weekCanBeModify > weeksTarget) {
+    weekCanBeModify = weeksTarget;
+  }
+  return setWeekAll.call(this, input, weekCanBeModify, weekday, dow, doy);
+}
+
 var parseIsoWeekday = function parseIsoWeekday(input, locale) {
   if (isString(input)) {
     return locale.weekdaysParse(input) % 7 || 7;
@@ -10927,24 +10643,26 @@ var parseIsoWeekday = function parseIsoWeekday(input, locale) {
 };
 
 var parseWeekday = function parseWeekday(input, locale) {
-  if (isString(input)) {
-    return input;
+  var beParse = input;
+  if (isString(beParse)) {
+    return beParse;
   }
 
-  if (!isNaN$1(input)) {
-    return parseInt(input, 10);
+  if (!isNaN$1(beParse)) {
+    return parseInt(beParse, 10);
   }
 
-  input = locale.weekdaysParse(input);
-  if (isNumber(input)) {
-    return input;
+  beParse = locale.weekdaysParse(beParse);
+  if (isNumber(beParse)) {
+    return beParse;
   }
 
   return null;
 };
 
-var formattingTokens = /(\[[^\[]*\])|(\\)?([Hh]mm(ss)?|Mo|MM?M?M?|Do|DDDo|DD?D?D?|ddd?d?|do?|w[o|w]?|W[o|W]?|Qo?|YYYYYY|YYYYY|YYYY|YY|gg(ggg?)?|GG(GGG?)?|e|E|a|A|hh?|HH?|kk?|mm?|ss?|S{1,9}|x|X|zz?|ZZ?|.)/g;
-var localFormattingTokens = /(\[[^\[]*\])|(\\)?(LTS|LT|LL?L?L?|l{1,4})/g;
+/* eslint no-bitwise: ["error", { "allow": ["~"] }] */
+var formattingTokens = /(\[[^[]*\])|(\\)?([Hh]mm(ss)?|Mo|MM?M?M?|Do|DDDo|DD?D?D?|ddd?d?|do?|w[o|w]?|W[o|W]?|Qo?|YYYYYY|YYYYY|YYYY|YY|gg(ggg?)?|GG(GGG?)?|e|E|a|A|hh?|HH?|kk?|mm?|ss?|S{1,9}|x|X|zz?|ZZ?|.)/g;
+var localFormattingTokens = /(\[[^[]*\])|(\\)?(LTS|LT|LL?L?L?|l{1,4})/g;
 
 var removeFormattingTokens = function removeFormattingTokens(input) {
   if (input.match(/\[[\s\S]/)) {
@@ -10971,7 +10689,7 @@ function meridiem(token, lowercase) {
   });
 }
 
-function offset(token, separator) {
+function offsetToken(token, separator) {
   this.addFormatToken(token, 0, 0, function () {
     var offset = this.utcOffset();
     var sign = '+';
@@ -10984,7 +10702,7 @@ function offset(token, separator) {
 }
 
 var Format = function () {
-  function Format(config) {
+  function Format() {
     classCallCheck(this, Format);
 
     this.formattingTokens = formattingTokens;
@@ -11116,8 +10834,8 @@ var Format = function () {
       });
 
       // offset
-      offset.call(this, 'Z', ':');
-      offset.call(this, 'ZZ', '');
+      offsetToken.call(this, 'Z', ':');
+      offsetToken.call(this, 'ZZ', '');
 
       // timestamp
       this.addFormatToken('X', 0, 0, 'unix');
@@ -11137,12 +10855,20 @@ var Format = function () {
       }
       if (padded) {
         this.formatTokenFunctions[padded[0]] = function () {
-          return zeroFill(func.apply(this, arguments), padded[1], padded[2]);
+          for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+            args[_key] = arguments[_key];
+          }
+
+          return zeroFill(func.apply(this, args), padded[1], padded[2]);
         };
       }
       if (ordinal) {
         this.formatTokenFunctions[ordinal] = function () {
-          return this.localeData().ordinal(func.apply(this, arguments), token);
+          for (var _len2 = arguments.length, args = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+            args[_key2] = arguments[_key2];
+          }
+
+          return this.localeData().ordinal(func.apply(this, args), token);
         };
       }
     }
@@ -11150,10 +10876,10 @@ var Format = function () {
     key: 'makeFormatFunction',
     value: function makeFormatFunction(format) {
       var array = format.match(this.formattingTokens);
+      var len = array.length;
       var i = void 0;
-      var length = void 0;
 
-      for (i = 0, length = array.length; i < length; i++) {
+      for (i = 0; i < len; i += 1) {
         if (this.formatTokenFunctions[array[i]]) {
           array[i] = this.formatTokenFunctions[array[i]];
         } else {
@@ -11163,9 +10889,10 @@ var Format = function () {
 
       return function (context) {
         var output = '';
-        var i = void 0;
-        for (i = 0; i < length; i++) {
-          output += isFunction(array[i]) ? array[i].call(context, format) : array[i];
+        var j = 0;
+
+        for (j = 0; j < len; j += 1) {
+          output += isFunction(array[j]) ? array[j].call(context, format) : array[j];
         }
         return output;
       };
@@ -11173,32 +10900,30 @@ var Format = function () {
   }, {
     key: 'formatMoment',
     value: function formatMoment(context, format) {
-      // if (!m.isValid()) {
-      // return m.localeData().invalidDate();
-      // }
+      var f = format;
+      f = this.expandFormat(f, context.localeData());
+      this.formatFunctions[f] = this.formatFunctions[f] || this.makeFormatFunction(f);
 
-      format = this.expandFormat(format, context.localeData());
-      this.formatFunctions[format] = this.formatFunctions[format] || this.makeFormatFunction(format);
-
-      return this.formatFunctions[format](context);
+      return this.formatFunctions[f](context);
     }
   }, {
     key: 'expandFormat',
     value: function expandFormat(format, locale) {
       var i = 5;
+      var f = format;
 
       function replaceLongDateFormatTokens(input) {
         return locale.longDateFormat(input) || input;
       }
 
       this.localFormattingTokens.lastIndex = 0;
-      while (i >= 0 && this.localFormattingTokens.test(format)) {
-        format = format.replace(this.localFormattingTokens, replaceLongDateFormatTokens);
+      while (i >= 0 && this.localFormattingTokens.test(f)) {
+        f = f.replace(this.localFormattingTokens, replaceLongDateFormatTokens);
         this.localFormattingTokens.lastIndex = 0;
         i -= 1;
       }
 
-      return format;
+      return f;
     }
   }]);
   return Format;
@@ -11206,7 +10931,9 @@ var Format = function () {
 
 var format$1 = new Format();
 
+/* eslint no-underscore-dangle: ["error", { "allowAfterThis": true} ] */
 var round = Math.round;
+
 var thresholds = {
   ss: 44, // a few seconds to seconds
   s: 45, // seconds to minute
@@ -11216,14 +10943,19 @@ var thresholds = {
   M: 11 // months to year
 };
 
+function substituteTimeAgo(string, number, withoutSuffix, isFuture, locale) {
+  return locale.relativeTime(number || 1, !!withoutSuffix, string, isFuture);
+}
+
 var Duration = function () {
   function Duration(val) {
     classCallCheck(this, Duration);
 
-    val || (val = 0);
-    val = isNumber(parseInt(val, 10)) ? val : 0;
+    var d = val;
+    d = d || (d = 0);
+    d = isNumber(parseInt(d, 10)) ? d : 0;
     this._data = {};
-    this._milliSeconds = val;
+    this._milliSeconds = d;
     this.init();
   }
 
@@ -11231,27 +10963,29 @@ var Duration = function () {
     key: 'init',
     value: function init() {
       var millis = this._milliSeconds;
-      var seconds = void 0;
-      var minutes = void 0;
-      var hours = void 0;
+      var seconds = absFloor(millis / SECOND);
+      var minutes = absFloor(millis / MINUTE);
+      var hours = absFloor(millis / HOUR);
       var days = void 0;
-      var monthsFromDays = void 0;
+      var months = void 0;
 
       this._data.milliSeconds = millis % SECOND;
-      seconds = absFloor(millis / SECOND);
       this._data.seconds = seconds % 60;
-      minutes = absFloor(millis / MINUTE);
       this._data.minutes = minutes % 60;
-      hours = absFloor(millis / HOUR);
+
       this._data.hours = hours % 24;
       days = absFloor(hours / 24);
 
-      monthsFromDays = absFloor(daysToMonths(days));
+      var monthsFromDays = absFloor(daysToMonths(days));
+      months = monthsFromDays;
       days -= absCeil(monthsToDays(monthsFromDays));
 
+      var years = absFloor(months / 12);
+      months %= 12;
+
       this._data.days = days;
-      this._data.months = days;
-      this._data.years = days;
+      this._data.months = months;
+      this._data.years = years;
     }
   }, {
     key: 'valueOf',
@@ -11259,48 +10993,23 @@ var Duration = function () {
       return this.value;
     }
   }, {
-    key: 'abs',
-    value: function abs() {
-      var mathAbs = Math.abs;
-      var data = this._data;
-
-      this._milliSeconds = mathAbs(this._milliSeconds);
-
-      this._data.milliSeconds = mathAbs(data.milliSeconds);
-      this._data.seconds = mathAbs(data.seconds);
-      this._data.minutes = mathAbs(data.minutes);
-      this._data.hours = mathAbs(data.hours);
-      this._data.days = mathAbs(data.days);
-      this._data.months = mathAbs(data.months);
-      this._data.years = mathAbs(data.years);
-
-      return this;
-    }
-
-    // helper function for moment.fn.from, moment.fn.fromNow, and moment.duration.fn.humanize
-
-  }, {
-    key: 'substituteTimeAgo',
-    value: function substituteTimeAgo(string, number, withoutSuffix, isFuture, locale) {
-      return locale.relativeTime(number || 1, !!withoutSuffix, string, isFuture);
-    }
-  }, {
     key: 'relativeTime',
     value: function relativeTime(withoutSuffix, locale) {
-      // this.abs();
-      var seconds = this.seconds();
-      var minutes = this.minutes();
-      var hours = this.hours();
-      var days = this.days();
-      var months = this.months();
-      var years = this.years();
+      var mathAbs = Math.abs;
+
+      var seconds = mathAbs(this.seconds());
+      var minutes = mathAbs(this.minutes());
+      var hours = mathAbs(this.hours());
+      var days = mathAbs(this.days());
+      var months = mathAbs(this.months());
+      var years = mathAbs(this.years());
 
       var a = seconds <= thresholds.ss && ['s', seconds] || seconds < thresholds.s && ['ss', seconds] || minutes <= 1 && ['m'] || minutes < thresholds.m && ['mm', minutes] || hours <= 1 && ['h'] || hours < thresholds.h && ['hh', hours] || days <= 1 && ['d'] || days < thresholds.d && ['dd', days] || months <= 1 && ['M'] || months < thresholds.M && ['MM', months] || years <= 1 && ['y'] || ['yy', years];
 
       a[2] = withoutSuffix;
       a[3] = +this > 0;
       a[4] = locale;
-      return this.substituteTimeAgo.apply(null, a);
+      return substituteTimeAgo.apply(undefined, toConsumableArray(a));
     }
   }, {
     key: 'human',
@@ -11404,6 +11113,20 @@ function offsetFromString(matcher, string) {
   return minutes === 0 ? 0 : parts[0] === '+' ? minutes : -minutes;
 }
 
+function compare(date1, date2) {
+  if (isUndefined(date1) || isUndefined(date2)) {
+    throw new Error('arguments can not be undefined');
+  } else if (!(isDate(date1) && isDate(date2))) {
+    throw new TypeError('arguments require Date type');
+  } else {
+    return date1 < date2 ? -1 : date1 > date2 ? 1 : 0;
+  }
+}
+
+var getDateOffset = function getDateOffset(date) {
+  return -Math.round(date.getTimezoneOffset() / 15) * 15;
+};
+
 var Now$1 = function () {
   function Now() {
     classCallCheck(this, Now);
@@ -11416,7 +11139,7 @@ var Now$1 = function () {
 
     this.now = new (Function.prototype.bind.apply(Date, [null].concat(args)))();
     if (invalidDateRegExp.test(this.now)) {
-      throw new TypeError(invalidDateError);
+      throw new Error(invalidDateError);
     }
     this._format = format$1;
     this._duration = Duration;
@@ -11473,7 +11196,7 @@ var Now$1 = function () {
           if (index === 0) {
             _offset = 7;
           }
-          dayObj = that.computeBeginningOfWeek().addDays(-(7 - _offset));
+          dayObj = that.beginningOfWeek('self').addDays(-(7 - _offset));
           return val && val === 'self' ? dayObj : dayObj.format('YYYY-MM-DD HH:mm:ss');
         }
         // today is not sunday, so get after sunday
@@ -11481,7 +11204,7 @@ var Now$1 = function () {
         if (index === 0) {
           offset = 7;
         }
-        dayObj = that.computeBeginningOfWeek().addDays(offset);
+        dayObj = that.beginningOfWeek('self').addDays(offset);
         return val && val === 'self' ? dayObj : dayObj.format('YYYY-MM-DD HH:mm:ss');
       };
     }
@@ -11631,48 +11354,63 @@ var Now$1 = function () {
   }, {
     key: 'addMilliSeconds',
     value: function addMilliSeconds(value) {
-      this.date.setMilliseconds(this.date.getMilliseconds() + value);
+      var val = value || 0;
+      this.date.setMilliseconds(this.date.getMilliseconds() + val);
       return this;
     }
   }, {
     key: 'addSeconds',
     value: function addSeconds(value) {
-      this.date.setSeconds(this.date.getSeconds() + value);
+      var val = value || 0;
+      this.date.setSeconds(this.date.getSeconds() + val);
       return this;
     }
   }, {
     key: 'addMinutes',
     value: function addMinutes(value) {
-      this.date.setMinutes(this.date.getMinutes() + value);
+      var val = value || 0;
+      this.date.setMinutes(this.date.getMinutes() + val);
       return this;
     }
   }, {
     key: 'addHours',
     value: function addHours(value) {
-      this.date.setHours(this.date.getHours() + value);
+      var val = value || 0;
+      this.date.setHours(this.date.getHours() + val);
       return this;
     }
   }, {
     key: 'addDays',
     value: function addDays(value) {
-      this.date.setDate(this.date.getDate() + value);
+      var val = value || 0;
+      this.date.setDate(this.date.getDate() + val);
       return this;
     }
   }, {
     key: 'addWeeks',
     value: function addWeeks(value) {
-      return this.date.addDays(7 * value);
+      var val = value || 0;
+      return this.addDays(7 * val);
     }
   }, {
     key: 'addMonths',
     value: function addMonths(value) {
-      this.date.setMonth(this.date.getMonth() + value);
+      var val = value || 0;
+      this.date.setMonth(this.date.getMonth() + val);
+      return this;
+    }
+  }, {
+    key: 'addQuarters',
+    value: function addQuarters(value) {
+      var val = value || 0;
+      this.date.setMonth(this.date.getMonth() + val * 3);
       return this;
     }
   }, {
     key: 'addYears',
     value: function addYears(value) {
-      this.date.setFullYear(this.date.getFullYear() + value);
+      var val = value || 0;
+      this.date.setFullYear(this.date.getFullYear() + val);
       return this;
     }
   }, {
@@ -11720,6 +11458,11 @@ var Now$1 = function () {
           context.setSeconds(0);
           context.setMilliseconds(0);
           return this;
+        case 'second':
+          context.setMilliseconds(0);
+          return this;
+        case 'milliSecond':
+          return this;
         default:
           return this;
       }
@@ -11730,21 +11473,6 @@ var Now$1 = function () {
       var formatStr = str || (this.isUtc() ? defaultFormatUtc : defaultFormat);
       var output = this._format.formatMoment(this, formatStr);
       return output;
-    }
-  }, {
-    key: 'computeBeginningOfMinute',
-    value: function computeBeginningOfMinute() {
-      return this.clone().truncate('minute');
-    }
-  }, {
-    key: 'computeBeginningOfHour',
-    value: function computeBeginningOfHour() {
-      return this.clone().truncate('hour');
-    }
-  }, {
-    key: 'computeBeginningOfDay',
-    value: function computeBeginningOfDay() {
-      return this.clone().truncate('day');
     }
   }, {
     key: 'computeBeginningOfWeek',
@@ -11762,36 +11490,28 @@ var Now$1 = function () {
       return clone.truncate('day');
     }
   }, {
-    key: 'computeBeginningOfMonth',
-    value: function computeBeginningOfMonth() {
-      return this.clone().truncate('month');
-    }
-  }, {
-    key: 'computeBeginningOfQuarter',
-    value: function computeBeginningOfQuarter() {
-      var clone = this.clone().computeBeginningOfMonth();
-      var offset = clone.date.getMonth() % 3;
-      return clone.addMonths(-offset);
-    }
-  }, {
-    key: 'computeBeginningOfYear',
-    value: function computeBeginningOfYear() {
-      return this.clone().truncate('year');
+    key: 'beginningOfSecond',
+    value: function beginningOfSecond(val) {
+      var computed = this.clone().truncate('second');
+      return val && val === 'self' ? computed : computed.format('YYYY-MM-DD HH:mm:ss.SSS');
     }
   }, {
     key: 'beginningOfMinute',
     value: function beginningOfMinute(val) {
-      return val && val === 'self' ? this.computeBeginningOfMinute() : this.computeBeginningOfMinute().format('YYYY-MM-DD HH:mm:ss');
+      var computed = this.clone().truncate('minute');
+      return val && val === 'self' ? computed : computed.format('YYYY-MM-DD HH:mm:ss');
     }
   }, {
     key: 'beginningOfHour',
     value: function beginningOfHour(val) {
-      return val && val === 'self' ? this.computeBeginningOfHour() : this.computeBeginningOfHour().format('YYYY-MM-DD HH:mm:ss');
+      var computed = this.clone().truncate('hour');
+      return val && val === 'self' ? computed : computed.format('YYYY-MM-DD HH:mm:ss');
     }
   }, {
     key: 'beginningOfDay',
     value: function beginningOfDay(val) {
-      return val && val === 'self' ? this.computeBeginningOfDay() : this.computeBeginningOfDay().format('YYYY-MM-DD HH:mm:ss');
+      var computed = this.clone().truncate('day');
+      return val && val === 'self' ? computed : computed.format('YYYY-MM-DD HH:mm:ss');
     }
   }, {
     key: 'beginningOfWeek',
@@ -11801,34 +11521,45 @@ var Now$1 = function () {
   }, {
     key: 'beginningOfMonth',
     value: function beginningOfMonth(val) {
-      return val && val === 'self' ? this.computeBeginningOfMonth() : this.computeBeginningOfMonth().format('YYYY-MM-DD HH:mm:ss');
+      var computed = this.clone().truncate('month');
+      return val && val === 'self' ? computed : computed.format('YYYY-MM-DD HH:mm:ss');
     }
   }, {
     key: 'beginningOfQuarter',
     value: function beginningOfQuarter(val) {
-      return val && val === 'self' ? this.computeBeginningOfQuarter() : this.computeBeginningOfQuarter().format('YYYY-MM-DD HH:mm:ss');
+      var clone = this.clone().beginningOfMonth('self');
+      var offset = clone.date.getMonth() % 3;
+      var computed = clone.addMonths(-offset);
+      return val && val === 'self' ? computed : computed.format('YYYY-MM-DD HH:mm:ss');
     }
   }, {
     key: 'beginningOfYear',
     value: function beginningOfYear(val) {
-      return val && val === 'self' ? this.computeBeginningOfYear() : this.computeBeginningOfYear().format('YYYY-MM-DD HH:mm:ss');
+      var computed = this.clone().truncate('year');
+      return val && val === 'self' ? computed : computed.format('YYYY-MM-DD HH:mm:ss');
+    }
+  }, {
+    key: 'endOfSecond',
+    value: function endOfSecond(val) {
+      var clone = this.clone().beginningOfSecond('self').addMilliSeconds(SECOND - 1);
+      return val && val === 'self' ? clone : clone.format('YYYY-MM-DD HH:mm:ss.SSS');
     }
   }, {
     key: 'endOfMinute',
     value: function endOfMinute(val) {
-      var clone = this.clone().computeBeginningOfMinute().addMilliSeconds(MINUTE - 1);
+      var clone = this.clone().beginningOfMinute('self').addMilliSeconds(MINUTE - 1);
       return val && val === 'self' ? clone : clone.format('YYYY-MM-DD HH:mm:ss.SSS');
     }
   }, {
     key: 'endOfHour',
     value: function endOfHour(val) {
-      var clone = this.clone().computeBeginningOfHour().addMilliSeconds(HOUR - 1);
+      var clone = this.clone().beginningOfHour('self').addMilliSeconds(HOUR - 1);
       return val && val === 'self' ? clone : clone.format('YYYY-MM-DD HH:mm:ss.SSS');
     }
   }, {
     key: 'endOfDay',
     value: function endOfDay(val) {
-      var clone = this.clone().computeBeginningOfDay().addMilliSeconds(DAY - 1);
+      var clone = this.clone().beginningOfDay('self').addMilliSeconds(DAY - 1);
       return val && val === 'self' ? clone : clone.format('YYYY-MM-DD HH:mm:ss.SSS');
     }
   }, {
@@ -11836,31 +11567,32 @@ var Now$1 = function () {
     value: function endOfWeek(val) {
       var clone = this.clone();
       clone.firstDayMonday = this.firstDayMonday;
-      var computed = clone.computeBeginningOfWeek().addMilliSeconds(7 * DAY - 1);
+      var computed = clone.beginningOfWeek('self').addMilliSeconds(7 * DAY - 1);
       return val && val === 'self' ? computed : computed.format('YYYY-MM-DD HH:mm:ss.SSS');
     }
   }, {
     key: 'endOfMonth',
     value: function endOfMonth(val) {
-      var clone = this.clone().computeBeginningOfMonth().addMonths(1).addMilliSeconds(-1);
+      var clone = this.clone().beginningOfMonth('self').addMonths(1).addMilliSeconds(-1);
       return val && val === 'self' ? clone : clone.format('YYYY-MM-DD HH:mm:ss.SSS');
     }
   }, {
     key: 'endOfQuarter',
     value: function endOfQuarter(val) {
-      var clone = this.clone().computeBeginningOfQuarter().addMonths(3).addMilliSeconds(-1);
+      var clone = this.clone().beginningOfQuarter('self').addMonths(3).addMilliSeconds(-1);
       return val && val === 'self' ? clone : clone.format('YYYY-MM-DD HH:mm:ss.SSS');
     }
   }, {
     key: 'endOfYear',
     value: function endOfYear(val) {
-      var clone = this.clone().computeBeginningOfYear().addYears(1).addMilliSeconds(-1);
+      var clone = this.clone().beginningOfYear('self').addYears(1).addMilliSeconds(-1);
       return val && val === 'self' ? clone : clone.format('YYYY-MM-DD HH:mm:ss.SSS');
     }
   }, {
     key: 'dayOfYear',
-    value: function dayOfYear() {
-      return Math.round((this.beginningOfDay('self').date - this.beginningOfYear('self').date) / DAY) + 1;
+    value: function dayOfYear(val) {
+      var doy = Math.round((this.beginningOfDay('self').date - this.beginningOfYear('self').date) / DAY) + 1;
+      return +val === 0 || val ? this.addDays(val - doy) : doy;
     }
   }, {
     key: 'toJSON',
@@ -11886,29 +11618,89 @@ var Now$1 = function () {
     }
   }, {
     key: 'isNow',
-    value: function isNow(val) {
-      var now = val || this;
+    value: function isNow() {
+      var now = arguments.length <= 0 ? undefined : arguments[0];
+      if (arguments.length === 0) {
+        now = this;
+      }
       return now instanceof Now;
     }
   }, {
     key: 'isLeapYear',
     value: function isLeapYear$$1() {
-      return isLeapYear(this.year());
+      var year = arguments.length <= 0 ? undefined : arguments[0];
+      if (arguments.length === 0) {
+        year = this.year();
+      } else if (this.isNow(year)) {
+        year = year.year();
+      }
+      return isLeapYear(year);
     }
   }, {
     key: 'isBefore',
-    value: function isBefore(obj) {
-      return compare(this.date, obj) === -1;
+    value: function isBefore() {
+      for (var _len3 = arguments.length, args = Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
+        args[_key3] = arguments[_key3];
+      }
+
+      var len = args.length;
+      var date1 = void 0;
+      var date2 = void 0;
+
+      if (len === 0) {
+        throw new Error('isBefore require at least one argument');
+      } else if (len === 1) {
+        date1 = this.date;
+        date2 = this.isNow(args[0]) ? args[0].date : args[0];
+      } else {
+        date1 = this.isNow(args[0]) ? args[0].date : args[0];
+        date2 = this.isNow(args[1]) ? args[1].date : args[1];
+      }
+      return compare(date1, date2) === -1;
     }
   }, {
     key: 'isAfter',
-    value: function isAfter(obj) {
-      return compare(this.date, obj) === 1;
+    value: function isAfter() {
+      for (var _len4 = arguments.length, args = Array(_len4), _key4 = 0; _key4 < _len4; _key4++) {
+        args[_key4] = arguments[_key4];
+      }
+
+      var len = args.length;
+      var date1 = void 0;
+      var date2 = void 0;
+
+      if (len === 0) {
+        throw new Error('isAfter require at least one argument');
+      } else if (len === 1) {
+        date1 = this.date;
+        date2 = this.isNow(args[0]) ? args[0].date : args[0];
+      } else {
+        date1 = this.isNow(args[0]) ? args[0].date : args[0];
+        date2 = this.isNow(args[1]) ? args[1].date : args[1];
+      }
+      return compare(date1, date2) === 1;
     }
   }, {
     key: 'isEqual',
-    value: function isEqual(obj) {
-      return compare(this.date, obj) === 0;
+    value: function isEqual() {
+      for (var _len5 = arguments.length, args = Array(_len5), _key5 = 0; _key5 < _len5; _key5++) {
+        args[_key5] = arguments[_key5];
+      }
+
+      var len = args.length;
+      var date1 = void 0;
+      var date2 = void 0;
+
+      if (len === 0) {
+        throw new Error('isEqual require at least one argument');
+      } else if (len === 1) {
+        date1 = this.date;
+        date2 = this.isNow(args[0]) ? args[0].date : args[0];
+      } else {
+        date1 = this.isNow(args[0]) ? args[0].date : args[0];
+        date2 = this.isNow(args[1]) ? args[1].date : args[1];
+      }
+      return compare(date1, date2) === 0;
     }
   }, {
     key: 'toArray',
@@ -11934,18 +11726,33 @@ var Now$1 = function () {
       var _this = this;
 
       var result = Infinity;
+      var resultIndex = void 0;
 
-      for (var _len3 = arguments.length, args = Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
-        args[_key3] = arguments[_key3];
+      for (var _len6 = arguments.length, args = Array(_len6), _key6 = 0; _key6 < _len6; _key6++) {
+        args[_key6] = arguments[_key6];
       }
 
-      var compares = args;
+      var original = args;
       var index = 0;
-      var len = compares.length;
+      var len = original.length;
+
       if (len === 0) {
         throw new Error('min require at least one argument');
       }
-      compares = compares.map(function (value) {
+      // args length is 1, add this
+      if (len === 1) {
+        if (isArray(original)) {
+          original = flatten(original);
+          len = original.length;
+        }
+        if (len === 0) {
+          throw new Error('min require at least one argument in the array');
+        } else if (len === 1) {
+          original.unshift(this);
+          len += 1;
+        }
+      }
+      var compares = original.map(function (value) {
         if (_this.isNow(value)) {
           return value.date;
         }
@@ -11957,14 +11764,15 @@ var Now$1 = function () {
       if (some) {
         throw new TypeError('some arguments not of Date type or Now instance');
       }
-      compares = [this.date].concat(compares);
-      while (index < len + 1) {
+      while (index < len) {
         if (+compares[index] < result) {
           result = compares[index];
+          resultIndex = index;
         }
         index += 1;
       }
-      return result;
+      // return the original
+      return original[resultIndex];
     }
   }, {
     key: 'max',
@@ -11972,18 +11780,33 @@ var Now$1 = function () {
       var _this2 = this;
 
       var result = -Infinity;
+      var resultIndex = void 0;
 
-      for (var _len4 = arguments.length, args = Array(_len4), _key4 = 0; _key4 < _len4; _key4++) {
-        args[_key4] = arguments[_key4];
+      for (var _len7 = arguments.length, args = Array(_len7), _key7 = 0; _key7 < _len7; _key7++) {
+        args[_key7] = arguments[_key7];
       }
 
-      var compares = args;
+      var original = args;
       var index = 0;
-      var len = compares.length;
+      var len = original.length;
+
       if (len === 0) {
         throw new Error('max require at least one argument');
       }
-      compares = compares.map(function (value) {
+      // args length is 1, add this
+      if (len === 1) {
+        if (isArray(original)) {
+          original = flatten(original);
+          len = original.length;
+        }
+        if (len === 0) {
+          throw new Error('max require at least one argument in the array');
+        } else if (len === 1) {
+          original.unshift(this);
+          len += 1;
+        }
+      }
+      var compares = original.map(function (value) {
         if (_this2.isNow(value)) {
           return value.date;
         }
@@ -11995,14 +11818,15 @@ var Now$1 = function () {
       if (some) {
         throw new TypeError('some arguments not of Date type or Now instance');
       }
-      compares = [this.date].concat(compares);
-      while (index < len + 1) {
+      while (index < len) {
         if (+compares[index] > result) {
           result = compares[index];
+          resultIndex = index;
         }
         index += 1;
       }
-      return result;
+      // return the original
+      return original[resultIndex];
     }
   }, {
     key: 'between',
@@ -12010,7 +11834,7 @@ var Now$1 = function () {
       var compareDate1 = date1;
       var compareDate2 = date2;
       if (isUndefined(compareDate1) || isUndefined(compareDate2)) {
-        throw new Error('arguments must be defined');
+        throw new Error('between require two arguments');
       }
       if (this.isNow(compareDate1)) {
         compareDate1 = compareDate1.date;
@@ -12051,20 +11875,24 @@ var Now$1 = function () {
   }, {
     key: 'elapse',
     value: function elapse(date) {
-      var now = void 0;
       var subs = void 0;
+      var now = new Date();
 
       if (date) {
-        now = new Date();
         if (this.isNow(date)) {
           subs = minus(date.date, now);
         } else {
           subs = minus(date, now);
         }
+      } else {
+        subs = minus(this.date, now);
       }
-      now = new Date();
-      subs = minus(this.date, now);
       return new this._duration(subs).human(this, true);
+    }
+  }, {
+    key: 'timeAgo',
+    value: function timeAgo(date) {
+      return this.elapse(date);
     }
 
     // return the time elapsed since date
@@ -12090,11 +11918,6 @@ var Now$1 = function () {
       return this.sub(now, dateObj);
     }
   }, {
-    key: 'getDateOffset',
-    value: function getDateOffset() {
-      return -Math.round(this.date.getTimezoneOffset() / 15) * 15;
-    }
-  }, {
     key: 'utcOffset',
     value: function utcOffset(input, keepLocalTime, keepMinutes) {
       var offset = this._offset || 0;
@@ -12111,7 +11934,7 @@ var Now$1 = function () {
           minutes *= 60;
         }
         if (!this._isUTC && keepLocalTime) {
-          localAdjust = this.getDateOffset();
+          localAdjust = getDateOffset(this.date);
         }
         this._offset = minutes;
         this._isUTC = true;
@@ -12125,7 +11948,7 @@ var Now$1 = function () {
         }
         return this;
       }
-      return this._isUTC ? offset : this.getDateOffset();
+      return this._isUTC ? offset : getDateOffset(this.date);
     }
   }, {
     key: 'utc',
@@ -12140,7 +11963,7 @@ var Now$1 = function () {
         this._isUTC = false;
 
         if (keepLocalTime) {
-          this.addMinutes(-this.getDateOffset());
+          this.addMinutes(-getDateOffset(this.date));
         }
       }
       return this;
