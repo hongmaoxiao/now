@@ -28,6 +28,7 @@ export const SECOND = 1000;
 export const MINUTE = 60 * SECOND;
 export const HOUR = 60 * MINUTE;
 export const DAY = 24 * HOUR;
+const MAX_ARRAY_INDEX = 2 ** 53 - 1;
 export const slice = ArrayProto.slice;
 export const invalidDateError = 'Invalid Date';
 export const invalidDateRegExp = /Invalid Date/;
@@ -72,6 +73,49 @@ export function isObject(value) {
   return value != null && Object.prototype.toString.call(value) === '[object Object]';
 }
 
+export function isArguments(value) {
+  return toString.call(value) === '[object Arguments]';
+}
+
+const isArrayLike = (obj) => {
+  const len = obj.length;
+  return typeof len === 'number' && len >= 0 && len < MAX_ARRAY_INDEX;
+};
+
+const baseFlatten = (input, shallow, strict, output) => {
+  const res = output || [];
+  const inputLen = input.length;
+  let idx = res.length;
+  let i;
+
+  for (i = 0; i < inputLen; i += 1) {
+    const value = input[i];
+
+    if ((isArrayLike(value) && isArray(value)) || isArguments(value)) {
+      if (shallow) {
+        let j = 0;
+        const len = value.length;
+
+        while (j < len) {
+          res[idx] = value[j];
+          idx += 1;
+          j += 1;
+        }
+      } else {
+        baseFlatten(value, shallow, strict, res);
+        idx = res.length;
+      }
+    } else if (!strict) {
+      res[idx] = value;
+      idx += 1;
+    }
+  }
+
+  return res;
+};
+
+export const flatten = (array, shallow) => baseFlatten(array, shallow, false);
+
 export function has(obj, key) {
   return hasOwnProperty.call(obj, key);
 }
@@ -113,16 +157,6 @@ export function toInt(number) {
 }
 
 export const isLeapYear = year => (year % 100 !== 0 && year % 4 === 0) || year % 400 === 0;
-
-export function compare(date1, date2) {
-  if (isUndefined(date1) || isUndefined(date2)) {
-    throw new Error('arguments can not be undefined');
-  } else if (!(isDate(date1) && isDate(date2))) {
-    throw new TypeError('arguments require Date type');
-  } else {
-    return (date1 < date2) ? -1 : (date1 > date2) ? 1 : 0;
-  }
-}
 
 export function minus(date1, date2) {
   if (isUndefined(date1) || isUndefined(date2)) {

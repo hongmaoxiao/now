@@ -5,13 +5,14 @@
 import {
   invalidDateError,
   invalidDateRegExp,
-  compare,
   isDate,
   isUndefined,
   isFunction,
   isString,
+  isArray,
   isNumber,
   toInt,
+  flatten,
   minus,
   nativeDatetoISOString,
   getSetGlobalLocale as locale,
@@ -70,6 +71,16 @@ function offsetFromString(matcher, string) {
   return minutes === 0 ?
     0 :
     parts[0] === '+' ? minutes : -minutes;
+}
+
+function compare(date1, date2) {
+  if (isUndefined(date1) || isUndefined(date2)) {
+    throw new Error('arguments can not be undefined');
+  } else if (!(isDate(date1) && isDate(date2))) {
+    throw new TypeError('arguments require Date type');
+  } else {
+    return (date1 < date2) ? -1 : (date1 > date2) ? 1 : 0;
+  }
 }
 
 class Now {
@@ -577,20 +588,65 @@ class Now {
     return now instanceof Now;
   }
 
-  isLeapYear() {
-    return isLeapYear(this.year());
+  isLeapYear(...args) {
+    let year = args[0];
+    if (args.length === 0) {
+      year = this.year();
+    } else if (this.isNow(year)) {
+      year = year.year();
+    }
+    return isLeapYear(year);
   }
 
-  isBefore(obj) {
-    return compare(this.date, obj) === -1;
+  isBefore(...args) {
+    const len = args.length;
+    let date1;
+    let date2;
+
+    if (len === 0) {
+      throw new Error('isBefore require at least one argument');
+    } else if (len === 1) {
+      date1 = this.date;
+      date2 = this.isNow(args[0]) ? args[0].date : args[0];
+    } else {
+      date1 = this.isNow(args[0]) ? args[0].date : args[0];
+      date2 = this.isNow(args[1]) ? args[1].date : args[1];
+    }
+    return compare(date1, date2) === -1;
   }
 
-  isAfter(obj) {
-    return compare(this.date, obj) === 1;
+  isAfter(...args) {
+    const len = args.length;
+    let date1;
+    let date2;
+
+    if (len === 0) {
+      throw new Error('isAfter require at least one argument');
+    } else if (len === 1) {
+      date1 = this.date;
+      date2 = this.isNow(args[0]) ? args[0].date : args[0];
+    } else {
+      date1 = this.isNow(args[0]) ? args[0].date : args[0];
+      date2 = this.isNow(args[1]) ? args[1].date : args[1];
+    }
+    return compare(date1, date2) === 1;
   }
 
-  isEqual(obj) {
-    return compare(this.date, obj) === 0;
+  isEqual(...args) {
+    const len = args.length;
+    let date1;
+    let date2;
+
+    if (len === 0) {
+      throw new Error('isEqual require at least one argument');
+    } else if (len === 1) {
+      date1 = this.date;
+      date2 = this.isNow(args[0]) ? args[0].date : args[0];
+    } else {
+      date1 = this.isNow(args[0]) ? args[0].date : args[0];
+      date2 = this.isNow(args[1]) ? args[1].date : args[1];
+    }
+    return compare(date1, date2) === 0;
   }
 
   toArray() {
@@ -613,19 +669,27 @@ class Now {
   min(...args) {
     let result = Infinity;
     let resultIndex;
-    let compares = args;
+    let original = args;
     let index = 0;
-    let len = compares.length;
+    let len = original.length;
 
     if (len === 0) {
       throw new Error('min require at least one argument');
     }
     // args length is 1, add this
     if (len === 1) {
-      compares.unshift(this);
-      len += 1;
+      if (isArray(original)) {
+        original = flatten(original);
+        len = original.length;
+      }
+      if (len === 0) {
+        throw new Error('min require at least one argument in the array');
+      } else if (len === 1) {
+        original.unshift(this);
+        len += 1;
+      }
     }
-    compares = compares.map((value) => {
+    const compares = original.map((value) => {
       if (this.isNow(value)) {
         return value.date;
       }
@@ -643,7 +707,7 @@ class Now {
       index += 1;
     }
     // return the original
-    return compares[resultIndex];
+    return original[resultIndex];
   }
 
   max(...args) {
