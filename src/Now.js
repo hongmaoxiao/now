@@ -713,19 +713,27 @@ class Now {
   max(...args) {
     let result = -Infinity;
     let resultIndex;
-    let compares = args;
+    let original = args;
     let index = 0;
-    let len = compares.length;
+    let len = original.length;
 
     if (len === 0) {
       throw new Error('max require at least one argument');
     }
     // args length is 1, add this
     if (len === 1) {
-      compares.unshift(this);
-      len += 1;
+      if (isArray(original)) {
+        original = flatten(original);
+        len = original.length;
+      }
+      if (len === 0) {
+        throw new Error('max require at least one argument in the array');
+      } else if (len === 1) {
+        original.unshift(this);
+        len += 1;
+      }
     }
-    compares = compares.map((value) => {
+    const compares = original.map((value) => {
       if (this.isNow(value)) {
         return value.date;
       }
@@ -743,7 +751,7 @@ class Now {
       index += 1;
     }
     // return the original
-    return compares[resultIndex];
+    return original[resultIndex];
   }
 
   between(date1, date2) {
