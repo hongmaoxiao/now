@@ -32,8 +32,8 @@ ul {
 .container {
   position: relative;
   padding: 2em 0;
-  margin: 30px auto;
-  max-width: 500px;
+  margin: 20px auto;
+  max-width: 800px;
 }
 
 .now {
@@ -74,8 +74,23 @@ ul {
   color: #333;
 }
 
+.entry-content {
+  padding: 45px;
+  word-wrap: break-word;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+}
+
+@media screen and (max-width: 1500px) {
+  .container {
+    max-width: 700px;
+  }
+}
+
 @media screen and (max-width: 1200px) {
   .container {
-    margin-left: 250px;
+    margin-left: 260px;
+    max-width: 600px;
   }
 }

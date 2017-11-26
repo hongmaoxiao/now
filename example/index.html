@@ -4,6 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Now demo</title>
+  <link rel="stylesheet" href="./githubmd.css">
   <link rel="stylesheet" href="./index.css">
 </head>
 
@@ -320,18 +321,19 @@
     </div>
   </div>
   <div class="container">
-    <h2 id="now">Now</h2>
-    <h3 id="new-now">new Now([date])</h3>
-    <p>First of all. you should create a Now instance. <strong>date</strong> argument is optional:</p>
-    <pre><code class="lang-javascript">// return the current time
+    <article class="markdown-body entry-content" itemprop="text">
+      <h2 id="now">Now</h2>
+      <h3 id="new-now">new Now([date])</h3>
+      <p>First of all. you should create a Now instance. <strong>date</strong> argument is optional:</p>
+      <pre><code class="lang-javascript">// return the current time
 now = new Now() // "2017-11-25 00:38:41.151" (for readable, not real output)
 
 // same as
 date = new Date() // "2017-11-25 00:38:41.151" (for readable, not real output)
 </code></pre>
-    <p>If <strong>date</strong> is not null, Its value type should be the same as
-      <strong>new Date()</strong>'s agrument. Taht is:</p>
-    <pre><code class="lang-javascript">new Date(value);
+      <p>If <strong>date</strong> is not null, Its value type should be the same as
+        <strong>new Date()</strong>'s agrument. Taht is:</p>
+      <pre><code class="lang-javascript">new Date(value);
 new Date(dateString);
 new Date(year, month, day, hours, minutes, seconds, milliseconds);
 
@@ -344,94 +346,94 @@ now = new Now(2017, 0, 1, 2, 3, 4, 5) // "2017-01-01 02:03:04.005"
 now = new Now(2017, 0, 1) // "2017-01-01 00:00:00.000"
 now = new Now(2017) // "2017-00-00 00:00:00.000"
 </code></pre>
-    <p>If <strong>date</strong> is invalid, throw Invalid Date Error.</p>
-    <pre><code class="lang-javascript">now = new Now('sssss') // Error: Invalid Date
+      <p>If <strong>date</strong> is invalid, throw Invalid Date Error.</p>
+      <pre><code class="lang-javascript">now = new Now('sssss') // Error: Invalid Date
 </code></pre>
-    <h2 id="stactic-functions">Stactic Functions</h2>
-    <h3 id="version">version</h3>
-    <p>Return Now version.</p>
-    <pre><code class="lang-javascript">Now.version // '0.1.0'
+      <h2 id="stactic-functions">Stactic Functions</h2>
+      <h3 id="version">version</h3>
+      <p>Return Now version.</p>
+      <pre><code class="lang-javascript">Now.version // '0.1.0'
 </code></pre>
-    <h3 id="definelocale">defineLocale</h3>
-    <p>Create a locale that inherits from a parent locale.</p>
-    <pre><code class="lang-javascript">Now.defineLocale('en-foo', {
+      <h3 id="definelocale">defineLocale</h3>
+      <p>Create a locale that inherits from a parent locale.</p>
+      <pre><code class="lang-javascript">Now.defineLocale('en-foo', {
   parentLocale: 'en',
   /* */
 });
 </code></pre>
-    <p>Properties that are not specified in the locale will be inherited from the parent locale.</p>
-    <h3 id="updatelocale">updateLocale</h3>
-    <p>Update a locale's properties.</p>
-    <pre><code class="lang-javascript">moment.updateLocale('en', {
+      <p>Properties that are not specified in the locale will be inherited from the parent locale.</p>
+      <h3 id="updatelocale">updateLocale</h3>
+      <p>Update a locale's properties.</p>
+      <pre><code class="lang-javascript">moment.updateLocale('en', {
   /**/
 });
 </code></pre>
-    <h3 id="locales">locales</h3>
-    <p>List all locales are available to use.</p>
-    <pre><code class="lang-javascript">Now.locales() // ["af", "ar-dz", "ar-kw", "ar-ly", "ar-ma"...](118 items)
+      <h3 id="locales">locales</h3>
+      <p>List all locales are available to use.</p>
+      <pre><code class="lang-javascript">Now.locales() // ["af", "ar-dz", "ar-kw", "ar-ly", "ar-ma"...](118 items)
 </code></pre>
-    <h2 id="functions">Functions</h2>
-    <p>If no pecify below. <strong>now = new Now(2017, 0, 1, 2, 3, 4, 5)</strong></p>
-    <h3 id="date">date</h3>
-    <pre><code class="lang-javascript">now.date // Sun Jan 01 2017 02:03:04 GMT+0800 (CST)
+      <h2 id="functions">Functions</h2>
+      <p>If no pecify below. <strong>now = new Now(2017, 0, 1, 2, 3, 4, 5)</strong></p>
+      <h3 id="date">date</h3>
+      <pre><code class="lang-javascript">now.date // Sun Jan 01 2017 02:03:04 GMT+0800 (CST)
 
 // same as:
 var date = new Date(2017, 0, 1, 2, 3, 4, 5) // "Sun Jan 01 2017 02:03:04 GMT+0800 (CST)"
 </code></pre>
-    <h3 id="value">value</h3>
-    <p>Returns the number of milliseconds between 1 January 1970 00:00:00 UTC and the <strong>now.date</strong>.</p>
-    <pre><code class="lang-javascript">now.value // 1483207384005
+      <h3 id="value">value</h3>
+      <p>Returns the number of milliseconds between 1 January 1970 00:00:00 UTC and the <strong>now.date</strong>.</p>
+      <pre><code class="lang-javascript">now.value // 1483207384005
 
 // same as:
 var date = new Date(2017, 0, 1, 2, 3, 4, 5)
 date.valueOf() // 1483207384005
 </code></pre>
-    <h3 id="valueof">valueOf()</h3>
-    <p>same as <strong>value</strong></p>
-    <h3 id="unix">unix()</h3>
-    <p>Returns the number of seconds between 1 January 1970 00:00:00 UTC and the <strong>now.date</strong>.</p>
-    <pre><code class="lang-javascript">now.unix() // 1483207384
+      <h3 id="valueof">valueOf()</h3>
+      <p>same as <strong>value</strong></p>
+      <h3 id="unix">unix()</h3>
+      <p>Returns the number of seconds between 1 January 1970 00:00:00 UTC and the <strong>now.date</strong>.</p>
+      <pre><code class="lang-javascript">now.unix() // 1483207384
 
 // same as:
 now.valueOf() / 1000
 </code></pre>
-    <h3 id="tostring">toString()</h3>
-    <p>Returns a string representing the specified <strong>now.date</strong> Object.</p>
-    <pre><code class="lang-javascript">now.toString() // "Sun Jan 01 2017 02:03:04 GMT+0800 (CST)"
+      <h3 id="tostring">toString()</h3>
+      <p>Returns a string representing the specified <strong>now.date</strong> Object.</p>
+      <pre><code class="lang-javascript">now.toString() // "Sun Jan 01 2017 02:03:04 GMT+0800 (CST)"
 
 // same as:
 var date = new Date(2017, 0, 1, 2, 3, 4, 5)
 date.toString() Returns a string representing the specified Date object.
 </code></pre>
-    <h3 id="toisostring">toISOString()</h3>
-    <p>Formats a string to the ISO8601 standard.</p>
-    <pre><code class="lang-javascript">now.toISOString() // "2016-12-31T18:03:04.005Z"
+      <h3 id="toisostring">toISOString()</h3>
+      <p>Formats a string to the ISO8601 standard.</p>
+      <pre><code class="lang-javascript">now.toISOString() // "2016-12-31T18:03:04.005Z"
 </code></pre>
-    <p>Note that <strong>.toISOString()</strong> always returns a timestamp in UTC, even if the Now in question is in local mode. This is done to provide consistency with the specification for native JavaScript Date <strong>.toISOString()</strong>. The native
-      Date.prototype.toISOString is used if available, for performance reasons.
-    </p>
-    <h3 id="tojson">toJson()</h3>
-    <p>When serializing an object to JSON, if there is a <strong>Now</strong> object, it will be represented as an ISO8601 string, adjusted to UTC.</p>
-    <pre><code class="lang-javascript">JSON.stringify({
+      <p>Note that <strong>.toISOString()</strong> always returns a timestamp in UTC, even if the Now in question is in local mode. This is done to provide consistency with the specification for native JavaScript Date <strong>.toISOString()</strong>. The
+        native Date.prototype.toISOString is used if available, for performance reasons.
+      </p>
+      <h3 id="tojson">toJson()</h3>
+      <p>When serializing an object to JSON, if there is a <strong>Now</strong> object, it will be represented as an ISO8601 string, adjusted to UTC.</p>
+      <pre><code class="lang-javascript">JSON.stringify({
     postDate : now
 }); // "{"postDate":"2016-12-31T18:03:04.005Z"}"
 </code></pre>
-    <p>you can modify the toJSON function:</p>
-    <pre><code class="lang-javascript">now.toJSON = function() { return this.format(); }
+      <p>you can modify the toJSON function:</p>
+      <pre><code class="lang-javascript">now.toJSON = function() { return this.format(); }
 </code></pre>
-    <p>This changes the behavior as follows:</p>
-    <pre><code class="lang-javascript">JSON.stringify({
+      <p>This changes the behavior as follows:</p>
+      <pre><code class="lang-javascript">JSON.stringify({
     postDate : now
 }); // "{"postDate":"2017-01-01T02:03:04+08:00"}"
 </code></pre>
-    <h3 id="toarray">toArray()</h3>
-    <p>Returns an array that mirrors the parameters from new Date().</p>
-    <pre><code class="lang-javascript">now.toArray() // [2017, 0, 1, 2, 3, 4, 5]
+      <h3 id="toarray">toArray()</h3>
+      <p>Returns an array that mirrors the parameters from new Date().</p>
+      <pre><code class="lang-javascript">now.toArray() // [2017, 0, 1, 2, 3, 4, 5]
 </code></pre>
-    <h3 id="toobject">toObject()</h3>
-    <p>Returns an object containing year, month, day-of-month, hour, minute, seconds, milliseconds.
-    </p>
-    <pre><code class="lang-javascript">now.toObject()
+      <h3 id="toobject">toObject()</h3>
+      <p>Returns an object containing year, month, day-of-month, hour, minute, seconds, milliseconds.
+      </p>
+      <pre><code class="lang-javascript">now.toObject()
 // {
 //     year: 2017
 //     month: 0
@@ -442,53 +444,54 @@ date.toString() Returns a string representing the specified Date object.
 //     milliSeconds: 5
 // }
 </code></pre>
-    <h3 id="firstdaymonday">firstDayMonday</h3>
-    <p>Represent if the first day is monday.<br><br>
-      <strong>get:</strong></p>
-    <pre><code class="lang-javascript">now.firstDayMonday // defaut is false
+      <h3 id="firstdaymonday">firstDayMonday</h3>
+      <p>Represent if the first day is monday.<br><br>
+        <strong>get:</strong></p>
+      <pre><code class="lang-javascript">now.firstDayMonday // defaut is false
 
 now.beginningOfWeek() // "2017-01-01 00:00:00"
 </code></pre>
-    <p><strong>set:</strong></p>
-    <pre><code class="lang-javascript">now.firstDayMonday = true // set to true
+      <p><strong>set:</strong></p>
+      <pre><code class="lang-javascript">now.firstDayMonday = true // set to true
 
 now.beginningOfWeek() // "2016-12-26 00:00:00"
 </code></pre>
-    <h3 id="clone">clone([date])</h3>
-    <p>Return a copy of Now instance. <strong>date</strong> is optional. <strong>date</strong> is same as <strong>new Date()</strong>'s argument.</p>
-    <pre><code class="lang-javascript">now = new Now(2017, 0, 1, 2, 3, 4, 5) // "2017-01-01 02:03:04.005"
+      <h3 id="clone">clone([date])</h3>
+      <p>Return a copy of Now instance. <strong>date</strong> is optional. <strong>date</strong> is same as <strong>new Date()</strong>'s argument.</p>
+      <pre><code class="lang-javascript">now = new Now(2017, 0, 1, 2, 3, 4, 5) // "2017-01-01 02:03:04.005"
 clone = now.clone() // "2017-01-01 02:03:04.005"
 
 now = new Now(2017, 0, 1, 2, 3, 4, 5) // "2017-01-01 02:03:04.005"
 clone = now.clone(2020, 2, 11) // "2020-03-11 00:00:00.000"
 </code></pre>
-    <h3 id="utc">UTC([date])</h3>
-    <p>By default, Now parses and displays in local time.<br> If you want to parse or display a date in UTC, you can use <strong>new Now().UTC()</strong> instead of <strong>new Now()</strong>.<br> This brings us to an interesting feature of now.js. UTC mode.
-      <br> While in UTC mode, all display methods will display in UTC time instead of local time.</p>
-    <pre><code class="lang-javascript">now = new Now()
+      <h3 id="utc">UTC([date])</h3>
+      <p>By default, Now parses and displays in local time.<br> If you want to parse or display a date in UTC, you can use <strong>new Now().UTC()</strong> instead of <strong>new Now()</strong>.<br> This brings us to an interesting feature of now.js. UTC
+        mode.
+        <br> While in UTC mode, all display methods will display in UTC time instead of local time.</p>
+      <pre><code class="lang-javascript">now = new Now()
 now.format() // "2017-11-25T01:32:47+08:00"
 now.UTC().format() // "2017-11-25T01:32:47+00:00"
 
 // date not null
 now.UTC(2020, 2, 11).format() // "2020-03-11T00:00:00+00:00"
 </code></pre>
-    <h3 id="sunday">sunday(['self'])</h3>
-    <p>Return sunday. 'self' is optional.</p>
-    <pre><code class="lang-javascript">now = new Now()
+      <h3 id="sunday">sunday(['self'])</h3>
+      <p>Return sunday. 'self' is optional.</p>
+      <pre><code class="lang-javascript">now = new Now()
 now.format() // "2017-11-25T01:53:49+08:00"
 now.sunday() // "2017-11-26 00:00:00"
 </code></pre>
-    <p>pass 'self', return Now instance.</p>
-    <pre><code class="lang-javascript">now = new Now()
+      <p>pass 'self', return Now instance.</p>
+      <pre><code class="lang-javascript">now = new Now()
 now.format() // "2017-11-25T01:53:49+08:00"
 
 self = now.sunday('self')
 self.format() // "2017-11-26T00:00:00+08:00"
 self.elapse() // "in a day"
 </code></pre>
-    <h3 id="monday">monday(['self'])</h3>
-    <p>Return monday. 'self' is optional.</p>
-    <pre><code class="lang-javascript">now = new Now()
+      <h3 id="monday">monday(['self'])</h3>
+      <p>Return monday. 'self' is optional.</p>
+      <pre><code class="lang-javascript">now = new Now()
 now.format() // "2017-11-25T01:53:49+08:00"
 
 // today is not sunday, get after sunday
@@ -500,51 +503,51 @@ now.format() // "2017-11-26T00:00:00+08:00"
 
 now.monday() // "2017-11-20 00:00:00"
 </code></pre>
-    <p>pass 'self', return Now instance.</p>
-    <pre><code class="lang-javascript">now = new Now()
+      <p>pass 'self', return Now instance.</p>
+      <pre><code class="lang-javascript">now = new Now()
 now.format() // "2017-11-25T01:53:49+08:00"
 
 self = now.sunday('self')
 self.format() // "2017-11-20T00:00:00+08:00"
 self.elapse() // "5 days ago"
 </code></pre>
-    <h3 id="tuesday">tuesday(['self'])</h3>
-    <p>Return tuesday. 'self' is optional. Similar to <strong>monday</strong>.</p>
-    <h3 id="wednesday">wednesday(['self'])</h3>
-    <p>Return wednesday. 'self' is optional. Similar to <strong>monday</strong>.</p>
-    <h3 id="thursday">thursday(['self'])</h3>
-    <p>Return thursday. 'self' is optional. Similar to <strong>monday</strong>.</p>
-    <h3 id="friday">friday(['self'])</h3>
-    <p>Return friday. 'self' is optional. Similar to <strong>monday</strong>.</p>
-    <h3 id="saturday">saturday(['self'])</h3>
-    <p>Return saturday. 'self' is optional. Similar to <strong>monday</strong>.</p>
-    <h3 id="issunday">isSunday()</h3>
-    <p>Return whether the given date is sunday.</p>
-    <pre><code class="lang-javascript">now = new Now();
+      <h3 id="tuesday">tuesday(['self'])</h3>
+      <p>Return tuesday. 'self' is optional. Similar to <strong>monday</strong>.</p>
+      <h3 id="wednesday">wednesday(['self'])</h3>
+      <p>Return wednesday. 'self' is optional. Similar to <strong>monday</strong>.</p>
+      <h3 id="thursday">thursday(['self'])</h3>
+      <p>Return thursday. 'self' is optional. Similar to <strong>monday</strong>.</p>
+      <h3 id="friday">friday(['self'])</h3>
+      <p>Return friday. 'self' is optional. Similar to <strong>monday</strong>.</p>
+      <h3 id="saturday">saturday(['self'])</h3>
+      <p>Return saturday. 'self' is optional. Similar to <strong>monday</strong>.</p>
+      <h3 id="issunday">isSunday()</h3>
+      <p>Return whether the given date is sunday.</p>
+      <pre><code class="lang-javascript">now = new Now();
 now.format() // "2017-11-25T12:30:19+08:00"
 
 now.isSunday() // false
 </code></pre>
-    <h3 id="ismonday">isMonday()</h3>
-    <p>Return whether the given date is monday.</p>
-    <pre><code class="lang-javascript">now = new Now();
+      <h3 id="ismonday">isMonday()</h3>
+      <p>Return whether the given date is monday.</p>
+      <pre><code class="lang-javascript">now = new Now();
 now.format() // "2017-11-25T12:30:19+08:00"
 
 now.isMonday() // false
 </code></pre>
-    <h3 id="istuesday">isTuesday()</h3>
-    <p>Return whether the given date is tuesday. Similar to <strong>isMonday</strong>.</p>
-    <h3 id="iswednesday">isWednesday()</h3>
-    <p>Return whether the given date is wednesday. Similar to <strong>isMonday</strong>.</p>
-    <h3 id="isthursday">isThursday()</h3>
-    <p>Return whether the given date is thursday. Similar to <strong>isMonday</strong>.</p>
-    <h3 id="isfriday">isFriday()</h3>
-    <p>Return whether the given date is friday. Similar to <strong>isMonday</strong>.</p>
-    <h3 id="issaturday">isSaturday()</h3>
-    <p>Return whether the given date is saturday. Similar to <strong>isMonday</strong>.</p>
-    <h3 id="year">year()</h3>
-    <p>Get or sets the year.</p>
-    <pre><code class="lang-javascript">now = new Now();
+      <h3 id="istuesday">isTuesday()</h3>
+      <p>Return whether the given date is tuesday. Similar to <strong>isMonday</strong>.</p>
+      <h3 id="iswednesday">isWednesday()</h3>
+      <p>Return whether the given date is wednesday. Similar to <strong>isMonday</strong>.</p>
+      <h3 id="isthursday">isThursday()</h3>
+      <p>Return whether the given date is thursday. Similar to <strong>isMonday</strong>.</p>
+      <h3 id="isfriday">isFriday()</h3>
+      <p>Return whether the given date is friday. Similar to <strong>isMonday</strong>.</p>
+      <h3 id="issaturday">isSaturday()</h3>
+      <p>Return whether the given date is saturday. Similar to <strong>isMonday</strong>.</p>
+      <h3 id="year">year()</h3>
+      <p>Get or sets the year.</p>
+      <pre><code class="lang-javascript">now = new Now();
 now.format() // "2017-11-25T20:48:42+08:00"
 
 // get
@@ -554,9 +557,9 @@ now.year() // 2017
 now.year(2020)
 now.year() // 2020
 </code></pre>
-    <h3 id="quarter">quarter()</h3>
-    <p>Get or sets quarter.</p>
-    <pre><code class="lang-javascript">now = new Now();
+      <h3 id="quarter">quarter()</h3>
+      <p>Get or sets quarter.</p>
+      <pre><code class="lang-javascript">now = new Now();
 now.format() // "2017-11-25T20:48:42+08:00"
 
 // get
@@ -566,9 +569,9 @@ now.quarter() // 4
 now.quarter(1)
 now.quarter() // 1
 </code></pre>
-    <h3 id="month">month()</h3>
-    <p>Get or sets month.</p>
-    <pre><code class="lang-javascript">now = new Now();
+      <h3 id="month">month()</h3>
+      <p>Get or sets month.</p>
+      <pre><code class="lang-javascript">now = new Now();
 now.format() // "2017-11-25T20:48:42+08:00"
 
 // get
@@ -578,9 +581,9 @@ now.month() // 10
 now.month(2)
 now.month() // 2
 </code></pre>
-    <h3 id="week">week()</h3>
-    <p>Get or sets week.</p>
-    <pre><code class="lang-javascript">now = new Now();
+      <h3 id="week">week()</h3>
+      <p>Get or sets week.</p>
+      <pre><code class="lang-javascript">now = new Now();
 now.format() // "2017-11-25T20:48:42+08:00"
 
 // get
@@ -590,9 +593,9 @@ now.week() // 47
 now.week(50)
 now.week() // 50
 </code></pre>
-    <h3 id="isoweek">isoWeek()</h3>
-    <p>Gets or sets the <a href="https://en.wikipedia.org/wiki/ISO_week_date">ISO week of the year</a>.</p>
-    <pre><code class="lang-javascript">now = new Now();
+      <h3 id="isoweek">isoWeek()</h3>
+      <p>Gets or sets the <a href="https://en.wikipedia.org/wiki/ISO_week_date">ISO week of the year</a>.</p>
+      <pre><code class="lang-javascript">now = new Now();
 now.format() // "2017-11-25T20:48:42+08:00"
 
 // get
@@ -602,9 +605,9 @@ now.isoWeek() // 47
 now.isoWeek(50)
 now.isoWeek() // 50
 </code></pre>
-    <h3 id="day">day()</h3>
-    <p>Get or sets the day of the month.</p>
-    <pre><code class="lang-javascript">now = new Now();
+      <h3 id="day">day()</h3>
+      <p>Get or sets the day of the month.</p>
+      <pre><code class="lang-javascript">now = new Now();
 now.format() // "2017-11-25T20:48:42+08:00"
 
 // get
@@ -614,9 +617,9 @@ now.day() // 16
 now.day(20)
 now.day() // 20
 </code></pre>
-    <h3 id="weekday">weekDay()</h3>
-    <p>Gets or sets the day of the week.<br> This method can be used to set the day of the week, with Sunday as 0 and Saturday as 6.</p>
-    <pre><code class="lang-javascript">now = new Now();
+      <h3 id="weekday">weekDay()</h3>
+      <p>Gets or sets the day of the week.<br> This method can be used to set the day of the week, with Sunday as 0 and Saturday as 6.</p>
+      <pre><code class="lang-javascript">now = new Now();
 now.format() // "2017-11-25T21:59:22+08:00"
 
 // get
@@ -626,10 +629,10 @@ now.weekDay() // 6
 now.weekDay(2)
 now.weekDay() // 2
 </code></pre>
-    <h3 id="localeweekday">localeWeekDay()</h3>
-    <p>Gets or sets the day of the week according to the locale.<br> If the locale assigns Monday as the first day of the week, new Now().weekday(0) will be Monday.
-      <br> If Sunday is the first day of the week, new Now().weekday(0) will be Sunday.</p>
-    <pre><code class="lang-javascript">now = new Now();
+      <h3 id="localeweekday">localeWeekDay()</h3>
+      <p>Gets or sets the day of the week according to the locale.<br> If the locale assigns Monday as the first day of the week, new Now().weekday(0) will be Monday.
+        <br> If Sunday is the first day of the week, new Now().weekday(0) will be Sunday.</p>
+      <pre><code class="lang-javascript">now = new Now();
 now.format() // "2017-11-25T21:59:22+08:00"
 
 // get
@@ -639,9 +642,9 @@ now.localeWeekDay() // 6
 now.localeWeekDay(2)
 now.localeWeekDay() // 2
 </code></pre>
-    <h3 id="isoweekday">isoWeekDay()</h3>
-    <p>Gets or sets the <a href="https://en.wikipedia.org/wiki/ISO_week_date">ISO day of the week</a> with 1 being Monday and 7 being Sunday.</p>
-    <pre><code class="lang-javascript">now = new Now();
+      <h3 id="isoweekday">isoWeekDay()</h3>
+      <p>Gets or sets the <a href="https://en.wikipedia.org/wiki/ISO_week_date">ISO day of the week</a> with 1 being Monday and 7 being Sunday.</p>
+      <pre><code class="lang-javascript">now = new Now();
 now.format() // "2017-11-25T21:59:22+08:00"
 
 // get
@@ -651,9 +654,9 @@ now.isoWeekDay() // 6
 now.isoWeekDay(2)
 now.isoWeekDay() // 2
 </code></pre>
-    <h3 id="hour">hour()</h3>
-    <p>Gets or sets the hour.<br> Accepts numbers from 0 to 23. If the range is exceeded, it will bubble up to the day.</p>
-    <pre><code class="lang-javascript">now = new Now();
+      <h3 id="hour">hour()</h3>
+      <p>Gets or sets the hour.<br> Accepts numbers from 0 to 23. If the range is exceeded, it will bubble up to the day.</p>
+      <pre><code class="lang-javascript">now = new Now();
 now.format() // "2017-11-25T21:59:22+08:00"
 
 // get
@@ -663,9 +666,9 @@ now.hour() // 21
 now.hour(10)
 now.hour() // 10
 </code></pre>
-    <h3 id="minute">minute()</h3>
-    <p>Gets or sets the minutes.<br> Accepts numbers from 0 to 59. If the range is exceeded, it will bubble up to the hour.</p>
-    <pre><code class="lang-javascript">now = new Now();
+      <h3 id="minute">minute()</h3>
+      <p>Gets or sets the minutes.<br> Accepts numbers from 0 to 59. If the range is exceeded, it will bubble up to the hour.</p>
+      <pre><code class="lang-javascript">now = new Now();
 now.format() // "2017-11-25T21:59:22+08:00"
 
 // get
@@ -675,9 +678,9 @@ now.minute() // 59
 now.minute(10)
 now.minute() // 10
 </code></pre>
-    <h3 id="second">second()</h3>
-    <p>Gets or sets the seconds. Accepts numbers from 0 to 59. If the range is exceeded, it will bubble up to the minutes.</p>
-    <pre><code class="lang-javascript">now = new Now();
+      <h3 id="second">second()</h3>
+      <p>Gets or sets the seconds. Accepts numbers from 0 to 59. If the range is exceeded, it will bubble up to the minutes.</p>
+      <pre><code class="lang-javascript">now = new Now();
 now.format() // "2017-11-25T21:59:22+08:00"
 
 // get
@@ -687,9 +690,9 @@ now.second() // 22
 now.second(10)
 now.second() // 10
 </code></pre>
-    <h3 id="millisecond">milliSecond()</h3>
-    <p>Gets or sets the milliSeconds. Accepts numbers from 0 to 999. If the range is exceeded, it will bubble up to the seconds.</p>
-    <pre><code class="lang-javascript">now = new Now();
+      <h3 id="millisecond">milliSecond()</h3>
+      <p>Gets or sets the milliSeconds. Accepts numbers from 0 to 999. If the range is exceeded, it will bubble up to the seconds.</p>
+      <pre><code class="lang-javascript">now = new Now();
 now.format('YYYY-MM-DD HH:mm:ss.SSS') // "2017-11-25 22:30:59.496"
 
 // get
@@ -699,24 +702,24 @@ now.milliSecond() // 496
 now.milliSecond(100)
 now.milliSecond() // 100
 </code></pre>
-    <h3 id="weeksinyear">weeksInYear()</h3>
-    <p>Gets the number of weeks according to locale in the given year.</p>
-    <pre><code class="lang-javascript">now = new Now();
+      <h3 id="weeksinyear">weeksInYear()</h3>
+      <p>Gets the number of weeks according to locale in the given year.</p>
+      <pre><code class="lang-javascript">now = new Now();
 now.format() // "2017-11-25T22:30:59+08:00"
 
 now.weeksInYear() // 52
 </code></pre>
-    <h3 id="isoweeksinyear">isoWeeksInYear()</h3>
-    <p>Gets the number of weeks in the given year, according to <a href="https://en.wikipedia.org/wiki/ISO_week_date">ISO weeks</a>.</p>
-    <pre><code class="lang-javascript">now = new Now();
+      <h3 id="isoweeksinyear">isoWeeksInYear()</h3>
+      <p>Gets the number of weeks in the given year, according to <a href="https://en.wikipedia.org/wiki/ISO_week_date">ISO weeks</a>.</p>
+      <pre><code class="lang-javascript">now = new Now();
 now.format() // "2017-11-25T22:30:59+08:00"
 
 now.isoWeeksInYear() // 52
 </code></pre>
-    <h3 id="weekyear">weekYear()</h3>
-    <p>Gets or sets the week-year according to the locale.<br> Because the first day of the first week does not always fall on the first day of the year, sometimes the week-year will differ from the month year.<br> For example, in the US, the week that contains
-      Jan 1 is always the first week. In the US, weeks also start on Sunday. If Jan 1 was a Monday, Dec 31 would belong to the same week as Jan 1, and thus the same week-year as Jan 1. Dec 30 would have a different week-year than Dec 31.</p>
-    <pre><code class="lang-javascript">now = new Now();
+      <h3 id="weekyear">weekYear()</h3>
+      <p>Gets or sets the week-year according to the locale.<br> Because the first day of the first week does not always fall on the first day of the year, sometimes the week-year will differ from the month year.<br> For example, in the US, the week that
+        contains Jan 1 is always the first week. In the US, weeks also start on Sunday. If Jan 1 was a Monday, Dec 31 would belong to the same week as Jan 1, and thus the same week-year as Jan 1. Dec 30 would have a different week-year than Dec 31.</p>
+      <pre><code class="lang-javascript">now = new Now();
 now.format() // "2017-11-25T22:30:59+08:00"
 
 now.weekYear() // 2017
@@ -725,9 +728,9 @@ now.weekYear() // 2017
 now.weekYear(2020)
 now.weekYear() // 2020
 </code></pre>
-    <h3 id="isoweekyear">isoWeekYear()</h3>
-    <p>Gets or sets the <a href="https://en.wikipedia.org/wiki/ISO_week_date">ISO week-year</a>.</p>
-    <pre><code class="lang-javascript">now = new Now();
+      <h3 id="isoweekyear">isoWeekYear()</h3>
+      <p>Gets or sets the <a href="https://en.wikipedia.org/wiki/ISO_week_date">ISO week-year</a>.</p>
+      <pre><code class="lang-javascript">now = new Now();
 now.format() // "2017-11-25T22:30:59+08:00"
 
 now.isoWeekYear() // 2017
@@ -736,9 +739,9 @@ now.isoWeekYear() // 2017
 now.isoWeekYear(2020)
 now.isoWeekYear() // 2020
 </code></pre>
-    <h3 id="dayofyear">dayOfYear()</h3>
-    <p>Gets or sets the day of the year. Accepts numbers from 1 to 366. If the range is exceeded, it will bubble up to the years.</p>
-    <pre><code class="lang-javascript">now = new Now();
+      <h3 id="dayofyear">dayOfYear()</h3>
+      <p>Gets or sets the day of the year. Accepts numbers from 1 to 366. If the range is exceeded, it will bubble up to the years.</p>
+      <pre><code class="lang-javascript">now = new Now();
 now.format() // "2017-11-25T23:05:27+08:00"
 
 now.dayOfYear() // 329
@@ -752,9 +755,9 @@ now.dayOfYear(366)
 now.year() // 2018
 now.dayOfYear() // 1
 </code></pre>
-    <h3 id="addmilliseconds">addMilliSeconds()</h3>
-    <p>Add milliseconds to the given date.<br> Accepts positive number and negative number. If the range is exceeded, it will bubble up or down to the seconds.</p>
-    <pre><code class="lang-javascript">now = new Now();
+      <h3 id="addmilliseconds">addMilliSeconds()</h3>
+      <p>Add milliseconds to the given date.<br> Accepts positive number and negative number. If the range is exceeded, it will bubble up or down to the seconds.</p>
+      <pre><code class="lang-javascript">now = new Now();
 now.format('YYYY-MM-DD HH:mm:ss.SSS') // "2017-11-25 23:19:36.427"
 
 now.addMilliSeconds(100)
@@ -768,9 +771,9 @@ now.format('YYYY-MM-DD HH:mm:ss.SSS') // "2017-11-25 23:19:37.027"
 now.addMilliSeconds(500)
 now.format('YYYY-MM-DD HH:mm:ss.SSS') // "2017-11-25 23:19:36.027"
 </code></pre>
-    <h3 id="addseconds">addSeconds()</h3>
-    <p>Add seconds to the given date.<br> Accepts positive number and negative number. If the range is exceeded, it will bubble up or down to the minutes.</p>
-    <pre><code class="lang-javascript">now = new Now();
+      <h3 id="addseconds">addSeconds()</h3>
+      <p>Add seconds to the given date.<br> Accepts positive number and negative number. If the range is exceeded, it will bubble up or down to the minutes.</p>
+      <pre><code class="lang-javascript">now = new Now();
 now.format('YYYY-MM-DD HH:mm:ss.SSS') // "2017-11-25 23:19:36.427"
 
 now.addSeconds(10)
@@ -784,9 +787,9 @@ now.format('YYYY-MM-DD HH:mm:ss.SSS') // "2017-11-25 23:20:06.427"
 now.addSeconds(-40)
 now.format('YYYY-MM-DD HH:mm:ss.SSS') // "2017-11-25 23:18:56.427"
 </code></pre>
-    <h3 id="addminutes">addMinutes()</h3>
-    <p>Add minutes to the given date.<br> Accepts positive number and negative number. If the range is exceeded, it will bubble up or down to the hours.</p>
-    <pre><code class="lang-javascript">now = new Now();
+      <h3 id="addminutes">addMinutes()</h3>
+      <p>Add minutes to the given date.<br> Accepts positive number and negative number. If the range is exceeded, it will bubble up or down to the hours.</p>
+      <pre><code class="lang-javascript">now = new Now();
 now.format('YYYY-MM-DD HH:mm:ss.SSS') // "2017-11-25 23:19:36.427"
 
 now.addMinutes(10)
@@ -800,9 +803,9 @@ now.format('YYYY-MM-DD HH:mm:ss.SSS') // "2017-11-26 00:02:36.427"
 now.addMinutes(-20)
 now.format('YYYY-MM-DD HH:mm:ss.SSS') // "2017-11-25 22:59:36.427"
 </code></pre>
-    <h3 id="addhours">addHours()</h3>
-    <p>Add hours to the given date.<br> Accepts positive number and negative number. If the range is exceeded, it will bubble up or down to the days.</p>
-    <pre><code class="lang-javascript">now = new Now();
+      <h3 id="addhours">addHours()</h3>
+      <p>Add hours to the given date.<br> Accepts positive number and negative number. If the range is exceeded, it will bubble up or down to the days.</p>
+      <pre><code class="lang-javascript">now = new Now();
 now.format('YYYY-MM-DD HH:mm:ss.SSS') // "2017-11-25 23:19:36.427"
 
 now.addHours(0)
@@ -816,9 +819,9 @@ now.format('YYYY-MM-DD HH:mm:ss.SSS') // "2017-11-26 01:19:36.427"
 now.addHours(-25)
 now.format('YYYY-MM-DD HH:mm:ss.SSS') // "2017-11-24 22:19:36.427"
 </code></pre>
-    <h3 id="adddays">addDays()</h3>
-    <p>Add days to the given date.<br> Accepts positive number and negative number. If the range is exceeded, it will bubble up or down to the months.</p>
-    <pre><code class="lang-javascript">now = new Now();
+      <h3 id="adddays">addDays()</h3>
+      <p>Add days to the given date.<br> Accepts positive number and negative number. If the range is exceeded, it will bubble up or down to the months.</p>
+      <pre><code class="lang-javascript">now = new Now();
 now.format('YYYY-MM-DD HH:mm:ss.SSS') // "2017-11-25 23:49:57.600"
 
 now.addDays(3)
@@ -832,9 +835,9 @@ now.format('YYYY-MM-DD HH:mm:ss.SSS') // "2017-12-05 23:49:57.600"
 now.addDays(-26)
 now.format('YYYY-MM-DD HH:mm:ss.SSS') // "2017-10-30 23:49:57.600"
 </code></pre>
-    <h3 id="addweeks">addWeeks()</h3>
-    <p>Add weeks to the given date.<br> Accepts positive number and negative number. If the range is exceeded, it will bubble up or down to the months.</p>
-    <pre><code class="lang-javascript">now = new Now();
+      <h3 id="addweeks">addWeeks()</h3>
+      <p>Add weeks to the given date.<br> Accepts positive number and negative number. If the range is exceeded, it will bubble up or down to the months.</p>
+      <pre><code class="lang-javascript">now = new Now();
 now.format('YYYY-MM-DD HH:mm:ss.SSS') // "2017-11-26 00:08:17.419"
 
 now.addWeeks(1)
@@ -848,9 +851,9 @@ now.format('YYYY-MM-DD HH:mm:ss.SSS') // "2017-12-10 00:08:17.419"
 now.addWeeks(-4)
 now.format('YYYY-MM-DD HH:mm:ss.SSS') // "2017-10-29 00:08:17.419"
 </code></pre>
-    <h3 id="addmonths">addMonths()</h3>
-    <p>Add months to the given date.<br> Accepts positive number and negative number. If the range is exceeded, it will bubble up or down to the years.</p>
-    <pre><code class="lang-javascript">now = new Now();
+      <h3 id="addmonths">addMonths()</h3>
+      <p>Add months to the given date.<br> Accepts positive number and negative number. If the range is exceeded, it will bubble up or down to the years.</p>
+      <pre><code class="lang-javascript">now = new Now();
 now.format('YYYY-MM-DD HH:mm:ss.SSS') // "2017-11-26 00:08:17.419"
 
 now.addMonths(1)
@@ -864,9 +867,9 @@ now.format('YYYY-MM-DD HH:mm:ss.SSS') // "2018-01-26 00:08:17.419"
 now.addMonths(-12)
 now.format('YYYY-MM-DD HH:mm:ss.SSS') // "2016-11-26 00:08:17.419"
 </code></pre>
-    <h3 id="addquarters">addQuarters()</h3>
-    <p>Add quarters to the given date.<br> Accepts positive number and negative number. If the range is exceeded, it will bubble up or down to the years.</p>
-    <pre><code class="lang-javascript">now = new Now();
+      <h3 id="addquarters">addQuarters()</h3>
+      <p>Add quarters to the given date.<br> Accepts positive number and negative number. If the range is exceeded, it will bubble up or down to the years.</p>
+      <pre><code class="lang-javascript">now = new Now();
 now.format('YYYY-MM-DD HH:mm:ss.SSS') // "2017-11-26 00:08:17.419"
 
 now.addQuarters(0)
@@ -880,9 +883,9 @@ now.format('YYYY-MM-DD HH:mm:ss.SSS') // "2018-02-26 00:08:17.419"
 now.addQuarters(-4)
 now.format('YYYY-MM-DD HH:mm:ss.SSS') // "2016-11-26 00:08:17.419"
 </code></pre>
-    <h3 id="addyears">addYears()</h3>
-    <p>Add years to the given date.<br> Accepts positive number and negative number.</p>
-    <pre><code class="lang-javascript">now = new Now();
+      <h3 id="addyears">addYears()</h3>
+      <p>Add years to the given date.<br> Accepts positive number and negative number.</p>
+      <pre><code class="lang-javascript">now = new Now();
 now.format('YYYY-MM-DD HH:mm:ss.SSS') // "2017-11-26 00:08:17.419"
 
 now.addYears(1)
@@ -891,10 +894,10 @@ now.format('YYYY-MM-DD HH:mm:ss.SSS') // "2018-11-26 00:08:17.419"
 now.addYears(-1)
 now.format('YYYY-MM-DD HH:mm:ss.SSS') // "2016-11-26 00:08:17.419"
 </code></pre>
-    <h3 id="truncate">truncate(type)</h3>
-    <p>Returns the result of rounding date toward zero according to <strong>type</strong>.<br>
-      <strong>type</strong> should be a value of array: ['year', 'month', 'day', 'hour', 'minute', 'second', 'milliSecond'].</p>
-    <pre><code class="lang-javascript">now = new Now();
+      <h3 id="truncate">truncate(type)</h3>
+      <p>Returns the result of rounding date toward zero according to <strong>type</strong>.<br>
+        <strong>type</strong> should be a value of array: ['year', 'month', 'day', 'hour', 'minute', 'second', 'milliSecond'].</p>
+      <pre><code class="lang-javascript">now = new Now();
 now.format('YYYY-MM-DD HH:mm:ss.SSS') // "2017-11-26 00:08:17.419"
 
 now.truncate('milliSecond')
@@ -918,10 +921,10 @@ now.format('YYYY-MM-DD HH:mm:ss.SSS') // "2018-11-01 00:00:00.000"
 now.truncate('year')
 now.format('YYYY-MM-DD HH:mm:ss.SSS') // "2018-01-01 00:00:00.000"
 </code></pre>
-    <h3 id="beginningofsecond">beginningOfSecond(['self'])</h3>
-    <p>Returns the beginning of seconds.
-      <strong>'self'</strong> is optional. If pass <strong>'self'</strong> return Now instance.</p>
-    <pre><code class="lang-javascript">now = new Now();
+      <h3 id="beginningofsecond">beginningOfSecond(['self'])</h3>
+      <p>Returns the beginning of seconds.
+        <strong>'self'</strong> is optional. If pass <strong>'self'</strong> return Now instance.</p>
+      <pre><code class="lang-javascript">now = new Now();
 now.format('YYYY-MM-DD HH:mm:ss.SSS') // "2017-11-26 01:27:44.363"
 
 now.beginningOfSecond() // "2017-11-26 01:27:44.000"
@@ -931,10 +934,10 @@ self = now.beginningOfSecond('self')
 self.format('LLLL') // "Sunday, November 26, 2017 1:27 AM"
 self.elapse() // "4 minutes ago"
 </code></pre>
-    <h3 id="beginningofminute">beginningOfMinute(['self'])</h3>
-    <p>Returns the beginning of minute.
-      <strong>'self'</strong> is optional. If pass <strong>'self'</strong> return Now instance.</p>
-    <pre><code class="lang-javascript">now = new Now();
+      <h3 id="beginningofminute">beginningOfMinute(['self'])</h3>
+      <p>Returns the beginning of minute.
+        <strong>'self'</strong> is optional. If pass <strong>'self'</strong> return Now instance.</p>
+      <pre><code class="lang-javascript">now = new Now();
 now.format('YYYY-MM-DD HH:mm:ss.SSS') // "2017-11-26 01:43:30.626"
 
 now.beginningOfMinute() // "2017-11-26 01:43:00"
@@ -944,10 +947,10 @@ self = now.beginningOfMinute('self')
 self.format('LLLL') // "Sunday, November 26, 2017 1:43 AM"
 self.elapse() // "in an hour"
 </code></pre>
-    <h3 id="beginningofhour">beginningOfHour(['self'])</h3>
-    <p>Returns the beginning of hour.
-      <strong>'self'</strong> is optional. If pass <strong>'self'</strong> return Now instance.</p>
-    <pre><code class="lang-javascript">now = new Now();
+      <h3 id="beginningofhour">beginningOfHour(['self'])</h3>
+      <p>Returns the beginning of hour.
+        <strong>'self'</strong> is optional. If pass <strong>'self'</strong> return Now instance.</p>
+      <pre><code class="lang-javascript">now = new Now();
 now.format('YYYY-MM-DD HH:mm:ss.SSS') // "2017-11-26 01:43:30.626"
 
 now.beginningOfHour() // "2017-11-26 01:00:00"
@@ -957,10 +960,10 @@ self = now.beginningOfHour('self')
 self.format('LLLL') // "Sunday, November 26, 2017 1:00 AM"
 self.elapse() // "in 5 minutes"
 </code></pre>
-    <h3 id="beginningofday">beginningOfDay(['self'])</h3>
-    <p>Returns the beginning of day.
-      <strong>'self'</strong> is optional. If pass <strong>'self'</strong> return Now instance.</p>
-    <pre><code class="lang-javascript">now = new Now();
+      <h3 id="beginningofday">beginningOfDay(['self'])</h3>
+      <p>Returns the beginning of day.
+        <strong>'self'</strong> is optional. If pass <strong>'self'</strong> return Now instance.</p>
+      <pre><code class="lang-javascript">now = new Now();
 now.format('YYYY-MM-DD HH:mm:ss.SSS') // "2017-11-26 01:43:30.626"
 
 now.beginningOfDay() // "2017-11-26 00:00:00"
@@ -970,10 +973,10 @@ self = now.beginningOfDay('self')
 self.format('LLLL') // "Sunday, November 26, 2017 12:00 AM"
 self.elapse() // "an hour ago"
 </code></pre>
-    <h3 id="beginningofweek">beginningOfWeek(['self'])</h3>
-    <p>Returns the beginning of week.
-      <strong>'self'</strong> is optional. If pass <strong>'self'</strong> return Now instance.</p>
-    <pre><code class="lang-javascript">now = new Now();
+      <h3 id="beginningofweek">beginningOfWeek(['self'])</h3>
+      <p>Returns the beginning of week.
+        <strong>'self'</strong> is optional. If pass <strong>'self'</strong> return Now instance.</p>
+      <pre><code class="lang-javascript">now = new Now();
 now.format('YYYY-MM-DD HH:mm:ss.SSS') // "2017-11-26 01:43:30.626"
 
 now.beginningOfWeek() // "2017-11-26 00:00:00"
@@ -987,10 +990,10 @@ self = now.beginningOfWeek('self')
 self.format('LLLL') // "Sunday, November 26, 2017 12:00 AM"
 self.elapse() // "an hour ago"
 </code></pre>
-    <h3 id="beginningofmonth">beginningOfMonth(['self'])</h3>
-    <p>Returns the beginning of month.
-      <strong>'self'</strong> is optional. If pass <strong>'self'</strong> return Now instance.</p>
-    <pre><code class="lang-javascript">now = new Now();
+      <h3 id="beginningofmonth">beginningOfMonth(['self'])</h3>
+      <p>Returns the beginning of month.
+        <strong>'self'</strong> is optional. If pass <strong>'self'</strong> return Now instance.</p>
+      <pre><code class="lang-javascript">now = new Now();
 now.format('YYYY-MM-DD HH:mm:ss.SSS') // "2017-11-26 01:43:30.626"
 
 now.beginningOfMonth() // "2017-11-01 00:00:00"
@@ -1000,10 +1003,10 @@ self = now.beginningOfMonth('self')
 self.format('LLLL') // "Wednesday, November 1, 2017 12:00 AM"
 self.elapse() // "25 days ago"
 </code></pre>
-    <h3 id="beginningofquarter">beginningOfQuarter(['self'])</h3>
-    <p>Returns the beginning of quarter.
-      <strong>'self'</strong> is optional. If pass <strong>'self'</strong> return Now instance.</p>
-    <pre><code class="lang-javascript">now = new Now();
+      <h3 id="beginningofquarter">beginningOfQuarter(['self'])</h3>
+      <p>Returns the beginning of quarter.
+        <strong>'self'</strong> is optional. If pass <strong>'self'</strong> return Now instance.</p>
+      <pre><code class="lang-javascript">now = new Now();
 now.format('YYYY-MM-DD HH:mm:ss.SSS') // "2017-11-26 01:43:30.626"
 
 now.beginningOfQuarter() // "2017-10-01 00:00:00"
@@ -1013,10 +1016,10 @@ self = now.beginningOfQuarter('self')
 self.format('LLLL') // "Sunday, October 1, 2017 12:00 AM"
 self.elapse() // "2 months ago"
 </code></pre>
-    <h3 id="beginningofyear">beginningOfYear(['self'])</h3>
-    <p>Returns the beginning of year.
-      <strong>'self'</strong> is optional. If pass <strong>'self'</strong> return Now instance.</p>
-    <pre><code class="lang-javascript">now = new Now();
+      <h3 id="beginningofyear">beginningOfYear(['self'])</h3>
+      <p>Returns the beginning of year.
+        <strong>'self'</strong> is optional. If pass <strong>'self'</strong> return Now instance.</p>
+      <pre><code class="lang-javascript">now = new Now();
 now.format('YYYY-MM-DD HH:mm:ss.SSS') // "2017-11-26 01:43:30.626"
 
 now.beginningOfYear() // "2017-01-01 00:00:00"
@@ -1026,10 +1029,10 @@ self = now.beginningOfYear('self')
 self.format('LLLL') // "Sunday, January 1, 2017 12:00 AM"
 self.elapse() // "a year ago"
 </code></pre>
-    <h3 id="endofsecond">endOfSecond(['self'])</h3>
-    <p>Returns the end of second.
-      <strong>'self'</strong> is optional. If pass <strong>'self'</strong> return Now instance.</p>
-    <pre><code class="lang-javascript">now = new Now();
+      <h3 id="endofsecond">endOfSecond(['self'])</h3>
+      <p>Returns the end of second.
+        <strong>'self'</strong> is optional. If pass <strong>'self'</strong> return Now instance.</p>
+      <pre><code class="lang-javascript">now = new Now();
 now.format('YYYY-MM-DD HH:mm:ss.SSS') // "2017-11-26 11:11:07.769"
 
 now.endOfSecond() // "2017-11-26 11:11:07.999"
@@ -1039,10 +1042,10 @@ self = now.endOfSecond('self')
 self.format('LLLL') // "Sunday, November 26, 2017 11:11 AM"
 self.elapse() // "a minute ago"
 </code></pre>
-    <h3 id="endofminute">endOfMinute(['self'])</h3>
-    <p>Returns the end of minute.
-      <strong>'self'</strong> is optional. If pass <strong>'self'</strong> return Now instance.</p>
-    <pre><code class="lang-javascript">now = new Now();
+      <h3 id="endofminute">endOfMinute(['self'])</h3>
+      <p>Returns the end of minute.
+        <strong>'self'</strong> is optional. If pass <strong>'self'</strong> return Now instance.</p>
+      <pre><code class="lang-javascript">now = new Now();
 now.format('YYYY-MM-DD HH:mm:ss.SSS') // "2017-11-26 11:11:07.769"
 
 now.endOfMinute() // "2017-11-26 11:11:59.999"
@@ -1052,10 +1055,10 @@ self = now.endOfMinute('self')
 self.format('LLLL') // "Sunday, November 26, 2017 11:11 AM"
 self.elapse() // "2 minutes ago"
 </code></pre>
-    <h3 id="endofhour">endOfHour(['self'])</h3>
-    <p>Returns the end of hour.
-      <strong>'self'</strong> is optional. If pass <strong>'self'</strong> return Now instance.</p>
-    <pre><code class="lang-javascript">now = new Now();
+      <h3 id="endofhour">endOfHour(['self'])</h3>
+      <p>Returns the end of hour.
+        <strong>'self'</strong> is optional. If pass <strong>'self'</strong> return Now instance.</p>
+      <pre><code class="lang-javascript">now = new Now();
 now.format('YYYY-MM-DD HH:mm:ss.SSS') // "2017-11-26 11:11:07.769"
 
 now.endOfHour() // "2017-11-26 11:59:59.999"
@@ -1065,10 +1068,10 @@ self = now.endOfHour('self')
 self.format('LLLL') // "Sunday, November 26, 2017 11:59 AM"
 self.elapse() // "in 44 minutes"
 </code></pre>
-    <h3 id="endofday">endOfDay(['self'])</h3>
-    <p>Returns the end of day.
-      <strong>'self'</strong> is optional. If pass <strong>'self'</strong> return Now instance.</p>
-    <pre><code class="lang-javascript">now = new Now();
+      <h3 id="endofday">endOfDay(['self'])</h3>
+      <p>Returns the end of day.
+        <strong>'self'</strong> is optional. If pass <strong>'self'</strong> return Now instance.</p>
+      <pre><code class="lang-javascript">now = new Now();
 now.format('YYYY-MM-DD HH:mm:ss.SSS') // "2017-11-26 11:11:07.769"
 
 now.endOfDay() // "2017-11-26 23:59:59.999"
@@ -1078,10 +1081,10 @@ self = now.endOfDay('self')
 self.format('LLLL') // "Sunday, November 26, 2017 11:59 PM"
 self.elapse() // "in 13 hours"
 </code></pre>
-    <h3 id="endofweek">endOfWeek(['self'])</h3>
-    <p>Returns the end of week.
-      <strong>'self'</strong> is optional. If pass <strong>'self'</strong> return Now instance.</p>
-    <pre><code class="lang-javascript">now = new Now();
+      <h3 id="endofweek">endOfWeek(['self'])</h3>
+      <p>Returns the end of week.
+        <strong>'self'</strong> is optional. If pass <strong>'self'</strong> return Now instance.</p>
+      <pre><code class="lang-javascript">now = new Now();
 now.format('YYYY-MM-DD HH:mm:ss.SSS') // "2017-11-26 11:11:07.769"
 
 now.endOfWeek() // "2017-12-02 23:59:59.999"
@@ -1095,10 +1098,10 @@ self = now.endOfWeek('self')
 self.format('LLLL') // "Saturday, December 2, 2017 11:59 PM"
 self.elapse() // "in 7 days"
 </code></pre>
-    <h3 id="endofmonth">endOfMonth(['self'])</h3>
-    <p>Returns the end of month.
-      <strong>'self'</strong> is optional. If pass <strong>'self'</strong> return Now instance.</p>
-    <pre><code class="lang-javascript">now = new Now();
+      <h3 id="endofmonth">endOfMonth(['self'])</h3>
+      <p>Returns the end of month.
+        <strong>'self'</strong> is optional. If pass <strong>'self'</strong> return Now instance.</p>
+      <pre><code class="lang-javascript">now = new Now();
 now.format('YYYY-MM-DD HH:mm:ss.SSS') // "2017-11-26 11:11:07.769"
 
 now.endOfMonth() // "2017-11-30 23:59:59.999"
@@ -1108,10 +1111,10 @@ self = now.endOfMonth('self')
 self.format('LLLL') // "Thursday, November 30, 2017 11:59 PM"
 self.elapse() // "in 5 days"
 </code></pre>
-    <h3 id="endofquarter">endOfQuarter(['self'])</h3>
-    <p>Returns the end of quarter.
-      <strong>'self'</strong> is optional. If pass <strong>'self'</strong> return Now instance.</p>
-    <pre><code class="lang-javascript">now = new Now();
+      <h3 id="endofquarter">endOfQuarter(['self'])</h3>
+      <p>Returns the end of quarter.
+        <strong>'self'</strong> is optional. If pass <strong>'self'</strong> return Now instance.</p>
+      <pre><code class="lang-javascript">now = new Now();
 now.format('YYYY-MM-DD HH:mm:ss.SSS') // "2017-11-26 11:11:07.769"
 
 now.endOfQuarter() // "2017-12-31 23:59:59.999"
@@ -1121,10 +1124,10 @@ self = now.endOfQuarter('self')
 self.format('LLLL') // "Sunday, December 31, 2017 11:59 PM"
 self.elapse() // "in a month"
 </code></pre>
-    <h3 id="endofyear">endOfYear(['self'])</h3>
-    <p>Returns the end of year.
-      <strong>'self'</strong> is optional. If pass <strong>'self'</strong> return Now instance.</p>
-    <pre><code class="lang-javascript">now = new Now();
+      <h3 id="endofyear">endOfYear(['self'])</h3>
+      <p>Returns the end of year.
+        <strong>'self'</strong> is optional. If pass <strong>'self'</strong> return Now instance.</p>
+      <pre><code class="lang-javascript">now = new Now();
 now.format('YYYY-MM-DD HH:mm:ss.SSS') // "2017-11-26 11:11:07.769"
 
 now.endOfYear() // "2017-12-31 23:59:59.999"
@@ -1134,10 +1137,10 @@ self = now.endOfYear('self')
 self.format('LLLL') // "Sunday, December 31, 2017 11:59 PM"
 self.elapse() // "in a month"
 </code></pre>
-    <h3 id="isnow">isNow(obj)</h3>
-    <p>Check if a variable is a Now object.
-      <strong>obj</strong> is optional. If obj is empty, will check <strong>this</strong>.</p>
-    <pre><code class="lang-javascript">now = new Now();
+      <h3 id="isnow">isNow(obj)</h3>
+      <p>Check if a variable is a Now object.
+        <strong>obj</strong> is optional. If obj is empty, will check <strong>this</strong>.</p>
+      <pre><code class="lang-javascript">now = new Now();
 
 // not pass an argument, check this
 now.isNow() // true
@@ -1146,10 +1149,10 @@ now.isNow(0) // false
 now.isNow('') // false
 now.isNow(undefined) // false
 </code></pre>
-    <h3 id="isleapyear">isLeapYear(year)</h3>
-    <p>Check if the given year is leap year.<br>
-      <strong>year</strong> is optional. If year is empty, will check <strong>this</strong>. Accept Now type.</p>
-    <pre><code class="lang-javascript">now = new Now();
+      <h3 id="isleapyear">isLeapYear(year)</h3>
+      <p>Check if the given year is leap year.<br>
+        <strong>year</strong> is optional. If year is empty, will check <strong>this</strong>. Accept Now type.</p>
+      <pre><code class="lang-javascript">now = new Now();
 
 // not pass an argument, check this
 now.year() // 2017
@@ -1160,10 +1163,10 @@ now.isLeapYear(2008) // true
 now1 = new Now(2010, 1)
 now.isLeapYear(now1) // false
 </code></pre>
-    <h3 id="isbefore">isBefore(date1, [date2])</h3>
-    <p>Check if <strong>date1</strong> is before <strong>date2</strong>.<br>
-      <strong>date2</strong> is optional. If <strong>date2</strong> is empty, will check if <strong>this</strong> is before <strong>date1</strong>.<br> Accept Now type.</p>
-    <pre><code class="lang-javascript">now = new Now();
+      <h3 id="isbefore">isBefore(date1, [date2])</h3>
+      <p>Check if <strong>date1</strong> is before <strong>date2</strong>.<br>
+        <strong>date2</strong> is optional. If <strong>date2</strong> is empty, will check if <strong>this</strong> is before <strong>date1</strong>.<br> Accept Now type.</p>
+      <pre><code class="lang-javascript">now = new Now();
 
 date1 = new Date(2017, 1);
 date2 = new Date(2020, 1);
@@ -1176,11 +1179,11 @@ now1 = new Now(2017, 1);
 now2 = new Now(2020, 1);
 now.isBefore(now1, now2) // true
 </code></pre>
-    <h3 id="isafter">isAfter(date1, [date2])</h3>
-    <p>Check if <strong>date1</strong> is after <strong>date2</strong>. Opposite to
-      <strong>isBefore</strong><br>
-      <strong>date2</strong> is optional. If <strong>date2</strong> is empty, will check if <strong>this</strong> is after <strong>date1</strong>.<br> Accept Now type.</p>
-    <pre><code class="lang-javascript">now = new Now();
+      <h3 id="isafter">isAfter(date1, [date2])</h3>
+      <p>Check if <strong>date1</strong> is after <strong>date2</strong>. Opposite to
+        <strong>isBefore</strong><br>
+        <strong>date2</strong> is optional. If <strong>date2</strong> is empty, will check if <strong>this</strong> is after <strong>date1</strong>.<br> Accept Now type.</p>
+      <pre><code class="lang-javascript">now = new Now();
 
 date1 = new Date(2017, 1);
 date2 = new Date(2020, 1);
@@ -1193,10 +1196,10 @@ now1 = new Now(2017, 1);
 now2 = new Now(2020, 1);
 now.isAfter(now1, now2) // false
 </code></pre>
-    <h3 id="isequal">isEqual(date1, [date2])</h3>
-    <p>Check if <strong>date1</strong> is equal to <strong>date2</strong>.<br>
-      <strong>date2</strong> is optional. If <strong>date2</strong> is empty, will check if <strong>this</strong> is equal to <strong>date1</strong>.<br> Accept Now type.</p>
-    <pre><code class="lang-javascript">now = new Now();
+      <h3 id="isequal">isEqual(date1, [date2])</h3>
+      <p>Check if <strong>date1</strong> is equal to <strong>date2</strong>.<br>
+        <strong>date2</strong> is optional. If <strong>date2</strong> is empty, will check if <strong>this</strong> is equal to <strong>date1</strong>.<br> Accept Now type.</p>
+      <pre><code class="lang-javascript">now = new Now();
 
 date1 = new Date(2017, 1);
 date2 = new Date(2017, 1);
@@ -1209,11 +1212,11 @@ now1 = new Now(2017, 1);
 now2 = new Now(2017, 1);
 now.isEqual(now1, now2) // true
 </code></pre>
-    <h3 id="min">min(date1, ...rest)</h3>
-    <p>Return the minimal by given dates.<br>
-      <strong>rest</strong> is optional. If <strong>rest</strong>'s length is 0, return the minimal between <strong>this</strong> and <strong>date1</strong>. If <strong>rest</strong>'s length &gt; 0, <strong>this</strong> is not include<br> Accept Now
-      type. Accept Array.<br> Require at least one argument, if not throw Error.</p>
-    <pre><code class="lang-javascript">now = new Now();
+      <h3 id="min">min(date1, ...rest)</h3>
+      <p>Return the minimal by given dates.<br>
+        <strong>rest</strong> is optional. If <strong>rest</strong>'s length is 0, return the minimal between <strong>this</strong> and <strong>date1</strong>. If <strong>rest</strong>'s length &gt; 0, <strong>this</strong> is not include<br> Accept Now
+        type. Accept Array.<br> Require at least one argument, if not throw Error.</p>
+      <pre><code class="lang-javascript">now = new Now();
 
 now.format('YYYY-MM-DD HH:mm:ss.SSS') // "2017-11-26 17:16:41.790"
 date1 = new Date(2018, 1);
@@ -1233,11 +1236,11 @@ now.min([now1, now2]) // now1
 
 now.min() // Uncaught Error: min require at least one argument
 </code></pre>
-    <h3 id="max">max(date1, ...rest)</h3>
-    <p>Return the maximal by given dates. Opposite to <strong>min</strong><br>
-      <strong>rest</strong> is optional. If <strong>rest</strong>'s length is 0, return the maximal between <strong>this</strong> and <strong>date1</strong>. If <strong>rest</strong>'s length &gt; 0, <strong>this</strong> is not include<br> Accept Now
-      type. Accept Array.<br> Require at least one argument, if not throw Error.</p>
-    <pre><code class="lang-javascript">now = new Now();
+      <h3 id="max">max(date1, ...rest)</h3>
+      <p>Return the maximal by given dates. Opposite to <strong>min</strong><br>
+        <strong>rest</strong> is optional. If <strong>rest</strong>'s length is 0, return the maximal between <strong>this</strong> and <strong>date1</strong>. If <strong>rest</strong>'s length &gt; 0, <strong>this</strong> is not include<br> Accept Now
+        type. Accept Array.<br> Require at least one argument, if not throw Error.</p>
+      <pre><code class="lang-javascript">now = new Now();
 
 now.format('YYYY-MM-DD HH:mm:ss.SSS') // "2017-11-26 17:16:41.790"
 date1 = new Date(2018, 1);
@@ -1257,9 +1260,9 @@ now.min([now1, now2]) // now2
 
 now.max() // Uncaught Error: max require at least one argument
 </code></pre>
-    <h3 id="between">between(date1, date2)</h3>
-    <p>Check if <strong>this</strong> is between date1 and date2.<br> Accept Now type.<br> If date1 or date2 is empty will throw Error.</p>
-    <pre><code class="lang-javascript">now = new Now();
+      <h3 id="between">between(date1, date2)</h3>
+      <p>Check if <strong>this</strong> is between date1 and date2.<br> Accept Now type.<br> If date1 or date2 is empty will throw Error.</p>
+      <pre><code class="lang-javascript">now = new Now();
 
 now.format('YYYY-MM-DD HH:mm:ss.SSS') // "2017-11-26 17:16:41.790"
 date1 = new Date(2018, 1);
@@ -1273,11 +1276,11 @@ now.between(date3, date4) // true
 
 now.between() // Uncaught Error: between require two arguments
 </code></pre>
-    <h3 id="sub">sub(date1, [date2])</h3>
-    <p>Return milliseconds between date1 and date2.<br>
-      <strong>date2</strong> is optional, if empty, return milliseconds between
-      <strong>this</strong> and date1.<br> Accept Now type.<br> Receive at least one argument.</p>
-    <pre><code class="lang-javascript">now = new Now();
+      <h3 id="sub">sub(date1, [date2])</h3>
+      <p>Return milliseconds between date1 and date2.<br>
+        <strong>date2</strong> is optional, if empty, return milliseconds between
+        <strong>this</strong> and date1.<br> Accept Now type.<br> Receive at least one argument.</p>
+      <pre><code class="lang-javascript">now = new Now();
 
 now.format('YYYY-MM-DD HH:mm:ss.SSS') // "2017-11-26 19:33:25.198"
 date1 = new Date(2018, 1);
@@ -1289,10 +1292,10 @@ now.sub(date1) // -5718394802
 
 now.sub() // Uncaught Error: sub must be receive more than one argument
 </code></pre>
-    <h3 id="since">since(date1, [date2])</h3>
-    <p>Return milliseconds between date1 and date2.<br>
-      <strong>date2</strong> is optional, if empty, return milliseconds between current time and date1.<br> Accept Now type.<br> Receive at least one argument.</p>
-    <pre><code class="lang-javascript">now = new Now();
+      <h3 id="since">since(date1, [date2])</h3>
+      <p>Return milliseconds between date1 and date2.<br>
+        <strong>date2</strong> is optional, if empty, return milliseconds between current time and date1.<br> Accept Now type.<br> Receive at least one argument.</p>
+      <pre><code class="lang-javascript">now = new Now();
 
 now.format('YYYY-MM-DD HH:mm:ss.SSS') // "2017-11-26 21:01:41.535"
 date1 = new Date(2018, 1);
@@ -1304,11 +1307,11 @@ now.since(date1) // -5712947919 (same as now.since(date1, new Now()))
 
 now.since() // Uncaught Error: since must be receive more than one argument
 </code></pre>
-    <h3 id="elapse">elapse([date])</h3>
-    <p>Return format time pass from date to current time. Alias <strong>timeAgo</strong><br>
-      <strong>date</strong> is optional, if empty, return format time pass from
-      <strong>this</strong> to current time.<br> Accept Now type.</p>
-    <pre><code class="lang-javascript">now = new Now();
+      <h3 id="elapse">elapse([date])</h3>
+      <p>Return format time pass from date to current time. Alias <strong>timeAgo</strong><br>
+        <strong>date</strong> is optional, if empty, return format time pass from
+        <strong>this</strong> to current time.<br> Accept Now type.</p>
+      <pre><code class="lang-javascript">now = new Now();
 
 now.format('YYYY-MM-DD HH:mm:ss.SSS') // "2017-11-26 21:13:20.522"
 
@@ -1324,38 +1327,38 @@ now.elapse() // "a minute ago"
 // same as
 now.timeAgo() // "a minute ago"
 </code></pre>
-    <h3 id="utcoffset">utcOffset(Number | String, Boolean)</h3>
-    <p>Get the UTC offset in minutes..<br><br> Getting the utcOffset of the current object:
-    </p>
-    <pre><code class="lang-javascript">now = new Now();
+      <h3 id="utcoffset">utcOffset(Number | String, Boolean)</h3>
+      <p>Get the UTC offset in minutes..<br><br> Getting the utcOffset of the current object:
+      </p>
+      <pre><code class="lang-javascript">now = new Now();
 now.format('YYYY-MM-DD HH:mm:ss.SSS') // "2017-11-26 21:39:50.982"
 
 now.utcOffset() // 480
 </code></pre>
-    <p>Setting the UTC offset by supplying minutes. Note that once you set an offset, it's fixed and won't change on its own (i.e there are no DST rules). </p>
-    <pre><code class="lang-javascript">now.utcOffset(120)
+      <p>Setting the UTC offset by supplying minutes. Note that once you set an offset, it's fixed and won't change on its own (i.e there are no DST rules). </p>
+      <pre><code class="lang-javascript">now.utcOffset(120)
 now.format('YYYY-MM-DD HH:mm:ss.SSS') // "2017-11-26 21:39:50.982"
 </code></pre>
-    <p>If the input is less than 16 and greater than -16, it will interpret your input as hours instead.</p>
-    <pre><code class="lang-javascript">now.utcOffset(8) // set hours offset
+      <p>If the input is less than 16 and greater than -16, it will interpret your input as hours instead.</p>
+      <pre><code class="lang-javascript">now.utcOffset(8) // set hours offset
 now.utcOffset(480); // set minutes offset (8 * 60)
 </code></pre>
-    <p>It is also possible to set the UTC offset from a string.</p>
-    <pre><code class="lang-javascript">// these are equivalent
+      <p>It is also possible to set the UTC offset from a string.</p>
+      <pre><code class="lang-javascript">// these are equivalent
 now.utcOffset("+08:00");
 now.utcOffset(8);
 now.utcOffset(480);
 </code></pre>
-    <p>The utcOffset function has an optional second parameter which accepts a boolean value indicating whether to keep the existing time of day.</p>
-    <ol>
-      <li>Passing false (the default) will keep the same instant in Universal Time, but the local time will change.</li>
-      <li>Passing true will keep the same local time, but at the expense of choosing a different point in Universal Time. One use of this feature is if you want to construct a Now instance with a specific time zone offset using only numeric input values:
-        ```javascript now = new Now(2017, 0, 1, 0, 0, 0) now.format() // "2017-01-01T00:00:00+08:00"</li>
-    </ol>
-    <p>now.utcOffset(-5, true) now.format() // "2017-01-01T00:00:00-05:00"</p>
-    <h3 id="utclower">utc()</h3>
-    <p>Sets a flag on the original Now instance to use UTC to display a Now instance instead of the original Now instance's time.</p>
-    <pre><code class="lang-javascript">now = new Now();
+      <p>The utcOffset function has an optional second parameter which accepts a boolean value indicating whether to keep the existing time of day.</p>
+      <ol>
+        <li>Passing false (the default) will keep the same instant in Universal Time, but the local time will change.</li>
+        <li>Passing true will keep the same local time, but at the expense of choosing a different point in Universal Time. One use of this feature is if you want to construct a Now instance with a specific time zone offset using only numeric input values:
+          ```javascript now = new Now(2017, 0, 1, 0, 0, 0) now.format() // "2017-01-01T00:00:00+08:00"</li>
+      </ol>
+      <p>now.utcOffset(-5, true) now.format() // "2017-01-01T00:00:00-05:00"</p>
+      <h3 id="utclower">utc()</h3>
+      <p>Sets a flag on the original Now instance to use UTC to display a Now instance instead of the original Now instance's time.</p>
+      <pre><code class="lang-javascript">now = new Now();
 
 now.format('YYYY-MM-DD HH:mm:ss.SSS') // "2017-11-26T22:00:49+08:00"
 
@@ -1363,9 +1366,9 @@ now.hour(); // 22
 now.utc();
 now.hour(); // 14 UTC
 </code></pre>
-    <h3 id="local">local()</h3>
-    <p>Sets a flag on the original Now instance to use local time to display a Now instance instead of the original Now instance's time.</p>
-    <pre><code class="lang-javascript">now = new Now().UTC();
+      <h3 id="local">local()</h3>
+      <p>Sets a flag on the original Now instance to use local time to display a Now instance instead of the original Now instance's time.</p>
+      <pre><code class="lang-javascript">now = new Now().UTC();
 
 now.format() // "2017-11-26T22:03:47+00:00"
 
@@ -1373,339 +1376,341 @@ now.hour(); // 22
 now.local();
 now.hour(); // 6
 </code></pre>
-    <h3 id="isdst">isDST()</h3>
-    <p>Checks if the given time is in daylight saving time.</p>
-    <pre><code class="lang-javascript">now = new Now(2011, 2, 12);
+      <h3 id="isdst">isDST()</h3>
+      <p>Checks if the given time is in daylight saving time.</p>
+      <pre><code class="lang-javascript">now = new Now(2011, 2, 12);
 
 now.isDST(); // false
 
 now1 = new Now(2011, 2, 14);
 now1.isDST(); // true
 </code></pre>
-    <h3 id="islocal">isLocal()</h3>
-    <p>Checks if the given time is in Local mode. Default is in Local mode.</p>
-    <pre><code class="lang-javascript">now = new Now();
+      <h3 id="islocal">isLocal()</h3>
+      <p>Checks if the given time is in Local mode. Default is in Local mode.</p>
+      <pre><code class="lang-javascript">now = new Now();
 
 now.isLocal(); // true
 now.utc()
 now.isLocal(); // false
 </code></pre>
-    <h3 id="isutc">isUTC()</h3>
-    <p>Checks if the given time is in UTC mode. Alias isUtc.</p>
-    <pre><code class="lang-javascript">now = new Now();
+      <h3 id="isutc">isUTC()</h3>
+      <p>Checks if the given time is in UTC mode. Alias isUtc.</p>
+      <pre><code class="lang-javascript">now = new Now();
 
 now.isUTC(); // false
 now.utc()
 now.isUTC(); // true
 </code></pre>
-    <h2 id="formatfunctions">Format</h2>
-    <h3 id="locale">locale()</h3>
-    <p>Set the locale for further format. Default locale is 'en'.</p>
-    <pre><code class="lang-javascript">now = new Now();
+      <h2 id="formatfunctions">Format</h2>
+      <h3 id="locale">locale()</h3>
+      <p>Set the locale for further format. Default locale is 'en'.</p>
+      <pre><code class="lang-javascript">now = new Now();
 
 now.format("dddd, MMMM Do YYYY, h:mm:ss a") // "Sunday, November 26th 2017, 11:23:40 pm"
 now.locale('zh-cn'); // change to china locale
 now.format("dddd, MMMM Do YYYY, h:mm:ss a") // "星期日, 十一月 26日 2017, 11:23:40 晚上"
 </code></pre>
-    <h3 id="localedata">localeData([name])</h3>
-    <p>Return the locale data Object. Default is en's locale data.<br>
-      <strong>name</strong> is optional, if empty, return default local data Object.</p>
-    <pre><code class="lang-javascript">now = new Now();
+      <h3 id="localedata">localeData([name])</h3>
+      <p>Return the locale data Object. Default is en's locale data.<br>
+        <strong>name</strong> is optional, if empty, return default local data Object.</p>
+      <pre><code class="lang-javascript">now = new Now();
 
 now.localeData() // en's Locale Object (you can check this in chrome devtools)
 now.localeData('zh-cn') // zh-cn's Locale Object (you can check this in chrome devtools)
 </code></pre>
-    <h3 id="format">format</h3>
-    <p><strong>format is borrow from the <a href="https://momentjs.com/docs/#/displaying/format/">moment's format</a>. Respect and gratitude!</strong><br> This is the most robust display option. It takes a string of tokens and replaces them with their corresponding
-      values.</p>
-    <pre><code class="lang-javascript">now = new Now()
+      <h3 id="format">format</h3>
+      <p><strong>format is borrow from the <a href="https://momentjs.com/docs/#/displaying/format/">moment's format</a>. Respect and gratitude!</strong><br> This is the most robust display option. It takes a string of tokens and replaces them with their
+        corresponding values.
+      </p>
+      <pre><code class="lang-javascript">now = new Now()
 
 now.format();                                // "2017-11-26T23:23:40+08:00"
 now.format("dddd, MMMM Do YYYY, h:mm:ss a"); // "Sunday, November 26th 2017, 11:23:40 pm"
 now.format("ddd, hA");                       // "Sun, 11PM"
 </code></pre>
-    <table>
-      <thead>
-        <tr>
-          <th>type</th>
-          <th>Token</th>
-          <th>Output</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Month</td>
-          <td>M</td>
-          <td>1 2 ... 11 12</td>
-        </tr>
-        <tr>
-          <td>Month</td>
-          <td>Mo</td>
-          <td>1st 2nd ... 11th 12th</td>
-        </tr>
-        <tr>
-          <td>Month</td>
-          <td>MM</td>
-          <td>01 02 ... 11 12</td>
-        </tr>
-        <tr>
-          <td>Month</td>
-          <td>MMM</td>
-          <td>Jan Feb ... Nov Dec</td>
-        </tr>
-        <tr>
-          <td>Month</td>
-          <td>MMMM</td>
-          <td>January February ... November December</td>
-        </tr>
-        <tr>
-          <td>Quarter</td>
-          <td>Q</td>
-          <td>1 2 3 4</td>
-        </tr>
-        <tr>
-          <td>Quarter</td>
-          <td>Qo</td>
-          <td>1st 2nd 3rd 4th</td>
-        </tr>
-        <tr>
-          <td>Day of Month</td>
-          <td>D</td>
-          <td>1 2 ... 30 31</td>
-        </tr>
-        <tr>
-          <td>Day of Month</td>
-          <td>Do</td>
-          <td>1st 2nd ... 30th 31st</td>
-        </tr>
-        <tr>
-          <td>Day of Month</td>
-          <td>DD</td>
-          <td>01 02 ... 30 31</td>
-        </tr>
-        <tr>
-          <td>Day of Year</td>
-          <td>DDD</td>
-          <td>1 2 ... 364 365</td>
-        </tr>
-        <tr>
-          <td>Day of Year</td>
-          <td>DDDo</td>
-          <td>1st 2nd ... 364th 365th</td>
-        </tr>
-        <tr>
-          <td>Day of Year</td>
-          <td>DDDD</td>
-          <td>001 002 ... 364 365</td>
-        </tr>
-        <tr>
-          <td>Day of Week</td>
-          <td>d</td>
-          <td>0 1 ... 5 6</td>
-        </tr>
-        <tr>
-          <td>Day of Week</td>
-          <td>do</td>
-          <td>0th 1st ... 5th 6th</td>
-        </tr>
-        <tr>
-          <td>Day of Week</td>
-          <td>dd</td>
-          <td>Su Mo ... Fr Sa</td>
-        </tr>
-        <tr>
-          <td>Day of Week</td>
-          <td>ddd</td>
-          <td>Sun Mon ... Fri Sat</td>
-        </tr>
-        <tr>
-          <td>Day of Week</td>
-          <td>dddd</td>
-          <td>Sunday Monday ... Friday Saturday</td>
-        </tr>
-        <tr>
-          <td>Day of Week (Locale)</td>
-          <td>e</td>
-          <td>0 1 ... 5 6</td>
-        </tr>
-        <tr>
-          <td>Day of Week (ISO)</td>
-          <td>E</td>
-          <td>1 2 ... 6 7</td>
-        </tr>
-        <tr>
-          <td>Week of Year</td>
-          <td>w</td>
-          <td>1 2 ... 52 53</td>
-        </tr>
-        <tr>
-          <td>Week of Year</td>
-          <td>wo</td>
-          <td>1st 2nd ... 52nd 53rd</td>
-        </tr>
-        <tr>
-          <td>Week of Year</td>
-          <td>ww</td>
-          <td>01 02 ... 52 53</td>
-        </tr>
-        <tr>
-          <td>Week of Year (ISO)</td>
-          <td>W</td>
-          <td>1 2 ... 52 53</td>
-        </tr>
-        <tr>
-          <td>Week of Year (ISO)</td>
-          <td>Wo</td>
-          <td>1st 2nd ... 52nd 53rd</td>
-        </tr>
-        <tr>
-          <td>Week of Year (ISO)</td>
-          <td>WW</td>
-          <td>01 02 ... 52 53</td>
-        </tr>
-        <tr>
-          <td>Year</td>
-          <td>YY</td>
-          <td>70 71 ... 29 30</td>
-        </tr>
-        <tr>
-          <td>Year</td>
-          <td>YYYY</td>
-          <td>1970 1971 ... 2029 2030</td>
-        </tr>
-        <tr>
-          <td>Year</td>
-          <td>Y</td>
-          <td>1970 1971 ... 9999 +10000 +10001 Note: This complies with the ISO 8601 standard for dates past the year 9999</td>
-        </tr>
-        <tr>
-          <td>Week Year</td>
-          <td>gg</td>
-          <td>70 71 ... 29 30</td>
-        </tr>
-        <tr>
-          <td>Week Year</td>
-          <td>gggg</td>
-          <td>1970 1971 ... 2029 2030</td>
-        </tr>
-        <tr>
-          <td>Week Year (ISO)</td>
-          <td>GG</td>
-          <td>70 71 ... 29 30</td>
-        </tr>
-        <tr>
-          <td>Week Year (ISO)</td>
-          <td>GGGG</td>
-          <td>1970 1971 ... 2029 2030</td>
-        </tr>
-        <tr>
-          <td>AM/PM</td>
-          <td>A</td>
-          <td>AM PM</td>
-        </tr>
-        <tr>
-          <td>AM/PM</td>
-          <td>a</td>
-          <td>am pm</td>
-        </tr>
-        <tr>
-          <td>Hour</td>
-          <td>H</td>
-          <td>0 1 ... 22 23</td>
-        </tr>
-        <tr>
-          <td>Hour</td>
-          <td>HH</td>
-          <td>00 01 ... 22 23</td>
-        </tr>
-        <tr>
-          <td>Hour</td>
-          <td>h</td>
-          <td>1 2 ... 11 12</td>
-        </tr>
-        <tr>
-          <td>Hour</td>
-          <td>hh</td>
-          <td>01 02 ... 11 12</td>
-        </tr>
-        <tr>
-          <td>Hour</td>
-          <td>k</td>
-          <td>1 2 ... 23 24</td>
-        </tr>
-        <tr>
-          <td>Hour</td>
-          <td>kk</td>
-          <td>01 02 ... 23 24</td>
-        </tr>
-        <tr>
-          <td>Minute</td>
-          <td>m</td>
-          <td>0 1 ... 58 59</td>
-        </tr>
-        <tr>
-          <td>Minute</td>
-          <td>mm</td>
-          <td>00 01 ... 58 59</td>
-        </tr>
-        <tr>
-          <td>Second</td>
-          <td>s</td>
-          <td>0 1 ... 58 59</td>
-        </tr>
-        <tr>
-          <td>Second</td>
-          <td>ss</td>
-          <td>00 01 ... 58 59</td>
-        </tr>
-        <tr>
-          <td>Fractional Second</td>
-          <td>S</td>
-          <td>0 1 ... 8 9</td>
-        </tr>
-        <tr>
-          <td>Fractional Second</td>
-          <td>SS</td>
-          <td>00 01 ... 98 99</td>
-        </tr>
-        <tr>
-          <td>Fractional Second</td>
-          <td>SSS</td>
-          <td>000 001 ... 998 999</td>
-        </tr>
-        <tr>
-          <td>Fractional Second</td>
-          <td>SSSS ... SSSSSSSSS</td>
-          <td>000[0..] 001[0..] ... 998[0..] 999[0..]</td>
-        </tr>
-        <tr>
-          <td>Time Zone</td>
-          <td>z or zz</td>
-          <td>EST CST ... MST PST Note: as of 1.6.0, the z/zz format tokens have been deprecated from plain moment objects. Read more about it here. However, they do work if you are using a specific time zone with the moment-timezone addon.
-          </td>
-        </tr>
-        <tr>
-          <td>Time Zone</td>
-          <td>Z</td>
-          <td>-07:00 -06:00 ... +06:00 +07:00</td>
-        </tr>
-        <tr>
-          <td>Time Zone</td>
-          <td>ZZ</td>
-          <td>-0700 -0600 ... +0600 +0700</td>
-        </tr>
-        <tr>
-          <td>Unix Timestamp</td>
-          <td>X</td>
-          <td>1360013296</td>
-        </tr>
-        <tr>
-          <td>Unix Millisecond Timestamp</td>
-          <td>x</td>
-          <td>1360013296123</td>
-        </tr>
-      </tbody>
-    </table>
+      <table>
+        <thead>
+          <tr>
+            <th>type</th>
+            <th>Token</th>
+            <th>Output</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Month</td>
+            <td>M</td>
+            <td>1 2 ... 11 12</td>
+          </tr>
+          <tr>
+            <td>Month</td>
+            <td>Mo</td>
+            <td>1st 2nd ... 11th 12th</td>
+          </tr>
+          <tr>
+            <td>Month</td>
+            <td>MM</td>
+            <td>01 02 ... 11 12</td>
+          </tr>
+          <tr>
+            <td>Month</td>
+            <td>MMM</td>
+            <td>Jan Feb ... Nov Dec</td>
+          </tr>
+          <tr>
+            <td>Month</td>
+            <td>MMMM</td>
+            <td>January February ... November December</td>
+          </tr>
+          <tr>
+            <td>Quarter</td>
+            <td>Q</td>
+            <td>1 2 3 4</td>
+          </tr>
+          <tr>
+            <td>Quarter</td>
+            <td>Qo</td>
+            <td>1st 2nd 3rd 4th</td>
+          </tr>
+          <tr>
+            <td>Day of Month</td>
+            <td>D</td>
+            <td>1 2 ... 30 31</td>
+          </tr>
+          <tr>
+            <td>Day of Month</td>
+            <td>Do</td>
+            <td>1st 2nd ... 30th 31st</td>
+          </tr>
+          <tr>
+            <td>Day of Month</td>
+            <td>DD</td>
+            <td>01 02 ... 30 31</td>
+          </tr>
+          <tr>
+            <td>Day of Year</td>
+            <td>DDD</td>
+            <td>1 2 ... 364 365</td>
+          </tr>
+          <tr>
+            <td>Day of Year</td>
+            <td>DDDo</td>
+            <td>1st 2nd ... 364th 365th</td>
+          </tr>
+          <tr>
+            <td>Day of Year</td>
+            <td>DDDD</td>
+            <td>001 002 ... 364 365</td>
+          </tr>
+          <tr>
+            <td>Day of Week</td>
+            <td>d</td>
+            <td>0 1 ... 5 6</td>
+          </tr>
+          <tr>
+            <td>Day of Week</td>
+            <td>do</td>
+            <td>0th 1st ... 5th 6th</td>
+          </tr>
+          <tr>
+            <td>Day of Week</td>
+            <td>dd</td>
+            <td>Su Mo ... Fr Sa</td>
+          </tr>
+          <tr>
+            <td>Day of Week</td>
+            <td>ddd</td>
+            <td>Sun Mon ... Fri Sat</td>
+          </tr>
+          <tr>
+            <td>Day of Week</td>
+            <td>dddd</td>
+            <td>Sunday Monday ... Friday Saturday</td>
+          </tr>
+          <tr>
+            <td>Day of Week (Locale)</td>
+            <td>e</td>
+            <td>0 1 ... 5 6</td>
+          </tr>
+          <tr>
+            <td>Day of Week (ISO)</td>
+            <td>E</td>
+            <td>1 2 ... 6 7</td>
+          </tr>
+          <tr>
+            <td>Week of Year</td>
+            <td>w</td>
+            <td>1 2 ... 52 53</td>
+          </tr>
+          <tr>
+            <td>Week of Year</td>
+            <td>wo</td>
+            <td>1st 2nd ... 52nd 53rd</td>
+          </tr>
+          <tr>
+            <td>Week of Year</td>
+            <td>ww</td>
+            <td>01 02 ... 52 53</td>
+          </tr>
+          <tr>
+            <td>Week of Year (ISO)</td>
+            <td>W</td>
+            <td>1 2 ... 52 53</td>
+          </tr>
+          <tr>
+            <td>Week of Year (ISO)</td>
+            <td>Wo</td>
+            <td>1st 2nd ... 52nd 53rd</td>
+          </tr>
+          <tr>
+            <td>Week of Year (ISO)</td>
+            <td>WW</td>
+            <td>01 02 ... 52 53</td>
+          </tr>
+          <tr>
+            <td>Year</td>
+            <td>YY</td>
+            <td>70 71 ... 29 30</td>
+          </tr>
+          <tr>
+            <td>Year</td>
+            <td>YYYY</td>
+            <td>1970 1971 ... 2029 2030</td>
+          </tr>
+          <tr>
+            <td>Year</td>
+            <td>Y</td>
+            <td>1970 1971 ... 9999 +10000 +10001 Note: This complies with the ISO 8601 standard for dates past the year 9999</td>
+          </tr>
+          <tr>
+            <td>Week Year</td>
+            <td>gg</td>
+            <td>70 71 ... 29 30</td>
+          </tr>
+          <tr>
+            <td>Week Year</td>
+            <td>gggg</td>
+            <td>1970 1971 ... 2029 2030</td>
+          </tr>
+          <tr>
+            <td>Week Year (ISO)</td>
+            <td>GG</td>
+            <td>70 71 ... 29 30</td>
+          </tr>
+          <tr>
+            <td>Week Year (ISO)</td>
+            <td>GGGG</td>
+            <td>1970 1971 ... 2029 2030</td>
+          </tr>
+          <tr>
+            <td>AM/PM</td>
+            <td>A</td>
+            <td>AM PM</td>
+          </tr>
+          <tr>
+            <td>AM/PM</td>
+            <td>a</td>
+            <td>am pm</td>
+          </tr>
+          <tr>
+            <td>Hour</td>
+            <td>H</td>
+            <td>0 1 ... 22 23</td>
+          </tr>
+          <tr>
+            <td>Hour</td>
+            <td>HH</td>
+            <td>00 01 ... 22 23</td>
+          </tr>
+          <tr>
+            <td>Hour</td>
+            <td>h</td>
+            <td>1 2 ... 11 12</td>
+          </tr>
+          <tr>
+            <td>Hour</td>
+            <td>hh</td>
+            <td>01 02 ... 11 12</td>
+          </tr>
+          <tr>
+            <td>Hour</td>
+            <td>k</td>
+            <td>1 2 ... 23 24</td>
+          </tr>
+          <tr>
+            <td>Hour</td>
+            <td>kk</td>
+            <td>01 02 ... 23 24</td>
+          </tr>
+          <tr>
+            <td>Minute</td>
+            <td>m</td>
+            <td>0 1 ... 58 59</td>
+          </tr>
+          <tr>
+            <td>Minute</td>
+            <td>mm</td>
+            <td>00 01 ... 58 59</td>
+          </tr>
+          <tr>
+            <td>Second</td>
+            <td>s</td>
+            <td>0 1 ... 58 59</td>
+          </tr>
+          <tr>
+            <td>Second</td>
+            <td>ss</td>
+            <td>00 01 ... 58 59</td>
+          </tr>
+          <tr>
+            <td>Fractional Second</td>
+            <td>S</td>
+            <td>0 1 ... 8 9</td>
+          </tr>
+          <tr>
+            <td>Fractional Second</td>
+            <td>SS</td>
+            <td>00 01 ... 98 99</td>
+          </tr>
+          <tr>
+            <td>Fractional Second</td>
+            <td>SSS</td>
+            <td>000 001 ... 998 999</td>
+          </tr>
+          <tr>
+            <td>Fractional Second</td>
+            <td>SSSS ... SSSSSSSSS</td>
+            <td>000[0..] 001[0..] ... 998[0..] 999[0..]</td>
+          </tr>
+          <tr>
+            <td>Time Zone</td>
+            <td>z or zz</td>
+            <td>EST CST ... MST PST Note: as of 1.6.0, the z/zz format tokens have been deprecated from plain moment objects. Read more about it here. However, they do work if you are using a specific time zone with the moment-timezone addon.
+            </td>
+          </tr>
+          <tr>
+            <td>Time Zone</td>
+            <td>Z</td>
+            <td>-07:00 -06:00 ... +06:00 +07:00</td>
+          </tr>
+          <tr>
+            <td>Time Zone</td>
+            <td>ZZ</td>
+            <td>-0700 -0600 ... +0600 +0700</td>
+          </tr>
+          <tr>
+            <td>Unix Timestamp</td>
+            <td>X</td>
+            <td>1360013296</td>
+          </tr>
+          <tr>
+            <td>Unix Millisecond Timestamp</td>
+            <td>x</td>
+            <td>1360013296123</td>
+          </tr>
+        </tbody>
+      </table>
+    </article>
   </div>
   <script src="./nowjs.js"></script>
 </body>
