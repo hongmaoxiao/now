@@ -501,13 +501,6 @@ class Now {
       clone.format('YYYY-MM-DD HH:mm:ss.SSS');
   }
 
-  endOfMinute(val) {
-    const clone = this.clone().beginningOfMinute('self').addMilliSeconds(MINUTE - 1);
-    return (val && val === 'self') ?
-      clone :
-      clone.format('YYYY-MM-DD HH:mm:ss.SSS');
-  }
-
   endOfHour(val) {
     const clone = this.clone().beginningOfHour('self').addMilliSeconds(HOUR - 1);
     return (val && val === 'self') ?
