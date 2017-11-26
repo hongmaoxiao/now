@@ -39,20 +39,26 @@ Now.version // '0.1.0'
 ```
 
 ### defineLocale
-
+Create a locale that inherits from a parent locale.
 ```javascript
-Now.defineLocale
+Now.defineLocale('en-foo', {
+  parentLocale: 'en',
+  /* */
+});
 ```
+Properties that are not specified in the locale will be inherited from the parent locale.
 
 ### updateLocale
-
+Update a locale's properties.
 ```javascript
-Now.updateLocale
+moment.updateLocale('en', {
+  /**/
+});
 ```
 ### locales
-return all the locales.
+List all locales are available to use.
 ```javascript
-Now.locales()
+Now.locales() // ["af", "ar-dz", "ar-kw", "ar-ly", "ar-ma"...](118 items)
 ```
 ## Functions
 If no pecify below.  **now = new Now(2017, 0, 1, 2, 3, 4, 5)**
@@ -712,20 +718,6 @@ now.truncate('year')
 now.format('YYYY-MM-DD HH:mm:ss.SSS') // "2018-01-01 00:00:00.000"
 ```
 
-### beginningOfMilliSecond(['self'])
-Returns the beginning of milliseconds.
-**'self'** is optional. If pass **'self'** return Now instance.
-```javascript
-now = new Now();
-now.format('YYYY-MM-DD HH:mm:ss.SSS') // "2017-11-26 01:27:44.363"
-
-now.beginningOfMilliSecond() // "2017-11-26 01:27:44.363"
-
-// pass 'self'
-self = now.beginningOfMilliSecond('self')
-self.format('LLLL') // "Sunday, November 26, 2017 1:27 AM"
-self.elapse() // "2 minutes ago"
-```
 ### beginningOfSecond(['self'])
 Returns the beginning of seconds.
 **'self'** is optional. If pass **'self'** return Now instance.
@@ -849,3 +841,533 @@ self = now.beginningOfYear('self')
 self.format('LLLL') // "Sunday, January 1, 2017 12:00 AM"
 self.elapse() // "a year ago"
 ```
+
+### endOfSecond(['self'])
+Returns the end of second.
+**'self'** is optional. If pass **'self'** return Now instance.
+```javascript
+now = new Now();
+now.format('YYYY-MM-DD HH:mm:ss.SSS') // "2017-11-26 11:11:07.769"
+
+now.endOfSecond() // "2017-11-26 11:11:07.999"
+
+// pass 'self'
+self = now.endOfSecond('self')
+self.format('LLLL') // "Sunday, November 26, 2017 11:11 AM"
+self.elapse() // "a minute ago"
+```
+
+### endOfMinute(['self'])
+Returns the end of minute.
+**'self'** is optional. If pass **'self'** return Now instance.
+```javascript
+now = new Now();
+now.format('YYYY-MM-DD HH:mm:ss.SSS') // "2017-11-26 11:11:07.769"
+
+now.endOfMinute() // "2017-11-26 11:11:59.999"
+
+// pass 'self'
+self = now.endOfMinute('self')
+self.format('LLLL') // "Sunday, November 26, 2017 11:11 AM"
+self.elapse() // "2 minutes ago"
+```
+
+### endOfHour(['self'])
+Returns the end of hour.
+**'self'** is optional. If pass **'self'** return Now instance.
+```javascript
+now = new Now();
+now.format('YYYY-MM-DD HH:mm:ss.SSS') // "2017-11-26 11:11:07.769"
+
+now.endOfHour() // "2017-11-26 11:59:59.999"
+
+// pass 'self'
+self = now.endOfHour('self')
+self.format('LLLL') // "Sunday, November 26, 2017 11:59 AM"
+self.elapse() // "in 44 minutes"
+```
+
+### endOfDay(['self'])
+Returns the end of day.
+**'self'** is optional. If pass **'self'** return Now instance.
+```javascript
+now = new Now();
+now.format('YYYY-MM-DD HH:mm:ss.SSS') // "2017-11-26 11:11:07.769"
+
+now.endOfDay() // "2017-11-26 23:59:59.999"
+
+// pass 'self'
+self = now.endOfDay('self')
+self.format('LLLL') // "Sunday, November 26, 2017 11:59 PM"
+self.elapse() // "in 13 hours"
+```
+
+### endOfWeek(['self'])
+Returns the end of week.
+**'self'** is optional. If pass **'self'** return Now instance.
+```javascript
+now = new Now();
+now.format('YYYY-MM-DD HH:mm:ss.SSS') // "2017-11-26 11:11:07.769"
+
+now.endOfWeek() // "2017-12-02 23:59:59.999"
+
+// Set Monday as first day, default is Sunday
+now.firstDayMonday = true
+now.endOfWeek() // "2017-11-26 23:59:59.999"
+
+// pass 'self'
+self = now.endOfWeek('self')
+self.format('LLLL') // "Saturday, December 2, 2017 11:59 PM"
+self.elapse() // "in 7 days"
+```
+
+### endOfMonth(['self'])
+Returns the end of month.
+**'self'** is optional. If pass **'self'** return Now instance.
+```javascript
+now = new Now();
+now.format('YYYY-MM-DD HH:mm:ss.SSS') // "2017-11-26 11:11:07.769"
+
+now.endOfMonth() // "2017-11-30 23:59:59.999"
+
+// pass 'self'
+self = now.endOfMonth('self')
+self.format('LLLL') // "Thursday, November 30, 2017 11:59 PM"
+self.elapse() // "in 5 days"
+```
+
+### endOfQuarter(['self'])
+Returns the end of quarter.
+**'self'** is optional. If pass **'self'** return Now instance.
+```javascript
+now = new Now();
+now.format('YYYY-MM-DD HH:mm:ss.SSS') // "2017-11-26 11:11:07.769"
+
+now.endOfQuarter() // "2017-12-31 23:59:59.999"
+
+// pass 'self'
+self = now.endOfQuarter('self')
+self.format('LLLL') // "Sunday, December 31, 2017 11:59 PM"
+self.elapse() // "in a month"
+```
+
+### endOfYear(['self'])
+Returns the end of year.
+**'self'** is optional. If pass **'self'** return Now instance.
+```javascript
+now = new Now();
+now.format('YYYY-MM-DD HH:mm:ss.SSS') // "2017-11-26 11:11:07.769"
+
+now.endOfYear() // "2017-12-31 23:59:59.999"
+
+// pass 'self'
+self = now.endOfYear('self')
+self.format('LLLL') // "Sunday, December 31, 2017 11:59 PM"
+self.elapse() // "in a month"
+```
+
+### isNow(obj)
+Check if a variable is a Now object.
+**obj** is optional. If obj is empty, will check **this**.
+```javascript
+now = new Now();
+
+// not pass an argument, check this
+now.isNow() // true
+now.isNow(new Date()) // false
+now.isNow(0) // false
+now.isNow('') // false
+now.isNow(undefined) // false
+```
+
+### isLeapYear(year)
+Check if the given year is leap year.<br>
+**year** is optional. If year is empty, will check **this**. Accept Now type.
+```javascript
+now = new Now();
+
+// not pass an argument, check this
+now.year() // 2017
+now.isLeapYear() // false
+now.isLeapYear(2000) // true
+now.isLeapYear(2008) // true
+
+now1 = new Now(2010, 1)
+now.isLeapYear(now1) // false
+```
+
+### isBefore(date1, [date2])
+Check if **date1** is before **date2**.<br>
+**date2** is optional. If **date2** is empty, will check if **this** is before **date1**.<br>
+Accept Now type.
+```javascript
+now = new Now();
+
+date1 = new Date(2017, 1);
+date2 = new Date(2020, 1);
+now.isBefore(date1, date2) // true
+
+now.isBefore(date1) // false
+
+// receive Now type
+now1 = new Now(2017, 1);
+now2 = new Now(2020, 1);
+now.isBefore(now1, now2) // true
+```
+
+### isAfter(date1, [date2])
+Check if **date1** is after **date2**. Opposite to **isBefore**<br>
+**date2** is optional. If **date2** is empty, will check if **this** is after **date1**.<br>
+Accept Now type.
+```javascript
+now = new Now();
+
+date1 = new Date(2017, 1);
+date2 = new Date(2020, 1);
+now.isAfter(date1, date2) // false
+
+now.isAfter(date1) // true
+
+// receive Now type
+now1 = new Now(2017, 1);
+now2 = new Now(2020, 1);
+now.isAfter(now1, now2) // false
+```
+
+### isEqual(date1, [date2])
+Check if **date1** is equal to **date2**.<br>
+**date2** is optional. If **date2** is empty, will check if **this** is equal to **date1**.<br>
+Accept Now type.
+```javascript
+now = new Now();
+
+date1 = new Date(2017, 1);
+date2 = new Date(2017, 1);
+now.isEqual(date1, date2) // true
+
+now.isEqual(date1) // false
+
+// receive Now type
+now1 = new Now(2017, 1);
+now2 = new Now(2017, 1);
+now.isEqual(now1, now2) // true
+```
+
+### min(date1, ...rest)
+Return the minimal by given dates.<br>
+**rest** is optional. If **rest**'s length is 0, return the minimal between **this** and **date1**.
+If **rest**'s length > 0, **this** is not include<br>
+Accept Now type. Accept Array.<br>
+Require at least one argument, if not throw Error.
+```javascript
+now = new Now();
+
+now.format('YYYY-MM-DD HH:mm:ss.SSS') // "2017-11-26 17:16:41.790"
+date1 = new Date(2018, 1);
+date2 = new Date(2019, 1);
+
+now.min(date1) // now
+
+now.min(date1, date2) // date1
+
+// receive Now type
+now1 = new Now(2018, 1);
+now2 = new Now(2019, 1);
+now.min(now1, now2) // now1
+
+// receive array
+now.min([now1, now2]) // now1
+
+now.min() // Uncaught Error: min require at least one argument
+```
+
+### max(date1, ...rest)
+Return the maximal by given dates. Opposite to **min**<br>
+**rest** is optional. If **rest**'s length is 0, return the maximal between **this** and **date1**.
+If **rest**'s length > 0, **this** is not include<br>
+Accept Now type. Accept Array.<br>
+Require at least one argument, if not throw Error.
+```javascript
+now = new Now();
+
+now.format('YYYY-MM-DD HH:mm:ss.SSS') // "2017-11-26 17:16:41.790"
+date1 = new Date(2018, 1);
+date2 = new Date(2019, 1);
+
+now.max(date1) // date1
+
+now.max(date1, date2) // date2
+
+// receive Now type
+now1 = new Now(2018, 1);
+now2 = new Now(2019, 1);
+now.max(now1, now2) // now2
+
+// receive array
+now.min([now1, now2]) // now2
+
+now.max() // Uncaught Error: max require at least one argument
+```
+
+### between(date1, date2)
+Check if **this** is between date1 and date2.<br>
+Accept Now type.<br>
+If date1 or date2 is empty will throw Error.
+```javascript
+now = new Now();
+
+now.format('YYYY-MM-DD HH:mm:ss.SSS') // "2017-11-26 17:16:41.790"
+date1 = new Date(2018, 1);
+date2 = new Date(2019, 1);
+
+now.between(date1, date2) // false
+
+date3 = new Date(2010, 1);
+date4 = new Date(2020, 1);
+now.between(date3, date4) // true
+
+now.between() // Uncaught Error: between require two arguments
+```
+
+### sub(date1, [date2])
+Return milliseconds between date1 and date2.<br>
+**date2** is optional, if empty, return milliseconds between **this** and date1.<br>
+Accept Now type.<br>
+Receive at least one argument.
+```javascript
+now = new Now();
+
+now.format('YYYY-MM-DD HH:mm:ss.SSS') // "2017-11-26 19:33:25.198"
+date1 = new Date(2018, 1);
+date2 = new Date(2019, 1);
+
+now.sub(date1, date2) // -31536000000
+
+now.sub(date1) // -5718394802
+
+now.sub() // Uncaught Error: sub must be receive more than one argument
+```
+
+### since(date1, [date2])
+Return milliseconds between date1 and date2.<br>
+**date2** is optional, if empty, return milliseconds between current time and date1.<br>
+Accept Now type.<br>
+Receive at least one argument.
+```javascript
+now = new Now();
+
+now.format('YYYY-MM-DD HH:mm:ss.SSS') // "2017-11-26 21:01:41.535"
+date1 = new Date(2018, 1);
+date2 = new Date(2019, 1);
+
+now.since(date1, date2) // 31536000000 (the same as now.sub(date2, date1))
+
+now.since(date1) // -5712947919 (same as now.since(date1, new Now()))
+
+now.since() // Uncaught Error: since must be receive more than one argument
+```
+
+### elapse([date])
+Return format time pass from date to current time. Alias **timeAgo**<br>
+**date** is optional, if empty, return format time pass from **this** to current time.<br>
+Accept Now type.
+```javascript
+now = new Now();
+
+now.format('YYYY-MM-DD HH:mm:ss.SSS') // "2017-11-26 21:13:20.522"
+
+date = new Date(2017, 10, 25);
+now.elapse(date) // "7 years ago"
+
+// receive Now type
+date = new Now(2017, 10, 25);
+now.elapse(date) // "7 years ago"
+
+now.elapse() // "a minute ago"
+
+// same as
+now.timeAgo() // "a minute ago"
+```
+
+### utcOffset(Number | String, Boolean)
+Get the UTC offset in minutes..<br><br>
+Getting the utcOffset of the current object:
+```javascript
+now = new Now();
+now.format('YYYY-MM-DD HH:mm:ss.SSS') // "2017-11-26 21:39:50.982"
+
+now.utcOffset() // 480
+```
+
+Setting the UTC offset by supplying minutes. Note that once you set an offset, it's fixed and won't change on its own (i.e there are no DST rules). 
+```javascript
+now.utcOffset(120)
+now.format('YYYY-MM-DD HH:mm:ss.SSS') // "2017-11-26 21:39:50.982"
+```
+If the input is less than 16 and greater than -16, it will interpret your input as hours instead.
+```javascript
+now.utcOffset(8) // set hours offset
+now.utcOffset(480); // set minutes offset (8 * 60)
+```
+It is also possible to set the UTC offset from a string.
+```javascript
+// these are equivalent
+now.utcOffset("+08:00");
+now.utcOffset(8);
+now.utcOffset(480);
+```
+The utcOffset function has an optional second parameter which accepts a boolean value indicating whether to keep the existing time of day.
+1. Passing false (the default) will keep the same instant in Universal Time, but the local time will change.
+2. Passing true will keep the same local time, but at the expense of choosing a different point in Universal Time.
+One use of this feature is if you want to construct a Now instance with a specific time zone offset using only numeric input values:
+```javascript
+now = new Now(2017, 0, 1, 0, 0, 0)
+now.format() // "2017-01-01T00:00:00+08:00"
+
+now.utcOffset(-5, true)
+now.format() // "2017-01-01T00:00:00-05:00"
+```
+
+### utc()
+Sets a flag on the original Now instance to use UTC to display a Now instance instead of the original Now instance's time.
+```javascript
+now = new Now();
+
+now.format('YYYY-MM-DD HH:mm:ss.SSS') // "2017-11-26T22:00:49+08:00"
+
+now.hour(); // 22
+now.utc();
+now.hour(); // 14 UTC
+```
+
+### local()
+Sets a flag on the original Now instance to use local time to display a Now instance instead of the original Now instance's time.
+```javascript
+now = new Now().UTC();
+
+now.format() // "2017-11-26T22:03:47+00:00"
+
+now.hour(); // 22
+now.local();
+now.hour(); // 6
+```
+
+### isDST()
+Checks if the given time is in daylight saving time.
+```javascript
+now = new Now(2011, 2, 12);
+
+now.isDST(); // false
+
+now1 = new Now(2011, 2, 14);
+now1.isDST(); // true
+```
+
+### isLocal()
+Checks if the given time is in Local mode. Default is in Local mode.
+```javascript
+now = new Now();
+
+now.isLocal(); // true
+now.utc()
+now.isLocal(); // false
+```
+
+### isUTC()
+Checks if the given time is in UTC mode. Alias isUtc.
+```javascript
+now = new Now();
+
+now.isUTC(); // false
+now.utc()
+now.isUTC(); // true
+```
+
+## Format
+### locale()
+Set the locale for further format. Default locale is 'en'.
+```javascript
+now = new Now();
+
+now.format("dddd, MMMM Do YYYY, h:mm:ss a") // "Sunday, November 26th 2017, 11:23:40 pm"
+now.locale('zh-cn'); // change to china locale
+now.format("dddd, MMMM Do YYYY, h:mm:ss a") // "星期日, 十一月 26日 2017, 11:23:40 晚上"
+```
+
+### localeData([name])
+Return the locale data Object. Default is en's locale data.<br>
+**name** is optional, if empty, return default local data Object.
+```javascript
+now = new Now();
+
+now.localeData() // en's Locale Object (you can check this in chrome devtools)
+now.localeData('zh-cn') // zh-cn's Locale Object (you can check this in chrome devtools)
+```
+
+### format
+**format is borrow from the [moment's format](https://momentjs.com/docs/#/displaying/format/). Respect and gratitude!**<br>
+This is the most robust display option. It takes a string of tokens and replaces them with their corresponding values.
+```javascript
+now = new Now()
+
+now.format();                                // "2017-11-26T23:23:40+08:00"
+now.format("dddd, MMMM Do YYYY, h:mm:ss a"); // "Sunday, November 26th 2017, 11:23:40 pm"
+now.format("ddd, hA");                       // "Sun, 11PM"
+```
+
+type | Token | Output
+----|------|----
+Month | M  | 1 2 ... 11 12
+Month | Mo  | 1st 2nd ... 11th 12th
+Month | MM  | 01 02 ... 11 12
+Month | MMM  | Jan Feb ... Nov Dec
+Month | MMMM  | January February ... November December
+Quarter | Q  | 1 2 3 4
+Quarter | Qo  | 1st 2nd 3rd 4th
+Day of Month |	D	| 1 2 ... 30 31
+Day of Month | Do |	1st 2nd ... 30th 31st
+Day of Month | DD |	01 02 ... 30 31
+Day of Year	| DDD |	1 2 ... 364 365
+Day of Year	| DDDo | 1st 2nd ... 364th 365th
+Day of Year	| DDDD | 001 002 ... 364 365
+Day of Week	| d	| 0 1 ... 5 6
+Day of Week	| do	| 0th 1st ... 5th 6th
+Day of Week	| dd	| Su Mo ... Fr Sa
+Day of Week	| ddd	| Sun Mon ... Fri Sat
+Day of Week	| dddd	| Sunday Monday ... Friday Saturday
+Day of Week (Locale) | e | 0 1 ... 5 6
+Day of Week (ISO)	| E	| 1 2 ... 6 7
+Week of Year	| w	| 1 2 ... 52 53
+Week of Year	| wo	| 1st 2nd ... 52nd 53rd
+Week of Year	| ww	| 01 02 ... 52 53
+Week of Year (ISO) |	W	| 1 2 ... 52 53
+Week of Year (ISO) | Wo	| 1st 2nd ... 52nd 53rd
+Week of Year (ISO) | WW	| 01 02 ... 52 53
+Year | YY	| 70 71 ... 29 30
+Year | YYYY	| 1970 1971 ... 2029 2030
+Year | Y	| 1970 1971 ... 9999 +10000 +10001 Note: This complies with the ISO 8601 standard for dates past the year 9999
+Week Year	| gg |	70 71 ... 29 30
+Week Year	| gggg |	1970 1971 ... 2029 2030
+Week Year (ISO)	| GG |	70 71 ... 29 30
+Week Year (ISO)	| GGGG |	1970 1971 ... 2029 2030
+AM/PM	| A	| AM PM
+AM/PM	| a	| am pm
+Hour	| H	| 0 1 ... 22 23
+Hour	| HH	| 00 01 ... 22 23
+Hour	| h	| 1 2 ... 11 12
+Hour	| hh |	01 02 ... 11 12
+Hour	| k	| 1 2 ... 23 24
+Hour	| kk |	01 02 ... 23 24
+Minute	| m	| 0 1 ... 58 59
+Minute	| mm	| 00 01 ... 58 59
+Second	| s	| 0 1 ... 58 59
+Second	| ss	| 00 01 ... 58 59
+Fractional Second	| S	| 0 1 ... 8 9
+Fractional Second	| SS	| 00 01 ... 98 99
+Fractional Second	| SSS	| 000 001 ... 998 999
+Fractional Second	| SSSS ... SSSSSSSSS	| 000[0..] 001[0..] ... 998[0..] 999[0..]
+Time Zone	| z or zz	| EST CST ... MST PST Note: as of 1.6.0, the z/zz format tokens have been deprecated from plain moment objects. Read more about it here. However, they do work if you are using a specific time zone with the moment-timezone addon.
+Time Zone | Z	| -07:00 -06:00 ... +06:00 +07:00
+Time Zone | ZZ |	-0700 -0600 ... +0600 +0700
+Unix Timestamp |	X	| 1360013296
+Unix Millisecond Timestamp |	x	| 1360013296123

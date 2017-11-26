@@ -397,7 +397,6 @@ export function getSetGlobalLocale(key, values) {
     }
 
     if (data) {
-      // moment.duration._locale = moment._locale = data;
       globalLocale = data;
     }
   }

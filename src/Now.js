@@ -83,7 +83,7 @@ function compare(date1, date2) {
   }
 }
 
-const getDateOffset = (date)  => -Math.round(date.getTimezoneOffset() / 15) * 15;
+const getDateOffset = date => -Math.round(date.getTimezoneOffset() / 15) * 15;
 
 class Now {
   constructor(...args) {
@@ -863,7 +863,7 @@ class Now {
       }
       return this;
     }
-    return this._isUTC ? offset : this.getDateOffset();
+    return this._isUTC ? offset : getDateOffset(this.date);
   }
 
   utc(keepLocalTime) {
@@ -876,7 +876,7 @@ class Now {
       this._isUTC = false;
 
       if (keepLocalTime) {
-        this.addMinutes(-this.getDateOffset());
+        this.addMinutes(-getDateOffset(this.date));
       }
     }
     return this;
