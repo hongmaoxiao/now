@@ -28,6 +28,7 @@ import {
   weeksInYear,
   parseWeekday,
   parseIsoWeekday,
+  SECOND,
   MINUTE,
   HOUR,
   DAY,
@@ -429,13 +430,6 @@ class Now {
     return clone.truncate('day');
   }
 
-  beginningOfMilliSecond(val) {
-    const computed = this.clone().truncate('milliSecond');
-    return (val && val === 'self') ?
-      computed :
-      computed.format('YYYY-MM-DD HH:mm:ss.SSS');
-  }
-
   beginningOfSecond(val) {
     const computed = this.clone().truncate('second');
     return (val && val === 'self') ?
@@ -491,6 +485,20 @@ class Now {
     return (val && val === 'self') ?
       computed :
       computed.format('YYYY-MM-DD HH:mm:ss');
+  }
+
+  endOfSecond(val) {
+    const clone = this.clone().beginningOfSecond('self').addMilliSeconds(SECOND - 1);
+    return (val && val === 'self') ?
+      clone :
+      clone.format('YYYY-MM-DD HH:mm:ss.SSS');
+  }
+
+  endOfMinute(val) {
+    const clone = this.clone().beginningOfMinute('self').addMilliSeconds(MINUTE - 1);
+    return (val && val === 'self') ?
+      clone :
+      clone.format('YYYY-MM-DD HH:mm:ss.SSS');
   }
 
   endOfMinute(val) {
