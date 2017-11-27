@@ -55,7 +55,7 @@ beginningOfMinute.isMonday() // true
 
 ```
 
-[more examples](https://github.com/hongmaoxiao/now/blob/master/example)
+[More examples](https://github.com/hongmaoxiao/now/blob/master/example)
 
 ## Browser Support
 
