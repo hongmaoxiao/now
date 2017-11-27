@@ -5,7 +5,7 @@ To run the examples:
 1. `https://github.com/hongmaoxiao/now.git`
 2. `cd now`
 3. `npm install`
-4. `npm run dev`
+4. `npm run start`
 5. [http://localhost:8080](http://localhost:8080)
 
 You can find this:
