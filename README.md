@@ -55,8 +55,11 @@ beginningOfMinute.isMonday() // true
 
 ```
 
+[more examples](https://github.com/hongmaoxiao/now/blob/master/example)
+
 ## Browser Support
-Modern browsers and Internet Explorer 10+.
+
+Modern browsers and Internet Explorer 9+.
 
 ## Author
 
