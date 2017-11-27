@@ -81,6 +81,7 @@ Any pull request will be apreciated.
 
 * <http://github.com/hongmaoxiao>
 * <buaaxhm@gmail.com>
+* <https://twitter.com/buaaxhm>
 
 ## License
 
