@@ -11080,7 +11080,7 @@ var Duration = function () {
 { "allowAfterThis": true, "allow": ["_isUTC", "_week"] }
 ] */
 /* eslint class-methods-use-this: ["error", { "exceptMethods": ["version", "localeData"] }] */
-var VERSION = '0.1.0';
+var VERSION = '0.2.0';
 var days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 var chunkOffset = /([+-]|\d\d)/gi;
 
