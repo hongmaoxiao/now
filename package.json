@@ -16,7 +16,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/makelifemorefun/now.git"
+    "url": "git+https://github.com/hongmaoxiao/now.git"
   },
   "keywords": [
     "now",
@@ -28,9 +28,9 @@
   "author": "buaaxhm@gmail.com",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/makelifemorefun/now/issues"
+    "url": "https://github.com/hongmaoxiao/now/issues"
   },
-  "homepage": "https://github.com/makelifemorefun/now#readme",
+  "homepage": "https://github.com/hongmaoxiao/now#readme",
   "dependencies": {},
   "devDependencies": {
     "babel-jest": "^21.2.0",
