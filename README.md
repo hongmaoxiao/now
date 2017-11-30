@@ -75,6 +75,12 @@ Any pull request will be apreciated.
 1. Pull request to `master` branch will be rejected, submit your pull request to `develop` branch.
 2. Do not upload build files in your pull request. These are `dist/*.js`. I will build them by myself.
 
+## Changelog
+
+#### 0.2.0
+1. fix package.json homepage, repository url and bugs url.
+2. add Contribute to readme.
+
 ## Author
 
 **hongmaoxiao**
