@@ -83,8 +83,31 @@ beginningOfMinute.isMonday() // true
 
 ```
 
+[More examples](https://github.com/hongmaoxiao/now/blob/master/example)
+
 ## Browser Support
-Modern browsers and Internet Explorer 10+.
+
+Modern browsers and Internet Explorer 9+.
+
+## Contribute
+Bug reports or suggestions please check out [issues](https://github.com/hongmaoxiao/now/issues).<br>
+Any pull request will be apreciated.
+
+1. Fork
+2. run `npm install`
+3. run `npm run start` in the main folder to launch a development webserver
+4. complete your code and create pull request
+
+**Note:**
+
+1. Pull request to `master` branch will be rejected, submit your pull request to `develop` branch.
+2. Do not upload build files in your pull request. These are `dist/*.js`. I will build them by myself.
+
+## Changelog
+
+#### 0.2.0
+1. fix package.json homepage, repository url and bugs url.
+2. add Contribute to readme.
 
 ## Author
 
@@ -92,6 +115,7 @@ Modern browsers and Internet Explorer 10+.
 
 * <http://github.com/hongmaoxiao>
 * <buaaxhm@gmail.com>
+* <https://twitter.com/buaaxhm>
 
 ## License
 

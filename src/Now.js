@@ -38,7 +38,7 @@ import {
 import format from './Format';
 import duration from './Duration';
 
-const VERSION = '0.1.0';
+const VERSION = '0.2.0';
 const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 const chunkOffset = /([+-]|\d\d)/gi;
 
