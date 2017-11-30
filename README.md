@@ -23,9 +23,37 @@ Import now.js into your page
 ```javascript
 import Now from 'now.js'; // for node(browser do not need this)
 
-now = new Now() // "2017-11-20 22:23:00.285"
+now = new Now()
 
-import Now
+now.format() // "2017-11-20T22:23:00+08:00"
+now.format('YYYY-MM-DD HH:mm:ss.SSS') // "2017-11-20 22:23:00.285"
+now.format("dddd, MMMM Do YYYY, h:mm:ss a") // "Monday, November 20th 2017, 10:23:00 pm"
+
+now.locale('zh-cn') // support 118 languages
+now.format("dddd, MMMM Do YYYY, h:mm:ss a") // "星期一, 十一月 20日 2017, 10:23:00 晚上"
+now.elapse() // "10 天前"
+// same as
+now.timeAgo() // "10 天前"
+
+// monday
+now.monday() // "2017-11-20 00:00:00"
+
+// isMonday
+now.isMonday() // true
+
+// isBefore
+now.isBefore(new Date(2020, 10, 11)) // true
+
+// isLeapYear
+now.isLeapYear() // false
+now.isLeapYear(2008) // true
+
+// between
+now.between(new Date(2008, 10, 10), new Date(2018, 10, 10)) // true
+
+// UTC
+now.UTC().format() // "2017-11-20T22:23:00+00:00"
+
 now.beginningOfMinute()   // "2017-11-20 22:23:00"
 now.beginningOfHour()     // "2017-11-20 22:00:00"
 now.beginningOfDay()      // "2017-11-20 00:00:00"
