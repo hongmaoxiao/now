@@ -7,7 +7,7 @@
     "start": "concurrently --kill-others  \"npm run serve\" \"npm run build -- -w\"",
     "serve": "gulp serve",
     "test": "jest",
-    "prepublish": "npm run build",
+    "prepublishOnly": "npm run build",
     "build": "node build.js",
     "lint": "./node_modules/.bin/eslint --fix ./src"
   },
