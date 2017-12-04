@@ -1,6 +1,6 @@
 {
   "name": "now.js",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "now is a time toolkit for javascript",
   "main": "./dist/nowjs.min.js",
   "scripts": {
