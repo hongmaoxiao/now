@@ -2,7 +2,7 @@
   "name": "now.js",
   "version": "0.2.0",
   "description": "now is a time toolkit for javascript",
-  "main": "./dist/nowjs.js",
+  "main": "./dist/nowjs.min.js",
   "scripts": {
     "start": "concurrently --kill-others  \"npm run serve\" \"npm run build -- -w\"",
     "serve": "gulp serve",

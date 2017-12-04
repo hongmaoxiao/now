@@ -115,7 +115,7 @@ import xpseudo from './x-pseudo';
 import yo from './yo';
 import zhcn from './zh-cn';
 import zhhk from './zh-hk';
-import zhtw from './zh-tw'
+import zhtw from './zh-tw';
 
 
 export default {
@@ -236,5 +236,5 @@ export default {
   yo,
   'zh-cn': zhcn,
   'zh-hk': zhhk,
-  'zh-tw': zhtw
+  'zh-tw': zhtw,
 };
