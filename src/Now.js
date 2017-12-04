@@ -15,11 +15,6 @@ import {
   flatten,
   minus,
   nativeDatetoISOString,
-  getSetGlobalLocale as locale,
-  getLocale as localeData,
-  listLocales as locales,
-  defineLocale,
-  updateLocale,
   defaultFormat,
   defaultFormatUtc,
   matchShortOffset,
@@ -35,6 +30,13 @@ import {
   DAY,
 } from './utils/index';
 
+import {
+  getSetGlobalLocale as locale,
+  getLocale as localeData,
+  listLocales as locales,
+  defineLocale,
+  updateLocale,
+} from './lib/locale';
 import format from './Format';
 import duration from './Duration';
 
