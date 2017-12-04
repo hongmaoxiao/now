@@ -13,23 +13,34 @@ Install with npm
 npm install now.js
 ```
 
+ES6/commonjs
+```javascript
+// ES6
+import Now from 'now.js';
+
+// commonjs
+var Now = require('now.js');
+```
+
 Import now.js into your page
 
 ```html
+// default support 'en' and 'zh-cn'
 <script type="text/javascript" src="/path/to/nowjs.min.js"></script>
+
+// or locale version support 118 languages
+<script type="text/javascript" src="/path/to/nowjs.locale.min.js"></script>
 ```
 
 ## Examples
 ```javascript
-import Now from 'now.js'; // for node(browser do not need this)
-
-now = new Now()
+var now = new Now()
 
 now.format() // "2017-11-20T22:23:00+08:00"
 now.format('YYYY-MM-DD HH:mm:ss.SSS') // "2017-11-20 22:23:00.285"
 now.format("dddd, MMMM Do YYYY, h:mm:ss a") // "Monday, November 20th 2017, 10:23:00 pm"
 
-now.locale('zh-cn') // support 118 languages
+now.locale('zh-cn') // default support 'en' and 'zh-cn'
 now.format("dddd, MMMM Do YYYY, h:mm:ss a") // "星期一, 十一月 20日 2017, 10:23:00 晚上"
 now.elapse() // "10 天前"
 // same as
@@ -85,6 +96,9 @@ beginningOfMinute.isMonday() // true
 
 [More examples](https://github.com/hongmaoxiao/now/blob/master/example)
 
+## Localization
+From `now.js` 0.3.0, default just supports 'en' and 'zh-cn'.If you want to support more locales. Please use `nowjs.locale.js` or `nowjs.locale.min.js` instead.
+
 ## Browser Support
 
 Modern browsers and Internet Explorer 9+.
@@ -104,6 +118,10 @@ Any pull request will be apreciated.
 2. Do not upload build files in your pull request. These are `dist/*.js`. I will build them by myself.
 
 ## Changelog
+
+#### 0.3.0
+1. default version(nowjs.js, nowjs.min.js) and locale version(nowjs.locale.js, nowjs.locale.min.js).
+2. default version just supports 'en' and 'zh-cn' locales; locale version support 118 languages.
 
 #### 0.2.0
 1. fix package.json homepage, repository url and bugs url.
