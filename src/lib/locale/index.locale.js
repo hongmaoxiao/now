@@ -11,10 +11,10 @@ import {
   isUndefined,
   extend,
   compareArrays,
-} from '../utils/index';
-import Locale from '../Locale';
-import baseConfig from '../config/index';
-import i18ns from '../i18n/index';
+} from '../../utils/index';
+import Locale from '../../Locale';
+import baseConfig from '../../config/index';
+import i18ns from '../../i18n/index.locale';
 
 let hookCallback;
 export function hooks(...args) {

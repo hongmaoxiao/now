@@ -36,7 +36,7 @@ import {
   listLocales as locales,
   defineLocale,
   updateLocale,
-} from './lib/locale/index';
+} from './lib/locale/index.locale';
 import format from './Format';
 import duration from './Duration';
 

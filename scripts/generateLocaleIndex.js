@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const ignoreFiles = ['index.js'];
+const ignoreFiles = ['index.js', 'index.locale.js'];
 const dashReg = /-/;
 
 function listLocales() {
@@ -36,4 +36,4 @@ function generateIndex(files) {
   return `${indexLines};`;
 }
 
-fs.writeFileSync(path.join(process.cwd(), 'src', 'i18n', 'index.js'), generateIndex(locales));
+fs.writeFileSync(path.join(process.cwd(), 'src', 'i18n', 'index.locale.js'), generateIndex(locales));

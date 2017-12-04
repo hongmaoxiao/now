@@ -6,10 +6,13 @@ const { minify } = require('uglify-es');
 const pkg = require('./package.json');
 
 const input = './src/index.js';
+const inputLocale = './src/index.locale.js';
 const name = 'Now';
-const watchOutputDefault = './example/nowjs.js';
+const watchOutputDefault = './example/nowjs.locale.js';
 const outputDefault = './dist/nowjs.js';
 const outputMinify = './dist/nowjs.min.js';
+const outputLocale = './dist/nowjs.locale.js';
+const outputLocaleMinify = './dist/nowjs.locale.min.js';
 const pluginsDefault = [babel({
   plugins: ['external-helpers'],
   exclude: 'node_modules/**'
@@ -23,7 +26,17 @@ const inputDefaultOptions = {
   plugins: pluginsDefault
 };
 
+const inputLocaleOptions = {
+  input: inputLocale,
+  external: external,
+  plugins: pluginsDefault
+};
+
 const inputMinifyOptions = Object.assign({}, inputDefaultOptions, {
+  plugins: [...pluginsDefault, uglify({}, minify)]
+});
+
+const inputLocaleMinifyOptions = Object.assign({}, inputLocaleOptions, {
   plugins: [...pluginsDefault, uglify({}, minify)]
 });
 
@@ -34,8 +47,19 @@ const outputDefaultOptions = {
   sourcemap: true
 };
 
+const outputLocaleOptions = {
+  file: outputLocale,
+  format: format,
+  name: name,
+  sourcemap: true
+};
+
 const outputMinifyOptions = Object.assign({}, outputDefaultOptions, {
   file: outputMinify
+});
+
+const outputLocaleMinifyOptions = Object.assign({}, outputLocaleOptions, {
+  file: outputLocaleMinify
 });
 
 const optionDefs = [{
@@ -49,7 +73,7 @@ const options = commandLineArgs(optionDefs);
 if (options.watch) {
   const config = (file, plugins) => {
     return {
-      input,
+      input: inputLocale,
       output: {
         file,
         format,
@@ -93,6 +117,7 @@ if (options.watch) {
 
   watcherDefault.on('event', event => eventHandler(event, watchOutputDefault));
 } else {
+  // default
   rollup
     .rollup(inputDefaultOptions)
     .then(bundle => {
@@ -103,5 +128,18 @@ if (options.watch) {
     .rollup(inputMinifyOptions)
     .then(bundle => {
       bundle.write(outputMinifyOptions);
+    });
+
+  // with locale
+  rollup
+    .rollup(inputLocaleOptions)
+    .then(bundle => {
+      bundle.write(outputLocaleOptions);
+    });
+
+  rollup
+    .rollup(inputLocaleMinifyOptions)
+    .then(bundle => {
+      bundle.write(outputLocaleMinifyOptions);
     });
 }
