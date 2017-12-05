@@ -22,14 +22,14 @@ import Now from 'now.js';
 var Now = require('now.js');
 ```
 
-Import now.js into your page
+Using cdn
 
 ```html
 // default support 'en' and 'zh-cn'
-<script type="text/javascript" src="/path/to/nowjs.min.js"></script>
+<script type="text/javascript" src="https://unpkg.com/now.js/dist/nowjs.min.js"></script>
 
 // or locale version support 118 languages
-<script type="text/javascript" src="/path/to/nowjs.locale.min.js"></script>
+<script type="text/javascript" src="https://unpkg.com/now.js/dist/nowjs.locale.min.js"></script>
 ```
 
 ## Examples
